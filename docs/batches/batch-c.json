@@ -1,0 +1,24 @@
+{
+  "chapters": [
+    { "name": "Brolly Beach", "levels": [73, 74, 75, 76] },
+    { "name": "Compass Crossing", "levels": [77, 78, 79, 80] },
+    { "name": "Timetable Terminal", "levels": [81, 82, 83, 84] },
+    { "name": "Campfire Creek", "levels": [85, 86, 87, 88] },
+    { "name": "Postcard Paradise", "levels": [89, 90, 91, 92] }
+  ],
+  "ruins": [
+    { "id": "gull-buffet", "level": 76, "name": "Gull Buffet", "clue": "The gull is a drop zone too. Share your chips with it and watch the whole flock RSVP." },
+    { "id": "spin-doctor", "level": 79, "name": "Spin Doctor", "clue": "Signposts are only screwed on so tight. Eight turns in one go and it takes off." },
+    { "id": "travel-light", "level": 84, "name": "Travel Light", "clue": "There is a third way to close a suitcase. It involves owning nothing." },
+    { "id": "dinner-bell", "level": 86, "name": "Dinner Bell", "clue": "Bossworth swears the bell brings fish. Ring it five times and something big does turn up." },
+    { "id": "return-to-sender", "level": 92, "name": "Return to Sender", "clue": "He begged you not to stamp him. A stamp sticks to anything, including narrators." }
+  ],
+  "art": [
+    "c-umbrella", "c-window", "c-sunglasses", "c-sand", "c-sea", "c-seaweed", "c-sandcastle", "c-rockpool", "c-beachhut",
+    "c-seagull", "c-chips", "c-parasol", "c-road", "c-trafficlight", "c-walklight", "c-compass", "c-magnet", "c-oak", "c-dig",
+    "c-backpack", "c-signpost", "c-footprints", "c-town", "c-panorama", "c-suitcase", "c-belt", "c-openbag", "c-plane",
+    "c-train", "c-tent", "c-bearbox", "c-toothpaste", "c-soap", "c-torch", "c-bear", "c-bush", "c-pond", "c-canoe", "c-jetty",
+    "c-campfire", "c-stick", "c-radio", "c-float", "c-snow", "c-lodge", "c-kennel", "c-icepond", "c-tracks", "c-balloon",
+    "c-flag", "c-hill", "c-snowman", "c-lonegate", "c-gnome", "c-grass", "c-meadow", "c-postcard", "c-stamp", "c-postbox"
+  ]
+}

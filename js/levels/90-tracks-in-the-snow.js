@@ -34,6 +34,7 @@
       return [
         O('snow', 0, 0, 100, 100, { kind: 'static', art: 'c-snow', cls: 'backdrop' }),
         O('lodge', 5, 3, 24, 21, { kind: 'static', art: 'c-lodge', label: 'The ski lodge, top left' }),
+        O('snowman', 29, 8, 11, 16, { kind: 'static', art: 'c-snowman', artOpts: { hat: 'top', scarf: 'red', nose: 'carrot' }, label: 'A snowman in a top hat, pointing nowhere helpful' }),
         O('kennel', 40, 5, 20, 19, { kind: 'static', art: 'c-kennel', label: 'A dog kennel, top middle' }),
         O('ice', 70, 6, 26, 16, { kind: 'static', art: 'c-icepond', label: 'A frozen pond with cracks, top right' }),
         O('icetag', 72, 20, 22, 6, { kind: 'static', text: 'THIN ICE!', label: 'Sign: thin ice', cls: 'tag-card' }),
