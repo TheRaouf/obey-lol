@@ -2,15 +2,18 @@
 
 Owner: Art Director (`.claude/agents/art-director.md`). Baseline written against build **2.1.0**;
 updated for **2.3** (branch `v2.3`, all six apply groups of `docs/ART-REVIEW-2.3.md` landed; see
-its "Applied in 2.3" section). The game now has 136 campaign levels in 34 chapters plus 4 bonus
-levels (1001–1004).
+its "Applied in 2.3" section) and for **2.4.1** (branch `v2.4.1`: the 2.4 packs F–J, the 2.4 review
+`docs/ART-REVIEW-2.4.md` and its follow-ups applied in `docs/ART-REVIEW-2.4.1.md`). The game now has
+**236 campaign levels in 59 chapters** (`OBEY.LEVEL_COUNT` = 236; the Final Factory is always the last
+four, 233–236) plus 4 bonus levels (1001–1004).
 This document is the single source of truth for how the game looks, moves and sounds. Every value
 below was read from the code or computed from it. When the code and this file disagree, the code
 wins until someone updates this file. Do not guess numbers: regenerate them (see §17). Sections
-not marked "2.3" still carry 2.1 measurements (e.g. object use counts in §3.2).
+not marked "2.3" or "2.4.1" still carry 2.1 measurements (e.g. object use counts in §3.2).
 
 Sources: `css/style.css` (tokens, components, motion), `js/ui/art.js` + `js/ui/art-extra.js` (base
-art, icons) and `js/ui/art-pack-a…e.js` (office, home, outdoors, science, show packs),
+art, icons) and `js/ui/art-pack-a…j.js` (office, home, outdoors, science, show; 2.4: supermarket,
+school, castle, sea, sports packs),
 `js/ui/stage.js` (outline normaliser, contact shadows, text fitting), `js/ui/audio.js` (all
 sound), `js/core/extras.js` (captions, U.N.D.O. script), `js/core/data.js` (costumes, moods,
 themes), `js/levels/*.js` (object placement), `js/ui/endings.js`, `js/ui/app.js`,
@@ -77,6 +80,17 @@ except the ninja mask band (`y 78–118`, which keeps the eyes visible on top).
 | robot | `#c3ccd8` | rounded-rect body, visor, side bolts, antenna `#ff4f6d`, dashed mouth line | 200, square, 1.1, monotone | Level 12 |
 | dino | `#4fd1a5` | back spikes `#2fae84`, two fangs | 85, sawtooth, 0.85, vib 6 | 8 secrets |
 | ninja | `#58607e` | mask band `#1f2033`, red headband tails | 240, triangle, 1.4, quiet | Level 36 |
+
+**King Bossworth (2.4.1).** The royal *costume* body is purple `#b48cff`, but Bossworth drawn as a
+king inside the world (`a-portrait {costume:'royal'}` or `{crown:true}`, which `h-bossportrait`
+redirects to; L182 and the castle chapters) is **orange**: the classic `#ffb347` body with the royal
+crown path (`#ffd23f`, red `#e5243b` centre jewel, two `#3ec1ff` side jewels), so he matches the
+narrator standing next to the painting. `a-portrait` otherwise draws `A.narrator(costume, 'pleased')`
+at scale .4, so any portrait of him is on-model by construction. Prefer `A.narrator` whenever
+Bossworth appears inside the world. The one hand-built copy is pack J's `bossBody` (`j-boss`, with
+`cape` and goalkeeper `kit` options): it keeps the house geometry (the egg x 22–178, y 24–186,
+`#ffb347`, eyes r 12 at (75, 98)/(125, 98), red tie, belly arc at .35) and must be kept in step with
+`art.js` if the narrator ever changes.
 
 Each costume also gets a one-line text aside (`COSTUMES[].aside`). New costumes must: keep the blob
 (or justify a new silhouette as the robot does), pick a body colour with ≥ 3:1 against `--stage`
@@ -154,7 +168,12 @@ The log (`.undo-log`) fades its cut-off bottom line with a mask and snaps to the
 
 | Who | Where | Art | Rules |
 |---|---|---|---|
-| You (the intern) | Levels 13, 28, 45, 48, 77, 84, 96, 102, 106, 122, 127 | `hero`: yellow `#ffd23f` rounded rect, two dot eyes, antenna with red bulb | Always friendly; never shown failing in pain. Standard size (2.3): 14–16 % of stage height, feet on the 74–90 % floor band (platform rooms L13/L28 excepted) |
+| You (the intern) | Levels 13, 28, 45, 48, 77, 84, 96, 102, 106, 122, 127; 2.4: 174, 177, 180, 216, 229, 232 | `hero`: yellow `#ffd23f` rounded rect, two dot eyes, antenna with red bulb; in the castle as `h-visitor` (L174, L180) | Always friendly; never shown failing in pain. Standard size (2.3): 14–16 % of stage height, feet on the 74–90 % floor band (platform rooms L13/L28 excepted). 2.4.1 applied it to L174 (11, 57, 18 × 18), L177 and L232 (11 × 16, feet ≈ 75 %), L180 (20 × 20, 17 % with the cushion), L216 (11 × 16). **Exception:** L229 "Kit Check" is a dress-up close-up: the intern is the `j-dummy` mannequin at 24 × 44.8 % (≈ 43 % tall) because the kit layers (pads, socks, boots, shirt) are the puzzle and must read on a phone. Only a dress-up or inspection close-up may break the size rule |
+| Shoppers (2.4) | Supermarket chapters (L133–L152) | `f-shopper`: a tall body in a theme-free colour, face `#ffe066` (2.4.1; was off-bible `#ffd9b0`), optional trolley or basket | Figure faces use `#ffe066` (as `h-guard`); there is no separate skin palette |
+| Classmates (2.4) | School chapters (L153–L172) | `g-kid` blob kids | Same blob language as Bossworth, never his tie or eyes spacing |
+| Castle cast (2.4) | L173–L192 | `h-guard` (face `#ffe066`), `h-dragon` (moods incl. `asleep`, `sneeze`; `face: 'left'`), `h-owl` (`asleep`) | The dragon is comic, never scary. A sleeping owl sits on a drawn `shelf` bracket (L189 `owlperch`, 2.4.1), not on bare wall |
+| Sea cast (2.4) | L193–L212 | `i-diver`, `i-octopus` (+ `i-tentacle`), `i-hermit`, `i-seal`, `i-swimmer` | Honest helpers, like the cat |
+| Sports cast (2.4) | L213–L232 | `j-boss` (Bossworth as a player, `cape`/`kit`), `j-dummy` (the intern's kit mannequin) | `j-boss` follows the narrator geometry (§2.1) |
 | Mimic / the cat | Levels 17, 24 | `cat`: orange `#ff9f43`, states normal / grumpy / eating | Cats are honest: they react, they never lie |
 | Polly the parrot | Level 12 | `parrot`: green body, yellow beak, red wing stripe; star when happy | Tells the truth for crackers |
 | The mouse | Level 11 | `mousehole`: two yellow eyes; with mouse: grey mouse + "shh" note | |
@@ -193,6 +212,39 @@ Composition rules:
 - **Contact shadow.** Objects whose drawing ends on the floor band get a flat shadow (§8 item 6),
   so standing and floating read differently at a glance.
 
+2.4 / 2.4.1 backdrop families (all stretch-to-fill terrain, `kind: 'static'`, usually `cls:
+'backdrop'`, listed first so everything draws over them):
+
+| Family | Art | Rule |
+|---|---|---|
+| Wall + floor | the stage's own `--stage` / `--stage-floor` | Default for packs A–H (supermarket, school, castle; L179 adds a stone floor) |
+| Sports grass band | `j-grass` at (0, 74, 100, 26) | `#5fd98a` with a `#2fae84` top line and blade ticks; the band starts **on the 74 % floor line**, so the intern and kit stand on grass exactly as they would on the floor band. Six rooms use the band; three top-down pitches use `j-grass {full:true}` at 0–100 % (a terrain room, like L78) |
+| Sea, shallow (full-bleed) | `i-sea` at 0–100 % | `#7fb2ff` water with a plain `#f3d998` sand bed from 76 % (ink line .8). `nobed` drops the bed where `i-surface` or a boat sits lower. **Decor rule (2.4.1):** backdrop decor (water glints, `#fff` at .55, 1.2 units) only at **y ≤ 34** of the backdrop (today (12,10), (58,10), (84,30), (26,34)), and nothing inside the bed, so no glint or dash peeks out between control-row cards |
+| Sea, dark (full-bleed) | `i-deep` at 0–100 % (L193, L209, L210, L211; L197 uses it as a night sky) | `#2d2850` with 14 silt specks (`#8a86a8` r .6 at .55). **Seabed band (2.4.1):** rock-grey `#8a86a8` from **74 %** down with a gentle dune top edge and an ink line at .8; nothing is drawn inside the band and the specks stop 4 % above it. Options: `bed` = band top in % (L193 uses `bed: 57` so its Ping row sits on the band too), `nobed` = no band (L197's sky). L209 puts its deck over the band |
+| Inside the whale | `i-whalebelly` (L212) | The one backdrop **tinted over `--stage`**: a `var(--stage)` rect under `#ff77b4` at .45 (soft pink in every theme), ribs solid `#ff6f91` (stroke 2.4 units; were `#fff8dd` at .6), tongue band `#ff6f91` from 76 % with an ink line |
+
+**Dark-room rule (2.4.1).** Ink shadows and ink card borders vanish on `#2d2850` (Classic ink ≈
+1.24:1), so pressable buttons stop looking pressable (§3.4). In a dark full-bleed room, **every
+control row sits on a lighter band**: the `i-deep` seabed (`#8a86a8`; ink on it 4.89 Classic, 4.68
+Candy, 4.08 Ocean, 4.93 Sunset, 6.06 high contrast, all ≥ 3:1 non-text), a deck, or a floor. Move the
+band with `bed` rather than moving the controls. Do not add a CSS `#ffc145` dark-room shadow: it was
+tried in 2.4.1 and falls to ≈ 1.9:1 on the seabed.
+
+**Tall tables (2.4.1).** A bench-height table whose top is mid-wall uses `table {tall:true}`: the
+top is drawn at the top of the box at the normal 200-unit scale (`xMidYMin meet`) with a `#9a6b3f`
+apron and two 12-unit `#9a6b3f` legs (`SW3`) that run past the viewBox and are clipped at the bottom
+of the box (`overflow:hidden`, class `table-tall`). **Set the box from the table top down to the
+floor line: `h = 75 − y`.** Width and top stay as designed. A tall table gets no contact shadow
+(`_ground` only takes `xMidYMid` art); its legs end on the floor line instead. Used on L17, L41, L43,
+L53, L94, L95, L115 (h 18.5, legs to 80.5 %: h 13 would make the box wider than 5:1) and L147. A
+table used as a wall shelf above other objects (L34, L66) stays the plain `table`.
+
+**Props never float (2.4.1).** A hand prop on a wall hangs from something drawn: `h-horn` (wood peg
+and cord), `f-fob` (ring on a wood peg), `h-decree` (cord to a nail), `hammer {hook}` (wall plate and
+hook), `h-seal {cased}` (glass case on a bracketed shelf), or sits on a `shelf` bracket (L189 owl).
+A resting prop's drawn bottom lands on the drawn top of its table, bench or belt (within 1 %), and
+nozzles sit in `f-pump {holsters}` cups.
+
 ### 3.2 Object vocabulary (reuse before inventing)
 
 Drawn objects (`OBJECTS` in `art.js`, plus `addObject` in `art-extra.js`), with use counts across
@@ -214,6 +266,49 @@ the 40 levels:
 - Gag props (overlay only): `pie`, `chicken`, `trombone`, `zap`, `splash`. Trophies: `trophy`.
 - Packs (2.2+): `a-*` office, `b-*` home, `c-*` outdoors, `d-*` science, `e-*` show and meta, in
   `js/ui/art-pack-a…e.js`.
+- Packs (2.4): `f-*` supermarket (48 keys, `art-pack-f.js`, L133–L152), `g-*` school (35,
+  `art-pack-g.js`, L153–L172), `h-*` castle and fairy tale (48, `art-pack-h.js`, L173–L192), `i-*`
+  under the sea (44, `art-pack-i.js`, L193–L212), `j-*` sports day (34, `art-pack-j.js`, L213–L232).
+  The Final Factory (L233–L236) uses base and A–E art. Pack F–J backdrops are in §3.1.
+- Base keys added in 2.4.1 (`art-extra.js`, the canonical drawings of §15): `coin` (100×100; `v` =
+  the face value, default "1", 36-unit type, 28 for 3+ characters; `cap` = a crimped `#c3ccd8`
+  bottle cap with a red centre, the L203 tell) and `hammer` (`#8a86a8` head, `#a0784d` handle;
+  default diagonal 200×200; `lying` = flat, 160×120; `hook` = hanging head-down from a drawn wall
+  plate and hook, 200×200).
+
+2.4.1 art options (every one is opt-in; default drawings are unchanged except where noted):
+
+| Key | Option | What it draws |
+|---|---|---|
+| `table` | `tall` | Bench-height table, legs clipped to the box bottom (§3.1 box rule `h = 75 − y`) |
+| `water` | `edge` | 3 px non-scaling ink outline round the stretched water (L173 moat). Default change: the glare line on every `water` is now .55 (was .8) |
+| `b-oven` | `croissants` | Three `#f5b400` croissants at scale .44 on the shelf; with `on` the window behind them is `#ffe066` (not `#ffd23f`) so they read. The L138 tell |
+| `b-jar` | `fill`, `label` | `fill` = a jar full of that colour instead of white sugar; `label` = a `#fffdf6` paper label (`SW3`). `lid` (existing) sets the lid colour |
+| `b-tin` | `word`, `color` | A labelled shop tin in the old `f-tin` 120×140 box (stacks keep their pitch); `color` = label band (default `#e5243b`); type `min(30, floor(150 / len))` units, held to 88 units with `textLength` past a 0.62 em estimate (BEANS 30 units ≈ 12.8 px at L135) |
+| `a-chair` | `legs` | Four legs and a rail instead of the swivel base, viewBox `5 0 150 200` (0.75 aspect) |
+| `a-plug` | `lying` | On its side, prongs left, cable right, 140×80 |
+| `a-photo` | `tall`, `subject` | `tall` = a 120×140 portrait-format frame of a person (`#d9a441` frame, `#cfefff` glass, `#ffb347` sitter). `subject: 'person'` is passed by `b-frame` for clarity; the code keys only on `tall`. Without `tall`, `pet` = `'fish'` (default) or `'cat'` |
+| `a-portrait` | `costume`, `crown`, `bg`, `frame`, `scorched` | Bossworth in oils from `A.narrator`: `costume` (`'royal'` or `crown` = orange King Bossworth with the crown, §2.1), `bg` canvas (default `#b48cff`), `frame` (default `#d9a441`), `scorched` = `#2d2850` frame and a .55 soot wash with `#8a86a8` smoke curls (L182) |
+| `b-torch` | `lens` | Yellow `#ffd23f` lens without the beam. Default change: the lens is always drawn now, pale `#e9eef5` when off |
+| `c-umbrella` | `stand` | Closed, stored tip-down with the hook up (rotated 180°) |
+| `c-umbrellastand` | (new key, `art-pack-c.js`) | 100×150 (the `bin` box): glazed `#3a86ff` pot, `#2f6fe4` rim and foot ring, `#1c1640` mouth, `#fffdf6` wave band (`SW3`), one .5 highlight. List it **after** the umbrella: it is static and its front hides the umbrella's tip (L73) |
+| `h-seal` | `cased` | The seal at .74 in a glass case (`#e3f7fc`) on a bracketed wood wall shelf (L178) |
+| `f-pump` | `holsters` | Two `#8a86a8` nozzle cups on the right side (viewBox y 80–106 and 160–186); the hose moves below them (L151) |
+| `h-horn` | `hook` (default on) | Wood peg and cord; `hook: false` for the old drawing |
+| `f-fob` | `hook` (default on) | Ring on a wood peg, viewBox `0 -12 120 182`; `hook: false` = old 120×170 |
+| `h-decree` | `hung` (default on) | Cord from the rod to a wall nail, viewBox `0 -9 200 209`; `hung: false` = old 200×200 |
+| `h-hammer` | `hook` (default on) | Redirects to `hammer {hook}`; `hook: false` = the diagonal `hammer` |
+| `i-deep` | `bed`, `nobed` | Seabed band top in % (default 74) or none (§3.1) |
+| `i-sea` | (default change) | Sand dashes removed; glints moved to y ≤ 34 (§3.1) |
+| `i-whalebelly` | (default change) | Tinted over `var(--stage)` (§3.1) |
+| `i-coral`, `i-weed` | (default change) | Colour fills with an `SW` outline built by `tube()` (§3.3); coral on a `#8a86a8` rock |
+| `j-crate` | (default change) | Stamp plate 176 × 62, 34-unit type; words over 6 letters held to 160 units (OSTRICH 13.0 px at 360) |
+| `j-refcard` | (default change) | Drawn 16 units lower, so its corner rests on the box floor |
+| `f-cereal`, `f-lunchbox`, `f-nozzle` | (default change) | Bigger labels: cereal letter 42 units (13.8 px at 366), lunchbox B 48 (13.6 px), nozzle disc r 19 with 28-unit U/D (14.7 px) |
+| `f-shopper` | (default change) | Face `#ffe066` |
+| `g-band` | (default change) | An even-odd red `#e5243b` ring (outer 44 × 28, inner 33 × 17) with an `SW` outline and one .5 highlight (was a 16-unit bespoke ink stroke) |
+| `h-dragon` | (default change) | Asleep: two Z **paths** (18 and 11 units, `SW`, full ink) drawn after the face flip, so a left-facing dragon never shows a mirrored z |
+| `i-buoy`, `i-trawler`, `i-blowhole` | (default change) | White water lines at .55 (were .7–.8) |
 
 2.3 changes to base art (`art.js`):
 - `door` signs size themselves (`doorSign`): plate 76 units wide; type
@@ -230,9 +325,9 @@ the 40 levels:
   tilted beam ends (arm 104, two `SW3` hangers, `#c3ccd8` bowl); `clock` hands stop short of the
   numerals (minute to y 46, hour to y 62, numerals r 72 at 17 units); `magazine` shows one 34-unit
   "10" in a white disc; WELCOME `mat` text is `#4a3c22`.
-- Cross-pack duplicates return the canonical drawing (2.3, partial): `d-jar` → `b-jar`,
-  `d-router` → `a-router`, `e-chair` → `a-chair`. Desk, photo frame, portrait, tray, magnet,
-  balloon and stamp duplicates are still separate drawings.
+- Cross-pack duplicates return the canonical drawing: 2.3 did `d-jar` → `b-jar`, `d-router` →
+  `a-router`, `e-chair` → `a-chair`; 2.4.1 finished the job (canonical table and the kept-separate
+  list in §15).
 - `b-shadow` (L69) is a coat-stand silhouette (`#8a86a8`, `SW3` outline), never a creature.
 
 Text "cards" (CSS classes on `.obj`): `btn-card` (+ `accent`, `big`, `small`, `ghost`, `option`,
@@ -240,6 +335,14 @@ Text "cards" (CSS classes on `.obj`): `btn-card` (+ `accent`, `big`, `small`, `g
 `book-card`, `ticket-card`, `tutorial-card`, `honest-card`, `display-card`, `panel-card`,
 `panel-lights`, `timer-card`, `color-btn`, `shape-btn`, `word-red`, `mirror-text`, `tv-text`,
 `glow-text`, `fine-print`.
+
+**`btn-card small` means LARGE text (2.4.1).** `.obj.btn-card.small` sets `--fx: 1.4; padding: 0`
+(`css/style.css`): it is for **tiny** buttons (arrows, ± steppers, a one-glyph key) whose label must
+fill the box. It is not "small text". A normal word button next to other buttons never takes
+`small`; it shouts and, with no padding, a long word runs over the border (2.4 M1 "EMERGENCY").
+2.4.1 dropped it from L216 `clear`, L218 `ask`, L225 `resign` and `flip`; the only uses left are
+the one-glyph × close buttons L7 `close` and L101 `x`, which is the intended use. For a big display label use
+`big` (`--fx: 1.15`, display face).
 
 ### 3.3 Outline weights and shape language
 
@@ -255,9 +358,23 @@ Text "cards" (CSS classes on `.obj`): `btn-card` (+ `accent`, `big`, `small`, `g
   `[stroke="var(--ink)"][stroke-width="4"|"3"] { stroke-width: calc(4px|3px * var(--ow, 1)) }`.
   Bespoke widths (5, 8, 10, …) stay as drawn, so do not hand-thicken house strokes to fix size.
   Measured by `node tools/art/strokes.js` at 1180×900 (634 px stage), all 140 levels: group A's
-  run gave 95.6 % in 3–6 px; at the 2.3 head 96.3 % of 536 objects, median 4.56 px. Known
-  exceptions (bespoke strokes the normaliser does not touch): L56 `b-ants` (0.86–2.1 px), L92
-  `c-stamp` (2.4 px), L127 `e-stilts` (2.4 px), L97 `d-clip` (11.4 px).
+  run gave 95.6 % in 3–6 px; at the 2.3 head 96.3 % of 536 objects, median 4.56 px. **2.4.1 head
+  (regenerated, all 240 levels): 96.2 % of 977 objects in 3–6 px, median 4.56 px in every pack;
+  levels 133–236 (451 objects) 2.51–6.96 px, nothing outside 2.5–7 px.** Known exceptions (bespoke
+  strokes the normaliser does not touch), unchanged: L56 `b-ants` (0.86–2.09 px), L92 `c-stamp`
+  (2.4 px), L127 `e-stilts` (2.4 px), L97 `d-clip` (11.41 px). The 2.4 outliers (L172 `g-band`
+  13.2 px, L205 `i-coral` 15.2, `i-weed` 9.3, L155 table 7.23) are fixed.
+- **Thick shapes are fills, not strokes (2.4.1).** Anything thicker than a house line (a rubber
+  band, coral fingers, weed fronds, a cable) is a colour-filled shape with an `SW` outline, never a
+  fat ink stroke under a thinner colour stroke (the normaliser cannot reach bespoke widths). Pack I's
+  `tube(segs, r0, r1)` builds such a shape: a tube along quadratic segments `[x0,y0, cx,cy, x1,y1]`,
+  tapering from radius r0 to r1, round cap at the far end, square near end hidden under a rock or the
+  stage edge. `i-coral` = four fingers (r 10 → 8) and two twigs (r 6 → 5) on a `#8a86a8` rock with
+  one .5 highlight; `i-weed` = one frond r 7 → 4 in `#2fae84`. `g-band` uses an even-odd ring path.
+  Copy these, do not invent a third method.
+- **Sleep z's are paths (2.4.1).** The reference is `h-dragon` asleep: Z shapes drawn as `SW` ink
+  paths, placed after any mirror transform. The narrator's `sleep` overlay (`art.js`, `<g
+  class="zzz">`) and a few props still use `<text>` "z" (see §18).
 - Shapes: rounded rectangles (rx 6–24), eggs and blobs, wedges. Corners are always rounded; there are
   no sharp, spiky or realistic silhouettes except the deliberate zig-zag of the `zap` bolt and the
   dino spikes.
@@ -265,14 +382,17 @@ Text "cards" (CSS classes on `.obj`): `btn-card` (+ `accent`, `big`, `small`, `g
   `stroke-opacity=".35"`, never a lighter hex. Used on `c-lodge` planks, `c-dig` lines and the
   `cobweb`. Never `#000`: pack C's one `stroke="#000"` at 25 % is now `INK` at `.25`.
 - Shading: flat fills only. One highlight per object, white at 35–60 % opacity (packs use .45–.55
-  since 2.3), top-left (`bigbutton`
+  since 2.3; 2.4.1 also caps white water lines, wakes, spray and glare at .55), top-left (`bigbutton`
   ellipse, `bell` arc, `mirror` streaks). One darker plinth/base colour per object where it needs
   weight (`#4b4466` under buttons, levers, speakers, trophies).
 - Object palette (fixed hexes reused across objects; keep to these): reds `#e5243b`; yellows
   `#ffd23f`, `#ffe066`, `#f5b400`; blues `#3a86ff`, `#7fb2ff`, `#3ec1ff`, `#2f6fe4`; greens `#2bc46f`,
   `#5fd98a`, `#3fbf6f`, `#2fae84`; pinks `#ff4f9a`, `#ff77b4`, `#ff6f91`; wood `#a0784d`, `#b88d5f`,
   `#c98b4a`, `#9a6b3f`; greys/metal `#c3ccd8`, `#8a86a8`, `#4b4466`, `#2d2850`; paper `#fffdf6`,
-  `#fff8b8`; screens `#1c1640` with phosphor green `#7dffb2`. Added in 2.3: purple `#9b5de5`
+  `#fff8b8`; screens `#1c1640` with phosphor green `#7dffb2`; gilt frame `#d9a441` (picture and
+  photo frames in base art and packs A–C; in use before 2.3 but missing from this list until 2.4.1);
+  display glass and film `#e3f7fc` (pack F `f-glasscase`, `f-cakebox`, bags, car windows; the `h-seal` case; the same hex as the Ocean `--stage`, but
+  fixed). Figure faces (shoppers, guards) are `#ffe066`. Added in 2.3: purple `#9b5de5`
   (already the CSS shape colour; replaces `#7d3fc6`), terrain sand `#f3d998` (pack C beach and sand
   only). 2.3 mapped 85 off-bible pack hexes onto this list (e.g. `#7a5230` → `#9a6b3f`,
   `#fff6e0`/`#e8e6e0` → `#fff8dd`, `#3e7bff` → `#3a86ff`, `#3a3a48` → `#2d2850`, `#c9a227` →
@@ -345,7 +465,7 @@ Text "cards" (CSS classes on `.obj`): `btn-card` (+ `accent`, `big`, `small`, `g
 | Pill / badge | radius 999, 2–3 px ink border, bold; difficulty badge easy `#c9f7dd`, hard `#ffc9c9` |
 | Stamp `.stamp`, `.end-stamp`, `.gag-word` | display face, `--accent`, 5–6 px **double** border, radius 10–14, rotated (+9°, −6°, −10°), slams in with `stamp-in` |
 | Map node | disc 48–62 px, display numeral; states: open (paper), done (`--accent-2`), current (`--accent`, `bob`), locked (dashed, `--paper-2`, no shadow; title in `--muted` at full opacity), skipped (dashed); medal 22 px (E bronze `#d08a4b`, M silver `#c9d1dc`, H gold `#ffd23f`, all with ink letters); secret eye 22 px dark disc; stars fixed `#ffd23f` in every theme (2.3), unearned stars are outline-only `starEmpty` in `--muted` at full opacity |
-| Map regions | 2.3: map up to 640 px wide; each region has its chapter's landmark icon at 18 px (ink, .7) beside the label and a faint watermark (≤ 48 px, .12) in its emptiest corner; region labels get a 4 px paper halo (`paint-order: stroke`); no `.map-dot` smudges; high contrast drops the tints and separates regions with 3 px dashed ink rules |
+| Map regions | 2.3: map up to 640 px wide; each region has its chapter's landmark icon at 18 px (ink, .7) beside the label and a faint watermark (≤ 48 px, .12) in its emptiest corner; region labels get a 4 px paper halo (`paint-order: stroke`); no `.map-dot` smudges; high contrast drops the tints and separates regions with 3 px dashed ink rules. **Label placement (2.4.1, `screens.js` `regionLabel()`):** the label sits beside one of the chapter's own nodes (baseline 24 units above its centre, level with the disc; chapter 1's first row at y 26), on the side with room, trying the chapter's first four rows top-down and the side away from the node first. It must clear `NODE_R` = 44 units from the node centre (a 48 px disc plus badges on the 0.74-scale 320 px map), between the 36 / 364 margins, at a 0.55 em width estimate. If the name plus "★ Tier" does not fit on one line the tier goes on a second `tspan` (dy 1.05 em); if the name alone does not fit, the type shrinks from 17 to a floor of 14 units (no chapter needs it today). The 18 px icon moves with the label; the watermark corner logic is unchanged |
 | Toast | paper, radius 14, shadow 3 px, **top** centre (2.3; top-right, 380 px wide, at ≥ 901 px) so it never covers the stage's control row; drops in with `toast-drop` (−12 px → 0, 250 ms); max 440 px; secret `#2d2850`, achievement `--accent-2`, warn `#fff0f0` |
 | Captions | **bottom** centre (2.3, subtitles), white on 82 % black, radius 8 |
 | Hint badge `.count-badge` | 2.3: 18 px pill on the hint chip's top-right, `--accent-2` on 2 px ink, 11 px bold; shown only ≤ 520 px (where the label hides); `.empty` = `--paper-2`, muted, dashed |
@@ -374,8 +494,11 @@ menu `plus` (New game), `bowtie` (costumes), `palette` (themes), `scroll` (credi
 room; Achievements keeps `star`); chapter landmarks `button`, `stapler`, `sock`, `palm`, `flask`,
 `rocket`, `curtain` (plus the existing `gear`). `OBEY.art.chapterIcon(c)` maps a 0-based chapter
 index (or chapter id): 0–7 `button` (core), 8–12 `stapler` (office), 13–17 `sock` (home), 18–22
-`palm` (outdoors), 23–25 `flask` (science), 26–27 `rocket` (space), 28–32 `curtain` (show), 33
-`gear` (final). Every menu slip now has an icon, so the label column is straight.
+`palm` (outdoors), 23–25 `flask` (science), 26–27 `rocket` (space), 28–32 `curtain` (show), 33+
+`gear`. Every menu slip now has an icon, so the label column is straight. **2.4.1 gap:** the 2.4
+chapters are indices 33–57 (supermarket, school, castle, sea, sports) and the Final Factory is 58, so
+all 25 new chapters fall through to the Final Factory's `gear` on the map, chapter cards and cups.
+They need their own landmarks (§18).
 
 ---
 
@@ -537,6 +660,18 @@ or anything longer than ~6 words. Body copy max 70ch. No italics except the comp
 ALL-CAPS paragraphs; caps are for single words Bossworth shouts. The "plain font" setting
 (`data-font="plain"`) swaps the display face for Atkinson 700, so every layout must survive
 Atkinson at the display size (it is narrower — check line breaks, not overflow).
+
+**Display-sign rule (2.4.1).** A `sign-card` (display face, grown by the fitter) carries **at most
+6 words**, ideally 2–3: a heading such as "HARBOUR RULE", "FERRY RULES", "RACE RULE", "LONG JUMP",
+"OWN GOALS", "HOUSE RULE", "DOMINO RALLY", "SPORTS DAY CUP", "TROLLEY LINE", "CLASS RULE". The rule
+sentence goes in a separate static body card (`honest-card`, or `book-card` for documents) in
+Atkinson, next to or under the sign. The sign's `label` keeps the full sentence for screen readers;
+the body card gets `label: ''` when the sign already reads it, so nothing is read twice. Shorten the
+body only where the sign now carries the lead-in. Applied in 2.4.1 to L150, L153, L195, L200, L213,
+L215, L219, L221, L223, L231 (objects `rulesign` / `signhead` / `ruleText` / `rule`; existing ids keep
+the body). **Exception:** L230 "Medal Table" has no room for a sign above the medal table, so its
+rule is one full-width `honest-card` (4, 31, 92 × 10.5) with no display sign. A body-text card on its
+own is always allowed; a long sentence in the display face never is.
 Minimum rendered sizes: body 15 px; stage text 12 px; fine print 11 px; nothing below 9 px ever.
 2.3 enforces these in code: the CSS floor is 12 px for stage text, and `Stage._fitText` (which
 shrinks a card's text until it fits) stops at **11 px** for every card, fine print included (was
@@ -638,6 +773,9 @@ The game has no lighting engine. Depth is faked with six techniques; use only th
 3. **Plinths and bases** — a darker `#4b4466` base ellipse/rect under buttons, levers, speakers,
    trophies to sit them on the floor.
 4. **Floor band** — the stage's bottom 26 % is `--stage-floor`; objects standing on it read as 3D.
+   In full-bleed rooms the backdrop supplies the band (2.4/2.4.1, §3.1): `j-grass` from 74 %,
+   `i-sea` sand from 76 %, the `i-deep` seabed from 74 % (or `bed`), the whale's tongue from 76 %,
+   each with an ink top line.
 5. **Glows** — the only blurred effects: `drop-shadow(0 0 6px #7dffb2)` (phosphor), `shimmer`
    (0 → 12 px `#ffd23f`), `trophy-shine` (10 px gold), text glow `0 0 8px/18px` green. Lamp/bulb light
    cones are flat `#fff6a8` polygons at 50 % opacity (2.3 standard for `lamp` and `bulb`; the lamp
@@ -777,7 +915,7 @@ packs sound alike:
 | 18–22 | outdoors | sine, vol .05 | — | a 2.6 → 3.2 kHz chirp every 16 steps, vol .015 |
 | 23–27 | science | sawtooth, vol .04 | lowpass 900, Q 4 | — |
 | 28–32 | show | square, vol .03 | — | vibrato 5 Hz, depth 4 |
-| 33 | final | triangle, vol .05 | — | bass every 4 steps |
+| 33+ | final | triangle, vol .05 | — | bass every 4 steps. **2.4.1 gap:** `musicFamily` returns `final` for every chapter ≥ 33, so the 25 chapters of packs F–J (33–57) play the Final Factory timbre (§18) |
 | −1 (bonus) | studio | triangle, vol .045 | lowpass 2200 | whole-tone scale on 233 Hz |
 
 The bonus pack passes chapter −1 (it used to borrow chapter 9's loop).
@@ -901,7 +1039,10 @@ Measured stage sizes: 640 px at 1365×900, 538 px at 1024×768 (landscape rule
 
 Bossworth's lines: ≤ 3 sentences, ≤ 40 words for intros (bubble min-height 7.5em holds ~4 lines
 at 300 px). Stage directions in `*asterisks*`. Goal line ≤ 12 words. Button labels ≤ 3 words.
-Signs ≤ 6 words, ideally ≤ 3. The completion "trick" line explains the tell in one sentence.
+Signs ≤ 6 words, ideally ≤ 3; a longer rule is a short sign plus a body card (§6 display-sign
+rule; L230 is the one body-card-only exception). The completion "trick" line explains the tell in
+one sentence (2.4.1 added it to the L17 level file and copied it from `X.TRICKS` into L233–L236,
+so the level lab can check it).
 
 ---
 
@@ -916,7 +1057,62 @@ Signs ≤ 6 words, ideally ≤ 3. The completion "trick" line explains the tell 
   `ASSETS.md`.
 - `theme-color` / manifest colours come from the Classic tokens (`#d61e35` since 2.3).
 - Reuse canonical drawings across packs by returning `A.object('<canonical key>', o)` from the
-  duplicate key, so level files never change (2.3: `d-jar`, `d-router`, `e-chair`).
+  duplicate key, so level files never change (2.3: `d-jar`, `d-router`, `e-chair`). Since 2.4.1 a
+  redirect is written in the `e-chair` style, with the old drawing kept only as a fallback when the
+  canonical pack is not loaded:
+  `if (A.hasObject('coin')) return A.object('coin', { v: '£1' });`
+- **Aspect rule (2.4.1).** If the canonical drawing has a different aspect from the duplicate, the
+  canonical either keeps the duplicate's old viewBox in an option mode (`b-tin {word}` 120×140,
+  `a-chair {legs}` 150×200, `a-plug {lying}` 140×80, `a-photo {tall}` 120×140, `hammer {lying}`
+  160×120) or the redirect is bottom-anchored (`xMidYMax meet`, as `d-sofa`), so level boxes and
+  positions never move.
+
+**One drawing per object (2.4.1, closes 2.3 E98 and 2.4 SHOULD 7).** Every duplicate key stays
+registered and returns the canonical:
+
+| Object | Canonical (file) | Redirects |
+|---|---|---|
+| coin | `coin` (`art-extra.js`, new) | `f-coin` → `coin {v:'£1'}`; `i-coin` → `coin` (passes `v`/`cap`) |
+| hammer | `hammer` (`art-extra.js`, new) | `h-hammer` → `hammer {hook}` (L189, hangs on a hook); `i-hammer` → `hammer {lying}` |
+| oven | `b-oven` | `f-oven` → `b-oven {on:true, croissants: o.full !== false}` |
+| jar | `b-jar` | `d-jar` (2.3); `h-jar` → `b-jar {fill: o.color \|\| '#ff6f91', lid:'#fffdf6', label:true}` |
+| tin | `b-tin` | `f-tin` → `b-tin {word: o.word \|\| 'BEANS', color}` |
+| chair | `a-chair` | `e-chair` (2.3); `j-chair` → `a-chair {legs:true}` |
+| mains plug | `a-plug` | `f-plug` → `a-plug {lying:true}` |
+| framed photo | `a-photo` | `b-frame` → `a-photo {subject:'person', tall:true}` |
+| Bossworth portrait | `a-portrait` | `h-bossportrait` → `a-portrait {costume:'royal', bg:'#7fb2ff', frame:'#f5b400', scorched}` (orange King Bossworth, §2.1) |
+| rubber duck | `b-duck` | `d-duck` → `b-duck` |
+| sofa | `b-sofa` | `d-sofa` → `b-sofa`, bottom-anchored |
+| torch | `b-torch` | `c-torch` → `b-torch {on, lens:true}` |
+| router | `a-router` | `d-router` (2.3) |
+
+**Kept separate on purpose** (similar names, different objects or a tell that lives in the drawing):
+
+| Keys | Why |
+|---|---|
+| `j-coin` vs `coin` | Two-sided toss coin; heads face vs tails swirl is the L217 tell. Same gold and rim as `coin` |
+| `h-rock` vs `i-rock` | `h-rock` is a draggable boulder (highlight, lift); `i-rock` is inert seabed terrain. Interactive and inert must not look alike (§3.4) |
+| `h-oven` vs `b-oven` | Castle stone bread oven with an arched door (L182) |
+| `e-jar` vs `b-jar` | Close-up whose countable jellybeans and frog are the L124 tell |
+| `i-tin` vs `b-tin` | Open sardine tin seen from above (L204) |
+| `b-sink` vs `g-sink` | Kitchen sink in a worktop (L66) vs pedestal washbasin (L165) |
+| `b-soap`, `g-soap`, `c-soap` | Washing-up liquid (L66), wall soap pump (L165), bar of soap (L85) |
+| `e-podium` vs `j-podium` | Quiz-show lectern vs winners' 1-2-3 steps |
+| `b-fridge` vs `f-fridge` | Home fridge with door states vs open shop chiller; the raised back row is the L134 tell |
+| `b-plug` vs `a-plug` | Bath plug on a chain, not a mains plug |
+| `a-desk` vs `g-desk` | Office desk with drawers vs school desk on a frame |
+| `e-photo` vs `a-photo` | Photo-finish print; the numbered runners are the L123 tell |
+| `e-portrait` vs `a-portrait` | Not Bossworth; the eyes that follow are the L126 tell |
+| `a-tray`, `e-tray`, `f-tray` | Office in-tray, waiter's oval tray, bakery tray of croissants |
+| `c-magnet` vs `d-magnet` | Horseshoe magnet vs bar magnet whose S/N letters are the L100 tell |
+| `c-balloon` vs `d-balloon` | Hot-air balloon vs party balloon |
+| `a-stamp` vs `c-stamp` | Rubber stamp vs postage stamp |
+| `b-stool` vs `d-stool` | `d-stool` has the broken leg, the tell |
+
+Checked and left for 2.5: spoons (`b-spoon` metal, `d-spoon` wooden, `j-spoon` race spoon), `shelf`
+vs `h-shelf` (different aspect), `crate` vs `j-crate` (portrait "NOTHING" crate vs landscape stamped
+crate), `bin` vs `h-bin`, `basket` vs `h-basket`, the three postcards and the three windows (each
+carries different information).
 
 ---
 
@@ -928,11 +1124,19 @@ Run for every new level, object, screen, animation or sound.
 - [ ] Ink outlines 3–6 px rendered at a 640 px stage (`node tools/art/strokes.js --levels N`); house
       strokes use `SW`/`SW3` so the `--ow` normaliser can reach them; `INK` not a hex.
 - [ ] Standing objects end on the 74–99.5 % floor band (they get a contact shadow); nothing
-      furniture-like floats mid-wall.
+      furniture-like floats mid-wall. Bench-height tables use `table {tall}` with `h = 75 − y`;
+      wall-hung hand props show their hook, peg, nail or shelf; resting props sit on the drawn
+      top of their support (2.4.1, §3.1).
+- [ ] Dark full-bleed rooms put every control row on a lighter band (`i-deep` seabed, deck or
+      floor), so press shadows and card borders read (§3.1 dark-room rule).
+- [ ] An object that already exists in another pack redirects to its canonical drawing (§15);
+      thick shapes are fills with an `SW` outline, not fat bespoke strokes (§3.3).
 - [ ] Flat fills, one highlight, hard ink shadows down-right; no blur except listed glows.
 - [ ] Colours from §3.3 object palette or theme tokens; no new hex without adding it here.
 - [ ] Bossworth's mood matches the subtext of the line.
-- [ ] Display face only for names, titles, stamps, numbers, ≤ 6 words.
+- [ ] Display face only for names, titles, stamps, numbers, ≤ 6 words; a longer rule is a short
+      `sign-card` plus a body card (§6). `btn-card small` only on tiny one-glyph buttons (§3.2).
+- [ ] The intern is 14–16 % of stage height with feet at 74–75 % (L229 close-up excepted, §2.4).
 
 **Fairness and readability**
 - [ ] The solution has a visible tell on first look (not hover, not sound, not colour alone).
@@ -970,8 +1174,18 @@ Run for every new level, object, screen, animation or sound.
 Since 2.3 the scripts live in the repo under `tools/art/` (no dependencies beyond the dev
 Playwright; npm scripts `art:strokes`, `art:contrast`, `art:sheets`):
 - `node tools/art/contrast.js [--json out.json] [--fails] [--strict]` — §5.2 and §5.3 tables.
-- `node tools/art/strokes.js [--levels 1-136,1001-1004] [--viewport 1180x900] [--strict]` —
-  rendered outline per object, per-pack stats, everything outside 2.5–7 px (§3.3).
+- `node tools/art/strokes.js [--levels 1-236,1001-1004] [--viewport 1180x900] [--strict]` —
+  rendered outline per object, per-pack stats, everything outside 2.5–7 px (§3.3). Since 2.4
+  `tools/art/lib.js` reads the level count from `OBEY.LEVEL_COUNT` in `js/core/ns.js`, so the
+  default (no `--levels`) covers every level, `1-LEVEL_COUNT,1001-1004`, and seeds a save with all of
+  them done; strokes and sheets no longer time out on 137+. The full 2.4.1 run takes about 5 minutes.
+  Gap: `lib.js` `packOf()` still labels everything from 133 up as "Final", so packs F–J are not
+  reported separately (§18).
+- `node tools/level-lab.js <level files> [--art <packs>] [--fit] [--shots]` — runs each level's
+  solution, `checks` and `alternatives` headless; `--fit` measures card text with a `Range` (the
+  glyphs, not the block) at 320×700, 390×844 and 1180×900 and flags spills over 1.5 px and text under
+  10 px. Since 2.4.1 an alternative with `allSecrets: true` runs with all secrets found, as the unit
+  tests do (the finale's golden-quill path, L236).
 - `node tools/art/sheets.js [--levels …] [--theme …] [--contrast high] [--motion reduce]` —
   contact sheets of stage renders (6 per sheet), composed with Playwright, no Python.
 The 2.1 baseline used scratchpad scripts (`art/contrast.py`, `art/capture.js`, `art/strokes.js`):
@@ -986,15 +1200,49 @@ The 2.1 baseline used scratchpad scripts (`art/contrast.py`, `art/capture.js`, `
 
 ---
 
-## 18. Known follow-ups (after 2.3)
+## 18. Known follow-ups (after 2.4.1)
 
-Open art items found while applying 2.3, for a later release:
-- The base `table` art has legs too short for bench-height tables (L17, L41, L43, L53, L95, L115);
-  give `table` a `tall` option or a bench drawing.
-- L65: the gap between `b-taps` and `b-bathtub` is still about 19 % of the stage because both
-  drawings have wide internal margins; trim their viewBoxes.
-- L73: the umbrella stand is drawn with `bin`; it needs its own umbrella-stand drawing.
-- Map: a region label can sit on the first node of a chapter (e.g. node 37); offset the label or
-  the node.
-- Not art: the 13 level-lab notes on L133–L136 (no `trick` / declared wrong move; an alternative
-  secret path on L136) are gaps in the level-lab format, left to the level designers.
+**Closed in 2.4.1** (the 2.3 follow-ups; details in `docs/ART-REVIEW-2.4.1.md`):
+- ~~Base `table` legs too short for bench-height tables~~ **Done:** `table {tall}` (§3.1), applied
+  on L17, L41, L43, L53, L94, L95, L115 and L147.
+- ~~L65 taps/bath gap of about 19 %~~ **Done:** `b-bathtub` (viewBox `14 54 272 146`) and `b-taps`
+  (`30 6 140 96`) trimmed to their drawing; L65 and L68 got new boxes with the taps listed after the
+  tub. Accepted exception: on L65 `taps` overlaps the tub's drop-only zone by 2 %, because the bath
+  keeps a 1.7 % top margin and the plate must sit on the rim.
+- ~~L73 umbrella stand drawn with `bin`~~ **Done:** `c-umbrellastand` and `c-umbrella {stand}`.
+- ~~Map region label can sit on a chapter's first node (node 37)~~ **Done:** `regionLabel()` in
+  `screens.js` (§4); "10. Filing Fjord" now sits left of node 37.
+- ~~Level-lab notes on the Final Factory (then L133–L136, now L233–L236)~~ **Resolved:** `trick`
+  and `checks` added to L233–L236 (and L17). L235 and L236 had no trap or nope at all, so a second
+  search of Bossworth (L235) and pressing OBEY (L236) now call `api.nope()` (both were already
+  described in `wrong`). The L236 secret alternative needs `allSecrets`; `tools/level-lab.js` now
+  passes it, and the four levels run 155 checks with 0 problems.
+- The 2.4 review's SHOULD 1–9 and POLISH 1–9 are applied; SHOULD 10 is partial (below). See the
+  "Applied in 2.4.1" table in `docs/ART-REVIEW-2.4.md`.
+
+**Still open:**
+- **Chapter landmarks and music for the 2.4 chapters.** `OBEY.art.chapterIcon` and
+  `OBEY.audio.musicFamily` map every chapter index ≥ 33 to the Final Factory (`gear` icon, `final`
+  timbre). The 25 chapters of packs F–J (indices 33–57) therefore all show the gear on the map,
+  chapter cards and cups, and play the finale's loop. Needs five landmark icons (supermarket,
+  school, castle, sea, sports; 24-unit, `currentColor`, stroke 2.2), five music families, and
+  Final Factory = index 58 (`CHAPTERS.length − 1`), not 33.
+- **Map at 320 px:** nodes overlap each other at that width, and some two-line region labels touch a
+  neighbouring node's title or stars (no label covers a disc).
+- **Text at the 320 px phone (2.4 SHOULD 10, partial).** `Stage._fitText` and `level-lab --fit`
+  measure the glyphs with a `Range` since 2.4, but the fitter still stops at 1 px of overflow, which
+  ignores Bagel's tall ascent. At 320×700 the new short signs sit on that tolerance (−0.8 px at the
+  19.2 px cap) and about 33 older cards spill by 2–4 px (the 2.3 baseline: L174 `list`, L218 `rules`,
+  the L230 header row and `h3` "Bronze" 0.5 px from its edge, L215 plaques at 11.6 px). Fix in core:
+  2 px of slack.
+- **Sleep z's still drawn as `<text>`:** the narrator's `sleep` overlay (`art.js` `.zzz`), `shybutton
+  {asleep}`, `e-hamster` asleep and the `h-chesstile` guard. Redraw as `SW` paths like `h-dragon`.
+- **`tools/art/lib.js` `packOf()`** labels levels 133–236 "Final"; split it into F 133–152, G
+  153–172, H 173–192, I 193–212, J 213–232 and Final 233–236 so `strokes.js` reports per pack.
+- **Bespoke stroke exceptions** (unchanged since 2.3): L56 `b-ants`, L92 `c-stamp`, L127 `e-stilts`,
+  L97 `d-clip`.
+- **Duplicates left for 2.5:** spoons, `shelf`/`h-shelf`, `crate`/`j-crate`, `bin`/`h-bin`,
+  `basket`/`h-basket`, postcards, windows (§15).
+- **`j-boss`** is a hand-built copy of the narrator body (§2.1); keep it in step, or rebuild it on
+  `A.narrator` with `cape`/`kit` overlays.
+- Not art: L148 `doors`/`beam` hit boxes overlap by design (the beam zone sits inside the doors).
