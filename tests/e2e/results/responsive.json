@@ -1,5 +1,13 @@
 [
   {
+    "viewport": "320x700",
+    "screens": 9,
+    "levels": 36,
+    "overlay": true,
+    "ending": true,
+    "result": "pass"
+  },
+  {
     "viewport": "390x844",
     "screens": 9,
     "levels": 36,

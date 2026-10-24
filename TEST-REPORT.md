@@ -1,4 +1,37 @@
-# Test report — OBEY? LOL. 2.4.0
+# Test report — OBEY? LOL. 2.4.1
+
+Date: 2026-10-25. Logs: `tests/logs/unit-241.tap`, `tests/logs/e2e-241.tap` (Node v22.23.4, Playwright Chromium).
+
+**CI (GitHub Actions run 40129318545, commit 8aff777):** Chromium job **passed**; WebKit (Safari's engine) job **passed**.
+
+| Suite | Where | Run | Passed | Failed |
+|---|---|---|---|---|
+| Static checks (`tools/check.js`) | local | 3,340 checks | 3,340 | 0 |
+| Unit tests | local | 1,266 | 1,266 | 0 |
+| Browser tests, Chromium | local | 120 | 120 | 0 |
+| Level lab, **all 236 levels**, `--fit` (320×700, 390×844, 1180×900) | local | 10,383 checks | 0 problems | — |
+
+2.4.1 is an art/layout/sound polish release (every open art-director item) plus music on by default.
+No puzzle logic changed except two harmless "nope" reactions in the Final Factory (L235 searching
+Bossworth twice, L236 pressing OBEY), both already listed as wrong moves.
+
+## Found and fixed during this release
+
+| # | Finding | Fix |
+|---|---|---|
+| 1 | Since 2.4.0, the 25 new chapters showed the Final Factory's gear icon and played its music (chapter → pack mapping assumed the finale followed the 2.2 chapters) | Mapping by pack id, finale found by id; 5 new landmarks and 5 music families |
+| 2 | Phone map: 87 overlapping level nodes at 320 px, 69 at 390 px | Rows spaced ≥ ~100 px on narrow screens: 0 overlaps at 320/390/820/1180 |
+| 3 | Completion card ran off a 320×700 screen when an achievement and a chapter review both appeared (seen after midnight via "Night Owl") | Card scrolls inside the screen; its buttons stick to the bottom |
+| 4 | Level 68: tightened bath art hid the tappable taps until the level was re-laid | New boxes, taps listed after the tub |
+| 5 | Lab couldn't run the finale's all-secrets path, Hard-only routes, or the original 32 levels' format | Lab passes `allSecrets`, plays `def.guide` per difficulty, reads 1–32 recaps from extras |
+
+## Not verified
+- Physical devices, Firefox; music and sounds by ear (tests check what is requested).
+- Levels play-tested by scripts and screenshots, not by people.
+
+---
+
+# Test report — OBEY? LOL. 2.4.0 (previous release)
 
 Date: 2026-10-24. Counts come from logged runs: `tests/logs/unit-24.tap`, `tests/logs/e2e-24.tap`
 (Node v22.23.4, Playwright Chromium).
