@@ -8,6 +8,12 @@
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#ff4f6d">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="OBEY? LOL.">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -28,15 +34,21 @@
     <section id="screen-trophies" class="screen" hidden aria-labelledby="trophies-title"></section>
     <section id="screen-settings" class="screen" hidden aria-labelledby="settings-title"></section>
     <section id="screen-credits" class="screen" hidden aria-labelledby="credits-title"></section>
+    <section id="screen-stats" class="screen" hidden aria-labelledby="stats-title"></section>
+    <section id="screen-daily" class="screen" hidden aria-labelledby="daily-title"></section>
+    <section id="screen-sabotage" class="screen" hidden aria-labelledby="sabotage-title"></section>
     <section id="screen-ending" class="screen" hidden aria-label="Ending"></section>
   </div>
 
   <div id="toasts" class="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
   <div id="modal-root"></div>
+  <div id="captions" class="captions" aria-hidden="true" hidden></div>
+  <div id="fx-layer" class="fx-layer" aria-hidden="true"></div>
 
   <!-- Core (DOM-free; also loaded by the Node unit tests in this exact order) -->
   <script src="js/core/ns.js"></script>
   <script src="js/core/data.js"></script>
+  <script src="js/core/extras.js"></script>
   <script src="js/core/save.js"></script>
   <script src="js/core/progress.js"></script>
   <script src="js/core/engine.js"></script>
@@ -77,12 +89,19 @@
   <script src="js/levels/34-the-rehearsal.js"></script>
   <script src="js/levels/35-last-instruction.js"></script>
   <script src="js/levels/36-final-decision.js"></script>
+  <script src="js/levels/b1-red-means-blue.js"></script>
+  <script src="js/levels/b2-ninety-nine.js"></script>
+  <script src="js/levels/b3-tower-toppler.js"></script>
+  <script src="js/levels/b4-tip-top.js"></script>
   <!-- UI -->
   <script src="js/ui/art.js"></script>
+  <script src="js/ui/art-extra.js"></script>
   <script src="js/ui/audio.js"></script>
   <script src="js/ui/stage.js"></script>
   <script src="js/ui/screens.js"></script>
+  <script src="js/ui/screens-extra.js"></script>
   <script src="js/ui/endings.js"></script>
   <script src="js/ui/app.js"></script>
+  <script src="js/ui/app-extra.js"></script>
 </body>
 </html>

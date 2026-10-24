@@ -2,6 +2,48 @@
 
 All notable changes to this project. Versions follow semantic versioning.
 
+## [2.1.0] — 2026-10-24
+
+Built from a review of 25 comparable games and their reviews (see FEATURE-ROADMAP.md, which ranks
+200 improvements; the top 50 and the *Dude, Stop* feature set ship here) and optimised for iPad.
+
+### Added
+- **Ruin it:** 16 deliberately terrible ways to finish levels (12 campaign levels + 4 bonus), each with
+  its own Bossworth meltdown, a "RUINED" stamp, a Sabotage file page and two achievements.
+- **U.N.D.O.**, a glitchy sidekick program from Level 9: leaked chats (a running bet between Bossworth
+  and his cousin Clive, paid off in the endings) and sabotage tips.
+- **Sabotage Studio:** 4 bonus microgame levels after Level 12 (Red Means Blue, Ninety-Nine, The Tower,
+  Tip Top), each with a proper and a ruined outcome.
+- Narrator: idle reactions, replay and post-game lines, callbacks to your history, "let me finish!",
+  phone calls, a composure meter, end-of-chapter performance reviews, Bossworth's review of you, a fake
+  game over, "Intern #N", bonus dialogue for redoing a ruined level properly (and vice versa).
+- Help that stays fair: "Want a nudge?" after repeated mistakes, "Point me" highlight on the last hint,
+  Easy-mode "warmer" sparkle, "The trick" recap after every level, and **Skip** (up to 3 open skips).
+- **Daily Dare** with streaks (one grace day) and 3/7/30-day badges; spoiler-free share cards for
+  levels, dares and endings; personal bests (actions and time); optional speedrun timer; "Replay on a
+  harder difficulty"; next-goal suggestions; chapter title cards; 9 hidden jigsaw pieces (replays only).
+- **iPad:** layouts for every iPad in both orientations, Split View and Slide Over; no long-press menu or
+  double-tap zoom on controls; reliable audio start on iOS; safe areas; Add to Home Screen; works offline
+  (service worker); keyboard shortcuts (H, R, G, M, N, ?, arrow keys on the map); hover only where hover
+  exists; 44-pt touch targets.
+- **Accessibility:** high contrast, extra-large text, plain font, left-handed layout, hold assist, sound
+  captions, separate effects/voice/music volumes, optional chapter music, vibration toggle.
+- Up to 3 player profiles per device; save codes to move progress; "copy my save code first" on reset.
+- 10 new achievements (21 total), the Jigsaw Genius trophy (15 total), Bossworth's file on you (stats).
+- GitHub Actions: Chromium (full suite) and WebKit (iPad, campaign, 2.x suites) on every push.
+
+### Changed
+- Save schema v4 (2.0 saves migrate automatically). "What's new" panel shown once to returning players.
+- Gags never repeat the same generic gag twice in a row.
+
+### Fixed (third independent QA pass before release)
+- 19 defects (1 × P1, 6 × P2, 12 × P3), all with regression tests — see TEST-REPORT.md. Highlights:
+  progress kept when switching profiles with storage blocked; levels pause behind dialogs; Easy sparkle
+  and "Point me" follow the real solution; Split View / short-window layouts; one shared Daily Dare per
+  day; no ruins during "Show me how"; bests only from fair runs and kept on New Game; contrast fixes.
+- Art director must-fixes: no button shadows on static cards, accent/good colours ≥ 4.5:1 in every
+  theme, readable Level 3 button, chapter card visible with reduced motion.
+
 ## [2.0.0] — 2026-10-24
 
 ### Added

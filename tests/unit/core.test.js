@@ -297,7 +297,7 @@ test('wrong-typed fields are repaired field by field', () => {
   assert.equal(v.tutorialDone, false);
   assert.deepEqual(v.choices, { gift: 'prank' });
   assert.equal(v.stats.defiance, 0);
-  assert.deepEqual(v.settings, { sound: true, voice: 'babble', motion: 'system', textSize: 'large' });
+  assert.deepEqual(v.settings, Object.assign(S.defaultSettings(), { textSize: 'large' }));
 });
 
 test('non-object saves (array, number, null string) recover', () => {
@@ -314,14 +314,14 @@ test('v1 legacy saves migrate to the current schema and are re-saved', () => {
   const st = S.createStore(mem);
   const r = st.load();
   assert.equal(r.status, 'migrated');
-  assert.equal(r.data.version, 3);
+  assert.equal(r.data.version, S.SCHEMA);
   assert.deepEqual(r.data.completed, [1, 2, 3]);
   assert.equal(r.data.highestUnlocked, 4);
   assert.equal(r.data.totalStars, 6);
   assert.deepEqual(r.data.secrets, ['plant-whisperer']);
   assert.equal(r.data.settings.sound, false);
   assert.equal(r.data.tutorialDone, true);
-  assert.equal(JSON.parse(mem.getItem(S.KEY)).version, 3, 'migrated data written back');
+  assert.equal(JSON.parse(mem.getItem(S.KEY)).version, S.SCHEMA, 'migrated data written back');
   assert.equal(JSON.parse(mem.getItem(S.KEY)).migratedFrom, undefined);
 });
 
@@ -383,7 +383,7 @@ test('Reset All keeps only settings', () => {
 });
 
 test('data integrity: achievements, endings, unlock descriptions', () => {
-  assert.equal(OBEY.ACHIEVEMENTS.length, 11);
+  assert.equal(OBEY.ACHIEVEMENTS.length, 21);
   for (const id of ['first-steps', 'professional-disobeyer', 'perfect-performance', 'secret-agent', 'collector', 'secret-master', 'costume-party', 'full-campaign', 'chaos-enthusiast', 'heroic-finish']) {
     assert.ok(OBEY.ACHIEVEMENT_IDS.includes(id), id);
   }
@@ -414,7 +414,7 @@ test('v2 (16-level) saves migrate: finale 15/16 → 35/36, unlock stops at the f
   const r = S.createStore(mem).load();
   assert.equal(r.status, 'migrated');
   const d = r.data;
-  assert.equal(d.version, 3);
+  assert.equal(d.version, S.SCHEMA);
   assert.deepEqual(d.completed, [...Array(14).keys()].map((i) => i + 1).concat([35, 36]));
   assert.equal(d.bestStars[36], 2);
   assert.equal(d.bestStars[16], undefined);
@@ -428,7 +428,7 @@ test('v2 (16-level) saves migrate: finale 15/16 → 35/36, unlock stops at the f
   assert.equal(d.costumes.selected, 'royal');
   assert.equal(d.settings.sound, false);
   assert.equal(d.settings.voice, 'babble');
-  assert.equal(JSON.parse(mem.getItem(S.KEY)).version, 3);
+  assert.equal(JSON.parse(mem.getItem(S.KEY)).version, S.SCHEMA);
 });
 
 test('difficulty star rules', () => {
@@ -496,7 +496,7 @@ test('special trophies: clean sweep, flawless, hard boiled, good sport, platinum
   assert.ok(!u.trophies['platinum-bossworth']);
   P.completeLevel(u, L, { stars: 3, difficulty: 'hard' });
   assert.equal(u.trophies['platinum-bossworth'], 4);
-  assert.equal(OBEY.TROPHIES.length, 14);
+  assert.equal(OBEY.TROPHIES.length, 15);
 });
 
 test('New Game keeps trophies and takes the new difficulty', () => {

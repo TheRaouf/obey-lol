@@ -23,6 +23,7 @@
     this.suppressClick = false;
     this.fx = {};          // transient effect classes per object id (e.g. nope shake)
     this.guideIds = [];    // objects highlighted by "Show me how"
+    this.assist = null;    // hold assist: id of the object being held by tap-to-start / tap-to-stop
     this._bind();
   }
 
@@ -73,6 +74,7 @@
 
   /** Called on level restart: drops held items and any gesture in progress. */
   Stage.prototype.reset = function () {
+    this.assist = null;
     var p = this.ptr, k = this.key;
     if (p && p.timer) clearTimeout(p.timer);
     if (k && k.timer) clearTimeout(k.timer);
@@ -163,7 +165,7 @@
     if (dropTarget) cls.push('drop-target');
     if (held === o.id) cls.push('is-held');
     if (this.ptr && this.ptr.id === o.id && this.ptr.moved) cls.push('dragging');
-    if ((this.ptr && this.ptr.id === o.id && this.ptr.holding) || (this.key && this.key.id === o.id && this.key.holding)) cls.push('holding');
+    if ((this.ptr && this.ptr.id === o.id && this.ptr.holding) || (this.key && this.key.id === o.id && this.key.holding) || this.assist === o.id) cls.push('holding');
     if (o.cls) cls.push(o.cls);
     if (this.fx[o.id]) cls.push(this.fx[o.id]);
     if (this.guideIds.indexOf(o.id) >= 0) cls.push('guide-target');
@@ -181,8 +183,8 @@
       if (held === o.id) label = label + ' (picked up — choose where to put it, or press again to put it back)';
       if (node.getAttribute('aria-label') !== label) node.setAttribute('aria-label', label);
       node.disabled = !!o.disabled;
-      if (o.hold) node.setAttribute('aria-describedby', 'hold-help'); else node.removeAttribute('aria-describedby');
-      if (held === o.id) node.setAttribute('aria-pressed', 'true'); else node.removeAttribute('aria-pressed');
+      if (o.hold) node.setAttribute('aria-describedby', this._assistOn() && !o.drag ? 'hold-help-assist' : 'hold-help'); else node.removeAttribute('aria-describedby');
+      if (held === o.id || (o.hold && this.assist === o.id)) node.setAttribute('aria-pressed', 'true'); else node.removeAttribute('aria-pressed');
     } else if (o.label) {
       node.setAttribute('role', 'img');
       node.setAttribute('aria-label', o.label);
@@ -235,6 +237,18 @@
     setTimeout(function () { st.remove(); if (self.fx[id] === 'nope-shake') { delete self.fx[id]; node.classList.remove('nope-shake'); } }, 900);
   };
 
+  Stage.prototype._assistOn = function () { return !!(this.opts.holdAssist && this.opts.holdAssist()); };
+
+  /** Easy mode "warmer" sparkle on an object that is part of the solution. */
+  Stage.prototype.warm = function (id) {
+    var node = this.nodes.get(id);
+    if (!node || node.hidden) return;
+    var self = this;
+    this.fx[id] = 'warm-glow';
+    node.classList.remove('warm-glow'); void node.offsetWidth; node.classList.add('warm-glow');
+    setTimeout(function () { if (self.fx[id] === 'warm-glow') { delete self.fx[id]; node.classList.remove('warm-glow'); } }, 900);
+  };
+
   /** Highlights the objects the guide wants the player to use (empty array clears). */
   Stage.prototype.setGuide = function (ids) {
     this.guideIds = ids || [];
@@ -277,6 +291,17 @@
       this._setHeld(id);
       return;
     }
+    if (o.hold && !o.drag && this._assistOn()) {
+      // Hold assist: first tap starts holding, the next tap lets go.
+      if (this.assist === id) { this.assist = null; this.opts.dispatch({ type: 'holdend', target: id }); }
+      else {
+        if (this.assist) this.opts.dispatch({ type: 'holdend', target: this.assist });
+        this.assist = id;
+        this.opts.dispatch({ type: 'holdstart', target: id });
+      }
+      this.render(this.objs);
+      return;
+    }
     this.opts.dispatch({ type: 'tap', target: id });
   };
 
@@ -296,6 +321,7 @@
     if (!b) return;
     var id = b.getAttribute('data-obj'), o = this.byId[id];
     if (!o || !(o.drag || o.hold) || b.disabled) return;
+    if (o.hold && !o.drag && this._assistOn()) return; // the click handles it
     var self = this;
     try { b.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
     this.ptr = { id: id, el: b, pid: e.pointerId, x0: e.clientX, y0: e.clientY, moved: false, holding: false, timer: null };
@@ -397,6 +423,7 @@
     if (!b) return;
     var id = b.getAttribute('data-obj'), o = this.byId[id];
     if (!o || !o.hold || b.disabled) return;
+    if (this._assistOn() && !o.drag) return; // Enter/Space become a normal click (start / stop)
     e.preventDefault();
     if (e.repeat || (this.key && this.key.id === id)) return;
     var self = this;

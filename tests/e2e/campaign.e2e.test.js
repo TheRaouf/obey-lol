@@ -127,14 +127,14 @@ test('replay: worse result keeps the best stars; better result improves them', a
   let s = await page.evaluate(() => OBEY_TEST.save());
   assert.equal(s.bestStars[1], 1);
   // Replay perfectly → 3 stars.
-  await page.getByRole('button', { name: 'Replay' }).click();
+  await page.getByRole('button', { name: 'Replay', exact: true }).click();
   await H.playSteps(page, [{ tap: 'red' }, { tap: 'blue' }]);
   await page.waitForSelector('#complete:not([hidden])');
   s = await page.evaluate(() => OBEY_TEST.save());
   assert.equal(s.bestStars[1], 3);
   assert.match(await page.locator('.score-why').innerText(), /New best/);
   // Replay badly again → stays 3.
-  await page.getByRole('button', { name: 'Replay' }).click();
+  await page.getByRole('button', { name: 'Replay', exact: true }).click();
   await page.locator('#hint-btn').click();
   await page.locator('#hint-btn').click();
   await H.playSteps(page, [{ tap: 'red' }, { tap: 'blue' }]);

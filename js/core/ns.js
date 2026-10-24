@@ -6,8 +6,12 @@
   'use strict';
   var OBEY = root.OBEY || (root.OBEY = {});
 
-  OBEY.VERSION = '2.0.0';
+  OBEY.VERSION = '2.1.0';
   OBEY.LEVEL_COUNT = 36;
+  /** Bonus levels (the Sabotage Studio pack) use numbers 101..100+BONUS_COUNT. */
+  OBEY.BONUS_BASE = 100;
+  OBEY.BONUS_COUNT = 4;
+  OBEY.isBonus = function (n) { return Number.isInteger(n) && n > OBEY.BONUS_BASE && n <= OBEY.BONUS_BASE + OBEY.BONUS_COUNT; };
 
   OBEY.util = {
     clamp: function (n, lo, hi) { return Math.max(lo, Math.min(hi, n)); },
@@ -30,12 +34,16 @@
     REQUIRED.forEach(function (k) {
       if (def[k] === undefined) throw new Error('Level ' + (def.id || '?') + ' is missing "' + k + '"');
     });
-    if (def.num < 1 || def.num > OBEY.LEVEL_COUNT) throw new Error('Bad level number ' + def.num);
+    if (!((def.num >= 1 && def.num <= OBEY.LEVEL_COUNT) || OBEY.isBonus(def.num))) throw new Error('Bad level number ' + def.num);
     if (!Array.isArray(def.hints) || def.hints.length !== 3) throw new Error('Level ' + def.id + ' needs exactly 3 hints');
-    OBEY.levels[def.num - 1] = def;
+    if (OBEY.isBonus(def.num)) OBEY.bonusLevels[def.num - OBEY.BONUS_BASE - 1] = def;
+    else OBEY.levels[def.num - 1] = def;
   };
+  OBEY.bonusLevels = OBEY.bonusLevels || [];
 
-  OBEY.getLevel = function (num) { return OBEY.levels[num - 1] || null; };
+  OBEY.getLevel = function (num) { return OBEY.isBonus(num) ? (OBEY.bonusLevels[num - OBEY.BONUS_BASE - 1] || null) : (OBEY.levels[num - 1] || null); };
+  /** Display name: "Level 7" or "Bonus 2". */
+  OBEY.levelLabel = function (num) { return OBEY.isBonus(num) ? 'Bonus ' + (num - OBEY.BONUS_BASE) : 'Level ' + num; };
 
   /** Builds a stage object. Positions/sizes are percentages of the square stage. */
   OBEY.obj = function (id, x, y, w, h, extra) {
