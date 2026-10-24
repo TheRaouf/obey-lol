@@ -1,4 +1,5 @@
-/* OBEY? LOL. — original code-drawn art: narrator (8 costumes × 7 moods), level objects, icons.
+/* OBEY? LOL. — original code-drawn art: narrator (8 costumes × 8 moods, plus the sleep, gag and potato
+ * overlays), level objects, icons.
  * Everything is inline SVG using CSS custom properties, so themes recolour it automatically. */
 (function (root) {
   'use strict';
@@ -20,42 +21,46 @@
   };
   var BLOB = 'M100 24 C152 24 178 62 178 110 C178 160 146 186 100 186 C54 186 22 160 22 110 C22 62 48 24 100 24Z';
 
+  /* E11: the eye shapes sit in <g class="eyes"> (closed moods: "eyes eyes-closed") so CSS can blink
+   * them; brows, cheeks, tears and sweat stay outside the group so they never squash. */
   function eyes(mood, dark) {
     var w = dark ? '#fff' : '#fff';
     var p = INK;
+    function open(s) { return '<g class="eyes">' + s + '</g>'; }
+    function shut(s) { return '<g class="eyes eyes-closed">' + s + '</g>'; }
     switch (mood) {
       case 'pleased':
-        return '<path d="M62 100 Q75 84 88 100" fill="none" ' + SW + '/><path d="M112 100 Q125 84 138 100" fill="none" ' + SW + '/>' +
+        return shut('<path d="M62 100 Q75 84 88 100" fill="none" ' + SW + '/><path d="M112 100 Q125 84 138 100" fill="none" ' + SW + '/>') +
           '<ellipse cx="64" cy="122" rx="9" ry="5" fill="#ff6f91" opacity=".55"/><ellipse cx="136" cy="122" rx="9" ry="5" fill="#ff6f91" opacity=".55"/>';
       case 'suspicious':
-        return '<circle cx="75" cy="98" r="12" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="98" r="12" fill="' + w + '" ' + SW3 + '/>' +
-          '<circle cx="80" cy="100" r="5" fill="' + p + '"/><circle cx="130" cy="100" r="5" fill="' + p + '"/>' +
+        return open('<circle cx="75" cy="98" r="12" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="98" r="12" fill="' + w + '" ' + SW3 + '/>' +
+          '<circle cx="80" cy="100" r="5" fill="' + p + '"/><circle cx="130" cy="100" r="5" fill="' + p + '"/>') +
           '<path d="M61 92 L89 92" ' + SW + '/><path d="M111 90 L139 94" ' + SW + '/>' +
           '<path d="M62 86 L88 92" ' + SW3 + ' fill="none"/><path d="M112 80 L138 76" ' + SW3 + ' fill="none"/>';
       case 'annoyed':
-        return '<circle cx="75" cy="100" r="11" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="100" r="11" fill="' + w + '" ' + SW3 + '/>' +
-          '<circle cx="76" cy="102" r="5" fill="' + p + '"/><circle cx="124" cy="102" r="5" fill="' + p + '"/>' +
+        return open('<circle cx="75" cy="100" r="11" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="100" r="11" fill="' + w + '" ' + SW3 + '/>' +
+          '<circle cx="76" cy="102" r="5" fill="' + p + '"/><circle cx="124" cy="102" r="5" fill="' + p + '"/>') +
           '<path d="M60 80 L90 90" ' + SW + '/><path d="M140 80 L110 90" ' + SW + '/>';
       case 'surprised':
-        return '<circle cx="75" cy="96" r="15" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="96" r="15" fill="' + w + '" ' + SW3 + '/>' +
-          '<circle cx="75" cy="96" r="4" fill="' + p + '"/><circle cx="125" cy="96" r="4" fill="' + p + '"/>' +
+        return open('<circle cx="75" cy="96" r="15" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="96" r="15" fill="' + w + '" ' + SW3 + '/>' +
+          '<circle cx="75" cy="96" r="4" fill="' + p + '"/><circle cx="125" cy="96" r="4" fill="' + p + '"/>') +
           '<path d="M60 70 Q75 60 90 70" fill="none" ' + SW + '/><path d="M110 70 Q125 60 140 70" fill="none" ' + SW + '/>';
       case 'panicked':
-        return '<circle cx="75" cy="96" r="14" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="96" r="14" fill="' + w + '" ' + SW3 + '/>' +
-          '<circle cx="75" cy="96" r="2.6" fill="' + p + '"/><circle cx="125" cy="96" r="2.6" fill="' + p + '"/>' +
+        return open('<circle cx="75" cy="96" r="14" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="96" r="14" fill="' + w + '" ' + SW3 + '/>' +
+          '<circle cx="75" cy="96" r="2.6" fill="' + p + '"/><circle cx="125" cy="96" r="2.6" fill="' + p + '"/>') +
           '<path d="M60 74 L88 68" ' + SW + '/><path d="M140 74 L112 68" ' + SW + '/>' +
           '<path d="M156 66 Q164 80 156 86 Q148 80 156 66Z" fill="#7cc8ff" ' + SW3 + '/>';
       case 'laughing':
-        return '<path d="M60 96 Q75 84 90 96" fill="none" ' + SW + '/><path d="M110 96 Q125 84 140 96" fill="none" ' + SW + '/>' +
+        return shut('<path d="M60 96 Q75 84 90 96" fill="none" ' + SW + '/><path d="M110 96 Q125 84 140 96" fill="none" ' + SW + '/>') +
           '<path d="M58 104 Q54 116 60 122" fill="none" stroke="#7cc8ff" stroke-width="5" stroke-linecap="round"/><path d="M142 104 Q146 116 140 122" fill="none" stroke="#7cc8ff" stroke-width="5" stroke-linecap="round"/>';
       case 'sleep':
-        return '<path d="M62 100 L88 100" ' + SW + '/><path d="M112 100 L138 100" ' + SW + '/>';
+        return shut('<path d="M62 100 L88 100" ' + SW + '/><path d="M112 100 L138 100" ' + SW + '/>');
       case 'defeated':
-        return '<path d="M62 102 Q75 110 88 102" fill="none" ' + SW + '/><path d="M112 102 Q125 110 138 102" fill="none" ' + SW + '/>' +
+        return shut('<path d="M62 102 Q75 110 88 102" fill="none" ' + SW + '/><path d="M112 102 Q125 110 138 102" fill="none" ' + SW + '/>') +
           '<path d="M62 88 L88 82" ' + SW3 + '/><path d="M138 88 L112 82" ' + SW3 + '/>';
       default:
-        return '<circle cx="75" cy="98" r="12" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="98" r="12" fill="' + w + '" ' + SW3 + '/>' +
-          '<circle cx="77" cy="99" r="5" fill="' + p + '"/><circle cx="127" cy="99" r="5" fill="' + p + '"/>' +
+        return open('<circle cx="75" cy="98" r="12" fill="' + w + '" ' + SW3 + '/><circle cx="125" cy="98" r="12" fill="' + w + '" ' + SW3 + '/>' +
+          '<circle cx="77" cy="99" r="5" fill="' + p + '"/><circle cx="127" cy="99" r="5" fill="' + p + '"/>') +
           '<path d="M63 80 L87 80" ' + SW3 + '/><path d="M113 80 L137 80" ' + SW3 + '/>';
     }
   }
@@ -76,10 +81,10 @@
 
   function accessoryBack(c) {
     switch (c) {
-      case 'alien': return '<path d="M76 34 L62 6" ' + SW + '/><circle cx="60" cy="6" r="7" fill="#d6ff4a" ' + SW3 + '/><path d="M124 34 L138 6" ' + SW + '/><circle cx="140" cy="6" r="7" fill="#d6ff4a" ' + SW3 + '/>';
-      case 'robot': return '<path d="M100 26 L100 4" ' + SW + '/><circle cx="100" cy="6" r="7" fill="#ff4f6d" ' + SW3 + '/>';
+      case 'alien': return '<g class="acc-antenna"><path d="M76 34 L62 6" ' + SW + '/><circle cx="60" cy="6" r="7" fill="#d6ff4a" ' + SW3 + '/><path d="M124 34 L138 6" ' + SW + '/><circle cx="140" cy="6" r="7" fill="#d6ff4a" ' + SW3 + '/></g>';
+      case 'robot': return '<path d="M100 26 L100 4" ' + SW + '/><circle class="acc-bulb" cx="100" cy="6" r="7" fill="#ff4f6d" ' + SW3 + '/>';
       case 'dino': return '<path d="M52 44 L60 16 L76 34 L92 8 L108 30 L124 10 L136 34 L152 18 L152 48" fill="#2fae84" ' + SW + '/>';
-      case 'ninja': return '<path d="M168 92 Q190 84 196 64" fill="none" stroke="#e5243b" stroke-width="7" stroke-linecap="round"/><path d="M168 100 Q192 104 198 88" fill="none" stroke="#e5243b" stroke-width="7" stroke-linecap="round"/>';
+      case 'ninja': return '<g class="acc-tails"><path d="M168 92 Q190 84 196 64" fill="none" stroke="#e5243b" stroke-width="7" stroke-linecap="round"/><path d="M168 100 Q192 104 198 88" fill="none" stroke="#e5243b" stroke-width="7" stroke-linecap="round"/></g>';
       default: return '';
     }
   }
@@ -87,11 +92,11 @@
   function accessoryFront(c) {
     switch (c) {
       case 'classic': return '<path d="M92 168 L108 168 L104 178 L112 200 L100 206 L88 200 L96 178 Z" fill="#e5243b" ' + SW3 + '/>';
-      case 'royal': return '<path d="M58 44 L66 6 L84 30 L100 0 L116 30 L134 6 L142 44 Z" fill="#ffd23f" ' + SW + '/><circle cx="100" cy="30" r="6" fill="#e5243b"/><circle cx="74" cy="34" r="4" fill="#3ec1ff"/><circle cx="126" cy="34" r="4" fill="#3ec1ff"/>';
+      case 'royal': return '<path d="M58 44 L66 6 L84 30 L100 0 L116 30 L134 6 L142 44 Z" fill="#ffd23f" ' + SW + '/><circle class="acc-crown-jewel" cx="100" cy="30" r="6" fill="#e5243b"/><circle cx="74" cy="34" r="4" fill="#3ec1ff"/><circle cx="126" cy="34" r="4" fill="#3ec1ff"/>';
       case 'alien': return '<circle cx="100" cy="62" r="9" fill="#fff" ' + SW3 + '/><circle cx="100" cy="62" r="4" fill="' + INK + '"/>';
       case 'detective': return '<path d="M40 52 Q100 -4 160 52 Z" fill="#9a6b3f" ' + SW + '/><path d="M48 48 L152 48" ' + SW + '/><path d="M150 50 L178 58" stroke="#9a6b3f" stroke-width="8" stroke-linecap="round"/>' +
         '<circle cx="168" cy="150" r="16" fill="#cfefff" fill-opacity=".6" ' + SW + '/><path d="M180 162 L196 182" ' + SW + '/>';
-      case 'wizard': return '<path d="M48 50 L104 -6 L152 50 Z" fill="#4a3fd1" ' + SW + '/><path d="M40 50 L160 50" ' + SW + '/><path d="M104 14 l4 9 10 1 -8 6 3 10 -9 -5 -9 5 3 -10 -8 -6 10 -1z" fill="#ffd23f"/>' +
+      case 'wizard': return '<path d="M48 50 L104 -6 L152 50 Z" fill="#4a3fd1" ' + SW + '/><path d="M40 50 L160 50" ' + SW + '/><path class="acc-star" d="M104 14 l4 9 10 1 -8 6 3 10 -9 -5 -9 5 3 -10 -8 -6 10 -1z" fill="#ffd23f"/>' +
         '<path d="M66 152 Q100 214 134 152 Q120 168 100 166 Q80 168 66 152Z" fill="#fff" ' + SW3 + '/>';
       case 'robot': return '<circle cx="40" cy="80" r="5" fill="' + INK + '"/><circle cx="160" cy="80" r="5" fill="' + INK + '"/><path d="M60 118 L140 118" stroke="' + INK + '" stroke-width="2" stroke-dasharray="4 4"/>';
       case 'dino': return '<path d="M86 132 L90 140 L94 132 M106 132 L110 140 L114 132" fill="#fff" ' + SW3 + '/>';
@@ -127,6 +132,30 @@
   }
 
   /* ---------------------------------------------------------------- objects */
+  /* E25: door sign plate, 76 units wide. Type is sized to the text, up to 22 units. Bagel caps run
+   * about .66 em per letter, so a long single word may be condensed up to 20 % (textLength) rather
+   * than shrunk further. Signs of 9+ letters with a space wrap to two lines on a 34-unit plate. Text
+   * is centred on the plate by its cap height, so it never touches the plate top on small doors. */
+  function doorSign(text, small) {
+    var lines = [text];
+    if (text.length >= 9 && text.indexOf(' ') > 0) {
+      var mid = (text.length - 1) / 2, best = -1;
+      for (var i = 0; i < text.length; i++) if (text[i] === ' ' && (best < 0 || Math.abs(i - mid) < Math.abs(best - mid))) best = i;
+      lines = [text.slice(0, best), text.slice(best + 1)];
+    }
+    var len = Math.max(lines[0].length, (lines[1] || '').length);
+    var two = lines.length > 1;
+    var fs = Math.min(two ? 15 : 22, Math.round(150 / len), Math.floor(132 / len));
+    var y = small ? 26 : 22, h = two ? 34 : (small ? 30 : 26);
+    var cap = fs * 0.72, lead = fs * 1.02;
+    var first = y + (h - cap - (two ? lead : 0)) / 2 + cap;
+    var fit = function (line) { return line.length * fs * 0.66 > 70 ? ' textLength="70" lengthAdjust="spacingAndGlyphs"' : ''; };
+    var t = two
+      ? '<tspan x="60" y="' + first.toFixed(1) + '"' + fit(lines[0]) + '>' + esc(lines[0]) + '</tspan><tspan x="60" y="' + (first + lead).toFixed(1) + '"' + fit(lines[1]) + '>' + esc(lines[1]) + '</tspan>'
+      : esc(text);
+    return '<rect x="22" y="' + y + '" width="76" height="' + h + '" rx="5" fill="#fffdf6" ' + SW3 + '/><text class="door-sign" x="60"' + (two ? '' : ' y="' + first.toFixed(1) + '"' + fit(text)) + ' text-anchor="middle" font-size="' + fs + '" fill="' + INK + '">' + t + '</text>';
+  }
+
   var OBJECTS = {
     bigbutton: function (o) {
       var c = { red: '#e5243b', green: '#2bc46f', blue: '#3a86ff' }[o.color] || '#e5243b';
@@ -153,7 +182,7 @@
       return svg('0 0 100 80', '<path d="M100 0 L40 40 M100 0 L60 70 M100 0 L96 78 M100 0 L20 6" stroke="' + INK + '" stroke-opacity=".35" stroke-width="2"/><path d="M80 14 Q72 28 78 40 Q88 46 96 42 M64 24 Q56 46 68 60 Q84 66 97 60" fill="none" stroke="' + INK + '" stroke-opacity=".35" stroke-width="2"/>');
     },
     door: function (o) {
-      var sign = o.sign ? '<rect x="22" y="' + (o.small ? 26 : 22) + '" width="76" height="' + (o.small ? 30 : 22) + '" rx="5" fill="#fffdf6" ' + SW3 + '/><text x="60" y="' + (o.small ? 39 : 38) + '" text-anchor="middle" font-size="' + (o.sign.length > 12 ? 8 : (o.sign.length > 8 ? 10 : 15)) + '" fill="' + INK + '">' + (o.small && o.sign.indexOf(' ') > 0 ? '<tspan x="60" dy="0">' + esc(o.sign.split(' ').slice(0, 2).join(' ')) + '</tspan><tspan x="60" dy="12">' + esc(o.sign.split(' ').slice(2).join(' ')) + '</tspan>' : esc(o.sign)) + '</text>' : '';
+      var sign = o.sign ? doorSign(String(o.sign), !!o.small) : '';
       if (o.hiddenBehind) return svg('0 0 120 200', '<rect x="8" y="6" width="104" height="190" rx="10" fill="#7d5a9e" ' + SW + ' opacity=".5"/>');
       if (o.open) {
         return svg('0 0 120 200', '<rect x="8" y="6" width="104" height="190" rx="10" fill="#1c1640" ' + SW + '/><path d="M20 20 L110 30 L110 196 L20 196 Z" fill="#fff6a8" opacity=".85"/><path d="M8 6 L-10 18 L-10 196 L8 196Z" fill="#a0784d" ' + SW + '/>');
@@ -171,7 +200,7 @@
     },
     mat: function (o) {
       return o.lifted ? svg('0 0 200 60', '<path d="M10 50 L190 50 L176 20 L24 20 Z" fill="#6b5a3b" ' + SW + '/><path d="M24 20 Q100 -10 176 20" fill="#8f7a52" ' + SW3 + '/>')
-        : svg('0 0 200 60', '<rect x="6" y="10" width="188" height="44" rx="8" fill="#c9a86a" ' + SW + '/><text x="100" y="41" text-anchor="middle" font-size="22" fill="#6b5a3b">WELCOME</text><path d="M60 54 Q70 46 80 54" fill="none" ' + SW3 + '/>');
+        : svg('0 0 200 60', '<rect x="6" y="10" width="188" height="44" rx="8" fill="#c9a86a" ' + SW + '/><text x="100" y="41" text-anchor="middle" font-size="22" fill="#4a3c22">WELCOME</text><path d="M60 54 Q70 46 80 54" fill="none" ' + SW3 + '/>');
     },
     key: function () {
       return svg('0 0 120 70', '<circle cx="30" cy="35" r="20" fill="#ffd23f" ' + SW + '/><circle cx="30" cy="35" r="7" fill="var(--stage)" ' + SW3 + '/><path d="M50 35 L110 35 L110 52 M94 35 L94 48" fill="none" stroke="#ffd23f" stroke-width="12" stroke-linecap="round"/><path d="M50 35 L110 35 L110 52 M94 35 L94 48" fill="none" ' + SW3 + '/>');
@@ -184,7 +213,7 @@
       return svg('0 0 200 60', '<ellipse cx="100" cy="32" rx="94" ry="24" fill="#c2414d" ' + SW + '/><ellipse cx="100" cy="32" rx="68" ry="14" fill="none" stroke="#ffd23f" stroke-width="4"/>' + (o && o.lumpy !== false ? '' : ''));
     },
     lamp: function (o) {
-      return svg('0 0 100 300', (o.on ? '<path d="M18 70 L82 70 L100 300 L0 300Z" fill="#fff6a8" opacity=".45"/>' : '') +
+      return svg('0 0 100 300', (o.on ? '<path d="M18 70 L82 70 L100 288 L0 288Z" fill="#fff6a8" opacity=".5"/>' : '') +
         '<path d="M20 16 L80 16 L94 70 L6 70Z" fill="' + (o.on ? '#ffe066' : '#8a86a8') + '" ' + SW + '/><path d="M50 70 L50 270" ' + SW + '/><ellipse cx="50" cy="278" rx="34" ry="10" fill="#4b4466" ' + SW + '/>' +
         '<path d="M66 70 L66 120" ' + SW3 + '/><circle cx="66" cy="124" r="6" fill="#e5243b" ' + SW3 + '/>');
     },
@@ -209,7 +238,9 @@
       return svg('0 0 200 100', c);
     },
     magazine: function () {
-      return svg('0 0 120 70', '<path d="M8 10 L112 4 L114 62 L10 66Z" fill="#ff8fd1" ' + SW3 + '/><text x="60" y="34" text-anchor="middle" font-size="14" fill="' + INK + '">TOP 10</text><path d="M24 46 L96 42" ' + SW3 + '/>');
+      // E27: no small words; one big "10" in a white disc reads at any size.
+      return svg('0 0 120 70', '<path d="M8 10 L112 4 L114 62 L10 66Z" fill="#ff8fd1" ' + SW3 + '/><path d="M20 22 L46 20 M20 34 L40 33 M20 46 L44 45" ' + SW3 + '/>' +
+        '<circle cx="80" cy="35" r="24" fill="#fff" ' + SW3 + '/><text x="80" y="47" text-anchor="middle" font-size="34" fill="' + INK + '">10</text>');
     },
     crate: function () {
       return svg('0 0 120 150', '<rect x="6" y="6" width="108" height="138" rx="6" fill="#c98b4a" ' + SW + '/><path d="M6 6 L114 144 M114 6 L6 144" ' + SW3 + '/><rect x="6" y="6" width="108" height="138" rx="6" fill="none" ' + SW + '/><rect x="18" y="60" width="84" height="26" rx="4" fill="#fffdf6" ' + SW3 + '/><text x="60" y="79" text-anchor="middle" font-size="14" fill="' + INK + '">NOTHING</text>');
@@ -245,7 +276,8 @@
     footprint: function (o) {
       var c = { red: '#e5243b', yellow: '#ffc31f', blue: '#2f6fe4' }[o.color];
       var shape = o.shape === '▲' ? '<path d="M50 18 L82 76 L18 76Z" fill="' + c + '" ' + SW + '/>' : (o.shape === '●' ? '<circle cx="50" cy="52" r="32" fill="' + c + '" ' + SW + '/>' : '<rect x="20" y="22" width="60" height="60" rx="6" fill="' + c + '" ' + SW + '/>');
-      return svg('0 0 100 100', shape + '<text x="50" y="98" text-anchor="middle" font-size="16" fill="' + INK + '">' + o.n + '</text>');
+      // E23: the order numeral sits inside the shape, large, white with an ink edge.
+      return svg('0 0 100 100', shape + '<text x="50" y="' + (o.shape === '▲' ? 66 : 62) + '" text-anchor="middle" font-size="30" fill="#fff" stroke="' + INK + '" stroke-width="5" paint-order="stroke">' + o.n + '</text>');
     },
     mousehole: function (o) {
       return svg('0 0 100 100', '<path d="M10 96 L10 50 Q50 0 90 50 L90 96Z" fill="#1c1640" ' + SW3 + '/>' +
@@ -303,8 +335,10 @@
       var n = o.gears || 0, slots = '';
       for (var i = 0; i < 3; i++) slots += '<circle cx="' + (60 + i * 40) + '" cy="60" r="15" fill="' + (i < n ? '#ffd23f' : '#2d2850') + '" ' + SW3 + '/>';
       return svg('0 0 240 200', '<rect x="20" y="20" width="200" height="160" rx="16" fill="#7d5a9e" ' + SW + '/><rect x="36" y="36" width="168" height="48" rx="10" fill="#e9eef5" ' + SW3 + '/>' + slots +
-        '<rect x="52" y="102" width="136" height="40" rx="8" fill="#1c1640" ' + SW3 + '/><text x="120" y="129" text-anchor="middle" font-size="18" fill="#7dffb2">' + (o.repairing ? 'REPAIRING…' : 'INSTRUCT') + '</text>' +
-        (o.big ? '<rect x="96" y="150" width="48" height="22" rx="4" fill="#2d2850" ' + SW3 + '/><text x="120" y="166" text-anchor="middle" font-size="10" fill="#ffd23f">INTAKE</text>' : '') +
+        '<rect x="52" y="102" width="136" height="40" rx="8" fill="' + (o.asleep ? '#0e0b26' : '#1c1640') + '" ' + SW3 + '/>' +
+        (o.asleep ? '<path d="M100 122 L112 122 M128 122 L140 122" stroke="#4b4466" stroke-width="4" stroke-linecap="round"/>'
+          : '<text x="120" y="129" text-anchor="middle" font-size="18" fill="#7dffb2">' + (o.repairing ? 'REPAIRING…' : 'INSTRUCT') + '</text>') +
+        (o.big ? '<rect x="88" y="148" width="64" height="26" rx="5" fill="#2d2850" ' + SW3 + '/><text x="120" y="166.5" text-anchor="middle" font-size="15" fill="#ffd23f">INTAKE</text>' : '') +
         '<circle cx="34" cy="168" r="5" fill="' + INK + '"/><circle cx="206" cy="168" r="5" fill="' + INK + '"/>');
     },
     wrench: function () {
@@ -353,21 +387,28 @@
         (o.asleep ? '<path d="M38 54 L52 54 M68 54 L82 54" ' + SW3 + '/><text x="88" y="24" font-size="22" fill="' + INK + '">z</text>' : '<circle cx="45" cy="52" r="6" fill="' + INK + '"/><circle cx="75" cy="52" r="6" fill="' + INK + '"/><ellipse cx="38" cy="66" rx="7" ry="4" fill="#e5243b" opacity=".5"/><ellipse cx="82" cy="66" rx="7" ry="4" fill="#e5243b" opacity=".5"/>') +
         '<path d="M50 74 Q60 80 70 74" fill="none" ' + SW3 + '/>');
     },
+    /* E20: the pans hang from the ends of the tilted beam (arm 104), each on two hangers. */
     scale: function (o) {
-      var t = o.tilt || 0, dy = t * 12;
-      return svg('0 0 300 150', '<path d="M150 30 L150 136 M110 140 L190 140" ' + SW + '/><circle cx="150" cy="26" r="8" fill="#ffd23f" ' + SW3 + '/>' +
-        '<g transform="rotate(' + (t * 7) + ' 150 30)"><path d="M40 30 L260 30" ' + SW + '/></g>' +
-        '<path d="M40 ' + (30 - dy) + ' L20 ' + (70 - dy) + ' L100 ' + (70 - dy) + ' Z" fill="#c3ccd8" ' + SW3 + ' opacity=".9"/>' +
-        '<path d="M260 ' + (30 + dy) + ' L200 ' + (70 + dy) + ' L280 ' + (70 + dy) + ' Z" fill="#c3ccd8" ' + SW3 + ' opacity=".9"/>' +
-        (t === 0 ? '<text x="150" y="110" text-anchor="middle" font-size="22" fill="' + INK + '">=</text>' : ''));
+      var t = o.tilt || 0, a = t * 7 * Math.PI / 180, arm = 104;
+      var f = function (n) { return n.toFixed(1); };
+      var lx = 150 - arm * Math.cos(a), ly = 30 - arm * Math.sin(a);
+      var rx = 150 + arm * Math.cos(a), ry = 30 + arm * Math.sin(a);
+      function pan(x, y) {
+        return '<path d="M' + f(x) + ' ' + f(y) + ' L' + f(x - 34) + ' ' + f(y + 40) + ' M' + f(x) + ' ' + f(y) + ' L' + f(x + 34) + ' ' + f(y + 40) + '" fill="none" ' + SW3 + '/>' +
+          '<path d="M' + f(x - 44) + ' ' + f(y + 40) + ' Q' + f(x) + ' ' + f(y + 66) + ' ' + f(x + 44) + ' ' + f(y + 40) + ' Z" fill="#c3ccd8" ' + SW3 + '/>';
+      }
+      return svg('0 0 300 150', '<path d="M150 30 L150 136 M110 140 L190 140" ' + SW3 + '/>' +
+        '<path d="M' + f(lx) + ' ' + f(ly) + ' L' + f(rx) + ' ' + f(ry) + '" ' + SW3 + '/>' + pan(lx, ly) + pan(rx, ry) +
+        '<circle cx="150" cy="30" r="8" fill="#ffd23f" ' + SW3 + '/>' +
+        (t === 0 ? '<text x="150" y="118" text-anchor="middle" font-size="22" fill="' + INK + '">=</text>' : ''));
     },
     clock: function (o) {
       var h = (o.hour || 12) % 12, ang = h * 30;
       var marks = '';
-      for (var i = 1; i <= 12; i++) { var a = (i * 30 - 90) * Math.PI / 180; marks += '<text x="' + (100 + 70 * Math.cos(a)).toFixed(1) + '" y="' + (107 + 70 * Math.sin(a)).toFixed(1) + '" text-anchor="middle" font-size="18" fill="' + INK + '">' + i + '</text>'; }
+      for (var i = 1; i <= 12; i++) { var a = (i * 30 - 90) * Math.PI / 180; marks += '<text x="' + (100 + 72 * Math.cos(a)).toFixed(1) + '" y="' + (106 + 72 * Math.sin(a)).toFixed(1) + '" text-anchor="middle" font-size="17" fill="' + INK + '">' + i + '</text>'; }
       return svg('0 0 200 200', '<circle cx="100" cy="100" r="92" fill="#fffdf6" ' + SW + '/>' + marks +
-        '<path d="M100 100 L100 30" transform="rotate(0 100 100)" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
-        '<path d="M100 100 L100 52" transform="rotate(' + ang + ' 100 100)" stroke="#e5243b" stroke-width="9" stroke-linecap="round"/><circle cx="100" cy="100" r="8" fill="' + INK + '"/>');
+        '<path d="M100 100 L100 46" transform="rotate(0 100 100)" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
+        '<path d="M100 100 L100 62" transform="rotate(' + ang + ' 100 100)" stroke="#e5243b" stroke-width="9" stroke-linecap="round"/><circle cx="100" cy="100" r="8" fill="' + INK + '"/>');
     },
     fan: function (o) {
       return svg('0 0 140 200', '<path d="M70 120 L70 180 M30 190 L110 190" ' + SW + '/><circle cx="70" cy="70" r="60" fill="#e9eef5" ' + SW + '/>' +
@@ -413,8 +454,11 @@
         ? '<text x="50" y="60" text-anchor="middle" font-size="22" fill="#e5243b">JOKER</text><path d="M30 80 L40 100 L50 80 L60 100 L70 80 L70 110 L30 110Z" fill="#b48cff" ' + SW3 + '/>'
         : '<text x="50" y="84" text-anchor="middle" font-size="44" fill="' + INK + '">7</text>'));
     },
+    /* E28: a lit bulb also gets five ink rays, so "on" never relies on colour alone. The viewBox has
+     * room for the rays in both states, so the bulb does not jump when it lights. */
     bulb: function (o) {
-      return svg('0 0 100 160', (o.on ? '<circle cx="50" cy="56" r="48" fill="#fff6a8" opacity=".6"/>' : '') + '<path d="M50 10 C80 10 92 34 86 58 C82 74 68 82 66 100 L34 100 C32 82 18 74 14 58 C8 34 20 10 50 10Z" fill="' + (o.on ? '#ffe066' : '#d9d4c7') + '" ' + SW + '/><rect x="32" y="100" width="36" height="26" rx="4" fill="#8a86a8" ' + SW3 + '/><path d="M40 60 Q50 40 60 60" fill="none" stroke="' + (o.on ? '#e5a800' : '#8a86a8') + '" stroke-width="4"/>');
+      var rays = o.on ? '<path class="bulb-rays" d="M50 3 L50 -7 M17 15 L10 8 M83 15 L90 8 M8 44 L-2 44 M92 44 L102 44" fill="none" ' + SW3 + '/>' : '';
+      return svg('-6 -12 112 172', (o.on ? '<circle cx="50" cy="56" r="48" fill="#fff6a8" opacity=".5"/>' : '') + rays + '<path d="M50 10 C80 10 92 34 86 58 C82 74 68 82 66 100 L34 100 C32 82 18 74 14 58 C8 34 20 10 50 10Z" fill="' + (o.on ? '#ffe066' : '#d9d4c7') + '" ' + SW + '/><rect x="32" y="100" width="36" height="26" rx="4" fill="#8a86a8" ' + SW3 + '/><path d="M40 60 Q50 40 60 60" fill="none" stroke="' + (o.on ? '#e5a800' : '#8a86a8') + '" stroke-width="4"/>');
     },
     catflap: function () {
       return svg('0 0 120 100', '<rect x="4" y="4" width="112" height="92" rx="12" fill="#a0784d" ' + SW + '/><rect x="24" y="22" width="72" height="62" rx="10" fill="#c3ccd8" ' + SW + '/><path d="M44 40 L40 28 L52 36 M76 40 L80 28 L68 36" fill="none" ' + SW3 + '/>');
@@ -452,10 +496,12 @@
       if (o.special) {
         return svg('0 0 200 200', shine + '<path d="M100 20 L118 66 L168 70 L130 102 L142 152 L100 126 L58 152 L70 102 L32 70 L82 66 Z" fill="' + fill + '" ' + SW + (tier ? '' : ' opacity=".45"') + '/><rect x="64" y="160" width="72" height="26" rx="6" fill="#4b4466" ' + SW + '/>');
       }
+      // E57: a chapter cup carries its chapter's landmark icon, engraved in ink on the bowl.
+      var mark = o.icon && ICONS[o.icon] ? '<svg class="trophy-mark" x="74" y="36" width="52" height="52" viewBox="0 0 24 24" style="color:var(--ink)" opacity="' + (tier ? '.75' : '.4') + '">' + ICONS[o.icon] + '</svg>' : '';
       return svg('0 0 200 200', shine + '<path d="M54 30 L146 30 L140 92 Q100 132 60 92 Z" fill="' + fill + '" ' + SW + (tier ? '' : ' opacity=".45"') + '/>' +
         '<path d="M56 44 Q20 44 30 74 Q38 92 62 90 M144 44 Q180 44 170 74 Q162 92 138 90" fill="none" ' + SW + '/>' +
         '<path d="M88 116 L112 116 L116 150 L84 150 Z" fill="' + fill + '" ' + SW3 + '/><rect x="60" y="150" width="80" height="32" rx="6" fill="#4b4466" ' + SW + '/>' +
-        (tier ? '<path d="M78 46 Q76 70 92 84" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".6"/>' : ''));
+        (tier ? '<path d="M78 46 Q76 70 92 84" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".6"/>' : '') + mark);
     }
   };
 
@@ -492,6 +538,9 @@
   OBEY.art = {
     narrator: narrator, object: object, icon: icon, stars: stars,
     hasObject: function (k) { return !!OBJECTS[k]; },
+    hasIcon: function (k) { return !!ICONS[k]; },
+    /** Raw 24-unit path markup of an icon, for nesting inside another SVG (map regions, trophies). */
+    iconPaths: function (k) { return ICONS[k] || ''; },
     /** Extension points used by art-extra.js (2.1). */
     addObject: function (k, f) { OBJECTS[k] = f; },
     addIcon: function (k, d) { ICONS[k] = d; },

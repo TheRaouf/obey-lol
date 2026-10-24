@@ -96,7 +96,7 @@
           </div>`;
       } else {
         var l = chosen !== null && step === sc.lines.length - 1 ? [sc.choices[chosen][1], 'pleased'] : lineAt(step);
-        body = `<div class="ending-talk">
+        body = `<div class="ending-talk">${step === 0 ? machineScene(id) : ''}
             <div class="ending-narrator" aria-hidden="true">${A.narrator(costume, l[1])}</div>
             <div class="bubble big" id="ending-line" aria-live="polite"><span class="speaker">Bossworth</span>${E(l[0])}</div>
           </div>
@@ -141,6 +141,25 @@
     scene();
     OBEY.audio.play(id === 'chaos' ? 'boom' : 'ending');
     return function () { el.removeEventListener('click', onClick); sc = SCRIPTS[id]; };
+  }
+
+  /** E63: the first scene of every ending shows the Instruction Machine it is about (160 px). */
+  function machineScene(id) {
+    var m = id === 'secret' ? A.object('machine', { gears: 3, asleep: true }) : A.object('machine', { gears: 3 });
+    var extra = '';
+    if (id === 'hero') extra = '<div class="machine-note pop" style="position:absolute;left:50%;bottom:-14px;width:46px;margin-left:-23px">' + A.object('note') + '</div>';
+    else if (id === 'chaos') {
+      extra = '<span class="debris machine-debris" style="--i:1;position:absolute;left:-6%;top:6%;width:34px">' + A.object('gear') + '</span>' +
+        '<span class="debris machine-debris" style="--i:4;position:absolute;right:-8%;top:30%;width:28px">' + A.object('gear') + '</span>' +
+        '<span class="debris machine-debris" style="--i:7;position:absolute;left:8%;bottom:-6%;width:30px">' + spring() + '</span>';
+    } else extra = '<div class="machine-quill" style="position:absolute;left:50%;top:-22px;width:64px;margin-left:-32px;transform:rotate(-8deg)">' + A.object('quill') + '</div>';
+    return `<div class="ending-machine ending-machine-${id}" aria-hidden="true" style="position:relative;width:min(160px, 40vw);flex:none${id === 'chaos' ? ';transform:rotate(8deg)' : ''}">${m}${extra}</div>`;
+  }
+
+  /** A coiled spring for the chaos debris (ink zig-zag on a metal cap). */
+  function spring() {
+    return A.svg('0 0 60 100', '<path d="M30 8 L30 16 L10 26 L50 38 L10 50 L50 62 L10 74 L30 82 L30 92" fill="none" stroke="#c3ccd8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M30 8 L30 16 L10 26 L50 38 L10 50 L50 62 L10 74 L30 82 L30 92" fill="none" ' + A.SW3 + '/>');
   }
 
   function fx(id) {

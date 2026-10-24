@@ -57,18 +57,18 @@
         </div>
         <nav class="menu-nav" aria-label="Main menu">
           <button class="slip slip-primary" data-act="play">${A.icon('play')}<span>${E(playLabel)}</span></button>
-          <button class="slip" data-act="new-game"><span>New game</span></button>
+          <button class="slip" data-act="new-game">${A.icon('plus')}<span>New game</span></button>
           <button class="slip" data-act="nav" data-to="map">${A.icon('map')}<span>Adventure map</span></button>
           <button class="slip" data-act="nav" data-to="daily">${A.icon('calendar')}<span>Daily Dare</span><em>${s.daily.done.indexOf(OBEY.extras.dateKey()) >= 0 ? 'done today' : 'streak ' + OBEY.extras.currentStreak(s, OBEY.extras.dateKey())}</em></button>
           <button class="slip" data-act="nav" data-to="sabotage">${A.icon('hammer')}<span>Sabotage file</span><em>${s.ruins.length}/${OBEY.extras.RUINS.length}</em></button>
           <button class="slip" data-act="nav" data-to="secrets">${A.icon('eye')}<span>Secret field notes</span><em>${s.secrets.length}/15</em></button>
-          <button class="slip" data-act="nav" data-to="costumes"><span>Narrator costumes</span><em>${s.costumes.unlocked.length}/8</em></button>
-          <button class="slip" data-act="nav" data-to="themes"><span>Themes</span><em>${s.themes.unlocked.length}/4</em></button>
+          <button class="slip" data-act="nav" data-to="costumes">${A.icon('bowtie')}<span>Narrator costumes</span><em>${s.costumes.unlocked.length}/8</em></button>
+          <button class="slip" data-act="nav" data-to="themes">${A.icon('palette')}<span>Themes</span><em>${s.themes.unlocked.length}/4</em></button>
           <button class="slip" data-act="nav" data-to="achievements">${A.icon('star')}<span>Achievements</span><em>${Object.keys(s.achievements).length}/${OBEY.ACHIEVEMENTS.length}</em></button>
-          <button class="slip" data-act="nav" data-to="trophies">${A.icon('star')}<span>Trophy room</span><em>${Object.keys(s.trophies).length}/${OBEY.TROPHIES.length}</em></button>
+          <button class="slip" data-act="nav" data-to="trophies">${A.icon('cup')}<span>Trophy room</span><em>${Object.keys(s.trophies).length}/${OBEY.TROPHIES.length}</em></button>
           <button class="slip" data-act="nav" data-to="stats">${A.icon('chart')}<span>Bossworth's file on you</span></button>
           <button class="slip" data-act="nav" data-to="settings">${A.icon('gear')}<span>Settings</span></button>
-          <button class="slip" data-act="nav" data-to="credits"><span>Credits</span></button>
+          <button class="slip" data-act="nav" data-to="credits">${A.icon('scroll')}<span>Credits</span></button>
         </nav>
       </div>`;
   }
@@ -113,8 +113,23 @@
       var y0 = k === 0 ? 0 : TOP + (first - 1) * ROW - ROW / 2;
       var h = k === OBEY.CHAPTERS.length - 1 ? H - y0 : (k === 0 ? TOP + ROW * 3.5 : ROW * 4);
       var cup = s.trophies['cup-' + c.id] || 0;
+      // E54: each chapter family has a landmark icon: a small one on the label's outer edge and a
+      // faint large watermark (12 %) in the region's emptiest corner.
+      var ic = A.chapterIcon(k), right = k % 2 === 1;
+      var mark = function (cls, x, y, size, op) {
+        return `<svg class="${cls} region-icon-${ic}" x="${x}" y="${y}" width="${size}" height="${size}" viewBox="0 0 24 24" style="color:var(--ink)" opacity="${op}">${A.iconPaths(ic)}</svg>`;
+      };
+      // The watermark goes in whichever of the three free corners is furthest from the path's nodes.
+      var wm = Math.min(48, h - 60), best = null;
+      [[right ? 12 : MAP_W - 12 - wm, y0 + 40], [12, y0 + h - 12 - wm], [MAP_W - 12 - wm, y0 + h - 12 - wm]].forEach(function (c) {
+        var cx = c[0] + wm / 2, cy = c[1] + wm / 2, d = Infinity;
+        pts.forEach(function (q) { d = Math.min(d, Math.hypot((q.x - cx) * 0.8, q.y - cy)); });
+        if (!best || d > best[2]) best = [c[0], c[1], d];
+      });
       return `<rect x="0" y="${y0}" width="${MAP_W}" height="${h}" fill="var(--region-${(k % 4) + 1})" />` +
-        `<text class="region-label" x="${k % 2 ? 388 : 12}" y="${y0 + 26}" text-anchor="${k % 2 ? 'end' : 'start'}">${k + 1}. ${E(c.name)}${cup ? ' ★ ' + OBEY.TROPHY_TIERS[cup] : ''}</text>`;
+        (wm > 24 ? mark('region-watermark', best[0], best[1], wm, '.12') : '') +
+        mark('region-icon', right ? 370 : 12, y0 + 12, 18, '.7') +
+        `<text class="region-label" x="${right ? 364 : 36}" y="${y0 + 26}" text-anchor="${right ? 'end' : 'start'}">${k + 1}. ${E(c.name)}${cup ? ' ★ ' + OBEY.TROPHY_TIERS[cup] : ''}</text>`;
     }).join('');
     var deco = '';
     for (i = 0; i < L; i++) {
@@ -175,17 +190,17 @@
       var pr = P.trophyProgress(s, t);
       var tierTxt = tier ? OBEY.TROPHY_TIERS[tier] : 'Not won yet';
       return `<li class="trophy-card${tier ? ' won tier-' + tier : ''}">
-        <div class="trophy-art" aria-hidden="true">${A.object('trophy', { tier: tier, special: t.kind === 'special' })}</div>
+        <div class="trophy-art" aria-hidden="true">${A.object('trophy', { tier: tier, special: t.kind === 'special', icon: t.kind === 'chapter' ? A.chapterIcon(t.chapter) : null })}</div>
         <h2>${E(t.name)}</h2>
         <p class="trophy-tier">${tier ? A.icon('star') : A.icon('lock')} ${E(tierTxt)}</p>
-        <p class="small">${E(t.desc)}</p>
+        ${t.kind === 'chapter' ? '' : `<p class="small">${E(t.desc)}</p>`}
         <div class="bar small" role="progressbar" aria-label="${E(t.name)} progress" aria-valuemin="0" aria-valuemax="${pr[1]}" aria-valuenow="${pr[0]}"><span style="width:${(pr[0] / pr[1] * 100).toFixed(1)}%"></span></div>
         <p class="small">${pr[0]} / ${pr[1]}</p>
       </li>`;
     };
     el.innerHTML = backBar('Trophy room', 'trophies-title', `<span class="pill">${won}/${OBEY.TROPHIES.length}</span>`, 'trophies') + `
       <div class="page">
-        <p class="page-intro panel">Chapter cups come in Bronze (Easy), Silver (Medium) and Gold (Hard) — the lowest difficulty you used in that chapter decides the metal. Replay a level on a harder difficulty to upgrade its cup.</p>
+        <p class="page-intro panel">Finish all four levels of a chapter to win its cup. Chapter cups come in Bronze (Easy), Silver (Medium) and Gold (Hard) — the lowest difficulty you used in that chapter decides the metal. Replay a level on a harder difficulty to upgrade its cup.</p>
         <h2 class="section-title">Chapter cups</h2>
         <ul class="trophy-grid">${OBEY.TROPHIES.filter(function (t) { return t.kind === 'chapter'; }).map(card).join('')}</ul>
         <h2 class="section-title">Special trophies</h2>
@@ -375,6 +390,17 @@
   }
 
   /* ---------------------------------------------------------------- credits */
+  /** E62: the cast — every costume at 64 px, in colour once unlocked, as a silhouette until then. */
+  function castStrip(s) {
+    return `<section class="panel cast-panel" aria-labelledby="cast-title">
+          <h2 id="cast-title">The cast</h2>
+          <ul class="cast-strip" style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;list-style:none;margin:0;padding:0">${OBEY.COSTUMES.map(function (c) {
+            var un = s.costumes.unlocked.indexOf(c.id) >= 0;
+            var art = A.narrator(c.id, un ? 'pleased' : 'neutral');
+            return `<li class="cast-member${un ? '' : ' locked'}" style="display:flex;flex-direction:column;align-items:center;gap:4px;width:84px;text-align:center"><div class="cast-art" aria-hidden="true" style="width:64px;height:64px">${un ? art : '<div class="silhouette">' + art + '</div>'}</div><span class="cast-name">${E(c.name)}${un ? '' : ' <span class="visually-hidden">(locked)</span>'}</span></li>`;
+          }).join('')}</ul>
+        </section>`;
+  }
   function credits(app, el) {
     el.innerHTML = backBar('Credits', 'credits-title') + `
       <div class="page credits">
@@ -386,6 +412,8 @@
           <p>Version 2.1 was shaped by reviews of narrator and trick-puzzle games, and by <i>Dude, Stop</i> (Team HalfBeard), whose idea of rewarding deliberate failure inspired the ruins, U.N.D.O. and the Sabotage Studio. All characters, jokes and art here are original.</p>
           <p class="small">Thanks for playing. Bossworth would like you to know he does not want you to rate this game five stars. (He does.)</p>
         </section>
+        ${castStrip(app.save)}
+        <div class="credits-end" style="text-align:center"><p class="end-stamp credits-stamp" aria-hidden="true">THE END?</p></div>
       </div>`;
   }
 
