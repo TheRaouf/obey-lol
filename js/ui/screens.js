@@ -16,8 +16,8 @@
 
   function statRow(s) {
     return `<ul class="stat-row" aria-label="Overall progress">
-      <li><b>${s.completed.length}</b><span>of 16 levels</span></li>
-      <li><b>${P.totalStars(s)}</b><span>of 48 stars</span></li>
+      <li><b>${s.completed.length}</b><span>of ${OBEY.LEVEL_COUNT} levels</span></li>
+      <li><b>${P.totalStars(s)}</b><span>of ${OBEY.LEVEL_COUNT * 3} stars</span></li>
       <li><b>${s.secrets.length}</b><span>of 15 secrets</span></li>
     </ul>`;
   }
@@ -48,6 +48,7 @@
             <p class="bubble bubble-left"><span class="speaker">Bossworth</span>${E(line[0])}</p>
           </div>
           ${statRow(s)}
+          <p class="diff-line">Difficulty: <b>${E(app.diffName(s.difficulty))}</b> <button class="btn small-btn" data-act="difficulty">Change</button></p>
         </div>
         <nav class="menu-nav" aria-label="Main menu">
           <button class="slip slip-primary" data-act="play">${A.icon('play')}<span>${E(playLabel)}</span></button>
@@ -57,6 +58,7 @@
           <button class="slip" data-act="nav" data-to="costumes"><span>Narrator costumes</span><em>${s.costumes.unlocked.length}/8</em></button>
           <button class="slip" data-act="nav" data-to="themes"><span>Themes</span><em>${s.themes.unlocked.length}/4</em></button>
           <button class="slip" data-act="nav" data-to="achievements">${A.icon('star')}<span>Achievements</span><em>${Object.keys(s.achievements).length}/${OBEY.ACHIEVEMENTS.length}</em></button>
+          <button class="slip" data-act="nav" data-to="trophies">${A.icon('star')}<span>Trophy room</span><em>${Object.keys(s.trophies).length}/${OBEY.TROPHIES.length}</em></button>
           <button class="slip" data-act="nav" data-to="settings">${A.icon('gear')}<span>Settings</span></button>
           <button class="slip" data-act="nav" data-to="credits"><span>Credits</span></button>
         </nav>
@@ -64,38 +66,32 @@
   }
 
   /* -------------------------------------------------------------------- map */
-  var REGIONS = [
-    { name: 'Button Bay', from: 1, color: 'var(--region-1)' },
-    { name: 'Mind Maze', from: 5, color: 'var(--region-2)' },
-    { name: 'Trick Tower', from: 9, color: 'var(--region-3)' },
-    { name: 'Final Factory', from: 13, color: 'var(--region-4)' }
-  ];
   var MAP_W = 400, ROW = 100, TOP = 80;
   function nodePos(i) { return { x: 200 + 118 * Math.sin(i * 1.1 + 0.3), y: TOP + i * ROW }; }
-
-  function map(app, el) {
-    var s = app.save;
-    var H = TOP * 2 + 15 * ROW;
-    var pts = [];
-    for (var i = 0; i < 16; i++) pts.push(nodePos(i));
+  function curve(pts, upto) {
     var d = 'M' + pts[0].x + ' ' + pts[0].y;
-    for (i = 1; i < 16; i++) {
+    for (var i = 1; i <= upto; i++) {
       var a = pts[i - 1], b = pts[i];
       d += ' C' + a.x + ' ' + (a.y + ROW * 0.5) + ' ' + b.x + ' ' + (b.y - ROW * 0.5) + ' ' + b.x + ' ' + b.y;
     }
-    var done = 'M' + pts[0].x + ' ' + pts[0].y;
-    var reach = Math.min(s.highestUnlocked, 16) - 1;
-    for (i = 1; i <= reach; i++) {
-      var a2 = pts[i - 1], b2 = pts[i];
-      done += ' C' + a2.x + ' ' + (a2.y + ROW * 0.5) + ' ' + b2.x + ' ' + (b2.y - ROW * 0.5) + ' ' + b2.x + ' ' + b2.y;
-    }
-    var bands = REGIONS.map(function (r, k) {
-      var y0 = k === 0 ? 0 : TOP + (r.from - 1) * ROW - ROW / 2, h = k === 0 ? TOP + ROW * 3.5 : (k === 3 ? H - y0 : ROW * 4);
-      return `<rect x="0" y="${y0}" width="${MAP_W}" height="${h}" fill="${r.color}" />` +
-        `<text class="region-label" x="${k % 2 ? 388 : 12}" y="${y0 + 26}" text-anchor="${k % 2 ? 'end' : 'start'}">${E(r.name)}</text>`;
+    return d;
+  }
+
+  function map(app, el) {
+    var s = app.save, L = OBEY.LEVEL_COUNT;
+    var H = TOP * 2 + (L - 1) * ROW;
+    var pts = [];
+    for (var i = 0; i < L; i++) pts.push(nodePos(i));
+    var bands = OBEY.CHAPTERS.map(function (c, k) {
+      var first = c.levels[0];
+      var y0 = k === 0 ? 0 : TOP + (first - 1) * ROW - ROW / 2;
+      var h = k === OBEY.CHAPTERS.length - 1 ? H - y0 : (k === 0 ? TOP + ROW * 3.5 : ROW * 4);
+      var cup = s.trophies['cup-' + c.id] || 0;
+      return `<rect x="0" y="${y0}" width="${MAP_W}" height="${h}" fill="var(--region-${(k % 4) + 1})" />` +
+        `<text class="region-label" x="${k % 2 ? 388 : 12}" y="${y0 + 26}" text-anchor="${k % 2 ? 'end' : 'start'}">${k + 1}. ${E(c.name)}${cup ? ' ★ ' + OBEY.TROPHY_TIERS[cup] : ''}</text>`;
     }).join('');
     var deco = '';
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < L; i++) {
       var p = pts[i], side = p.x > 200 ? -1 : 1;
       deco += `<circle cx="${p.x + side * 120}" cy="${p.y + 20}" r="${6 + (i * 7) % 9}" class="map-dot"/>`;
     }
@@ -105,31 +101,62 @@
       var completed = P.isCompleted(s, n), unlocked = P.canPlay(s, n);
       var state = completed ? 'done' : (unlocked ? 'open' : 'locked');
       var isCur = n === current;
-      var label = 'Level ' + n + ': ' + def.title + ' — ' + (completed ? 'completed, ' + s.bestStars[n] + ' of 3 stars' : (unlocked ? (isCur ? 'next up' : 'unlocked') : 'locked, finish level ' + (n - 1) + ' first'));
+      var bd = s.bestDifficulty[n];
+      var label = 'Level ' + n + ': ' + def.title + ' — ' + (completed ? 'completed, ' + s.bestStars[n] + ' of 3 stars, best on ' + app.diffName(bd) : (unlocked ? (isCur ? 'next up' : 'unlocked') : 'locked, finish level ' + (n - 1) + ' first'));
       return `<button class="map-node node-${state}${isCur ? ' is-current' : ''}" style="left:${(p.x / MAP_W * 100).toFixed(2)}%;top:${(p.y / H * 100).toFixed(3)}%"
           data-act="open-level" data-level="${n}" aria-label="${E(label)}" ${unlocked ? '' : 'aria-disabled="true"'}>
-          <span class="node-disc">${state === 'locked' ? A.icon('lock') : n}</span>
+          <span class="node-disc">${state === 'locked' ? A.icon('lock') : n}${completed ? `<span class="node-medal medal-${bd}" aria-hidden="true">${bd[0].toUpperCase()}</span>` : ''}</span>
           <span class="node-title">${E(def.title)}</span>
           <span class="node-stars">${completed ? A.stars(s.bestStars[n]) : (isCur ? '<span class="node-flag">Next</span>' : '')}</span>
         </button>`;
     }).join('');
-    el.innerHTML = backBar('Adventure map', 'map-title', `<span class="pill">${P.totalStars(s)}/48 ${A.icon('star')}</span>`) + `
+    el.innerHTML = backBar('Adventure map', 'map-title', `<span class="pill">${P.totalStars(s)}/${L * 3} ${A.icon('star')}</span>`) + `
       <div class="map-layout">
         <aside class="map-side panel">
           ${statRow(s)}
-          <p class="map-help">Tap any unlocked level to play or replay it. Replays can only improve your best stars.</p>
-          ${current ? `<button class="slip slip-primary" data-act="open-level" data-level="${current}">${A.icon('play')}<span>Play Level ${current}</span></button>` : '<p class="map-help strong">All 16 levels complete.</p>'}
+          <p class="map-help">Difficulty: <b>${E(app.diffName(s.difficulty))}</b> <button class="btn small-btn" data-act="difficulty">Change</button></p>
+          <p class="map-help">Tap any unlocked level to play or replay it. Replays can only improve your best stars. The letter on a finished level shows the hardest difficulty you beat it on.</p>
+          ${current ? `<button class="slip slip-primary" data-act="open-level" data-level="${current}">${A.icon('play')}<span>Play Level ${current}</span></button>` : `<p class="map-help strong">All ${L} levels complete.</p>`}
         </aside>
         <div class="map-scroll">
           <div class="map-world" style="aspect-ratio:${MAP_W}/${H}">
             <svg class="map-svg" viewBox="0 0 ${MAP_W} ${H}" preserveAspectRatio="none" aria-hidden="true">
               ${bands}${deco}
-              <path d="${d}" class="map-path"/>
-              <path d="${done}" class="map-path-done"/>
+              <path d="${curve(pts, L - 1)}" class="map-path"/>
+              <path d="${curve(pts, Math.min(s.highestUnlocked, L) - 1)}" class="map-path-done"/>
             </svg>
             ${nodes}
           </div>
         </div>
+      </div>`;
+    var cur = el.querySelector('.map-node.is-current');
+    if (cur && cur.scrollIntoView) setTimeout(function () { cur.scrollIntoView({ block: 'center', behavior: 'auto' }); }, 0);
+  }
+
+  /* --------------------------------------------------------------- trophies */
+  function trophies(app, el) {
+    var s = app.save;
+    var won = OBEY.TROPHIES.filter(function (t) { return s.trophies[t.id]; }).length;
+    var card = function (t) {
+      var tier = s.trophies[t.id] || 0;
+      var pr = P.trophyProgress(s, t);
+      var tierTxt = tier ? OBEY.TROPHY_TIERS[tier] : 'Not won yet';
+      return `<li class="trophy-card${tier ? ' won tier-' + tier : ''}">
+        <div class="trophy-art" aria-hidden="true">${A.object('trophy', { tier: tier, special: t.kind === 'special' })}</div>
+        <h2>${E(t.name)}</h2>
+        <p class="trophy-tier">${tier ? A.icon('star') : A.icon('lock')} ${E(tierTxt)}</p>
+        <p class="small">${E(t.desc)}</p>
+        <div class="bar small" role="progressbar" aria-label="${E(t.name)} progress" aria-valuemin="0" aria-valuemax="${pr[1]}" aria-valuenow="${pr[0]}"><span style="width:${(pr[0] / pr[1] * 100).toFixed(1)}%"></span></div>
+        <p class="small">${pr[0]} / ${pr[1]}</p>
+      </li>`;
+    };
+    el.innerHTML = backBar('Trophy room', 'trophies-title', `<span class="pill">${won}/${OBEY.TROPHIES.length}</span>`) + `
+      <div class="page">
+        <p class="page-intro panel">Chapter cups come in Bronze (Easy), Silver (Medium) and Gold (Hard) — the lowest difficulty you used in that chapter decides the metal. Replay a level on a harder difficulty to upgrade its cup.</p>
+        <h2 class="section-title">Chapter cups</h2>
+        <ul class="trophy-grid">${OBEY.TROPHIES.filter(function (t) { return t.kind === 'chapter'; }).map(card).join('')}</ul>
+        <h2 class="section-title">Special trophies</h2>
+        <ul class="trophy-grid">${OBEY.TROPHIES.filter(function (t) { return t.kind === 'special'; }).map(card).join('')}</ul>
       </div>`;
   }
 
@@ -146,7 +173,7 @@
     el.innerHTML = backBar('Secret field notes', 'secrets-title', `<span class="pill">${s.secrets.length}/15</span>`) + `
       <div class="page">
         <div class="progress-block panel">
-          <p>You have found <b>${s.secrets.length}</b> of 15 secrets.${s.secrets.length === 15 ? ' Something golden waits in Level 16.' : ' Find all 15 for a very special ending.'}</p>
+          <p>You have found <b>${s.secrets.length}</b> of 15 secrets.${s.secrets.length === 15 ? ' Something golden waits in Level 36.' : ' Find all 15 for a very special ending.'}</p>
           <div class="bar" role="progressbar" aria-label="Secrets found" aria-valuemin="0" aria-valuemax="15" aria-valuenow="${s.secrets.length}"><span style="width:${(s.secrets.length / 15 * 100).toFixed(1)}%"></span></div>
         </div>
         <ul class="note-grid">${cards}</ul>
@@ -196,7 +223,7 @@
     var s = app.save;
     var list = OBEY.ACHIEVEMENTS.map(function (a) {
       var pr = a.progress(s, P), got = !!s.achievements[a.id];
-      var pct = Math.min(100, pr[0] / pr[1] * 100);
+      var pct = got ? 100 : Math.min(100, pr[0] / pr[1] * 100);
       return `<li class="ach${got ? ' got' : ''}">
         <span class="ach-badge" aria-hidden="true">${got ? A.icon('check') : A.icon('lock')}</span>
         <div class="ach-body"><h2>${E(a.name)}</h2><p>${E(a.desc)}</p>
@@ -239,6 +266,16 @@
           <p class="small">Every puzzle can be solved with sound off. There is no music.</p>
         </section>
         <fieldset class="panel setting">
+          <legend><h2>Bossworth's voice</h2></legend>
+          ${radio('voice', 'babble', st.voice, 'Babble (funny gibberish, works everywhere)')}${radio('voice', 'speech', st.voice, 'Real speech' + (OBEY.audio.speechAvailable() ? ' (your device\'s voice)' : ' (not available here; uses babble)'))}${radio('voice', 'off', st.voice, 'Silent')}
+          <p class="small">The voice needs sound effects on. Every line is always shown as text.</p>
+        </fieldset>
+        <fieldset class="panel setting">
+          <legend><h2>Difficulty</h2></legend>
+          ${OBEY.DIFFICULTIES.map(function (d) { return radio('difficulty', d.id, app.save.difficulty, d.name + ': ' + d.blurb); }).join('')}
+          <p class="small">Changes apply from your next attempt. Each level remembers the hardest difficulty you beat it on.</p>
+        </fieldset>
+        <fieldset class="panel setting">
           <legend><h2>Motion</h2></legend>
           ${radio('motion', 'system', st.motion, 'Follow my device')}${radio('motion', 'reduce', st.motion, 'Reduce motion')}${radio('motion', 'full', st.motion, 'Full motion')}
         </fieldset>
@@ -272,5 +309,5 @@
       </div>`;
   }
 
-  OBEY.screens = { menu: menu, map: map, secrets: secrets, costumes: costumes, themes: themes, achievements: achievements, settings: settings, credits: credits };
+  OBEY.screens = { menu: menu, map: map, secrets: secrets, costumes: costumes, themes: themes, achievements: achievements, trophies: trophies, settings: settings, credits: credits };
 })(typeof window !== 'undefined' ? window : globalThis);

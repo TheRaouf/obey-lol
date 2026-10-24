@@ -24,6 +24,7 @@
       'Wait until NOW SERVING shows #17, then ring the bell once.'
     ],
     wrong: ['Ringing the bell before #17 is called moves the queue back one number.'],
+    hardNote: 'On Hard, ringing early sends the queue all the way back to #12.',
     secrets: ['extremely-patient'],
     endingNote: 'None.',
     done: 'Patience: unlocked.',
@@ -62,7 +63,7 @@
       if (a.type !== 'tap') return false;
       if (a.target === 'bell') {
         if (s.serving < TICKET) {
-          s.serving = Math.max(FIRST, s.serving - 1);
+          s.serving = api.difficulty() === 'hard' ? FIRST : Math.max(FIRST, s.serving - 1);
           api.say('*DING* — "Please wait your turn." The queue went BACK a number. Did I say ringing helps? I may have lied.', 'pleased');
         } else {
           api.complete({ line: s.medal ? 'Served! With a medal! The most patient human alive. I find you exhausting.' : 'Served! You waited. Patiently. Like an adult. I\'m deeply uncomfortable.', mood: 'defeated' });

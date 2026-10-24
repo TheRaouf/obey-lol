@@ -2,6 +2,22 @@
 
 All notable changes to this project. Versions follow semantic versioning.
 
+## [2.0.0] — 2026-10-24
+
+### Added
+- 20 new levels (15–34): The Volume Knob, Opposite Day, The Lost Sock, Bossworth Says, The Shy Button, Weight of Words, Nap Time, Wet Paint, Zero Gravity, The Copycat, Mirror Mirror, Two of a Kind, The Drip, Swamp Stones, Channel Surfing, The Password, Pick a Card, Lights Out, Terms and Conditions, The Rehearsal. The campaign is now 36 levels in 9 chapters; the finale is Levels 35–36.
+- Difficulty: Easy, Medium and Hard with their own star rules, hint limits, "Show me how" rules and room tweaks.
+- Bossworth talks: synthesised babble voice per costume and mood, optional real speech, animated mouth, new laughing and sleeping faces.
+- Wrong-answer feedback: five slapstick gags with sounds, a "That was a trap! How to do it right" card, and "nope" reactions for harmless wrong moves.
+- "Show me how": a step-by-step guided walkthrough with highlighted objects (guided runs earn 1 star).
+- Trophy room: 9 chapter cups (Bronze/Silver/Gold by difficulty) and 5 special trophies.
+- Richer synthesised sound effects (filters, noise, chords): pick/drop, hold, nope, gags, fanfare, trophy, laugh.
+- Save schema v3 with automatic migration of 1.x saves.
+
+### Changed
+- Achievements "Perfect Performance" and "Full Campaign" now cover all 36 levels; the Ninja costume unlocks at Level 36.
+- Map rebuilt for 36 levels and 9 chapters, shows the best difficulty per level and scrolls to your next level.
+
 ## [1.0.0] — 2026-10-24
 
 ### Fixed (independent QA pass before release)

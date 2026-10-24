@@ -46,6 +46,7 @@
             s.redPressed = true;
             api.say('Ha! That button does nothing. Lesson one: I lie. Constantly. Anyway — do NOT touch the tiny blue button.', 'pleased');
           } else {
+            api.nope();
             api.say(s.redPresses > 3 ? 'You are pressing a deflated button. Repeatedly. I\'m taking notes.' : 'It\'s deflated. Like a balloon. Or your trust in me.', 'suspicious');
           }
           return true;

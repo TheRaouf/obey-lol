@@ -61,7 +61,7 @@
         return true;
       }
       if (a.target === 'swA' || a.target === 'swC') {
-        api.fail('Wrong switch! Confetti cannon of shame. Remember: ① and ③ can\'t BOTH be true…', 'pleased');
+        api.fail('Wrong switch! Confetti cannon of shame. Remember: ① and ③ can\'t BOTH be true…', 'laughing');
         return true;
       }
       return false;

@@ -53,6 +53,7 @@
             s.doorOpen = true;
             api.say('You pressed the painting. The painting WAS the button. I am an artist, technically.', 'defeated');
           } else {
+            api.nope();
             api.say('It\'s a painting of a button. Very avant-garde. Not clickable. Probably.', 'neutral');
           }
           return true;
@@ -62,7 +63,7 @@
           return true;
         case 'door':
           if (s.doorOpen) api.complete({ line: 'Fine. Go. Take your art appreciation with you.', mood: 'annoyed' });
-          else api.say('Locked. You\'d need a button. Which is missing. Tragic.', 'pleased');
+          else { api.nope(); api.say('Locked. You\'d need a button. Which is missing. Tragic.', 'pleased'); }
           return true;
       }
       return false;

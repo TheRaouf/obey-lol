@@ -1,40 +1,40 @@
 [
   {
     "viewport": "320x700",
-    "screens": 8,
-    "levels": 16,
+    "screens": 9,
+    "levels": 36,
     "overlay": true,
     "ending": true,
     "result": "pass"
   },
   {
     "viewport": "390x844",
-    "screens": 8,
-    "levels": 16,
+    "screens": 9,
+    "levels": 36,
     "overlay": true,
     "ending": true,
     "result": "pass"
   },
   {
     "viewport": "768x1024",
-    "screens": 8,
-    "levels": 16,
+    "screens": 9,
+    "levels": 36,
     "overlay": true,
     "ending": true,
     "result": "pass"
   },
   {
     "viewport": "1365x900",
-    "screens": 8,
-    "levels": 16,
+    "screens": 9,
+    "levels": 36,
     "overlay": true,
     "ending": true,
     "result": "pass"
   },
   {
     "viewport": "1920x1080",
-    "screens": 8,
-    "levels": 16,
+    "screens": 9,
+    "levels": 36,
     "overlay": true,
     "ending": true,
     "result": "pass"

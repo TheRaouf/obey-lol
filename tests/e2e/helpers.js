@@ -53,7 +53,7 @@ async function seed(page, s) {
 function saveWith(n, extra) {
   return (d) => {
     for (let i = 1; i <= n; i++) { d.completed.push(i); d.bestStars[i] = 3; }
-    d.highestUnlocked = Math.min(16, n + 1);
+    d.highestUnlocked = Math.min(36, n + 1);
     d.tutorialDone = true;
     return extra ? extra(d) : d;
   };
@@ -133,4 +133,11 @@ async function noHorizontalOverflow(page) {
 
 async function launch() { return chromium.launch(); }
 
-module.exports = { startServer, openGame, seed, saveWith, playSteps, drag, hold, levelDefs, shot, noHorizontalOverflow, launch, sel, ROOT, SHOTS };
+/** The 2.0 first-play flow asks for a difficulty before the tutorial. */
+async function chooseDifficulty(page, id) {
+  await page.waitForSelector('.difficulty-modal');
+  await page.locator('[data-d="' + (id || 'medium') + '"]').click();
+  await page.waitForSelector('.difficulty-modal', { state: 'detached' });
+}
+
+module.exports = { chooseDifficulty, FINAL: 36, startServer, openGame, seed, saveWith, playSteps, drag, hold, levelDefs, shot, noHorizontalOverflow, launch, sel, ROOT, SHOTS };

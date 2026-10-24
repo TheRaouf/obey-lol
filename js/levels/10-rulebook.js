@@ -86,6 +86,7 @@
           api.choice('rule', s.rule);
           api.complete({ line: s.rule === 'potato' ? '*potato noises of defeat*' : 'Through the door that was locked FOREVER. Forever is shorter than it used to be.', mood: 'defeated' });
         } else {
+          api.nope();
           api.say('Locked forever. Rule 3. Rules are rules. Unless… no. Rules are rules.', 'pleased');
         }
         return true;

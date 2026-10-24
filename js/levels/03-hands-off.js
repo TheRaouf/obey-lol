@@ -30,11 +30,12 @@
       'Don\'t touch the button. Just wait for the timer to reach zero.'
     ],
     wrong: ['Pressing the button fails the test of restraint and restarts the countdown.'],
+    hardNote: 'On Hard the countdown is 15 seconds.',
     secrets: ['personal-space'],
     endingNote: 'None.',
     done: 'Doing nothing: officially a strategy.',
 
-    init: function () { return { t: START }; },
+    init: function (ctx) { return { t: ctx && ctx.difficulty === 'hard' ? START + 5 : START }; },
 
     onStart: function (s, api) {
       api.every(1000, function () {
@@ -58,7 +59,7 @@
     on: function (a, s, api) {
       if (a.type !== 'tap') return false;
       if (a.target === 'button') {
-        api.fail('TOO EAGER! That was a test of restraint, and you pressed it. Countdown restarted.', 'pleased');
+        api.fail('TOO EAGER! That was a test of restraint, and you pressed it. Countdown restarted.', 'laughing');
         return true;
       }
       if (a.target === 'narrator') {
@@ -70,6 +71,8 @@
     },
 
     solution: [{ wait: 10500 }],
+    /** Walkthrough path for the current difficulty (Hard counts down from 15). */
+    guide: function (ctx) { return [{ wait: ctx && ctx.difficulty === 'hard' ? 15500 : 10500 }]; },
     secretPaths: { 'personal-space': [{ tap: 'narrator' }] }
   });
 })(typeof window !== 'undefined' ? window : globalThis);

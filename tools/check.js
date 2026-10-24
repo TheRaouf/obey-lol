@@ -77,7 +77,7 @@ for (const f of jsInHtml.filter((r) => r.startsWith('js/core/') || r.startsWith(
   vm.runInThisContext(read(f), { filename: f });
 }
 const OBEY = globalThis.OBEY;
-ok(OBEY.levels.length === 16, 'expected 16 levels');
+ok(OBEY.levels.length === OBEY.LEVEL_COUNT && OBEY.LEVEL_COUNT === 36, 'expected 36 levels');
 for (const d of OBEY.levels) {
   const rt = new OBEY.LevelRuntime(d, { clock: OBEY.createFakeClock(), ctx: { replay: true, allSecrets: true } }).start();
   for (const o of rt.objects()) {

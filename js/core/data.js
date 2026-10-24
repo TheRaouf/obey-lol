@@ -36,7 +36,7 @@
     { id: 'wizard', name: 'Wizard', unlock: { type: 'stars', value: 20 }, aside: '*waves wand dramatically*' },
     { id: 'robot', name: 'Robot', unlock: { type: 'level', value: 12 }, aside: 'BEEP. INSTRUCTION LOADED:' },
     { id: 'dino', name: 'Dino', unlock: { type: 'secrets', value: 8 }, aside: 'RAWR. (That means "listen".)' },
-    { id: 'ninja', name: 'Ninja', unlock: { type: 'level', value: 16 }, aside: '*appears silently*' }
+    { id: 'ninja', name: 'Ninja', unlock: { type: 'level', value: 36 }, aside: '*appears silently*' }
   ];
 
   OBEY.THEMES = [
@@ -58,9 +58,9 @@
 
   /* ---------------------------------------------------------------- endings */
   OBEY.ENDINGS = [
-    { id: 'hero', name: 'The Honest Machine', short: 'Hero ending', condition: 'Finish Level 16 by repairing the Instruction Machine.' },
-    { id: 'chaos', name: 'Total Meltdown', short: 'Chaos ending', condition: 'Finish Level 16 by overloading the Instruction Machine.' },
-    { id: 'secret', name: 'The Last Word', short: 'Secret Master ending', condition: 'Discover all 15 secrets, then finish Level 16 with the golden quill.' }
+    { id: 'hero', name: 'The Honest Machine', short: 'Hero ending', condition: 'Finish Level 36 by repairing the Instruction Machine.' },
+    { id: 'chaos', name: 'Total Meltdown', short: 'Chaos ending', condition: 'Finish Level 36 by overloading the Instruction Machine.' },
+    { id: 'secret', name: 'The Last Word', short: 'Secret Master ending', condition: 'Discover all 15 secrets, then finish Level 36 with the golden quill.' }
   ];
   OBEY.ENDING_IDS = OBEY.ENDINGS.map(function (e) { return e.id; });
 
@@ -69,17 +69,56 @@
   OBEY.ACHIEVEMENTS = [
     { id: 'first-steps', name: 'First Steps', desc: 'Complete Level 1.', progress: function (s, P) { return [P.isCompleted(s, 1) ? 1 : 0, 1]; } },
     { id: 'professional-disobeyer', name: 'Professional Disobeyer', desc: 'Defy a direct instruction 10 times (counted when a level is completed).', progress: function (s) { return [Math.min(s.stats.defiance, 10), 10]; } },
-    { id: 'perfect-performance', name: 'Perfect Performance', desc: 'Earn 3 stars on all 16 levels.', progress: function (s) { var n = 0; for (var k in s.bestStars) if (s.bestStars[k] === 3) n++; return [n, 16]; } },
+    { id: 'perfect-performance', name: 'Perfect Performance', desc: 'Earn 3 stars on all 36 levels.', progress: function (s) { var n = 0; for (var k in s.bestStars) if (s.bestStars[k] === 3) n++; return [n, OBEY.LEVEL_COUNT]; } },
     { id: 'secret-agent', name: 'Secret Agent', desc: 'Discover your first secret.', progress: function (s) { return [Math.min(s.secrets.length, 1), 1]; } },
     { id: 'collector', name: 'Collector', desc: 'Discover 8 secrets.', progress: function (s) { return [Math.min(s.secrets.length, 8), 8]; } },
     { id: 'secret-master', name: 'Secret Master', desc: 'Discover all 15 secrets.', progress: function (s) { return [s.secrets.length, 15]; } },
     { id: 'costume-party', name: 'Costume Party', desc: 'Dress Bossworth in all 8 costumes.', progress: function (s) { return [s.costumes.worn.length, 8]; } },
-    { id: 'full-campaign', name: 'Full Campaign', desc: 'Complete all 16 levels.', progress: function (s) { return [s.completed.length, 16]; } },
+    { id: 'full-campaign', name: 'Full Campaign', desc: 'Complete all 36 levels.', progress: function (s) { return [s.completed.length, OBEY.LEVEL_COUNT]; } },
     { id: 'chaos-enthusiast', name: 'Chaos Enthusiast', desc: 'Reach the Chaos ending.', progress: function (s) { return [s.endings.seen.indexOf('chaos') >= 0 ? 1 : 0, 1]; } },
     { id: 'heroic-finish', name: 'Heroic Finish', desc: 'Reach the Hero ending.', progress: function (s) { return [s.endings.seen.indexOf('hero') >= 0 ? 1 : 0, 1]; } },
     { id: 'ghostwriter', name: 'Ghostwriter', desc: 'Reach the Secret Master ending.', progress: function (s) { return [s.endings.seen.indexOf('secret') >= 0 ? 1 : 0, 1]; } }
   ];
   OBEY.ACHIEVEMENT_IDS = OBEY.ACHIEVEMENTS.map(function (a) { return a.id; });
+
+  /* --------------------------------------------------------------- chapters */
+  // Nine chapters of four levels; each has a trophy cup whose metal depends on difficulty.
+  OBEY.CHAPTERS = [
+    { id: 'button-bay', name: 'Button Bay', levels: [1, 2, 3, 4] },
+    { id: 'mind-maze', name: 'Mind Maze', levels: [5, 6, 7, 8] },
+    { id: 'trick-tower', name: 'Trick Tower', levels: [9, 10, 11, 12] },
+    { id: 'glitch-gardens', name: 'Glitch Gardens', levels: [13, 14, 15, 16] },
+    { id: 'paper-plains', name: 'Paper Plains', levels: [17, 18, 19, 20] },
+    { id: 'clockwork-canyon', name: 'Clockwork Canyon', levels: [21, 22, 23, 24] },
+    { id: 'mirror-marsh', name: 'Mirror Marsh', levels: [25, 26, 27, 28] },
+    { id: 'static-summit', name: 'Static Summit', levels: [29, 30, 31, 32] },
+    { id: 'final-factory', name: 'Final Factory', levels: [33, 34, 35, 36] }
+  ];
+  OBEY.chapterOf = function (n) { return OBEY.CHAPTERS.filter(function (c) { return c.levels.indexOf(n) >= 0; })[0]; };
+
+  /* ------------------------------------------------------------- difficulty */
+  OBEY.DIFFICULTIES = [
+    { id: 'easy', name: 'Easy', rank: 1, blurb: 'Hints never cost stars, "Show me how" is always there, and Bossworth helps out if you get stuck.' },
+    { id: 'medium', name: 'Medium', rank: 2, blurb: 'The intended game. Hints cost stars; "Show me how" unlocks after a trap or two hints.' },
+    { id: 'hard', name: 'Hard', rank: 3, blurb: 'One hint per level, stricter stars, traps cost extra, and a few rooms fight back.' }
+  ];
+  OBEY.DIFFICULTY_IDS = ['easy', 'medium', 'hard'];
+  OBEY.difficultyRank = function (id) { return Math.max(0, OBEY.DIFFICULTY_IDS.indexOf(id) + 1); };
+
+  /* --------------------------------------------------------------- trophies */
+  // Tier ranks: 1 bronze, 2 silver, 3 gold, 4 platinum. Chapter cups upgrade with difficulty.
+  OBEY.TROPHY_TIERS = ['', 'Bronze', 'Silver', 'Gold', 'Platinum'];
+  OBEY.TROPHIES = OBEY.CHAPTERS.map(function (c) {
+    return { id: 'cup-' + c.id, name: c.name + ' Cup', kind: 'chapter', chapter: c.id,
+      desc: 'Finish all four ' + c.name + ' levels. Bronze on Easy, Silver on Medium, Gold on Hard (the lowest difficulty used counts).' };
+  }).concat([
+    { id: 'clean-sweep', name: 'Clean Sweep', kind: 'special', tier: 2, desc: 'Finish 10 different levels without using a hint.' },
+    { id: 'flawless', name: 'Flawless', kind: 'special', tier: 2, desc: 'Finish 10 different levels without falling for a single trap.' },
+    { id: 'hard-boiled', name: 'Hard Boiled', kind: 'special', tier: 3, desc: 'Finish 12 different levels on Hard.' },
+    { id: 'good-sport', name: 'Good Sport', kind: 'special', tier: 1, desc: 'Fall for 25 traps in total. Bossworth thanks you for your service.' },
+    { id: 'platinum-bossworth', name: 'Platinum Bossworth', kind: 'special', tier: 4, desc: 'Win a Gold cup in all nine chapters.' }
+  ]);
+  OBEY.TROPHY_IDS = OBEY.TROPHIES.map(function (t) { return t.id; });
 
   /* ---------------------------------------------------------------- choices */
   // Campaign choices and which way they lean. Used for narrator dialogue in Levels 15–16 and the endings.
@@ -93,7 +132,7 @@
   /* --------------------------------------------------------------- narrator */
   OBEY.NARRATOR = {
     name: 'Bossworth',
-    moods: ['neutral', 'pleased', 'suspicious', 'annoyed', 'surprised', 'panicked', 'defeated'],
+    moods: ['neutral', 'pleased', 'suspicious', 'annoyed', 'surprised', 'panicked', 'defeated', 'laughing'],
     // Shown in rotation when the narrator is poked and the level has nothing special to say.
     pokes: [
       ['Please do not poke the narrator. I bruise like a peach.', 'annoyed'],

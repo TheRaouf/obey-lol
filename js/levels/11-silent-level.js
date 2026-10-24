@@ -63,6 +63,7 @@
         } else {
           s.entry = [];
           s.wrong++;
+          api.nope();
           s.flash = true;
         }
         return true;

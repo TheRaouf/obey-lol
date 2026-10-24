@@ -57,7 +57,7 @@
           }
           return true;
         case 'holdstart:charge':
-          if (!s.plugged) { api.say('Nothing happens. It isn\'t plugged in. Thank goodness.', 'pleased'); return true; }
+          if (!s.plugged) { api.nope(); api.say('Nothing happens. It isn\'t plugged in. Thank goodness.', 'pleased'); return true; }
           if (s.charged) return true;
           s.charging = true;
           s.chargeTimer = api.after(CHARGE_MS, function () {

@@ -20,7 +20,10 @@
     pendingAfterTutorial: null
   };
 
-  var SCREENS = ['menu', 'map', 'level', 'secrets', 'costumes', 'themes', 'achievements', 'settings', 'credits', 'ending'];
+  function diffName(id) { var d = OBEY.DIFFICULTIES.filter(function (x) { return x.id === id; })[0]; return d ? d.name : 'Medium'; }
+  App.diffName = diffName;
+
+  var SCREENS = ['menu', 'map', 'level', 'secrets', 'costumes', 'themes', 'achievements', 'trophies', 'settings', 'credits', 'ending'];
 
   /* ------------------------------------------------------------ persistence */
   App.persist = function () { App.store.save(App.save); };
@@ -34,6 +37,7 @@
     html.classList.toggle('reduce-motion', !!reduce);
     html.setAttribute('data-text', st.textSize);
     OBEY.audio.setEnabled(st.sound);
+    OBEY.audio.setVoice(st.voice);
   };
   App.reducedMotion = function () { return doc.documentElement.classList.contains('reduce-motion'); };
 
@@ -63,6 +67,10 @@
       } else if (ev.type === 'costume') {
         App.toast('New costume: ' + OBEY.COSTUMES.filter(function (c) { return c.id === ev.id; })[0].name, 'unlock');
         OBEY.audio.play('unlock');
+      } else if (ev.type === 'trophy') {
+        var t = OBEY.TROPHIES.filter(function (x) { return x.id === ev.id; })[0];
+        App.toast((ev.upgraded ? 'Trophy upgraded: ' : 'Trophy won: ') + t.name + ' (' + OBEY.TROPHY_TIERS[ev.tier] + ')', 'achievement');
+        OBEY.audio.play('trophy');
       } else if (ev.type === 'theme') {
         App.toast('New theme: ' + OBEY.THEMES.filter(function (c) { return c.id === ev.id; })[0].name, 'unlock');
         OBEY.audio.play('unlock');
@@ -137,7 +145,7 @@
     if (name === 'level') {
       var n = Number(parts[1]);
       if (!P.canPlay(App.save, n)) {
-        App.toast(Number.isInteger(n) && n >= 1 && n <= 16 ? 'Level ' + n + ' is locked. Finish Level ' + (n - 1) + ' first.' : 'That level does not exist.', 'warn');
+        App.toast(Number.isInteger(n) && n >= 1 && n <= OBEY.LEVEL_COUNT ? 'Level ' + n + ' is locked. Finish Level ' + (n - 1) + ' first.' : 'That level does not exist.', 'warn');
         root.location.replace('#map');
         return;
       }
@@ -187,9 +195,10 @@
     el.innerHTML = `
       <header class="topbar level-bar">
         <button class="chip-btn" data-act="nav" data-to="map">${A.icon('map')}<span>Map</span></button>
-        <h1 class="level-title"><span class="lvl-num">Level ${n}</span><span class="lvl-name">${E(def.title)}</span></h1>
+        <h1 class="level-title"><span class="lvl-num">Level ${n} <span class="diff-badge diff-${s.difficulty}">${E(diffName(s.difficulty))}</span></span><span class="lvl-name">${E(def.title)}</span></h1>
         <div class="topbar-end tools">
           <button class="chip-btn" data-act="hint" id="hint-btn">${A.icon('hint')}<span>Hint</span></button>
+          <button class="chip-btn" data-act="guide" id="guide-btn">${A.icon('eye')}<span>Show me how</span></button>
           <button class="chip-btn" data-act="restart" aria-label="Restart level">${A.icon('restart')}<span>Restart</span></button>
           <button class="chip-btn icon-only" data-act="nav" data-to="settings" aria-label="Settings">${A.icon('gear')}</button>
         </div>
@@ -201,10 +210,15 @@
         </aside>
         <div class="stage-col">
           <p class="objective"><b>Goal:</b> ${E(def.objective)}</p>
-          <div class="stage" id="stage" role="group" aria-label="Level ${n} play area"></div>
+          <div class="stage-wrap">
+            <div class="stage" id="stage" role="group" aria-label="Level ${n} play area"></div>
+            <div class="gag-layer" id="gag-layer" aria-hidden="true"></div>
+          </div>
           <p class="pick-status" id="pick-status" aria-live="polite"></p>
+          <div class="wrong-card" id="wrong-card" hidden></div>
+          <div class="guide-box" id="guide-box" hidden></div>
           <div class="hint-box" id="hint-box" hidden></div>
-          <p class="score-rule small">Stars: ${E(OBEY.scoring.describe(def.par).join(' · '))}</p>
+          <p class="score-rule small">Stars on ${E(diffName(s.difficulty))}: ${E(OBEY.scoring.describe(def.par, s.difficulty).join('; '))}.${def.hardNote && s.difficulty === 'hard' ? ' ' + E(def.hardNote) : ''}</p>
         </div>
       </div>
       <p id="hold-help" class="visually-hidden">Press and hold. With a keyboard, hold Space or Enter.</p>
@@ -221,7 +235,8 @@
         choices: U.clone(s.choices),
         costume: s.costumes.selected,
         costumeAside: costume ? costume.aside : '',
-        allSecrets: s.secrets.length === OBEY.SECRETS.length
+        allSecrets: s.secrets.length === OBEY.SECRETS.length,
+        difficulty: s.difficulty
       },
       hooks: {
         onChange: function () { App.renderLevel(); },
@@ -238,13 +253,16 @@
       narratorZone: function () { return !!def.narratorZone; },
       dispatch: function (a) {
         if (!App.runtime || App.runtime.status !== 'playing') return;
-        var accepted = App.runtime.dispatch(a);
+        var rtNow = App.runtime;
+        var failsBefore = rtNow.stats.fails;
+        var stateBefore = App.guide ? JSON.stringify(rtNow.state) : null;
+        var accepted = rtNow.dispatch(a);
+        if (rtNow.stats.fails !== failsBefore) accepted = false; // a trap never counts as a guide step
+        else if (accepted && App.guide && rtNow.status === 'playing') a._changed = JSON.stringify(rtNow.state) !== stateBefore;
         if (accepted && a.type === 'tap') OBEY.audio.play('tap');
         if (accepted && a.type === 'drop') OBEY.audio.play('drop');
-        if (App.runtime.stats.fails !== App.renderCache.fails) {
-          if (App.renderCache.fails !== undefined) { OBEY.audio.play('fail'); App.flashStage(); }
-          App.renderCache.fails = App.runtime.stats.fails;
-        }
+        if (accepted && a.type === 'holdstart') OBEY.audio.play('hold');
+        App.afterAction(a, accepted);
       },
       onPick: function (o) {
         var ps = doc.getElementById('pick-status');
@@ -252,8 +270,12 @@
       },
       onFeedback: function (k) { OBEY.audio.play(k); }
     });
+    App.guide = null;
     rt.start();
     App.renderCache.fails = 0;
+    App.renderCache.nopes = 0;
+    App.armIdleHelp();
+    App.updateGuideButton();
     var tapFirst = !App.firstLevelFocusDone;
     App.firstLevelFocusDone = true;
     var h1 = el.querySelector('h1');
@@ -300,16 +322,259 @@
       var b = doc.getElementById('bubble');
       b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
       b.setAttribute('data-mood', rt.mood);
-      if (c.lineId > 1) OBEY.audio.play('narrator');
+      App.speakLine(rt.line, rt.mood);
     }
     App.stage.render(rt.objects());
+    // Traps and harmless wrong moves can also come from timers, so check after every change
+    // (after rendering, so effects attach to the final DOM).
+    if (rt.stats.fails !== c.fails) { if (c.fails !== undefined && rt.stats.fails > c.fails) App.onFail(); c.fails = rt.stats.fails; }
+    if (rt.nopes !== c.nopes) { if (c.nopes !== undefined && rt.nopes > c.nopes) App.onNope(rt.nopeTarget); c.nopes = rt.nopes; }
     var hb = doc.getElementById('hint-btn');
-    var left = rt.def.hints.length - rt.hintIndex;
-    hb.querySelector('span').textContent = left > 0 ? 'Hint (' + left + ')' : 'Hints used';
+    var left = rt.hintLimit() - rt.hintIndex;
+    hb.querySelector('span').textContent = left > 0 ? 'Hint (' + left + ')' : 'No hints left';
+    hb.setAttribute('aria-label', left > 0 ? 'Hint, ' + left + ' left' : 'No hints left');
+    if (App.guide) App.renderGuide();
+    App.updateGuideButton();
+  };
+
+  /* ------------------------------------------------------ voice & mouth */
+  App.speakLine = function (text, mood) {
+    var n = doc.getElementById('narrator');
+    var ms = OBEY.audio.speak(text, App.save.costumes.selected, mood);
+    if (!n || App.reducedMotion() || !text || text === '…') return;
+    n.classList.add('talking');
+    clearTimeout(App.talkTimer);
+    App.talkTimer = setTimeout(function () { n.classList.remove('talking'); }, ms);
+  };
+
+  /* ------------------------------------------------- wrong-answer feedback */
+  var GAGS = ['pie', 'chicken', 'trombone', 'zap', 'splash'];
+  App.pickGag = function (text, count) {
+    var t = String(text || '').toLowerCase();
+    if (/pie|splat|splodge|custard|cream/.test(t)) return 'pie';
+    if (/chicken|honk/.test(t)) return 'chicken';
+    if (/bzz|zap|alarm|wee-oo|electric/.test(t)) return 'zap';
+    if (/sploosh|splash|glug|swamp|pool|gap/.test(t)) return 'splash';
+    return GAGS[(App.levelNum * 3 + count) % GAGS.length];
+  };
+
+  /** A trap was triggered: slapstick gag over the stage, then a "how to do it right" card. */
+  App.onFail = function () {
+    var rt = App.runtime;
+    if (!rt) return;
+    var f = rt.lastFail || { text: rt.line, count: rt.stats.fails };
+    var gag = App.pickGag(f.text, f.count);
+    OBEY.audio.play(gag);
+    var layer = doc.getElementById('gag-layer');
+    var word = ['WRONG!', 'OOPS!', 'BONK!', 'NOPE!', 'HA!'][f.count % 5];
+    layer.innerHTML = '<div class="gag gag-' + gag + '">' + A.object(gag) + '<span class="gag-word">' + word + '</span></div>';
+    clearTimeout(App.gagTimer);
+    App.gagTimer = setTimeout(function () { layer.innerHTML = ''; }, 1900);
+    App.flashStage();
+    App.stage.reset();
+    if (App.guide) { App.guide.i = 0; App.guide.holdAt = 0; App.guide.waiting = false; App.guideShownStep = null; App.guide.note = 'That was a trap. The walkthrough starts again from step 1.'; App.renderGuide(); }
+    App.showWrongCard();
+  };
+
+  App.onNope = function (target) {
+    OBEY.audio.play('nope');
+    if (App.stage) App.stage.nope(target);
+  };
+
+  App.showWrongCard = function () {
+    var rt = App.runtime, card = doc.getElementById('wrong-card');
+    if (!rt || !card) return;
+    var d = App.save.difficulty;
+    var tip = d === 'easy' ? rt.def.hints[2] : (d === 'medium' ? rt.def.hints[0] : null);
+    var avail = App.guideAvailable();
+    card.innerHTML = '<p class="wrong-title">' + A.icon('question') + '<b>That was a trap!</b></p>' +
+      '<p>' + (tip ? '<b>How to do it right:</b> ' + E(tip) : 'No free tips on Hard. ' + (avail ? '"Show me how" is unlocked if you want it.' : '"Show me how" unlocks after ' + (3 - rt.stats.fails) + ' more ' + (3 - rt.stats.fails === 1 ? 'trap' : 'traps') + '.')) + '</p>' +
+      '<div class="btn-row">' + (avail && !App.guide ? '<button class="btn primary" data-act="guide">Show me how</button>' : '') +
+      '<button class="btn" data-act="dismiss-wrong">Got it</button></div>';
+    card.setAttribute('role', 'alert');
+    card.hidden = false;
+    if (card.scrollIntoView) card.scrollIntoView({ block: 'nearest' });
+  };
+  App.hideWrongCard = function () { var c = doc.getElementById('wrong-card'); if (c) { c.hidden = true; c.innerHTML = ''; } };
+
+  /* --------------------------------------------------------- Show me how */
+  App.guideAvailable = function () {
+    var rt = App.runtime;
+    if (!rt) return false;
+    if (App.guide || App.guideUnlockedFor === App.levelNum) return true;
+    var d = App.save.difficulty;
+    if (d === 'easy') return true;
+    if (d === 'hard') return rt.stats.fails >= 3;
+    return rt.stats.fails >= 1 || rt.hintIndex >= 2;
+  };
+  App.guideRule = function () {
+    var d = App.save.difficulty;
+    return d === 'easy' ? '' : (d === 'hard' ? '"Show me how" unlocks on Hard after falling for 3 traps in one attempt.' : '"Show me how" unlocks after you fall for a trap or use 2 hints.');
+  };
+  App.updateGuideButton = function () {
+    var b = doc.getElementById('guide-btn');
+    if (!b) return;
+    var on = App.guideAvailable();
+    b.classList.toggle('locked-chip', !on);
+    b.setAttribute('aria-label', on ? (App.guide ? 'Stop the walkthrough' : 'Show me how: a step-by-step walkthrough') : 'Show me how (locked). ' + App.guideRule());
+    b.querySelector('span').textContent = App.guide ? 'Stop guide' : 'Show me how';
+  };
+
+  function objLabel(id) {
+    if (id === 'narrator') return 'Bossworth';
+    var o = App.runtime && App.runtime.findObject(id);
+    return o ? (o.label || o.text || id).split(' (')[0] : id;
+  }
+  App.describeStep = function (st) {
+    if (st.tap) return 'Tap: ' + objLabel(st.tap) + '.';
+    if (st.drop) return 'Drag "' + objLabel(st.drop[0]) + '" onto "' + objLabel(st.drop[1]) + '" (or tap it, then tap the target).';
+    if (st.hold) return 'Press and hold "' + objLabel(st.hold[0]) + '" for about ' + Math.round(st.hold[1] / 1000) + ' seconds (keyboard: hold Space).';
+    return 'Wait about ' + Math.max(1, Math.round(st.wait / 1000)) + ' seconds. Don\'t touch anything!';
+  };
+  App.stepTargets = function (st) {
+    if (!st) return [];
+    if (st.tap) return [st.tap];
+    if (st.drop) return [st.drop[0], st.drop[1]];
+    if (st.hold) return [st.hold[0]];
+    return [];
+  };
+
+  App.startGuide = function () {
+    var rt = App.runtime;
+    if (!rt) return;
+    if (!App.guideAvailable()) { App.toast(App.guideRule(), 'warn'); return; }
+    App.guideUnlockedFor = App.levelNum;
+    App.hideWrongCard();
+    App.stage.reset();
+    clearTimeout(App.gagTimer);
+    doc.getElementById('gag-layer').innerHTML = '';
+    rt.restart({ guided: true });
+    App.renderCache.fails = 0; App.renderCache.nopes = 0;
+    App.guide = { steps: App.guideSteps(), i: 0, holdAt: 0 };
+    App.renderGuide();
+    App.updateGuideButton();
+    App.toast('Walkthrough on. A guided run earns 1 star.', 'info');
+  };
+
+  App.guideSteps = function () {
+    var def = App.runtime.def;
+    return (def.guide ? def.guide(App.runtime.ctx) : def.solution).slice();
+  };
+
+  /** Player pressed "Stop guide": end the walkthrough and start a fresh, normally scored attempt. */
+  App.endGuideByPlayer = function () {
+    App.stopGuide();
+    if (App.runtime && App.runtime.status === 'playing') {
+      App.stage.reset();
+      App.renderCache.fails = 0; App.renderCache.nopes = 0;
+      App.runtime.restart();
+      App.toast('Walkthrough stopped. Fresh attempt: stars count normally again.', 'info');
+    }
+  };
+
+  /** The room no longer matches the walkthrough: start the guided attempt over. */
+  App.resyncGuide = function (why) {
+    var rt = App.runtime;
+    if (!rt || !App.guide) return;
+    clearTimeout(App.guideWaitTimer);
+    App.stage.reset();
+    App.renderCache.fails = 0; App.renderCache.nopes = 0;
+    App.guide = { steps: App.guideSteps(), i: 0, holdAt: 0, note: why };
+    App.guideShownStep = null; App.guideSig = null;
+    rt.restart({ guided: true });
+    App.renderGuide();
+  };
+
+  App.stopGuide = function () {
+    App.guide = null;
+    clearTimeout(App.guideWaitTimer);
+    var box = doc.getElementById('guide-box');
+    if (box) { box.hidden = true; box.innerHTML = ''; }
+    if (App.stage) App.stage.setGuide([]);
+    App.updateGuideButton();
+  };
+
+  App.renderGuide = function (note) {
+    var g = App.guide, rt = App.runtime, box = doc.getElementById('guide-box');
+    if (!g || !rt || !box) return;
+    note = note || g.note;
+    var items = g.steps.map(function (st, i) {
+      return '<li class="' + (i < g.i ? 'done' : (i === g.i ? 'current' : '')) + '">' + (i < g.i ? A.icon('check') : '') + E(App.describeStep(st)) + '</li>';
+    }).join('');
+    var cur = g.steps[g.i];
+    var sig = g.i + '|' + note + '|' + items;
+    if (App.guideSig === sig && !box.hidden) { App.guideTimers(g, cur); return; }
+    App.guideSig = sig;
+    box.innerHTML = '<p class="guide-title"><b>Show me how</b> <span class="small">step ' + Math.min(g.i + 1, g.steps.length) + ' of ' + g.steps.length + '</span></p>' +
+      (note ? '<p class="guide-note">' + E(note) + '</p>' : '') +
+      '<ol class="guide-steps">' + items + '</ol>' +
+      '<p class="small"><b>Why it works:</b> ' + E(rt.def.hints[2]) + '</p>' +
+      '<div class="btn-row"><button class="btn" data-act="guide">Stop guide</button></div>';
+    box.hidden = false;
+    box.setAttribute('aria-live', 'polite');
+    var key = g.i;
+    if (App.guideShownStep !== key) { App.guideShownStep = key; App.stage.setGuide(App.stepTargets(cur)); }
+    App.guideTimers(g, cur);
+  };
+
+  App.guideTimers = function (g, cur) {
+    if (cur && cur.wait && !g.waiting) {
+      g.waiting = true;
+      clearTimeout(App.guideWaitTimer);
+      App.guideWaitTimer = setTimeout(function () {
+        if (App.guide !== g) return;
+        g.waiting = false;
+        g.i++;
+        App.renderGuide();
+      }, cur.wait);
+    }
+  };
+
+  /** Advances the walkthrough when the player performs the expected step. */
+  App.guideAdvance = function (a) {
+    var g = App.guide;
+    if (!g) return;
+    var st = g.steps[g.i];
+    if (!st) return;
+    var ok = false, part = false;
+    var now = App.runtime.clock.now();
+    if (st.tap) ok = a.type === 'tap' && a.target === st.tap;
+    else if (st.drop) ok = a.type === 'drop' && a.target === st.drop[0] && a.zone === st.drop[1];
+    else if (st.hold && a.target === st.hold[0]) {
+      // Part of the step: starting the hold, or letting go too early (the room resets itself).
+      part = a.type === 'holdstart' || a.type === 'holdend';
+      if (a.type === 'holdstart') g.holdAt = now;
+      // The level reacts at 2 s; the walkthrough asks for (and checks) a little longer.
+      if (a.type === 'holdend' && g.holdAt) { ok = now - g.holdAt >= st.hold[1] - 150; g.holdAt = 0; }
+    }
+    if (ok) { g.i++; g.holdAt = 0; g.note = null; App.guideShownStep = null; App.renderGuide(); return; }
+    // Any other move that changed the room makes the remaining steps wrong: start over.
+    if (!part && a._changed) App.resyncGuide('That move was not part of the walkthrough, so it starts again from step 1.');
+  };
+
+  App.afterAction = function (a, accepted) {
+    App.armIdleHelp();
+    if (accepted) App.guideAdvance(a);
+  };
+
+  /* ------------------------------------------ Easy: Bossworth's helper */
+  App.armIdleHelp = function () {
+    clearTimeout(App.idleTimer);
+    if (App.save.difficulty !== 'easy') return;
+    App.idleTimer = setTimeout(function () {
+      var rt = App.runtime;
+      if (!rt || rt.status !== 'playing' || App.guide || App.screen !== 'level') return;
+      if (rt.hintIndex >= rt.hintLimit()) return;
+      App.showHint(true);
+      App.armIdleHelp();
+    }, 25000);
   };
 
   App.leaveLevel = function () {
     App.setLevelInert(false);
+    App.stopGuide();
+    clearTimeout(App.idleTimer); clearTimeout(App.talkTimer); clearTimeout(App.gagTimer);
+    OBEY.audio.stopVoice();
     if (App.runtime) App.runtime.destroy();
     if (App.stage) App.stage.destroy();
     App.runtime = null;
@@ -317,27 +582,36 @@
     App.levelNum = null;
   };
 
-  App.showHint = function () {
+  App.showHint = function (fromHelper) {
     var rt = App.runtime;
     if (!rt) return;
+    if (rt.hintIndex >= rt.hintLimit() && !fromHelper) {
+      App.toast(App.save.difficulty === 'hard' ? 'Only one hint per level on Hard.' : 'No hints left. Try "Show me how".', 'info');
+    }
     var h = rt.hint();
     if (!h) return;
     OBEY.audio.play('ui');
     var box = doc.getElementById('hint-box');
     box.hidden = false;
-    box.innerHTML = '<p><b>Hint ' + h.tier + ' of ' + h.total + ':</b> ' + E(h.text) + '</p><p class="small">' +
-      (rt.stats.hints === 1 ? 'Using a hint caps this attempt at 2 stars.' : 'Two or more hints cap this attempt at 1 star.') + '</p>';
+    var d = App.save.difficulty;
+    var cost = d === 'easy' ? 'Hints are free on Easy.' : (d === 'hard' ? 'On Hard, a hint caps this attempt at 1 star.' : (rt.stats.hints === 1 ? 'Using a hint caps this attempt at 2 stars.' : 'Two or more hints cap this attempt at 1 star.'));
+    box.innerHTML = '<p><b>' + (fromHelper ? 'Bossworth\'s helper (you seemed stuck) — hint ' : 'Hint ') + h.tier + ' of ' + h.total + ':</b> ' + E(h.text) + '</p><p class="small">' + cost + '</p>';
     box.setAttribute('role', 'status');
+    App.updateGuideButton();
   };
 
   App.restartLevel = function () {
     if (!App.runtime) return;
     OBEY.audio.play('ui');
     App.stage.reset();
+    App.stopGuide();
+    App.hideWrongCard();
     var box = doc.getElementById('hint-box');
     box.hidden = true; box.innerHTML = '';
     App.renderCache.fails = 0;
+    App.renderCache.nopes = 0;
     App.runtime.restart();
+    App.armIdleHelp();
     App.toast('Level restarted.', 'info');
   };
 
@@ -350,6 +624,9 @@
       if (endingEv) { events = events.concat(endingEv); App.allowedEnding = result.ending; }
     }
     App.persist();
+    App.stopGuide();
+    App.hideWrongCard();
+    clearTimeout(App.idleTimer);
     OBEY.audio.play('success');
     setTimeout(function () { OBEY.audio.play('stamp'); }, 250);
     App.renderLevel();
@@ -364,17 +641,20 @@
     var reasons = [];
     reasons.push(r.actions + (r.actions === 1 ? ' action' : ' actions') + ' (par ' + r.par + ')');
     reasons.push(r.hints ? r.hints + (r.hints === 1 ? ' hint' : ' hints') : 'no hints');
-    if (r.fails) reasons.push(r.fails + (r.fails === 1 ? ' restart from a trap' : ' restarts from traps'));
+    if (r.fails) reasons.push(r.fails + (r.fails === 1 ? ' trap' : ' traps'));
+    reasons.push(diffName(r.difficulty) + ' difficulty');
+    if (r.guided) reasons.push('guided run (1 star max)');
     var best = App.save.bestStars[r.level];
-    var unlocks = events.filter(function (e) { return e.type === 'costume' || e.type === 'theme' || e.type === 'achievement'; }).map(function (e) {
-      var src = e.type === 'costume' ? OBEY.COSTUMES : (e.type === 'theme' ? OBEY.THEMES : OBEY.ACHIEVEMENTS);
+    var unlocks = events.filter(function (e) { return ['costume', 'theme', 'achievement', 'trophy'].indexOf(e.type) >= 0; }).map(function (e) {
+      var src = { costume: OBEY.COSTUMES, theme: OBEY.THEMES, achievement: OBEY.ACHIEVEMENTS, trophy: OBEY.TROPHIES }[e.type];
       var item = src.filter(function (x) { return x.id === e.id; })[0];
-      return '<li>' + A.icon(e.type === 'achievement' ? 'star' : 'check') + (e.type === 'costume' ? 'New costume: ' : e.type === 'theme' ? 'New theme: ' : 'Achievement: ') + E(item.name) + '</li>';
+      var pre = { costume: 'New costume: ', theme: 'New theme: ', achievement: 'Achievement: ', trophy: (e.upgraded ? 'Trophy upgraded: ' : 'Trophy: ') }[e.type];
+      return '<li class="unlock-' + e.type + '">' + A.icon(e.type === 'achievement' || e.type === 'trophy' ? 'star' : 'check') + pre + E(item.name) + (e.type === 'trophy' ? ' (' + OBEY.TROPHY_TIERS[e.tier] + ')' : '') + '</li>';
     }).join('');
-    var isFinal = r.level === 16 && r.ending;
+    var isFinal = r.level === OBEY.LEVEL_COUNT && r.ending;
     var nextBtn = isFinal
       ? '<button class="btn primary" data-act="see-ending" data-id="' + r.ending + '">See your ending</button>'
-      : (r.level < 16 ? '<button class="btn primary" data-act="open-level" data-level="' + (r.level + 1) + '">Next level</button>' : '');
+      : (r.level < OBEY.LEVEL_COUNT ? '<button class="btn primary" data-act="open-level" data-level="' + (r.level + 1) + '">Next level</button>' : '');
     box.innerHTML = '<div class="complete-card panel" role="dialog" aria-modal="true" aria-labelledby="complete-title">' +
       '<p class="stamp" aria-hidden="true">' + (r.defies ? 'DISOBEYED' : 'SOLVED') + '</p>' +
       '<h2 id="complete-title" tabindex="-1">Level ' + r.level + ' complete</h2>' +
@@ -446,9 +726,56 @@
     draw();
   };
 
-  App.startCampaign = function (n) {
+  App.startCampaign = function (n, askDifficulty) {
     var go = function () { App.go('level/' + n); };
-    if (!App.save.tutorialDone) App.tutorial(go); else go();
+    var afterDiff = function () { if (!App.save.tutorialDone) App.tutorial(go); else go(); };
+    if (askDifficulty || !App.save.tutorialDone) App.pickDifficulty(afterDiff); else afterDiff();
+  };
+
+  /* --------------------------------------------------- difficulty picker */
+  App.pickDifficulty = function (then) {
+    var rootEl = doc.getElementById('modal-root');
+    var prev = doc.activeElement;
+    var wrap = doc.createElement('div');
+    wrap.className = 'modal-backdrop';
+    var cur = App.save.difficulty;
+    wrap.innerHTML = '<div class="modal panel difficulty-modal" role="dialog" aria-modal="true" aria-labelledby="diff-title">' +
+      '<h2 id="diff-title">Choose a difficulty</h2><p class="small">You can change it any time in Settings.</p>' +
+      '<div class="diff-options" role="group" aria-label="Difficulty">' +
+      OBEY.DIFFICULTIES.map(function (d) {
+        return '<button class="diff-option diff-' + d.id + (d.id === cur ? ' current' : '') + '" data-d="' + d.id + '" aria-pressed="' + (d.id === cur) + '">' +
+          '<span class="diff-name">' + E(d.name) + (d.id === cur ? ' <em>(current)</em>' : (d.id === 'medium' ? ' <em>(recommended)</em>' : '')) + '</span><span class="diff-blurb">' + E(d.blurb) + '</span></button>';
+      }).join('') + '</div></div>';
+    rootEl.appendChild(wrap);
+    App.inertApp(true);
+    var btns = wrap.querySelectorAll('[data-d]');
+    (wrap.querySelector('.diff-option.current') || btns[1]).focus();
+    function close() {
+      App.removeOverlayCloser(close);
+      wrap.remove();
+      App.inertApp(false);
+      doc.removeEventListener('keydown', key, true);
+      if (prev && prev.focus && doc.contains(prev)) prev.focus();
+    }
+    function key(e) {
+      // Escape keeps the current difficulty and carries on (e.g. a New Game still starts).
+      if (e.key === 'Escape') { e.preventDefault(); close(); if (then) then(); }
+      if (e.key === 'Tab') {
+        var first = btns[0], last = btns[btns.length - 1];
+        if (e.shiftKey && doc.activeElement === first) { e.preventDefault(); last.focus(); } else if (!e.shiftKey && doc.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+    App.addOverlayCloser(close);
+    doc.addEventListener('keydown', key, true);
+    wrap.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-d]');
+      if (!b) return;
+      OBEY.audio.play('ui');
+      P.setDifficulty(App.save, b.getAttribute('data-d'));
+      App.persist();
+      close();
+      if (then) then();
+    });
   };
 
   /* ---------------------------------------------------------------- actions */
@@ -456,15 +783,15 @@
     nav: function (b) { App.go(b.getAttribute('data-to')); },
     play: function () {
       var s = App.save;
-      if (!P.hasProgress(s) && !s.completed.length) return App.startCampaign(1);
+      if (!P.hasProgress(s) && !s.completed.length) return App.startCampaign(1, !s.tutorialDone);
       var next = P.nextLevel(s);
       if (next) App.go('level/' + next); else App.go('map');
     },
     'new-game': function () {
-      if (!P.hasProgress(App.save)) return App.startCampaign(1);
+      if (!P.hasProgress(App.save)) return App.startCampaign(1, true);
       App.confirm({
         title: 'Start a new game?',
-        body: 'Your levels, stars, secrets and choices will be reset. Achievements, costumes, themes, endings and settings are kept.',
+        body: 'Your levels, stars, secrets and choices will be reset. Achievements, trophies, costumes, themes, endings and settings are kept. You will choose a difficulty next.',
         ok: 'Start new game', danger: true
       }).then(function (yes) {
         if (!yes) return;
@@ -472,7 +799,7 @@
         App.persist();
         App.applySettings();
         App.toast('New game started.', 'info');
-        App.startCampaign(1);
+        App.startCampaign(1, true);
       });
     },
     'open-level': function (b) {
@@ -482,6 +809,9 @@
     },
     'replay-level': function () { if (App.levelNum) App.show('level', App.levelNum); },
     hint: function () { App.showHint(); },
+    guide: function () { if (App.guide) App.endGuideByPlayer(); else App.startGuide(); },
+    'dismiss-wrong': function () { App.hideWrongCard(); var st = doc.getElementById('stage'); if (App.stage) App.stage.focusFirst(); else if (st) st.focus(); },
+    difficulty: function () { App.pickDifficulty(function () { App.refresh(); App.toast('Difficulty: ' + diffName(App.save.difficulty) + '. It applies from your next attempt.', 'info'); }); },
     restart: function () { App.restartLevel(); },
     'see-ending': function (b) { App.go('ending/' + b.getAttribute('data-id')); },
     'replay-ending': function (b) { App.go('ending/' + b.getAttribute('data-id')); },
@@ -529,8 +859,15 @@
   function onChange(e) {
     var t = e.target;
     if (t.getAttribute && t.getAttribute('data-act') === 'setting') {
-      App.save.settings[t.getAttribute('data-key')] = t.value;
+      var k = t.getAttribute('data-key');
+      if (k === 'difficulty') {
+        P.setDifficulty(App.save, t.value);
+        App.toast('Difficulty: ' + diffName(t.value) + '. It applies from your next attempt.', 'info');
+      } else {
+        App.save.settings[k] = t.value;
+      }
       App.persist(); App.applySettings();
+      if (k === 'voice') { OBEY.audio.unlock(); App.speakLine(t.value === 'off' ? '' : 'Testing, testing. This is my voice. Magnificent, isn\'t it?', 'pleased'); }
     }
   }
 
@@ -583,8 +920,18 @@
       },
       objects: function () { return App.runtime ? U.clone(App.runtime.objects()) : []; },
       screen: function () { return App.screen; },
-      persistent: function () { return App.store.persistent; }
+      persistent: function () { return App.store.persistent; },
+      guide: function () { return App.guide ? { i: App.guide.i, steps: App.guide.steps.length } : null; },
+      sounds: sounds,
+      spoken: spoken
     };
+  }
+  var sounds = [], spoken = [];
+  if (/[?&]test=1\b/.test(root.location.search)) {
+    // Record which sounds/voice lines the game asks for (tests can't hear audio).
+    var origPlay = OBEY.audio.play, origSpeak = OBEY.audio.speak;
+    OBEY.audio.play = function (name) { sounds.push(name); if (sounds.length > 300) sounds.shift(); return origPlay.apply(this, arguments); };
+    OBEY.audio.speak = function (text, costume, mood) { spoken.push({ text: text, costume: costume, mood: mood, mode: OBEY.audio.voiceMode() }); if (spoken.length > 100) spoken.shift(); return origSpeak.apply(this, arguments); };
   }
 
   OBEY.app = App;

@@ -1,262 +1,388 @@
 TAP version 13
-# Subtest: first launch: tutorial, then a full 16-level campaign via the UI, ending in the Hero ending
-ok 1 - first launch: tutorial, then a full 16-level campaign via the UI, ending in the Hero ending
+# Subtest: first launch: difficulty, tutorial, then the full 36-level campaign via the UI, ending in the Hero ending
+ok 1 - first launch: difficulty, tutorial, then the full 36-level campaign via the UI, ending in the Hero ending
   ---
-  duration_ms: 11367.943702
+  duration_ms: 22588.189779
   type: 'test'
   ...
 # Subtest: map progression: locked levels cannot be opened; completing unlocks the next node immediately
 ok 2 - map progression: locked levels cannot be opened; completing unlocks the next node immediately
   ---
-  duration_ms: 1751.644874
+  duration_ms: 1729.21489
   type: 'test'
   ...
 # Subtest: replay: worse result keeps the best stars; better result improves them
 ok 3 - replay: worse result keeps the best stars; better result improves them
   ---
-  duration_ms: 1607.039451
+  duration_ms: 2568.809611
   type: 'test'
   ...
 # Subtest: alternative paths: every recorded choice can be made through the UI
 ok 4 - alternative paths: every recorded choice can be made through the UI
   ---
-  duration_ms: 1666.636969
+  duration_ms: 1637.194442
   type: 'test'
   ...
 # Subtest: Chaos ending via dragging the fuse; endings gallery replay
 ok 5 - Chaos ending via dragging the fuse; endings gallery replay
   ---
-  duration_ms: 5903.3163
+  duration_ms: 5468.179666
   type: 'test'
   ...
-# Subtest: Secret Master ending requires all 15 secrets and Level 16
-ok 6 - Secret Master ending requires all 15 secrets and Level 16
+# Subtest: Secret Master ending requires all 15 secrets and Level 36
+ok 6 - Secret Master ending requires all 15 secrets and Level 36
   ---
-  duration_ms: 2357.868144
+  duration_ms: 2513.941564
   type: 'test'
   ...
 # Subtest: all 15 secrets: discoverable via the UI, counted once, persisted after reload
 ok 7 - all 15 secrets: discoverable via the UI, counted once, persisted after reload
   ---
-  duration_ms: 5973.804388
+  duration_ms: 6302.844523
   type: 'test'
   ...
 # Subtest: field notes: undiscovered secrets show clues only for reached levels
 ok 8 - field notes: undiscovered secrets show clues only for reached levels
   ---
-  duration_ms: 269.143586
+  duration_ms: 292.102457
   type: 'test'
   ...
 # Subtest: costumes: locked ones cannot be worn; all 8 selectable, visible and persistent
 ok 9 - costumes: locked ones cannot be worn; all 8 selectable, visible and persistent
   ---
-  duration_ms: 1886.435951
+  duration_ms: 2089.827838
   type: 'test'
   ...
 # Subtest: themes: unlock rules, selection changes real presentation, persistence
 ok 10 - themes: unlock rules, selection changes real presentation, persistence
   ---
-  duration_ms: 1457.505871
+  duration_ms: 1572.970451
   type: 'test'
   ...
 # Subtest: achievements screen: locked/unlocked states and progress match the save
 ok 11 - achievements screen: locked/unlocked states and progress match the save
   ---
-  duration_ms: 1099.558167
+  duration_ms: 1119.023084
   type: 'test'
   ...
 # Subtest: every main menu control works and returns to the menu
 ok 12 - every main menu control works and returns to the menu
   ---
-  duration_ms: 3037.005785
+  duration_ms: 3174.774015
   type: 'test'
   ...
 # Subtest: New Game: cancel keeps progress; confirm resets the campaign but keeps cosmetics
 ok 13 - New Game: cancel keeps progress; confirm resets the campaign but keeps cosmetics
   ---
-  duration_ms: 546.861695
+  duration_ms: 712.856779
   type: 'test'
   ...
 # Subtest: Reset all progress requires confirmation
 ok 14 - Reset all progress requires confirmation
   ---
-  duration_ms: 610.276706
+  duration_ms: 724.774934
   type: 'test'
   ...
 # Subtest: hints are graduated and do not change the level; restart gives a clean attempt
 ok 15 - hints are graduated and do not change the level; restart gives a clean attempt
   ---
-  duration_ms: 568.28039
+  duration_ms: 623.590594
   type: 'test'
   ...
 # Subtest: timers stop when leaving a level (no completion in the background)
 ok 16 - timers stop when leaving a level (no completion in the background)
   ---
-  duration_ms: 252.803486
+  duration_ms: 336.101214
   type: 'test'
   ...
 # Subtest: rapid repeated input completes once and rewards once
 ok 17 - rapid repeated input completes once and rewards once
   ---
-  duration_ms: 265.104941
+  duration_ms: 341.234666
   type: 'test'
   ...
 # Subtest: keyboard only: tap, pick-and-place and hold all work
 ok 18 - keyboard only: tap, pick-and-place and hold all work
   ---
-  duration_ms: 749.044293
+  duration_ms: 888.583429
   type: 'test'
   ...
 # Subtest: touch input: tap, tap-to-place and press-and-hold on a phone viewport
 ok 19 - touch input: tap, tap-to-place and press-and-hold on a phone viewport
   ---
-  duration_ms: 864.176194
+  duration_ms: 991.884483
   type: 'test'
   ...
 # Subtest: progress, settings, cosmetics, achievements and endings survive reload
 ok 20 - progress, settings, cosmetics, achievements and endings survive reload
   ---
-  duration_ms: 514.53219
+  duration_ms: 476.252226
   type: 'test'
   ...
 # Subtest: malformed save data does not crash; the game starts fresh and keeps a backup
 ok 21 - malformed save data does not crash; the game starts fresh and keeps a backup
   ---
-  duration_ms: 307.567115
+  duration_ms: 436.800945
   type: 'test'
   ...
 # Subtest: obsolete v1 save is migrated
 ok 22 - obsolete v1 save is migrated
   ---
-  duration_ms: 258.852049
+  duration_ms: 228.883513
   type: 'test'
   ...
 # Subtest: storage that throws: game still runs with an in-memory save and a warning
 ok 23 - storage that throws: game still runs with an in-memory save and a warning
   ---
-  duration_ms: 533.267928
+  duration_ms: 572.113885
   type: 'test'
   ...
 # Subtest: tutorial: skippable, saved, replayable from settings
 ok 24 - tutorial: skippable, saved, replayable from settings
   ---
-  duration_ms: 628.212663
+  duration_ms: 776.642296
   type: 'test'
   ...
 # Subtest: sound toggle, reduced motion (system and manual), text size
 ok 25 - sound toggle, reduced motion (system and manual), text size
   ---
-  duration_ms: 551.964734
+  duration_ms: 663.521804
   type: 'test'
   ...
 # Subtest: interactive stage objects have accessible names; no image-only buttons
 ok 26 - interactive stage objects have accessible names; no image-only buttons
   ---
-  duration_ms: 443.284121
+  duration_ms: 725.530464
   type: 'test'
   ...
 # Subtest: the game runs from file:// (no server) with saving
 ok 27 - the game runs from file:// (no server) with saving
   ---
-  duration_ms: 623.318309
+  duration_ms: 797.764607
   type: 'test'
   ...
 # Subtest: D1: keyboard focus stays on the object used, including across timer re-renders
 ok 28 - D1: keyboard focus stays on the object used, including across timer re-renders
   ---
-  duration_ms: 650.565349
+  duration_ms: 659.949634
   type: 'test'
   ...
 # Subtest: D2: releasing a keyboard hold early cancels it; key state never gets stuck
 ok 29 - D2: releasing a keyboard hold early cancels it; key state never gets stuck
   ---
-  duration_ms: 459.165091
+  duration_ms: 487.496123
   type: 'test'
   ...
 # Subtest: D3: pointer hold released outside the stage ends the hold
 ok 30 - D3: pointer hold released outside the stage ends the hold
   ---
-  duration_ms: 559.638246
+  duration_ms: 537.063971
   type: 'test'
   ...
 # Subtest: D4: completion card is modal — Tab cannot reach the level underneath
 ok 31 - D4: completion card is modal — Tab cannot reach the level underneath
   ---
-  duration_ms: 705.57692
+  duration_ms: 707.073014
   type: 'test'
   ...
 # Subtest: D5: dark-scene buttons and sunset legends are readable
 ok 32 - D5: dark-scene buttons and sunset legends are readable
   ---
-  duration_ms: 313.435294
+  duration_ms: 324.58056
   type: 'test'
   ...
 # Subtest: D7: Replay from the completion card counts as a replay (Déjà Vu note appears)
 ok 33 - D7: Replay from the completion card counts as a replay (Déjà Vu note appears)
   ---
-  duration_ms: 694.394905
+  duration_ms: 802.167399
   type: 'test'
   ...
 # Subtest: D8: browser Back closes an open confirm dialog and the tutorial
 ok 34 - D8: browser Back closes an open confirm dialog and the tutorial
   ---
-  duration_ms: 407.110446
+  duration_ms: 456.900739
   type: 'test'
   ...
 # Subtest: D9: pressing on the gift and then dragging it still delivers it
 ok 35 - D9: pressing on the gift and then dragging it still delivers it
   ---
-  duration_ms: 538.822003
+  duration_ms: 579.049662
   type: 'test'
   ...
 # Subtest: latent: re-entering the same level never runs two attempts at once
 ok 36 - latent: re-entering the same level never runs two attempts at once
   ---
-  duration_ms: 297.475443
+  duration_ms: 367.475143
+  type: 'test'
+  ...
+# Subtest: QA2-D1: a move outside the walkthrough restarts it, so following it always solves the level
+ok 37 - QA2-D1: a move outside the walkthrough restarts it, so following it always solves the level
+  ---
+  duration_ms: 1742.643217
+  type: 'test'
+  ...
+# Subtest: QA2-D2: a hold that is too short does not advance the walkthrough
+ok 38 - QA2-D2: a hold that is too short does not advance the walkthrough
+  ---
+  duration_ms: 586.680262
+  type: 'test'
+  ...
+# Subtest: QA2-D3/D4: migrated 1.x save — continue order, final level unlocks, replaying the finale skips nothing
+ok 39 - QA2-D3/D4: migrated 1.x save — continue order, final level unlocks, replaying the finale skips nothing
+  ---
+  duration_ms: 650.643407
+  type: 'test'
+  ...
+# Subtest: QA2-D5: on Hard, the Level 3 walkthrough waits for the full 15-second countdown
+ok 40 - QA2-D5: on Hard, the Level 3 walkthrough waits for the full 15-second countdown
+  ---
+  duration_ms: 2435.887389
+  type: 'test'
+  ...
+# Subtest: QA2-D6: stopping the walkthrough gives a normally scored attempt and keeps the guide available
+ok 41 - QA2-D6: stopping the walkthrough gives a normally scored attempt and keeps the guide available
+  ---
+  duration_ms: 982.99012
+  type: 'test'
+  ...
+# Subtest: QA2-D7: the difficulty picker returns focus and marks the current choice for assistive tech
+ok 42 - QA2-D7: the difficulty picker returns focus and marks the current choice for assistive tech
+  ---
+  duration_ms: 397.669661
+  type: 'test'
+  ...
+# Subtest: QA2-D8: the trap card is announced and scrolled into view
+ok 43 - QA2-D8: the trap card is announced and scrolled into view
+  ---
+  duration_ms: 967.401137
+  type: 'test'
+  ...
+# Subtest: QA2-D9: the walkthrough panel is not rebuilt on every timer tick
+ok 44 - QA2-D9: the walkthrough panel is not rebuilt on every timer tick
+  ---
+  duration_ms: 389.804024
+  type: 'test'
+  ...
+# Subtest: QA2-D10: the "nope" sticker shows even when the object changes its picture
+ok 45 - QA2-D10: the "nope" sticker shows even when the object changes its picture
+  ---
+  duration_ms: 347.348369
+  type: 'test'
+  ...
+# Subtest: QA2-D11: Escape in the New Game difficulty picker still starts the new game
+ok 46 - QA2-D11: Escape in the New Game difficulty picker still starts the new game
+  ---
+  duration_ms: 416.80709
   type: 'test'
   ...
 # Subtest: viewport 320x700: all main screens, levels and overlays fit
-ok 37 - viewport 320x700: all main screens, levels and overlays fit
+ok 47 - viewport 320x700: all main screens, levels and overlays fit
   ---
-  duration_ms: 4682.822737
+  duration_ms: 5643.928387
   type: 'test'
   ...
 # Subtest: viewport 390x844: all main screens, levels and overlays fit
-ok 38 - viewport 390x844: all main screens, levels and overlays fit
+ok 48 - viewport 390x844: all main screens, levels and overlays fit
   ---
-  duration_ms: 4630.795166
+  duration_ms: 6083.427861
   type: 'test'
   ...
 # Subtest: viewport 768x1024: all main screens, levels and overlays fit
-ok 39 - viewport 768x1024: all main screens, levels and overlays fit
+ok 49 - viewport 768x1024: all main screens, levels and overlays fit
   ---
-  duration_ms: 4638.471631
+  duration_ms: 5828.086974
   type: 'test'
   ...
 # Subtest: viewport 1365x900: all main screens, levels and overlays fit
-ok 40 - viewport 1365x900: all main screens, levels and overlays fit
+ok 50 - viewport 1365x900: all main screens, levels and overlays fit
   ---
-  duration_ms: 4546.276018
+  duration_ms: 5762.419667
   type: 'test'
   ...
 # Subtest: viewport 1920x1080: all main screens, levels and overlays fit
-ok 41 - viewport 1920x1080: all main screens, levels and overlays fit
+ok 51 - viewport 1920x1080: all main screens, levels and overlays fit
   ---
-  duration_ms: 4639.817758
+  duration_ms: 5714.091491
   type: 'test'
   ...
 # Subtest: resizing the window keeps the layout valid
-ok 42 - resizing the window keeps the layout valid
+ok 52 - resizing the window keeps the layout valid
   ---
-  duration_ms: 729.555219
+  duration_ms: 808.564397
   type: 'test'
   ...
-1..42
-# tests 42
+# Subtest: difficulty: chosen on first play, shown in the level, changeable in settings, applies next attempt
+ok 53 - difficulty: chosen on first play, shown in the level, changeable in settings, applies next attempt
+  ---
+  duration_ms: 1692.531018
+  type: 'test'
+  ...
+# Subtest: Hard: one hint per level and stricter stars
+ok 54 - Hard: one hint per level and stricter stars
+  ---
+  duration_ms: 584.129319
+  type: 'test'
+  ...
+# Subtest: wrong answer: slapstick gag, laughing Bossworth, sound, and a "how to do it right" card
+ok 55 - wrong answer: slapstick gag, laughing Bossworth, sound, and a "how to do it right" card
+  ---
+  duration_ms: 1328.318304
+  type: 'test'
+  ...
+# Subtest: harmless wrong move: "nope" shake, sticker and buzzer without resetting the room
+ok 56 - harmless wrong move: "nope" shake, sticker and buzzer without resetting the room
+  ---
+  duration_ms: 429.95204
+  type: 'test'
+  ...
+# Subtest: Show me how (Medium): locked at first, unlocked by a trap, walks every step, 1-star guided result
+ok 57 - Show me how (Medium): locked at first, unlocked by a trap, walks every step, 1-star guided result
+  ---
+  duration_ms: 1991.744182
+  type: 'test'
+  ...
+# Subtest: Show me how: Easy has it immediately and handles waits; Hard needs 3 traps; a trap restarts the guide
+ok 58 - Show me how: Easy has it immediately and handles waits; Hard needs 3 traps; a trap restarts the guide
+  ---
+  duration_ms: 3751.235146
+  type: 'test'
+  ...
+# Subtest: Bossworth talks: every line is voiced with his costume and mood, and his mouth moves
+ok 59 - Bossworth talks: every line is voiced with his costume and mood, and his mouth moves
+  ---
+  duration_ms: 373.521931
+  type: 'test'
+  ...
+# Subtest: voice settings: real speech uses the browser voice; silent mode stays silent
+ok 60 - voice settings: real speech uses the browser voice; silent mode stays silent
+  ---
+  duration_ms: 472.177325
+  type: 'test'
+  ...
+# Subtest: trophies: chapter cup won through play, upgraded on a harder difficulty, shown in the trophy room
+ok 61 - trophies: chapter cup won through play, upgraded on a harder difficulty, shown in the trophy room
+  ---
+  duration_ms: 1522.915916
+  type: 'test'
+  ...
+# Subtest: Easy helper: after 25 idle seconds Bossworth's helper shows the next hint for free
+ok 62 - Easy helper: after 25 idle seconds Bossworth's helper shows the next hint for free
+  ---
+  duration_ms: 341.643712
+  type: 'test'
+  ...
+# Subtest: sound events: completion fanfare, stamp, pick/drop and hold sounds are requested
+ok 63 - sound events: completion fanfare, stamp, pick/drop and hold sounds are requested
+  ---
+  duration_ms: 772.098411
+  type: 'test'
+  ...
+1..63
+# tests 63
 # suites 0
-# pass 42
+# pass 63
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 75792.17357
+# duration_ms 119127.491951

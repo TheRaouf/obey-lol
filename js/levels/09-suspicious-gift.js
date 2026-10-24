@@ -46,7 +46,7 @@
     on: function (a, s, api) {
       switch (a.type + ':' + a.target) {
         case 'tap:bow':
-          api.fail('BONK! A boxing glove on a spring. Who could have predicted this? (Everyone. Everyone could.)', 'pleased');
+          api.fail('BONK! A boxing glove on a spring. Who could have predicted this? (Everyone. Everyone could.)', 'laughing');
           return true;
         case 'tap:tag':
           s.tagRead = true;

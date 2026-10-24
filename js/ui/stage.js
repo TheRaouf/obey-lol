@@ -21,6 +21,8 @@
     this.ptr = null;
     this.key = null;
     this.suppressClick = false;
+    this.fx = {};          // transient effect classes per object id (e.g. nope shake)
+    this.guideIds = [];    // objects highlighted by "Show me how"
     this._bind();
   }
 
@@ -163,6 +165,8 @@
     if (this.ptr && this.ptr.id === o.id && this.ptr.moved) cls.push('dragging');
     if ((this.ptr && this.ptr.id === o.id && this.ptr.holding) || (this.key && this.key.id === o.id && this.key.holding)) cls.push('holding');
     if (o.cls) cls.push(o.cls);
+    if (this.fx[o.id]) cls.push(this.fx[o.id]);
+    if (this.guideIds.indexOf(o.id) >= 0) cls.push('guide-target');
     var className = cls.join(' ');
     if (node.className !== className) node.className = className;
 
@@ -214,6 +218,28 @@
     }
     this.el.setAttribute('tabindex', '-1');
     this.el.focus({ preventScroll: true });
+  };
+
+  /** Shake an object and pop a "NOPE" sticker on it (harmless wrong move). */
+  Stage.prototype.nope = function (id) {
+    var self = this;
+    var node = id ? this.nodes.get(id) : null;
+    if (!node || node.hidden) { this.el.classList.remove('stage-nope'); void this.el.offsetWidth; this.el.classList.add('stage-nope'); return; }
+    this.fx[id] = 'nope-shake';
+    node.classList.remove('nope-shake'); void node.offsetWidth; node.classList.add('nope-shake');
+    var st = document.createElement('span');
+    st.className = 'nope-sticker';
+    st.setAttribute('aria-hidden', 'true');
+    st.textContent = ['NOPE', 'NAH', 'UH-UH', 'NOPE!'][Math.floor(Math.random() * 4)];
+    node.appendChild(st);
+    setTimeout(function () { st.remove(); if (self.fx[id] === 'nope-shake') { delete self.fx[id]; node.classList.remove('nope-shake'); } }, 900);
+  };
+
+  /** Highlights the objects the guide wants the player to use (empty array clears). */
+  Stage.prototype.setGuide = function (ids) {
+    this.guideIds = ids || [];
+    this.render(this.objs);
+    if (this.opts.narratorEl) this.opts.narratorEl.classList.toggle('guide-target', this.guideIds.indexOf('narrator') >= 0);
   };
 
   Stage.prototype.focusFirst = function () {

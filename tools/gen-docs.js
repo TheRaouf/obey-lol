@@ -15,7 +15,7 @@ const fmtStep = (s) => s.tap ? `tap \`${s.tap}\`` : s.drop ? `drag \`${s.drop[0]
 const fmtPath = (p) => (Array.isArray(p) ? p : p.steps).map(fmtStep).join(', ');
 
 let md = '# Level specification\n\n_Generated from the level definitions by `tools/gen-docs.js` — do not edit by hand._\n\n';
-md += 'Star rule for every level (only **par** differs): ★★★ = actions ≤ par and no hints; ★★ = actions ≤ par + 4 and at most 1 hint; ★ = any finish. The best result per level is kept.\n';
+md += 'Star rules (only **par** differs per level). Easy: ★★★ actions ≤ par + 2, ★★ ≤ par + 8, hints free. Medium: ★★★ actions ≤ par and no hints, ★★ ≤ par + 4 and at most 1 hint. Hard (1 hint per level, traps cost +2 actions): ★★★ actions ≤ par with no hint and no trap, ★★ ≤ par + 2 with no hint. Any finish earns ★; a "Show me how" run earns ★. The best result per level is kept.\n';
 md += 'Counted actions: taps, completed drops and press-and-holds on puzzle objects. Decorative/secret objects, the narrator, waiting and hints are not actions (hints cap stars instead).\n';
 md += 'Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap (soft fail) resets the room but keeps the attempt\'s action/hint counts.\n\n';
 for (const d of OBEY.levels) {
@@ -52,7 +52,7 @@ g += '\n## Endings (3)\n\n| ID | Name | Condition |\n|---|---|---|\n';
 OBEY.ENDINGS.forEach((e) => { g += `| \`${e.id}\` | ${e.name} | ${e.condition} |\n`; });
 g += '\nThe Secret Master ending is enforced twice: the golden quill only exists in Level 16 when all 15 secrets are in the save, and `progress.recordEnding` rejects `secret` unless 15 secrets are found and Level 16 is completed.\n';
 g += '\n## Campaign choices\n\n| Key | Level | Hero-leaning value | Chaos-leaning value |\n|---|---|---|---|\n';
-const where = { gift: 9, rule: 10, sign: 14, trust: 15 };
+const where = { gift: 9, rule: 10, sign: 14, trust: 35 };
 for (const [k, vals] of Object.entries(OBEY.CHOICES)) {
   const hero = Object.keys(vals).find((v) => vals[v] === 'hero'), chaos = Object.keys(vals).find((v) => vals[v] === 'chaos');
   g += `| \`${k}\` | ${where[k]} | \`${hero}\` | \`${chaos}\` |\n`;

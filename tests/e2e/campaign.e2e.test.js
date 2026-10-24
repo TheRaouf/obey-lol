@@ -1,4 +1,4 @@
-/* Full campaign through the real UI: all 16 levels, map progression, stars, endings. */
+/* Full campaign through the real UI: all 36 levels, map progression, stars, endings. */
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -22,13 +22,14 @@ async function completeOverlay(page) {
   return Number(/^(\d)/.exec(label)[1]);
 }
 
-test('first launch: tutorial, then a full 16-level campaign via the UI, ending in the Hero ending', async () => {
+test('first launch: difficulty, tutorial, then the full 36-level campaign via the UI, ending in the Hero ending', async () => {
   const { page, errors, ctx } = await H.openGame(browser, base);
   const defs = await H.levelDefs(page);
-  assert.equal(defs.length, 16);
+  assert.equal(defs.length, 36);
 
   // Play from the main menu: the tutorial shows first.
   await page.getByRole('button', { name: 'Play', exact: true }).click();
+  await H.chooseDifficulty(page, 'medium');
   await page.waitForSelector('.tutorial');
   await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('[data-t="press"]').click();
@@ -51,7 +52,7 @@ test('first launch: tutorial, then a full 16-level campaign via the UI, ending i
     assert.equal(save.bestStars[d.num], stars);
     report.levels.push({ level: d.num, id: d.id, stars, actions: r.result.actions, par: r.result.par, hints: r.result.hints, path: 'intended solution (mouse)' });
     if (d.num === 1) await H.shot(page, 'level-complete');
-    if (d.num < 16) {
+    if (d.num < 36) {
       assert.equal(save.highestUnlocked, d.num + 1);
       await page.getByRole('button', { name: 'Next level' }).click();
       await page.waitForFunction((n) => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === n, d.num + 1);
@@ -76,10 +77,10 @@ test('first launch: tutorial, then a full 16-level campaign via the UI, ending i
   assert.ok(save.achievements['perfect-performance'], 'all 3-star: ' + JSON.stringify(save.bestStars));
   report.endings.hero = 'passed';
 
-  // Map shows all 16 completed with stars.
+  // Map shows all 36 completed with stars.
   await page.getByRole('button', { name: 'Adventure map' }).click();
   await page.waitForSelector('#screen-map:not([hidden])');
-  assert.equal(await page.locator('.map-node.node-done').count(), 16);
+  assert.equal(await page.locator('.map-node.node-done').count(), 36);
   assert.equal(await page.locator('.map-node.node-locked').count(), 0);
   assert.deepEqual(errors, []);
   await ctx.close();
@@ -89,7 +90,7 @@ test('map progression: locked levels cannot be opened; completing unlocks the ne
   const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(0) });
   await page.evaluate(() => { location.hash = 'map'; });
   await page.waitForSelector('#screen-map:not([hidden])');
-  assert.equal(await page.locator('.map-node.node-locked').count(), 15);
+  assert.equal(await page.locator('.map-node.node-locked').count(), 35);
   assert.equal(await page.locator('.map-node.is-current').count(), 1);
   // Clicking a locked node is refused.
   await page.locator('.map-node[data-level="5"]').click({ force: true }); // aria-disabled: Playwright treats it as disabled
@@ -106,7 +107,7 @@ test('map progression: locked levels cannot be opened; completing unlocks the ne
   await page.locator('#complete').getByRole('button', { name: 'Map' }).click();
   await page.waitForSelector('#screen-map:not([hidden])');
   assert.equal(await page.locator('.map-node.node-done').count(), 1);
-  assert.equal(await page.locator('.map-node.node-locked').count(), 14);
+  assert.equal(await page.locator('.map-node.node-locked').count(), 34);
   assert.match(await page.locator('.map-node[data-level="2"]').getAttribute('aria-label'), /next up/);
   await H.shot(page, 'adventure-map');
   assert.deepEqual(errors, []);
@@ -147,9 +148,9 @@ test('replay: worse result keeps the best stars; better result improves them', a
 });
 
 test('alternative paths: every recorded choice can be made through the UI', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(15) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
   const defs = await H.levelDefs(page);
-  const runs = [[9, 'prank', { gift: 'prank' }], [10, 'potato', { rule: 'potato' }], [14, 'graffiti', { sign: 'graffiti' }], [15, 'why', { trust: 'why' }]];
+  const runs = [[9, 'prank', { gift: 'prank' }], [10, 'potato', { rule: 'potato' }], [14, 'graffiti', { sign: 'graffiti' }], [35, 'why', { trust: 'why' }]];
   for (const [n, alt, expect] of runs) {
     await page.evaluate((x) => { location.hash = 'level/' + x; }, n);
     await page.waitForFunction((x) => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === x && OBEY_TEST.runtime().status === 'playing', n);
@@ -160,8 +161,8 @@ test('alternative paths: every recorded choice can be made through the UI', asyn
     await page.evaluate(() => { location.hash = 'map'; });
     await page.waitForSelector('#screen-map:not([hidden])');
   }
-  // Level 15 now reflects chaos choices in its intro.
-  await page.evaluate(() => { location.hash = 'level/15'; });
+  // Level 35 now reflects chaos choices in its intro.
+  await page.evaluate(() => { location.hash = 'level/35'; });
   await page.waitForSelector('#stage [data-obj="gearA"]');
   assert.match(await page.locator('#line').innerText(), /potato/);
   assert.deepEqual(errors, []);
@@ -169,8 +170,8 @@ test('alternative paths: every recorded choice can be made through the UI', asyn
 });
 
 test('Chaos ending via dragging the fuse; endings gallery replay', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(15) });
-  await page.evaluate(() => { location.hash = 'level/16'; });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
+  await page.evaluate(() => { location.hash = 'level/36'; });
   await page.waitForSelector('#stage [data-obj="fuse"]');
   assert.equal(await page.locator(H.sel('quill')).isHidden(), true);
   await page.locator(H.sel('obey')).click();
@@ -201,7 +202,7 @@ test('Chaos ending via dragging the fuse; endings gallery replay', async () => {
   await ctx.close();
 });
 
-test('Secret Master ending requires all 15 secrets and Level 16', async () => {
+test('Secret Master ending requires all 15 secrets and Level 36', async () => {
   const all = (await (async () => {
     const { page, ctx } = await H.openGame(browser, base);
     const ids = await page.evaluate(() => OBEY.SECRET_IDS);
@@ -209,16 +210,16 @@ test('Secret Master ending requires all 15 secrets and Level 16', async () => {
     return ids;
   })());
   // 14 secrets: no quill.
-  let o = await H.openGame(browser, base, { seed: H.saveWith(15, (d) => { d.secrets = all.slice(0, 14); return d; }) });
-  await o.page.evaluate(() => { location.hash = 'level/16'; });
+  let o = await H.openGame(browser, base, { seed: H.saveWith(35, (d) => { d.secrets = all.slice(0, 14); return d; }) });
+  await o.page.evaluate(() => { location.hash = 'level/36'; });
   await o.page.waitForSelector('#stage [data-obj="wrench"]');
   assert.equal(await o.page.locator(H.sel('quill')).isHidden(), true);
   assert.equal(await o.page.evaluate(() => OBEY.progress.recordEnding(OBEY_TEST.save(), 'secret')), null);
   await o.ctx.close();
   // 15 secrets: quill → ending with a written instruction.
-  o = await H.openGame(browser, base, { seed: H.saveWith(15, (d) => { d.secrets = all.slice(); return d; }) });
+  o = await H.openGame(browser, base, { seed: H.saveWith(35, (d) => { d.secrets = all.slice(); return d; }) });
   const { page, errors, ctx } = o;
-  await page.evaluate(() => { location.hash = 'level/16'; });
+  await page.evaluate(() => { location.hash = 'level/36'; });
   await page.waitForSelector('#stage [data-obj="quill"]');
   await page.locator(H.sel('quill')).click();
   await page.waitForSelector('#complete:not([hidden])');

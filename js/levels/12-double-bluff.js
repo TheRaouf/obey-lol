@@ -58,10 +58,10 @@
       if (a.type !== 'tap') return false;
       switch (a.target) {
         case 'left':
-          api.fail('The floor opens. Not like a door opens. You slide back to the start. Told you.', 'pleased');
+          api.fail('The floor opens. Not like a door opens. You slide back to the start. Told you.', 'laughing');
           return true;
         case 'right':
-          api.fail('SPLAT. A pie to the face. I literally said it was a trap.', 'pleased');
+          api.fail('SPLAT. A pie to the face. I literally said it was a trap.', 'laughing');
           return true;
         case 'lever':
           api.complete({ line: '…You believed me? I told the TRUTH and you BELIEVED me? That\'s the deepest bluff of all. I\'m so confused.', mood: 'surprised' });

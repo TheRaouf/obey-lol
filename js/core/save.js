@@ -1,9 +1,9 @@
 /* OBEY? LOL. — versioned save schema, validation, migration and storage adapter.
  *
- * Schema v2 (current):
+ * Schema v3 (current, game 2.x — 36 levels):
  * {
- *   version: 2,
- *   highestUnlocked: 1..16,
+ *   version: 3,
+ *   highestUnlocked: 1..36,                // furthest level reached by playing in order
  *   completed: [levelNum...],             // unique, sorted
  *   bestStars: { "1": 1..3, ... },         // only for completed levels
  *   totalStars: number,                    // derived, kept in sync on every write
@@ -14,9 +14,14 @@
  *   endings: { seen: [endingId], history: [{ id, at }] },
  *   tutorialDone: boolean,
  *   choices: { gift, rule, sign, trust },  // optional string values, see OBEY.CHOICES
- *   stats: { defiance, hintsUsed, levelsFinished },
- *   settings: { sound: bool, motion: 'system'|'reduce'|'full', textSize: 'normal'|'large' }
+ *   difficulty: 'easy'|'medium'|'hard',   // current difficulty
+ *   bestDifficulty: { "1": 'easy'|'medium'|'hard' },  // hardest difficulty each level was finished on
+ *   trophies: { trophyId: tierRank 1..4 },
+ *   stats: { defiance, hintsUsed, levelsFinished, fails, noHint: [n], flawless: [n] },
+ *   settings: { sound: bool, voice: 'babble'|'speech'|'off', motion: 'system'|'reduce'|'full', textSize: 'normal'|'large' }
  * }
+ * Schema v2 (game 1.x — 16 levels) is migrated: its Levels 15–16 (the finale) become 35–36,
+ * every finished level counts as finished on Medium, and new fields get defaults.
  * Schema v1 (legacy, pre-release prototype format) is migrated automatically:
  * { version: 1, level, stars: {n: stars}, secretsFound: [...], sound }
  */
@@ -28,10 +33,10 @@
   var SAVE = {};
   SAVE.KEY = 'obeylol.save';
   SAVE.BACKUP_KEY = 'obeylol.save.corrupt';
-  SAVE.SCHEMA = 2;
+  SAVE.SCHEMA = 3;
 
   SAVE.defaultSettings = function () {
-    return { sound: true, motion: 'system', textSize: 'normal' };
+    return { sound: true, voice: 'babble', motion: 'system', textSize: 'normal' };
   };
 
   SAVE.defaults = function () {
@@ -48,7 +53,10 @@
       endings: { seen: [], history: [] },
       tutorialDone: false,
       choices: {},
-      stats: { defiance: 0, hintsUsed: 0, levelsFinished: 0 },
+      difficulty: 'medium',
+      bestDifficulty: {},
+      trophies: {},
+      stats: { defiance: 0, hintsUsed: 0, levelsFinished: 0, fails: 0, noHint: [], flawless: [] },
       settings: SAVE.defaultSettings()
     };
   };
@@ -65,10 +73,14 @@
   }
   function ids(list) { return list.map(function (x) { return x.id; }); }
 
+  /** v1/v2 (16-level campaign) level number -> v3 (36-level campaign) level number. */
+  SAVE.renumberV2 = function (n) { n = Number(n); return n === 15 ? 35 : (n === 16 ? 36 : n); };
+
   /** Converts an older schema object into the current schema shape (not yet validated). */
   SAVE.migrate = function (obj) {
     if (!U.isObj(obj)) return SAVE.defaults();
     var v = Number(obj.version) || 1;
+    var from = v;
     if (v === 1) {
       var d = SAVE.defaults();
       var stars = U.isObj(obj.stars) ? obj.stars : {};
@@ -79,10 +91,28 @@
       d.secrets = obj.secretsFound;
       if (typeof obj.sound === 'boolean') d.settings.sound = obj.sound;
       d.tutorialDone = completed.length > 0;
-      d.migratedFrom = 1;
-      return d;
+      obj = d; v = 2;
     }
-    // v2 or a future version: keep fields we understand; validation drops the rest.
+    if (v === 2) {
+      var o = U.clone(obj);
+      var R = SAVE.renumberV2;
+      var done = Array.isArray(o.completed) ? o.completed.map(R) : [];
+      var stars2 = {};
+      if (U.isObj(o.bestStars)) Object.keys(o.bestStars).forEach(function (k) { stars2[R(k)] = o.bestStars[k]; });
+      o.completed = done;
+      o.bestStars = stars2;
+      o.bestDifficulty = {};
+      done.forEach(function (n) { o.bestDifficulty[n] = 'medium'; });
+      // Unlock exactly up to the first new level after the contiguous run of finished levels.
+      var c = 0;
+      while (done.indexOf(c + 1) >= 0) c++;
+      o.highestUnlocked = Math.max(c + 1, Math.min(Number(o.highestUnlocked) || 1, 14));
+      o.difficulty = 'medium';
+      o.trophies = {};
+      o.version = 3;
+      obj = o;
+    }
+    if (from < SAVE.SCHEMA) obj.migratedFrom = from;
     return obj;
   };
 
@@ -98,8 +128,12 @@
       : [];
     var maxDone = out.completed.length ? out.completed[out.completed.length - 1] : 0;
     out.highestUnlocked = intIn(raw.highestUnlocked, 1, L, 1);
-    // Unlocks must be consistent with completions: you can always play one past your furthest completion.
-    out.highestUnlocked = Math.max(out.highestUnlocked, Math.min(L, maxDone + 1));
+    // Unlocks must be consistent with completions: you can always play the level after the
+    // unbroken run of finished levels starting at Level 1.
+    var run = 0;
+    while (out.completed.indexOf(run + 1) >= 0) run++;
+    out.highestUnlocked = Math.max(out.highestUnlocked, Math.min(L, run + 1));
+    void maxDone;
 
     out.bestStars = {};
     var bs = U.isObj(raw.bestStars) ? raw.bestStars : {};
@@ -147,16 +181,30 @@
       if (typeof ch[k] === 'string' && OBEY.CHOICES[k][ch[k]]) out.choices[k] = ch[k];
     });
 
+    out.difficulty = OBEY.DIFFICULTY_IDS.indexOf(raw.difficulty) >= 0 ? raw.difficulty : 'medium';
+    out.bestDifficulty = {};
+    var bd = U.isObj(raw.bestDifficulty) ? raw.bestDifficulty : {};
+    out.completed.forEach(function (n) { out.bestDifficulty[n] = OBEY.DIFFICULTY_IDS.indexOf(bd[n]) >= 0 ? bd[n] : 'medium'; });
+    out.trophies = {};
+    if (U.isObj(raw.trophies)) {
+      OBEY.TROPHY_IDS.forEach(function (id) { var t = intIn(raw.trophies[id], 1, 4, 0); if (t) out.trophies[id] = t; });
+    }
+
     var st = U.isObj(raw.stats) ? raw.stats : {};
+    var lvList = function (v) { return Array.isArray(v) ? U.uniq(v.map(Number).filter(function (n) { return Number.isInteger(n) && n >= 1 && n <= L; })) : []; };
     out.stats = {
       defiance: intIn(st.defiance, 0, 1e6, 0),
       hintsUsed: intIn(st.hintsUsed, 0, 1e6, 0),
-      levelsFinished: intIn(st.levelsFinished, 0, 1e7, 0)
+      levelsFinished: intIn(st.levelsFinished, 0, 1e7, 0),
+      fails: intIn(st.fails, 0, 1e7, 0),
+      noHint: lvList(st.noHint),
+      flawless: lvList(st.flawless)
     };
 
     var se = U.isObj(raw.settings) ? raw.settings : {};
     out.settings = {
       sound: typeof se.sound === 'boolean' ? se.sound : true,
+      voice: ['babble', 'speech', 'off'].indexOf(se.voice) >= 0 ? se.voice : 'babble',
       motion: ['system', 'reduce', 'full'].indexOf(se.motion) >= 0 ? se.motion : 'system',
       textSize: ['normal', 'large'].indexOf(se.textSize) >= 0 ? se.textSize : 'normal'
     };

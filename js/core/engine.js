@@ -16,19 +16,39 @@
 
   /* ---------------------------------------------------------------- scoring */
   var SCORING = {
-    /** Deterministic star rule shared by every level; only `par` differs per level. */
-    stars: function (actions, hints, par) {
-      if (actions <= par && hints === 0) return 3;
-      if (actions <= par + 4 && hints <= 1) return 2;
-      return 1;
+    /**
+     * Deterministic star rule shared by every level; only `par` differs per level.
+     * Easy: hints are free, 2 spare actions.  Medium: the 1.x rule.  Hard: no hints and no traps for 3★.
+     * A run finished with "Show me how" always earns 1★.
+     */
+    stars: function (actions, hints, par, difficulty, fails, guided) {
+      if (guided) return 1;
+      fails = fails || 0;
+      switch (difficulty) {
+        case 'easy':
+          if (actions <= par + 2) return 3;
+          if (actions <= par + 8) return 2;
+          return 1;
+        case 'hard':
+          if (actions <= par && hints === 0 && fails === 0) return 3;
+          if (actions <= par + 2 && hints === 0) return 2;
+          return 1;
+        default:
+          if (actions <= par && hints === 0) return 3;
+          if (actions <= par + 4 && hints <= 1) return 2;
+          return 1;
+      }
     },
-    describe: function (par) {
-      return [
-        '★★★ ' + par + (par === 1 ? ' action' : ' actions') + ' or fewer, no hints',
-        '★★ ' + (par + 4) + ' actions or fewer, at most 1 hint',
-        '★ any finish'
-      ];
-    }
+    describe: function (par, difficulty) {
+      var a = function (n) { return n + (n === 1 ? ' action' : ' actions'); };
+      if (difficulty === 'easy') return ['★★★ ' + a(par + 2) + ' or fewer (hints are free)', '★★ ' + a(par + 8) + ' or fewer', '★ any finish'];
+      if (difficulty === 'hard') return ['★★★ ' + a(par) + ' or fewer, no hint, no trap', '★★ ' + a(par + 2) + ' or fewer, no hint', '★ any finish'];
+      return ['★★★ ' + a(par) + ' or fewer, no hints', '★★ ' + a(par + 4) + ' or fewer, at most 1 hint', '★ any finish'];
+    },
+    /** How many hint tiers a difficulty allows. */
+    hintLimit: function (difficulty) { return difficulty === 'hard' ? 1 : 3; },
+    /** Actions added when the player falls for a trap. */
+    failPenalty: function (difficulty) { return difficulty === 'hard' ? 2 : 0; }
   };
   OBEY.scoring = SCORING;
 
@@ -65,6 +85,8 @@
 
   LevelRuntime.prototype._resetStats = function () {
     this.stats = { actions: 0, hints: 0, fails: 0 };
+    this.nopes = 0;
+    this.lastFail = null;
     this.hintIndex = 0;
     this.defies = 0;
     this.defyKeys = {};
@@ -129,15 +151,23 @@
         return isNew;
       },
       hasSecret: function (id) { return rt.ctx.secrets.indexOf(id) >= 0; },
+      /** A harmless wrong move: no reset, just a "nope" reaction in the UI. */
+      nope: function (target) {
+        rt.nopes++;
+        rt.nopeTarget = target || rt.currentTarget || null;
+      },
+      difficulty: function () { return rt.ctx.difficulty || 'medium'; },
       /** Soft failure: explain, then reset the level state (stats are kept). */
       fail: function (text, mood) {
         if (rt.status !== 'playing') return;
         rt.stats.fails++;
+        rt.stats.actions += SCORING.failPenalty(rt.ctx.difficulty);
+        rt.lastFail = { text: text, count: rt.stats.fails, target: rt.currentTarget || null };
         rt._clearTimers();
         rt.state = rt.def.init(rt.ctx);
         rt.overlay = rt.def.overlay || null;
         rt.failedAt = rt.clock.now();
-        rt.api.say(text, mood || 'pleased');
+        rt.api.say(text, mood || 'laughing');
         if (rt.def.onStart) rt.def.onStart(rt.state, rt.api, rt.ctx, true);
       },
       complete: function (result) {
@@ -146,7 +176,7 @@
         rt.status = 'complete';
         rt._clearTimers();
         if (result.line) rt.api.say(result.line, result.mood || 'defeated');
-        var stars = SCORING.stars(rt.stats.actions, rt.stats.hints, rt.def.par);
+        var stars = SCORING.stars(rt.stats.actions, rt.stats.hints, rt.def.par, rt.ctx.difficulty, rt.stats.fails, rt.guided);
         rt.result = {
           level: rt.def.num,
           stars: stars,
@@ -157,6 +187,8 @@
           defies: rt.defies,
           choices: Object.assign({}, rt.choices),
           ending: result.ending || null,
+          difficulty: rt.ctx.difficulty || 'medium',
+          guided: !!rt.guided,
           line: rt.line
         };
         if (rt.hooks.onComplete) rt.hooks.onComplete(rt.result, rt);
@@ -164,7 +196,9 @@
     };
   };
 
-  LevelRuntime.prototype.start = function () {
+  /** opts.guided: this attempt is played with "Show me how" (1★ max). */
+  LevelRuntime.prototype.start = function (opts) {
+    this.guided = !!(opts && opts.guided);
     this._clearTimers();
     this._resetStats();
     this.status = 'playing';
@@ -180,7 +214,7 @@
   };
 
   /** Restart = a completely fresh attempt (stats reset too). */
-  LevelRuntime.prototype.restart = function () { return this.start(); };
+  LevelRuntime.prototype.restart = function (opts) { return this.start(opts); };
 
   LevelRuntime.prototype.destroy = function () {
     this._clearTimers();
@@ -219,11 +253,13 @@
       (action.type === 'holdstart' && !obj.freeHold));
     if (counts) this.stats.actions++;
     var handled = false;
+    this.currentTarget = action.target;
     try {
       handled = this.def.on(action, this.state, this.api, this.ctx);
     } catch (e) {
       if (root.console) root.console.error('Level handler error', this.def.id, e);
     }
+    this.currentTarget = null;
     if (!handled && action.target === 'narrator' && action.type === 'tap') this._defaultPoke();
     this._emit();
     return true;
@@ -236,16 +272,19 @@
     this.api.say(p[0], p[1]);
   };
 
-  /** Returns the next hint tier (1..3). Never touches level state. */
+  LevelRuntime.prototype.hintLimit = function () { return Math.min(this.def.hints.length, SCORING.hintLimit(this.ctx.difficulty)); };
+
+  /** Returns the next hint tier (1..limit). Never touches level state. */
   LevelRuntime.prototype.hint = function () {
     if (this.status !== 'playing') return null;
-    var i = Math.min(this.hintIndex, this.def.hints.length - 1);
-    if (this.hintIndex < this.def.hints.length) {
+    var limit = this.hintLimit();
+    var i = Math.min(this.hintIndex, limit - 1);
+    if (this.hintIndex < limit) {
       this.hintIndex++;
       this.stats.hints = this.hintIndex;
     }
     this._emit();
-    return { tier: i + 1, text: this.def.hints[i], total: this.def.hints.length };
+    return { tier: i + 1, text: this.def.hints[i], total: limit };
   };
 
   OBEY.LevelRuntime = LevelRuntime;

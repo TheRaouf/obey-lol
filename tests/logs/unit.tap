@@ -2,735 +2,1323 @@ TAP version 13
 # Subtest: new save: only level 1 playable, locked levels refused
 ok 1 - new save: only level 1 playable, locked levels refused
   ---
-  duration_ms: 3.530422
+  duration_ms: 2.150742
   type: 'test'
   ...
 # Subtest: completing a level unlocks the next and Continue points to it
 ok 2 - completing a level unlocks the next and Continue points to it
   ---
-  duration_ms: 1.265723
+  duration_ms: 3.823666
   type: 'test'
   ...
 # Subtest: best stars are preserved; replays cannot lower them
 ok 3 - best stars are preserved; replays cannot lower them
   ---
-  duration_ms: 0.279884
+  duration_ms: 0.426842
   type: 'test'
   ...
 # Subtest: star values are clamped to 1..3
 ok 4 - star values are clamped to 1..3
   ---
-  duration_ms: 0.29312
+  duration_ms: 0.189755
   type: 'test'
   ...
 # Subtest: secrets are recorded exactly once; unknown ids ignored
 ok 5 - secrets are recorded exactly once; unknown ids ignored
   ---
-  duration_ms: 0.22478
+  duration_ms: 0.370654
   type: 'test'
   ...
 # Subtest: 15 secrets with unique ids, names and hints
 ok 6 - 15 secrets with unique ids, names and hints
   ---
-  duration_ms: 0.210283
+  duration_ms: 0.379652
   type: 'test'
   ...
 # Subtest: 8 costumes and 4 themes with expected ids
 ok 7 - 8 costumes and 4 themes with expected ids
   ---
-  duration_ms: 0.276719
+  duration_ms: 0.28356
   type: 'test'
   ...
 # Subtest: costume and theme unlocks follow their rules
 ok 8 - costume and theme unlocks follow their rules
   ---
-  duration_ms: 0.687772
+  duration_ms: 0.748624
   type: 'test'
   ...
-# Subtest: wizard needs 20 stars, sunset 30 stars, ninja level 16
-ok 9 - wizard needs 20 stars, sunset 30 stars, ninja level 16
+# Subtest: wizard needs 20 stars, sunset 30 stars, ninja the final level
+ok 9 - wizard needs 20 stars, sunset 30 stars, ninja the final level
   ---
-  duration_ms: 0.54214
+  duration_ms: 1.371203
   type: 'test'
   ...
 # Subtest: achievement: first-steps
 ok 10 - achievement: first-steps
   ---
-  duration_ms: 0.452078
+  duration_ms: 0.43695
   type: 'test'
   ...
 # Subtest: achievement: professional-disobeyer needs 10 defies
 ok 11 - achievement: professional-disobeyer needs 10 defies
   ---
-  duration_ms: 0.207465
+  duration_ms: 0.222681
   type: 'test'
   ...
-# Subtest: achievement: perfect-performance needs 3 stars on all 16
-ok 12 - achievement: perfect-performance needs 3 stars on all 16
+# Subtest: achievement: perfect-performance needs 3 stars on every level
+ok 12 - achievement: perfect-performance needs 3 stars on every level
   ---
-  duration_ms: 0.330795
+  duration_ms: 2.74668
   type: 'test'
   ...
 # Subtest: achievements: secret-agent, collector, secret-master thresholds
 ok 13 - achievements: secret-agent, collector, secret-master thresholds
   ---
-  duration_ms: 0.328167
+  duration_ms: 0.609457
   type: 'test'
   ...
 # Subtest: achievement: costume-party requires wearing all 8
 ok 14 - achievement: costume-party requires wearing all 8
   ---
-  duration_ms: 0.34888
+  duration_ms: 2.826978
   type: 'test'
   ...
 # Subtest: achievement: full-campaign
 ok 15 - achievement: full-campaign
   ---
-  duration_ms: 0.200473
+  duration_ms: 2.276369
   type: 'test'
   ...
 # Subtest: achievements are awarded once (timestamps never change)
 ok 16 - achievements are awarded once (timestamps never change)
   ---
-  duration_ms: 0.760599
+  duration_ms: 0.304339
   type: 'test'
   ...
-# Subtest: endings require level 16; hero and chaos record and award achievements
-ok 17 - endings require level 16; hero and chaos record and award achievements
+# Subtest: endings require the final level; hero and chaos record and award achievements
+ok 17 - endings require the final level; hero and chaos record and award achievements
   ---
-  duration_ms: 0.420923
+  duration_ms: 1.775952
   type: 'test'
   ...
 # Subtest: Secret Master ending is impossible without all 15 secrets
 ok 18 - Secret Master ending is impossible without all 15 secrets
   ---
-  duration_ms: 0.383052
+  duration_ms: 1.825358
   type: 'test'
   ...
-# Subtest: Secret Master ending also requires completing level 16
-ok 19 - Secret Master ending also requires completing level 16
+# Subtest: Secret Master ending also requires completing the final level
+ok 19 - Secret Master ending also requires completing the final level
   ---
-  duration_ms: 1.950833
+  duration_ms: 1.874153
   type: 'test'
   ...
 # Subtest: karma: hero choices positive, chaos negative
 ok 20 - karma: hero choices positive, chaos negative
   ---
-  duration_ms: 0.215011
+  duration_ms: 0.42575
   type: 'test'
   ...
 # Subtest: round trip through storage preserves everything
 ok 21 - round trip through storage preserves everything
   ---
-  duration_ms: 2.72702
+  duration_ms: 3.294636
   type: 'test'
   ...
 # Subtest: empty storage → new defaults
 ok 22 - empty storage → new defaults
   ---
-  duration_ms: 0.212568
+  duration_ms: 0.401127
   type: 'test'
   ...
 # Subtest: malformed JSON recovers safely and backs up the corrupt data
 ok 23 - malformed JSON recovers safely and backs up the corrupt data
   ---
-  duration_ms: 0.146842
+  duration_ms: 0.322157
   type: 'test'
   ...
 # Subtest: wrong-typed fields are repaired field by field
 ok 24 - wrong-typed fields are repaired field by field
   ---
-  duration_ms: 0.339917
+  duration_ms: 0.395517
   type: 'test'
   ...
 # Subtest: non-object saves (array, number, null string) recover
 ok 25 - non-object saves (array, number, null string) recover
   ---
-  duration_ms: 0.170703
+  duration_ms: 0.749183
   type: 'test'
   ...
-# Subtest: v1 legacy saves migrate to v2 and are re-saved
-ok 26 - v1 legacy saves migrate to v2 and are re-saved
+# Subtest: v1 legacy saves migrate to the current schema and are re-saved
+ok 26 - v1 legacy saves migrate to the current schema and are re-saved
   ---
-  duration_ms: 0.252825
+  duration_ms: 0.482502
   type: 'test'
   ...
 # Subtest: storage that throws falls back to memory without crashing
 ok 27 - storage that throws falls back to memory without crashing
   ---
-  duration_ms: 0.269796
+  duration_ms: 0.509926
   type: 'test'
   ...
 # Subtest: storage that fails on write after probing (quota) keeps memory copy
 ok 28 - storage that fails on write after probing (quota) keeps memory copy
   ---
-  duration_ms: 4.45912
+  duration_ms: 0.353133
   type: 'test'
   ...
 # Subtest: New Game resets campaign but keeps cosmetics, achievements, endings, settings
 ok 29 - New Game resets campaign but keeps cosmetics, achievements, endings, settings
   ---
-  duration_ms: 0.479367
+  duration_ms: 4.72012
   type: 'test'
   ...
 # Subtest: Reset All keeps only settings
 ok 30 - Reset All keeps only settings
   ---
-  duration_ms: 0.271163
+  duration_ms: 1.560511
   type: 'test'
   ...
 # Subtest: data integrity: achievements, endings, unlock descriptions
 ok 31 - data integrity: achievements, endings, unlock descriptions
   ---
-  duration_ms: 0.177278
+  duration_ms: 0.338435
   type: 'test'
   ...
 # Subtest: one full campaign run can earn Professional Disobeyer
 ok 32 - one full campaign run can earn Professional Disobeyer
   ---
-  duration_ms: 8.36893
+  duration_ms: 12.060157
   type: 'test'
   ...
-# Subtest: exactly 16 levels are registered, numbered 1..16 in order
-ok 33 - exactly 16 levels are registered, numbered 1..16 in order
+# Subtest: v2 (16-level) saves migrate: finale 15/16 → 35/36, unlock stops at the first new level
+ok 33 - v2 (16-level) saves migrate: finale 15/16 → 35/36, unlock stops at the first new level
   ---
-  duration_ms: 1.197533
+  duration_ms: 0.878949
+  type: 'test'
+  ...
+# Subtest: difficulty star rules
+ok 34 - difficulty star rules
+  ---
+  duration_ms: 0.256049
+  type: 'test'
+  ...
+# Subtest: per-level best difficulty only goes up; trophies follow the lowest difficulty in a chapter
+ok 35 - per-level best difficulty only goes up; trophies follow the lowest difficulty in a chapter
+  ---
+  duration_ms: 0.67645
+  type: 'test'
+  ...
+# Subtest: special trophies: clean sweep, flawless, hard boiled, good sport, platinum
+ok 36 - special trophies: clean sweep, flawless, hard boiled, good sport, platinum
+  ---
+  duration_ms: 3.258458
+  type: 'test'
+  ...
+# Subtest: New Game keeps trophies and takes the new difficulty
+ok 37 - New Game keeps trophies and takes the new difficulty
+  ---
+  duration_ms: 0.415525
+  type: 'test'
+  ...
+# Subtest: validation repairs difficulty, trophies, stats lists and voice
+ok 38 - validation repairs difficulty, trophies, stats lists and voice
+  ---
+  duration_ms: 0.318285
+  type: 'test'
+  ...
+# Subtest: QA2-D3: migrated save with old L15 (now 35) done unlocks 36 after finishing 34
+ok 39 - QA2-D3: migrated save with old L15 (now 35) done unlocks 36 after finishing 34
+  ---
+  duration_ms: 1.392342
+  type: 'test'
+  ...
+# Subtest: QA2-D4: replaying a migrated finale does not unlock the new levels
+ok 40 - QA2-D4: replaying a migrated finale does not unlock the new levels
+  ---
+  duration_ms: 0.596014
+  type: 'test'
+  ...
+# Subtest: exactly 36 levels are registered, numbered 1..36 in order
+ok 41 - exactly 36 levels are registered, numbered 1..36 in order
+  ---
+  duration_ms: 1.996809
   type: 'test'
   ...
 # Subtest: level ids are unique, stable, kebab-case
-ok 34 - level ids are unique, stable, kebab-case
+ok 42 - level ids are unique, stable, kebab-case
   ---
-  duration_ms: 0.319439
+  duration_ms: 0.423805
   type: 'test'
   ...
 # Subtest: every level has the full specification
-ok 35 - every level has the full specification
+ok 43 - every level has the full specification
   ---
-  duration_ms: 0.297845
+  duration_ms: 0.46777
   type: 'test'
   ...
 # Subtest: levels are not copies of each other (distinct object sets and action mixes)
-ok 36 - levels are not copies of each other (distinct object sets and action mixes)
+ok 44 - levels are not copies of each other (distinct object sets and action mixes)
   ---
-  duration_ms: 2.228227
+  duration_ms: 5.085796
   type: 'test'
   ...
 # Subtest: object ids are unique within each level view and have accessible labels when interactive
-ok 37 - object ids are unique within each level view and have accessible labels when interactive
+ok 45 - object ids are unique within each level view and have accessible labels when interactive
   ---
-  duration_ms: 1.526362
+  duration_ms: 3.038361
   type: 'test'
   ...
 # Subtest: L1 red-button: intended solution completes the level exactly once
-ok 38 - L1 red-button: intended solution completes the level exactly once
+ok 46 - L1 red-button: intended solution completes the level exactly once
   ---
-  duration_ms: 0.65846
+  duration_ms: 0.889304
   type: 'test'
   ...
 # Subtest: L1 red-button: restart gives a clean state and cancels timers
-ok 39 - L1 red-button: restart gives a clean state and cancels timers
+ok 47 - L1 red-button: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.489104
+  duration_ms: 0.353282
   type: 'test'
   ...
 # Subtest: L1 red-button: hints are graduated and never change level state
-ok 40 - L1 red-button: hints are graduated and never change level state
+ok 48 - L1 red-button: hints are graduated and never change level state
   ---
-  duration_ms: 0.994354
+  duration_ms: 0.781593
   type: 'test'
   ...
 # Subtest: L1 red-button: leaving the level (destroy) stops all timers
-ok 41 - L1 red-button: leaving the level (destroy) stops all timers
+ok 49 - L1 red-button: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.503449
+  duration_ms: 0.438221
   type: 'test'
   ...
 # Subtest: L2 wrong-door: intended solution completes the level exactly once
-ok 42 - L2 wrong-door: intended solution completes the level exactly once
+ok 50 - L2 wrong-door: intended solution completes the level exactly once
   ---
-  duration_ms: 0.764209
+  duration_ms: 0.529627
   type: 'test'
   ...
 # Subtest: L2 wrong-door: restart gives a clean state and cancels timers
-ok 43 - L2 wrong-door: restart gives a clean state and cancels timers
+ok 51 - L2 wrong-door: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.402932
+  duration_ms: 0.256446
   type: 'test'
   ...
 # Subtest: L2 wrong-door: hints are graduated and never change level state
-ok 44 - L2 wrong-door: hints are graduated and never change level state
+ok 52 - L2 wrong-door: hints are graduated and never change level state
   ---
-  duration_ms: 0.145796
+  duration_ms: 0.090606
   type: 'test'
   ...
 # Subtest: L2 wrong-door: leaving the level (destroy) stops all timers
-ok 45 - L2 wrong-door: leaving the level (destroy) stops all timers
+ok 53 - L2 wrong-door: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.070097
+  duration_ms: 0.049327
   type: 'test'
   ...
 # Subtest: L3 hands-off: intended solution completes the level exactly once
-ok 46 - L3 hands-off: intended solution completes the level exactly once
+ok 54 - L3 hands-off: intended solution completes the level exactly once
   ---
-  duration_ms: 0.326642
+  duration_ms: 0.259354
   type: 'test'
   ...
 # Subtest: L3 hands-off: restart gives a clean state and cancels timers
-ok 47 - L3 hands-off: restart gives a clean state and cancels timers
+ok 55 - L3 hands-off: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.123945
+  duration_ms: 0.140308
   type: 'test'
   ...
 # Subtest: L3 hands-off: hints are graduated and never change level state
-ok 48 - L3 hands-off: hints are graduated and never change level state
+ok 56 - L3 hands-off: hints are graduated and never change level state
   ---
-  duration_ms: 0.080954
+  duration_ms: 0.065538
   type: 'test'
   ...
 # Subtest: L3 hands-off: leaving the level (destroy) stops all timers
-ok 49 - L3 hands-off: leaving the level (destroy) stops all timers
+ok 57 - L3 hands-off: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.116002
+  duration_ms: 0.050114
   type: 'test'
   ...
 # Subtest: L4 missing-button: intended solution completes the level exactly once
-ok 50 - L4 missing-button: intended solution completes the level exactly once
+ok 58 - L4 missing-button: intended solution completes the level exactly once
   ---
-  duration_ms: 0.244052
+  duration_ms: 0.169329
   type: 'test'
   ...
 # Subtest: L4 missing-button: restart gives a clean state and cancels timers
-ok 51 - L4 missing-button: restart gives a clean state and cancels timers
+ok 59 - L4 missing-button: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.250144
+  duration_ms: 0.182097
   type: 'test'
   ...
 # Subtest: L4 missing-button: hints are graduated and never change level state
-ok 52 - L4 missing-button: hints are graduated and never change level state
+ok 60 - L4 missing-button: hints are graduated and never change level state
   ---
-  duration_ms: 0.086932
+  duration_ms: 0.065943
   type: 'test'
   ...
 # Subtest: L4 missing-button: leaving the level (destroy) stops all timers
-ok 53 - L4 missing-button: leaving the level (destroy) stops all timers
+ok 61 - L4 missing-button: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.061619
+  duration_ms: 0.046073
   type: 'test'
   ...
 # Subtest: L5 reverse-psychology: intended solution completes the level exactly once
-ok 54 - L5 reverse-psychology: intended solution completes the level exactly once
+ok 62 - L5 reverse-psychology: intended solution completes the level exactly once
   ---
-  duration_ms: 0.359021
+  duration_ms: 0.223701
   type: 'test'
   ...
 # Subtest: L5 reverse-psychology: restart gives a clean state and cancels timers
-ok 55 - L5 reverse-psychology: restart gives a clean state and cancels timers
+ok 63 - L5 reverse-psychology: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.193525
+  duration_ms: 0.181002
   type: 'test'
   ...
 # Subtest: L5 reverse-psychology: hints are graduated and never change level state
-ok 56 - L5 reverse-psychology: hints are graduated and never change level state
+ok 64 - L5 reverse-psychology: hints are graduated and never change level state
   ---
-  duration_ms: 0.097629
+  duration_ms: 0.068786
   type: 'test'
   ...
 # Subtest: L5 reverse-psychology: leaving the level (destroy) stops all timers
-ok 57 - L5 reverse-psychology: leaving the level (destroy) stops all timers
+ok 65 - L5 reverse-psychology: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.071075
+  duration_ms: 0.060239
   type: 'test'
   ...
 # Subtest: L6 waiting-room: intended solution completes the level exactly once
-ok 58 - L6 waiting-room: intended solution completes the level exactly once
+ok 66 - L6 waiting-room: intended solution completes the level exactly once
   ---
-  duration_ms: 0.27765
+  duration_ms: 0.193661
   type: 'test'
   ...
 # Subtest: L6 waiting-room: restart gives a clean state and cancels timers
-ok 59 - L6 waiting-room: restart gives a clean state and cancels timers
+ok 67 - L6 waiting-room: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.251355
+  duration_ms: 0.104018
   type: 'test'
   ...
 # Subtest: L6 waiting-room: hints are graduated and never change level state
-ok 60 - L6 waiting-room: hints are graduated and never change level state
+ok 68 - L6 waiting-room: hints are graduated and never change level state
   ---
-  duration_ms: 0.094626
+  duration_ms: 0.063776
   type: 'test'
   ...
 # Subtest: L6 waiting-room: leaving the level (destroy) stops all timers
-ok 61 - L6 waiting-room: leaving the level (destroy) stops all timers
+ok 69 - L6 waiting-room: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.073606
+  duration_ms: 0.047246
   type: 'test'
   ...
 # Subtest: L7 fake-tutorial: intended solution completes the level exactly once
-ok 62 - L7 fake-tutorial: intended solution completes the level exactly once
+ok 70 - L7 fake-tutorial: intended solution completes the level exactly once
   ---
-  duration_ms: 0.254675
+  duration_ms: 0.222277
   type: 'test'
   ...
 # Subtest: L7 fake-tutorial: restart gives a clean state and cancels timers
-ok 63 - L7 fake-tutorial: restart gives a clean state and cancels timers
+ok 71 - L7 fake-tutorial: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.144327
+  duration_ms: 0.235796
   type: 'test'
   ...
 # Subtest: L7 fake-tutorial: hints are graduated and never change level state
-ok 64 - L7 fake-tutorial: hints are graduated and never change level state
+ok 72 - L7 fake-tutorial: hints are graduated and never change level state
   ---
-  duration_ms: 0.079566
+  duration_ms: 0.083174
   type: 'test'
   ...
 # Subtest: L7 fake-tutorial: leaving the level (destroy) stops all timers
-ok 65 - L7 fake-tutorial: leaving the level (destroy) stops all timers
+ok 73 - L7 fake-tutorial: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.082151
+  duration_ms: 0.05132
   type: 'test'
   ...
 # Subtest: L8 object-permanence: intended solution completes the level exactly once
-ok 66 - L8 object-permanence: intended solution completes the level exactly once
+ok 74 - L8 object-permanence: intended solution completes the level exactly once
   ---
-  duration_ms: 0.262569
+  duration_ms: 0.199873
   type: 'test'
   ...
 # Subtest: L8 object-permanence: restart gives a clean state and cancels timers
-ok 67 - L8 object-permanence: restart gives a clean state and cancels timers
+ok 75 - L8 object-permanence: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.50835
+  duration_ms: 0.198071
   type: 'test'
   ...
 # Subtest: L8 object-permanence: hints are graduated and never change level state
-ok 68 - L8 object-permanence: hints are graduated and never change level state
+ok 76 - L8 object-permanence: hints are graduated and never change level state
   ---
-  duration_ms: 0.132595
+  duration_ms: 0.161218
   type: 'test'
   ...
 # Subtest: L8 object-permanence: leaving the level (destroy) stops all timers
-ok 69 - L8 object-permanence: leaving the level (destroy) stops all timers
+ok 77 - L8 object-permanence: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.075951
+  duration_ms: 0.065678
   type: 'test'
   ...
 # Subtest: L9 suspicious-gift: intended solution completes the level exactly once
-ok 70 - L9 suspicious-gift: intended solution completes the level exactly once
+ok 78 - L9 suspicious-gift: intended solution completes the level exactly once
   ---
-  duration_ms: 0.281682
+  duration_ms: 0.225185
   type: 'test'
   ...
 # Subtest: L9 suspicious-gift: restart gives a clean state and cancels timers
-ok 71 - L9 suspicious-gift: restart gives a clean state and cancels timers
+ok 79 - L9 suspicious-gift: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.173708
+  duration_ms: 0.135767
   type: 'test'
   ...
 # Subtest: L9 suspicious-gift: hints are graduated and never change level state
-ok 72 - L9 suspicious-gift: hints are graduated and never change level state
+ok 80 - L9 suspicious-gift: hints are graduated and never change level state
   ---
-  duration_ms: 0.130203
+  duration_ms: 0.105272
   type: 'test'
   ...
 # Subtest: L9 suspicious-gift: leaving the level (destroy) stops all timers
-ok 73 - L9 suspicious-gift: leaving the level (destroy) stops all timers
+ok 81 - L9 suspicious-gift: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.10971
+  duration_ms: 0.05004
   type: 'test'
   ...
 # Subtest: L10 rulebook: intended solution completes the level exactly once
-ok 74 - L10 rulebook: intended solution completes the level exactly once
+ok 82 - L10 rulebook: intended solution completes the level exactly once
   ---
-  duration_ms: 0.504879
+  duration_ms: 0.342253
   type: 'test'
   ...
 # Subtest: L10 rulebook: restart gives a clean state and cancels timers
-ok 75 - L10 rulebook: restart gives a clean state and cancels timers
+ok 83 - L10 rulebook: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.215584
+  duration_ms: 0.16845
   type: 'test'
   ...
 # Subtest: L10 rulebook: hints are graduated and never change level state
-ok 76 - L10 rulebook: hints are graduated and never change level state
+ok 84 - L10 rulebook: hints are graduated and never change level state
   ---
-  duration_ms: 0.124369
+  duration_ms: 0.07579
   type: 'test'
   ...
 # Subtest: L10 rulebook: leaving the level (destroy) stops all timers
-ok 77 - L10 rulebook: leaving the level (destroy) stops all timers
+ok 85 - L10 rulebook: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.086445
+  duration_ms: 0.053213
   type: 'test'
   ...
 # Subtest: L11 silent-level: intended solution completes the level exactly once
-ok 78 - L11 silent-level: intended solution completes the level exactly once
+ok 86 - L11 silent-level: intended solution completes the level exactly once
   ---
-  duration_ms: 0.520163
+  duration_ms: 0.391974
   type: 'test'
   ...
 # Subtest: L11 silent-level: restart gives a clean state and cancels timers
-ok 79 - L11 silent-level: restart gives a clean state and cancels timers
+ok 87 - L11 silent-level: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.427115
+  duration_ms: 0.295786
   type: 'test'
   ...
 # Subtest: L11 silent-level: hints are graduated and never change level state
-ok 80 - L11 silent-level: hints are graduated and never change level state
+ok 88 - L11 silent-level: hints are graduated and never change level state
   ---
-  duration_ms: 0.124726
+  duration_ms: 0.079918
   type: 'test'
   ...
 # Subtest: L11 silent-level: leaving the level (destroy) stops all timers
-ok 81 - L11 silent-level: leaving the level (destroy) stops all timers
+ok 89 - L11 silent-level: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.070705
+  duration_ms: 0.049161
   type: 'test'
   ...
 # Subtest: L12 double-bluff: intended solution completes the level exactly once
-ok 82 - L12 double-bluff: intended solution completes the level exactly once
+ok 90 - L12 double-bluff: intended solution completes the level exactly once
   ---
-  duration_ms: 0.192637
+  duration_ms: 0.270186
   type: 'test'
   ...
 # Subtest: L12 double-bluff: restart gives a clean state and cancels timers
-ok 83 - L12 double-bluff: restart gives a clean state and cancels timers
+ok 91 - L12 double-bluff: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.098065
+  duration_ms: 0.168264
   type: 'test'
   ...
 # Subtest: L12 double-bluff: hints are graduated and never change level state
-ok 84 - L12 double-bluff: hints are graduated and never change level state
+ok 92 - L12 double-bluff: hints are graduated and never change level state
   ---
-  duration_ms: 0.075541
+  duration_ms: 0.92756
   type: 'test'
   ...
 # Subtest: L12 double-bluff: leaving the level (destroy) stops all timers
-ok 85 - L12 double-bluff: leaving the level (destroy) stops all timers
+ok 93 - L12 double-bluff: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.10075
+  duration_ms: 0.103465
   type: 'test'
   ...
 # Subtest: L13 broken-room: intended solution completes the level exactly once
-ok 86 - L13 broken-room: intended solution completes the level exactly once
+ok 94 - L13 broken-room: intended solution completes the level exactly once
   ---
-  duration_ms: 0.390275
+  duration_ms: 0.307794
   type: 'test'
   ...
 # Subtest: L13 broken-room: restart gives a clean state and cancels timers
-ok 87 - L13 broken-room: restart gives a clean state and cancels timers
+ok 95 - L13 broken-room: restart gives a clean state and cancels timers
   ---
-  duration_ms: 1.195936
+  duration_ms: 0.218185
   type: 'test'
   ...
 # Subtest: L13 broken-room: hints are graduated and never change level state
-ok 88 - L13 broken-room: hints are graduated and never change level state
+ok 96 - L13 broken-room: hints are graduated and never change level state
   ---
-  duration_ms: 0.119621
+  duration_ms: 0.083484
   type: 'test'
   ...
 # Subtest: L13 broken-room: leaving the level (destroy) stops all timers
-ok 89 - L13 broken-room: leaving the level (destroy) stops all timers
+ok 97 - L13 broken-room: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.064269
+  duration_ms: 0.064106
   type: 'test'
   ...
 # Subtest: L14 final-warning: intended solution completes the level exactly once
-ok 90 - L14 final-warning: intended solution completes the level exactly once
+ok 98 - L14 final-warning: intended solution completes the level exactly once
   ---
-  duration_ms: 0.505617
+  duration_ms: 0.429684
   type: 'test'
   ...
 # Subtest: L14 final-warning: restart gives a clean state and cancels timers
-ok 91 - L14 final-warning: restart gives a clean state and cancels timers
+ok 99 - L14 final-warning: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.364001
+  duration_ms: 0.301621
   type: 'test'
   ...
 # Subtest: L14 final-warning: hints are graduated and never change level state
-ok 92 - L14 final-warning: hints are graduated and never change level state
+ok 100 - L14 final-warning: hints are graduated and never change level state
   ---
-  duration_ms: 0.086615
+  duration_ms: 0.063961
   type: 'test'
   ...
 # Subtest: L14 final-warning: leaving the level (destroy) stops all timers
-ok 93 - L14 final-warning: leaving the level (destroy) stops all timers
+ok 101 - L14 final-warning: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.055325
+  duration_ms: 0.0401
   type: 'test'
   ...
-# Subtest: L15 last-instruction: intended solution completes the level exactly once
-ok 94 - L15 last-instruction: intended solution completes the level exactly once
+# Subtest: L15 volume-knob: intended solution completes the level exactly once
+ok 102 - L15 volume-knob: intended solution completes the level exactly once
   ---
-  duration_ms: 0.428594
+  duration_ms: 0.214093
   type: 'test'
   ...
-# Subtest: L15 last-instruction: restart gives a clean state and cancels timers
-ok 95 - L15 last-instruction: restart gives a clean state and cancels timers
+# Subtest: L15 volume-knob: restart gives a clean state and cancels timers
+ok 103 - L15 volume-knob: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.441011
+  duration_ms: 0.22113
   type: 'test'
   ...
-# Subtest: L15 last-instruction: hints are graduated and never change level state
-ok 96 - L15 last-instruction: hints are graduated and never change level state
+# Subtest: L15 volume-knob: hints are graduated and never change level state
+ok 104 - L15 volume-knob: hints are graduated and never change level state
   ---
-  duration_ms: 0.216371
+  duration_ms: 0.050527
   type: 'test'
   ...
-# Subtest: L15 last-instruction: leaving the level (destroy) stops all timers
-ok 97 - L15 last-instruction: leaving the level (destroy) stops all timers
+# Subtest: L15 volume-knob: leaving the level (destroy) stops all timers
+ok 105 - L15 volume-knob: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.08916
+  duration_ms: 0.037044
   type: 'test'
   ...
-# Subtest: L16 final-decision: intended solution completes the level exactly once
-ok 98 - L16 final-decision: intended solution completes the level exactly once
+# Subtest: L16 opposite-day: intended solution completes the level exactly once
+ok 106 - L16 opposite-day: intended solution completes the level exactly once
   ---
-  duration_ms: 0.316143
+  duration_ms: 0.128647
   type: 'test'
   ...
-# Subtest: L16 final-decision: restart gives a clean state and cancels timers
-ok 99 - L16 final-decision: restart gives a clean state and cancels timers
+# Subtest: L16 opposite-day: restart gives a clean state and cancels timers
+ok 107 - L16 opposite-day: restart gives a clean state and cancels timers
   ---
-  duration_ms: 0.119092
+  duration_ms: 0.119667
   type: 'test'
   ...
-# Subtest: L16 final-decision: hints are graduated and never change level state
-ok 100 - L16 final-decision: hints are graduated and never change level state
+# Subtest: L16 opposite-day: hints are graduated and never change level state
+ok 108 - L16 opposite-day: hints are graduated and never change level state
   ---
-  duration_ms: 0.073608
+  duration_ms: 0.044038
   type: 'test'
   ...
-# Subtest: L16 final-decision: leaving the level (destroy) stops all timers
-ok 101 - L16 final-decision: leaving the level (destroy) stops all timers
+# Subtest: L16 opposite-day: leaving the level (destroy) stops all timers
+ok 109 - L16 opposite-day: leaving the level (destroy) stops all timers
   ---
-  duration_ms: 0.059887
+  duration_ms: 0.034308
+  type: 'test'
+  ...
+# Subtest: L17 lost-sock: intended solution completes the level exactly once
+ok 110 - L17 lost-sock: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.304216
+  type: 'test'
+  ...
+# Subtest: L17 lost-sock: restart gives a clean state and cancels timers
+ok 111 - L17 lost-sock: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.169293
+  type: 'test'
+  ...
+# Subtest: L17 lost-sock: hints are graduated and never change level state
+ok 112 - L17 lost-sock: hints are graduated and never change level state
+  ---
+  duration_ms: 1.530124
+  type: 'test'
+  ...
+# Subtest: L17 lost-sock: leaving the level (destroy) stops all timers
+ok 113 - L17 lost-sock: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.079522
+  type: 'test'
+  ...
+# Subtest: L18 bossworth-says: intended solution completes the level exactly once
+ok 114 - L18 bossworth-says: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.24903
+  type: 'test'
+  ...
+# Subtest: L18 bossworth-says: restart gives a clean state and cancels timers
+ok 115 - L18 bossworth-says: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.16016
+  type: 'test'
+  ...
+# Subtest: L18 bossworth-says: hints are graduated and never change level state
+ok 116 - L18 bossworth-says: hints are graduated and never change level state
+  ---
+  duration_ms: 0.090357
+  type: 'test'
+  ...
+# Subtest: L18 bossworth-says: leaving the level (destroy) stops all timers
+ok 117 - L18 bossworth-says: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.054789
+  type: 'test'
+  ...
+# Subtest: L19 shy-button: intended solution completes the level exactly once
+ok 118 - L19 shy-button: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.228341
+  type: 'test'
+  ...
+# Subtest: L19 shy-button: restart gives a clean state and cancels timers
+ok 119 - L19 shy-button: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.123275
+  type: 'test'
+  ...
+# Subtest: L19 shy-button: hints are graduated and never change level state
+ok 120 - L19 shy-button: hints are graduated and never change level state
+  ---
+  duration_ms: 0.089528
+  type: 'test'
+  ...
+# Subtest: L19 shy-button: leaving the level (destroy) stops all timers
+ok 121 - L19 shy-button: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.073416
+  type: 'test'
+  ...
+# Subtest: L20 weight-of-words: intended solution completes the level exactly once
+ok 122 - L20 weight-of-words: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.350806
+  type: 'test'
+  ...
+# Subtest: L20 weight-of-words: restart gives a clean state and cancels timers
+ok 123 - L20 weight-of-words: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.108024
+  type: 'test'
+  ...
+# Subtest: L20 weight-of-words: hints are graduated and never change level state
+ok 124 - L20 weight-of-words: hints are graduated and never change level state
+  ---
+  duration_ms: 0.045097
+  type: 'test'
+  ...
+# Subtest: L20 weight-of-words: leaving the level (destroy) stops all timers
+ok 125 - L20 weight-of-words: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.031877
+  type: 'test'
+  ...
+# Subtest: L21 nap-time: intended solution completes the level exactly once
+ok 126 - L21 nap-time: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.14923
+  type: 'test'
+  ...
+# Subtest: L21 nap-time: restart gives a clean state and cancels timers
+ok 127 - L21 nap-time: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.238114
+  type: 'test'
+  ...
+# Subtest: L21 nap-time: hints are graduated and never change level state
+ok 128 - L21 nap-time: hints are graduated and never change level state
+  ---
+  duration_ms: 0.064088
+  type: 'test'
+  ...
+# Subtest: L21 nap-time: leaving the level (destroy) stops all timers
+ok 129 - L21 nap-time: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.036233
+  type: 'test'
+  ...
+# Subtest: L22 wet-paint: intended solution completes the level exactly once
+ok 130 - L22 wet-paint: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.255701
+  type: 'test'
+  ...
+# Subtest: L22 wet-paint: restart gives a clean state and cancels timers
+ok 131 - L22 wet-paint: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.107533
+  type: 'test'
+  ...
+# Subtest: L22 wet-paint: hints are graduated and never change level state
+ok 132 - L22 wet-paint: hints are graduated and never change level state
+  ---
+  duration_ms: 0.047728
+  type: 'test'
+  ...
+# Subtest: L22 wet-paint: leaving the level (destroy) stops all timers
+ok 133 - L22 wet-paint: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.03759
+  type: 'test'
+  ...
+# Subtest: L23 zero-gravity: intended solution completes the level exactly once
+ok 134 - L23 zero-gravity: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.127864
+  type: 'test'
+  ...
+# Subtest: L23 zero-gravity: restart gives a clean state and cancels timers
+ok 135 - L23 zero-gravity: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.229283
+  type: 'test'
+  ...
+# Subtest: L23 zero-gravity: hints are graduated and never change level state
+ok 136 - L23 zero-gravity: hints are graduated and never change level state
+  ---
+  duration_ms: 0.056027
+  type: 'test'
+  ...
+# Subtest: L23 zero-gravity: leaving the level (destroy) stops all timers
+ok 137 - L23 zero-gravity: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.046151
+  type: 'test'
+  ...
+# Subtest: L24 copycat: intended solution completes the level exactly once
+ok 138 - L24 copycat: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.159795
+  type: 'test'
+  ...
+# Subtest: L24 copycat: restart gives a clean state and cancels timers
+ok 139 - L24 copycat: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.068111
+  type: 'test'
+  ...
+# Subtest: L24 copycat: hints are graduated and never change level state
+ok 140 - L24 copycat: hints are graduated and never change level state
+  ---
+  duration_ms: 0.039623
+  type: 'test'
+  ...
+# Subtest: L24 copycat: leaving the level (destroy) stops all timers
+ok 141 - L24 copycat: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.03125
+  type: 'test'
+  ...
+# Subtest: L25 mirror-mirror: intended solution completes the level exactly once
+ok 142 - L25 mirror-mirror: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.135382
+  type: 'test'
+  ...
+# Subtest: L25 mirror-mirror: restart gives a clean state and cancels timers
+ok 143 - L25 mirror-mirror: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.047045
+  type: 'test'
+  ...
+# Subtest: L25 mirror-mirror: hints are graduated and never change level state
+ok 144 - L25 mirror-mirror: hints are graduated and never change level state
+  ---
+  duration_ms: 0.036539
+  type: 'test'
+  ...
+# Subtest: L25 mirror-mirror: leaving the level (destroy) stops all timers
+ok 145 - L25 mirror-mirror: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.069205
+  type: 'test'
+  ...
+# Subtest: L26 two-of-a-kind: intended solution completes the level exactly once
+ok 146 - L26 two-of-a-kind: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.213739
+  type: 'test'
+  ...
+# Subtest: L26 two-of-a-kind: restart gives a clean state and cancels timers
+ok 147 - L26 two-of-a-kind: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.077582
+  type: 'test'
+  ...
+# Subtest: L26 two-of-a-kind: hints are graduated and never change level state
+ok 148 - L26 two-of-a-kind: hints are graduated and never change level state
+  ---
+  duration_ms: 0.042121
+  type: 'test'
+  ...
+# Subtest: L26 two-of-a-kind: leaving the level (destroy) stops all timers
+ok 149 - L26 two-of-a-kind: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.031242
+  type: 'test'
+  ...
+# Subtest: L27 the-drip: intended solution completes the level exactly once
+ok 150 - L27 the-drip: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.202905
+  type: 'test'
+  ...
+# Subtest: L27 the-drip: restart gives a clean state and cancels timers
+ok 151 - L27 the-drip: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.090603
+  type: 'test'
+  ...
+# Subtest: L27 the-drip: hints are graduated and never change level state
+ok 152 - L27 the-drip: hints are graduated and never change level state
+  ---
+  duration_ms: 0.150839
+  type: 'test'
+  ...
+# Subtest: L27 the-drip: leaving the level (destroy) stops all timers
+ok 153 - L27 the-drip: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.06619
+  type: 'test'
+  ...
+# Subtest: L28 swamp-stones: intended solution completes the level exactly once
+ok 154 - L28 swamp-stones: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.263766
+  type: 'test'
+  ...
+# Subtest: L28 swamp-stones: restart gives a clean state and cancels timers
+ok 155 - L28 swamp-stones: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 3.225021
+  type: 'test'
+  ...
+# Subtest: L28 swamp-stones: hints are graduated and never change level state
+ok 156 - L28 swamp-stones: hints are graduated and never change level state
+  ---
+  duration_ms: 0.09344
+  type: 'test'
+  ...
+# Subtest: L28 swamp-stones: leaving the level (destroy) stops all timers
+ok 157 - L28 swamp-stones: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.040361
+  type: 'test'
+  ...
+# Subtest: L29 channel-surfing: intended solution completes the level exactly once
+ok 158 - L29 channel-surfing: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.158705
+  type: 'test'
+  ...
+# Subtest: L29 channel-surfing: restart gives a clean state and cancels timers
+ok 159 - L29 channel-surfing: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.089473
+  type: 'test'
+  ...
+# Subtest: L29 channel-surfing: hints are graduated and never change level state
+ok 160 - L29 channel-surfing: hints are graduated and never change level state
+  ---
+  duration_ms: 0.044851
+  type: 'test'
+  ...
+# Subtest: L29 channel-surfing: leaving the level (destroy) stops all timers
+ok 161 - L29 channel-surfing: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.046436
+  type: 'test'
+  ...
+# Subtest: L30 the-password: intended solution completes the level exactly once
+ok 162 - L30 the-password: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.228919
+  type: 'test'
+  ...
+# Subtest: L30 the-password: restart gives a clean state and cancels timers
+ok 163 - L30 the-password: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.236065
+  type: 'test'
+  ...
+# Subtest: L30 the-password: hints are graduated and never change level state
+ok 164 - L30 the-password: hints are graduated and never change level state
+  ---
+  duration_ms: 0.055011
+  type: 'test'
+  ...
+# Subtest: L30 the-password: leaving the level (destroy) stops all timers
+ok 165 - L30 the-password: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.036541
+  type: 'test'
+  ...
+# Subtest: L31 pick-a-card: intended solution completes the level exactly once
+ok 166 - L31 pick-a-card: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.290647
+  type: 'test'
+  ...
+# Subtest: L31 pick-a-card: restart gives a clean state and cancels timers
+ok 167 - L31 pick-a-card: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.14983
+  type: 'test'
+  ...
+# Subtest: L31 pick-a-card: hints are graduated and never change level state
+ok 168 - L31 pick-a-card: hints are graduated and never change level state
+  ---
+  duration_ms: 0.051327
+  type: 'test'
+  ...
+# Subtest: L31 pick-a-card: leaving the level (destroy) stops all timers
+ok 169 - L31 pick-a-card: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.035672
+  type: 'test'
+  ...
+# Subtest: L32 lights-out: intended solution completes the level exactly once
+ok 170 - L32 lights-out: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.304233
+  type: 'test'
+  ...
+# Subtest: L32 lights-out: restart gives a clean state and cancels timers
+ok 171 - L32 lights-out: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.09499
+  type: 'test'
+  ...
+# Subtest: L32 lights-out: hints are graduated and never change level state
+ok 172 - L32 lights-out: hints are graduated and never change level state
+  ---
+  duration_ms: 0.043959
+  type: 'test'
+  ...
+# Subtest: L32 lights-out: leaving the level (destroy) stops all timers
+ok 173 - L32 lights-out: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.032015
+  type: 'test'
+  ...
+# Subtest: L33 terms-and-conditions: intended solution completes the level exactly once
+ok 174 - L33 terms-and-conditions: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.125302
+  type: 'test'
+  ...
+# Subtest: L33 terms-and-conditions: restart gives a clean state and cancels timers
+ok 175 - L33 terms-and-conditions: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.079876
+  type: 'test'
+  ...
+# Subtest: L33 terms-and-conditions: hints are graduated and never change level state
+ok 176 - L33 terms-and-conditions: hints are graduated and never change level state
+  ---
+  duration_ms: 0.037928
+  type: 'test'
+  ...
+# Subtest: L33 terms-and-conditions: leaving the level (destroy) stops all timers
+ok 177 - L33 terms-and-conditions: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.029359
+  type: 'test'
+  ...
+# Subtest: L34 the-rehearsal: intended solution completes the level exactly once
+ok 178 - L34 the-rehearsal: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.347127
+  type: 'test'
+  ...
+# Subtest: L34 the-rehearsal: restart gives a clean state and cancels timers
+ok 179 - L34 the-rehearsal: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.115351
+  type: 'test'
+  ...
+# Subtest: L34 the-rehearsal: hints are graduated and never change level state
+ok 180 - L34 the-rehearsal: hints are graduated and never change level state
+  ---
+  duration_ms: 0.045727
+  type: 'test'
+  ...
+# Subtest: L34 the-rehearsal: leaving the level (destroy) stops all timers
+ok 181 - L34 the-rehearsal: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.032101
+  type: 'test'
+  ...
+# Subtest: L35 last-instruction: intended solution completes the level exactly once
+ok 182 - L35 last-instruction: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.181347
+  type: 'test'
+  ...
+# Subtest: L35 last-instruction: restart gives a clean state and cancels timers
+ok 183 - L35 last-instruction: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.183547
+  type: 'test'
+  ...
+# Subtest: L35 last-instruction: hints are graduated and never change level state
+ok 184 - L35 last-instruction: hints are graduated and never change level state
+  ---
+  duration_ms: 0.043694
+  type: 'test'
+  ...
+# Subtest: L35 last-instruction: leaving the level (destroy) stops all timers
+ok 185 - L35 last-instruction: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.031973
+  type: 'test'
+  ...
+# Subtest: L36 final-decision: intended solution completes the level exactly once
+ok 186 - L36 final-decision: intended solution completes the level exactly once
+  ---
+  duration_ms: 0.454404
+  type: 'test'
+  ...
+# Subtest: L36 final-decision: restart gives a clean state and cancels timers
+ok 187 - L36 final-decision: restart gives a clean state and cancels timers
+  ---
+  duration_ms: 0.153009
+  type: 'test'
+  ...
+# Subtest: L36 final-decision: hints are graduated and never change level state
+ok 188 - L36 final-decision: hints are graduated and never change level state
+  ---
+  duration_ms: 0.095663
+  type: 'test'
+  ...
+# Subtest: L36 final-decision: leaving the level (destroy) stops all timers
+ok 189 - L36 final-decision: leaving the level (destroy) stops all timers
+  ---
+  duration_ms: 0.056424
   type: 'test'
   ...
 # Subtest: every declared secret path triggers exactly its secret, once
-ok 102 - every declared secret path triggers exactly its secret, once
+ok 190 - every declared secret path triggers exactly its secret, once
   ---
-  duration_ms: 1.834949
+  duration_ms: 1.379403
   type: 'test'
   ...
 # Subtest: secret definitions map 1:1 to level secret paths
-ok 103 - secret definitions map 1:1 to level secret paths
+ok 191 - secret definitions map 1:1 to level secret paths
   ---
-  duration_ms: 0.30966
+  duration_ms: 0.210319
   type: 'test'
   ...
 # Subtest: deja-vu note only exists on replay
-ok 104 - deja-vu note only exists on replay
+ok 192 - deja-vu note only exists on replay
   ---
-  duration_ms: 0.162688
+  duration_ms: 0.107856
   type: 'test'
   ...
 # Subtest: star scoring: par, hints and extra actions
-ok 105 - star scoring: par, hints and extra actions
+ok 193 - star scoring: par, hints and extra actions
   ---
-  duration_ms: 0.104978
+  duration_ms: 0.055864
   type: 'test'
   ...
 # Subtest: free objects (decor/secrets/narrator) do not cost actions
-ok 106 - free objects (decor/secrets/narrator) do not cost actions
+ok 194 - free objects (decor/secrets/narrator) do not cost actions
   ---
-  duration_ms: 0.22837
+  duration_ms: 0.101125
   type: 'test'
   ...
 # Subtest: perfect play earns 3 stars on every level
-ok 107 - perfect play earns 3 stars on every level
+ok 195 - perfect play earns 3 stars on every level
   ---
-  duration_ms: 1.044875
+  duration_ms: 1.728921
   type: 'test'
   ...
 # Subtest: L3: pressing the button fails softly and restarts the countdown; stars drop
-ok 108 - L3: pressing the button fails softly and restarts the countdown; stars drop
+ok 196 - L3: pressing the button fails softly and restarts the countdown; stars drop
   ---
-  duration_ms: 0.34922
+  duration_ms: 1.618331
   type: 'test'
   ...
 # Subtest: L5: wrong switches fail softly, logic answer is B
-ok 109 - L5: wrong switches fail softly, logic answer is B
+ok 197 - L5: wrong switches fail softly, logic answer is B
   ---
-  duration_ms: 0.217342
+  duration_ms: 0.21061
   type: 'test'
   ...
 # Subtest: L6: ringing early pushes the queue back; no deadline after \#17
-ok 110 - L6: ringing early pushes the queue back; no deadline after \#17
+ok 198 - L6: ringing early pushes the queue back; no deadline after \#17
   ---
-  duration_ms: 0.185361
+  duration_ms: 0.134822
   type: 'test'
   ...
 # Subtest: L9: opening the gift fails; both gift choices complete and record the choice
-ok 111 - L9: opening the gift fails; both gift choices complete and record the choice
+ok 199 - L9: opening the gift fails; both gift choices complete and record the choice
   ---
-  duration_ms: 0.379548
+  duration_ms: 0.179541
   type: 'test'
   ...
 # Subtest: L10: sandwich rule keeps the door locked; potato path records chaos choice
-ok 112 - L10: sandwich rule keeps the door locked; potato path records chaos choice
+ok 200 - L10: sandwich rule keeps the door locked; potato path records chaos choice
   ---
-  duration_ms: 0.24766
+  duration_ms: 0.141487
   type: 'test'
   ...
 # Subtest: L11: a wrong colour clears the entry
-ok 113 - L11: a wrong colour clears the entry
+ok 201 - L11: a wrong colour clears the entry
   ---
-  duration_ms: 0.187304
+  duration_ms: 0.154493
   type: 'test'
   ...
 # Subtest: L12: always disobeying fails; trusting the lever succeeds
-ok 114 - L12: always disobeying fails; trusting the lever succeeds
+ok 202 - L12: always disobeying fails; trusting the lever succeeds
   ---
-  duration_ms: 0.173568
+  duration_ms: 0.221222
   type: 'test'
   ...
 # Subtest: L13: the gap sends you back; wrong code does not reveal the secret
-ok 115 - L13: the gap sends you back; wrong code does not reveal the secret
+ok 203 - L13: the gap sends you back; wrong code does not reveal the secret
   ---
-  duration_ms: 0.218806
+  duration_ms: 0.221334
   type: 'test'
   ...
 # Subtest: L14: charging without battery does nothing; early release resets
-ok 116 - L14: charging without battery does nothing; early release resets
+ok 204 - L14: charging without battery does nothing; early release resets
   ---
-  duration_ms: 0.367944
+  duration_ms: 0.192215
   type: 'test'
   ...
-# Subtest: L15: the question only appears after all three gears; intro reflects choices
-ok 117 - L15: the question only appears after all three gears; intro reflects choices
+# Subtest: L35: the question only appears after all three gears; intro reflects choices
+ok 205 - L35: the question only appears after all three gears; intro reflects choices
   ---
-  duration_ms: 0.32132
+  duration_ms: 0.390183
   type: 'test'
   ...
-# Subtest: L16: three outcomes; quill only with all secrets; OBEY does not end the game
-ok 118 - L16: three outcomes; quill only with all secrets; OBEY does not end the game
+# Subtest: L36: three outcomes; quill only with all secrets; OBEY does not end the game
+ok 206 - L36: three outcomes; quill only with all secrets; OBEY does not end the game
   ---
-  duration_ms: 0.480591
+  duration_ms: 0.28797
   type: 'test'
   ...
 # Subtest: rapid repeated input on completion is safe
-ok 119 - rapid repeated input on completion is safe
+ok 207 - rapid repeated input on completion is safe
   ---
-  duration_ms: 0.205242
+  duration_ms: 0.128986
   type: 'test'
   ...
 # Subtest: unmatched holdend and unknown targets are ignored
-ok 120 - unmatched holdend and unknown targets are ignored
+ok 208 - unmatched holdend and unknown targets are ignored
   ---
-  duration_ms: 0.127246
+  duration_ms: 0.075149
   type: 'test'
   ...
 # Subtest: costume aside is prefixed to the intro, but not on the silent level
-ok 121 - costume aside is prefixed to the intro, but not on the silent level
+ok 209 - costume aside is prefixed to the intro, but not on the silent level
   ---
-  duration_ms: 0.164166
+  duration_ms: 0.097373
   type: 'test'
   ...
-1..121
-# tests 121
+# Subtest: every level completes with 3 stars on Easy, Medium and Hard via its intended path
+ok 210 - every level completes with 3 stars on Easy, Medium and Hard via its intended path
+  ---
+  duration_ms: 2.44148
+  type: 'test'
+  ...
+# Subtest: every alternative path (choices, patient routes, endings) completes
+ok 211 - every alternative path (choices, patient routes, endings) completes
+  ---
+  duration_ms: 0.457738
+  type: 'test'
+  ...
+# Subtest: Hard: only one hint tier; a trap costs 2 extra actions
+ok 212 - Hard: only one hint tier; a trap costs 2 extra actions
+  ---
+  duration_ms: 0.243407
+  type: 'test'
+  ...
+# Subtest: Hard-mode room tweaks: longer countdown (L3), harsher queue (L6), faster flood (L27)
+ok 213 - Hard-mode room tweaks: longer countdown (L3), harsher queue (L6), faster flood (L27)
+  ---
+  duration_ms: 0.253643
+  type: 'test'
+  ...
+# Subtest: guided runs (Show me how) always score 1 star and are flagged
+ok 214 - guided runs (Show me how) always score 1 star and are flagged
+  ---
+  duration_ms: 0.112789
+  type: 'test'
+  ...
+# Subtest: nope reactions count harmless wrong moves without resetting the room
+ok 215 - nope reactions count harmless wrong moves without resetting the room
+  ---
+  duration_ms: 0.079741
+  type: 'test'
+  ...
+# Subtest: traps report a laughing narrator and remember the fail text
+ok 216 - traps report a laughing narrator and remember the fail text
+  ---
+  duration_ms: 0.089589
+  type: 'test'
+  ...
+# Subtest: new levels: wrong moves behave as documented
+ok 217 - new levels: wrong moves behave as documented
+  ---
+  duration_ms: 0.88745
+  type: 'test'
+  ...
+# Subtest: L32 lights: making every bulb light up is a trap
+ok 218 - L32 lights: making every bulb light up is a trap
+  ---
+  duration_ms: 0.150335
+  type: 'test'
+  ...
+# Subtest: QA2-D5: Level 3 walkthrough path matches the Hard countdown
+ok 219 - QA2-D5: Level 3 walkthrough path matches the Hard countdown
+  ---
+  duration_ms: 0.139263
+  type: 'test'
+  ...
+1..219
+# tests 219
 # suites 0
-# pass 121
+# pass 219
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 284.60044
+# duration_ms 401.283637

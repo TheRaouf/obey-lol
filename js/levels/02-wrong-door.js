@@ -48,6 +48,7 @@
             s.exitOpened = true;
             api.say('Huh. Bricks. Who put bricks there? Definitely not me. Try it again, I\'m sure it\'s fine now.', 'surprised');
           } else {
+            api.nope();
             api.say('Still bricks. Persistence is not a personality.', 'annoyed');
           }
           return true;
@@ -62,6 +63,7 @@
           return true;
         case 'closet':
           if (!s.hasKey) {
+            api.nope();
             api.say('Locked. Also it says NOT AN EXIT. Can you not read?', 'pleased');
           } else {
             api.complete({ line: 'You used a key on the NOT-AN-EXIT. It was an exit. I need to update my signs.', mood: 'defeated' });

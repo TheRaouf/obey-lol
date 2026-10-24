@@ -63,8 +63,10 @@
         if (a.zone === 'door' && s.revealed) {
           api.complete({ line: 'Click. The "decorative" key fits the "nonexistent" door. I\'m going to lie down.', mood: 'defeated' });
         } else if (a.zone === 'door') {
+          api.nope('key');
           api.say('There\'s a big crate in the way. Of nothing. In the way of nothing.', 'pleased');
         } else {
+          api.nope('key');
           api.say('You put the key down. It slinks back to its shelf. Keys are like that.', 'neutral');
         }
         return true;

@@ -7,7 +7,7 @@ const path = require('path');
 const H = require('./helpers');
 
 const VIEWPORTS = [[320, 700], [390, 844], [768, 1024], [1365, 900], [1920, 1080]];
-const SCREENS = ['menu', 'map', 'secrets', 'costumes', 'themes', 'achievements', 'settings', 'credits'];
+const SCREENS = ['menu', 'map', 'secrets', 'costumes', 'themes', 'achievements', 'trophies', 'settings', 'credits'];
 let browser, server, base;
 const results = [];
 
@@ -58,7 +58,7 @@ async function checkLayout(page, label) {
 
 for (const [w, h] of VIEWPORTS) {
   test(`viewport ${w}x${h}: all main screens, levels and overlays fit`, async () => {
-    const { page, errors, ctx } = await H.openGame(browser, base, { viewport: { width: w, height: h }, seed: H.saveWith(15, (d) => { d.endings.seen = ['hero', 'chaos']; d.endings.history = [{ id: 'hero', at: 1 }]; return d; }), hasTouch: w < 800, isMobile: w < 800 });
+    const { page, errors, ctx } = await H.openGame(browser, base, { viewport: { width: w, height: h }, seed: H.saveWith(35, (d) => { d.endings.seen = ['hero', 'chaos']; d.endings.history = [{ id: 'hero', at: 1 }]; return d; }), hasTouch: w < 800, isMobile: w < 800 });
     const dir = path.join(H.SHOTS, 'responsive');
     fs.mkdirSync(dir, { recursive: true });
     for (const s of SCREENS) {
@@ -67,7 +67,7 @@ for (const [w, h] of VIEWPORTS) {
       await checkLayout(page, `${w} ${s}`);
       if (['menu', 'map', 'settings'].includes(s)) await page.waitForTimeout(800), await page.screenshot({ path: path.join(dir, `${s}-${w}x${h}.png`) });
     }
-    for (let n = 1; n <= 16; n++) {
+    for (let n = 1; n <= 36; n++) {
       await page.evaluate((x) => { location.hash = 'level/' + x; }, n);
       await page.waitForFunction((x) => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === x, n);
       if (n === 13) await page.locator(H.sel('panel')).click();
@@ -81,6 +81,26 @@ for (const [w, h] of VIEWPORTS) {
       assert.ok(st.x >= 0 && st.x + st.width <= w, 'stage inside viewport');
       if (n === 9 || n === 13) await page.waitForTimeout(500), await page.screenshot({ path: path.join(dir, `level${n}-${w}x${h}.png`) });
     }
+    // Wrong-answer card, gag and "Show me how" at this size.
+    await page.evaluate(() => { location.hash = 'level/12'; });
+    await page.waitForSelector('#stage [data-obj="right"]');
+    await page.locator(H.sel('right')).click();
+    await page.waitForSelector('#wrong-card:not([hidden])');
+    await checkLayout(page, `${w} wrong card`);
+    await page.locator('#wrong-card').getByRole('button', { name: 'Show me how' }).click();
+    await page.waitForSelector('#guide-box:not([hidden])');
+    await checkLayout(page, `${w} guide`);
+    if (w === 390) await page.waitForTimeout(400), await page.screenshot({ path: path.join(dir, `guide-${w}x${h}.png`), fullPage: true });
+    // Difficulty picker.
+    await page.evaluate(() => { location.hash = 'menu'; });
+    await page.waitForSelector('#screen-menu:not([hidden])');
+    await page.locator('.diff-line').getByRole('button', { name: 'Change' }).click();
+    await page.waitForSelector('.difficulty-modal');
+    const o2 = await H.noHorizontalOverflow(page);
+    assert.ok(o2.ok, 'difficulty modal overflow');
+    const mb = await page.locator('.difficulty-modal').boundingBox();
+    assert.ok(mb.x >= 0 && mb.x + mb.width <= w + 1, 'modal inside viewport');
+    await page.keyboard.press('Escape');
     // Completion overlay and an ending at this size.
     await page.evaluate(() => { location.hash = 'level/12'; });
     await page.waitForSelector('#stage [data-obj="lever"]');
@@ -92,7 +112,7 @@ for (const [w, h] of VIEWPORTS) {
     await page.evaluate(() => { location.hash = 'ending/hero'; });
     await page.waitForSelector('.ending-hero');
     await checkLayout(page, `${w} ending`);
-    results.push({ viewport: `${w}x${h}`, screens: SCREENS.length, levels: 16, overlay: true, ending: true, result: 'pass' });
+    results.push({ viewport: `${w}x${h}`, screens: SCREENS.length, levels: 36, overlay: true, ending: true, result: 'pass' });
     assert.deepEqual(errors, []);
     await ctx.close();
   });

@@ -6,14 +6,15 @@ const { loadGame, play, makeRuntime, normalizePath } = require('./load');
 const OBEY = loadGame();
 const LEVELS = OBEY.levels;
 
-test('exactly 16 levels are registered, numbered 1..16 in order', () => {
-  assert.equal(LEVELS.length, 16);
+test('exactly 36 levels are registered, numbered 1..36 in order', () => {
+  assert.equal(LEVELS.length, 36);
+  assert.equal(OBEY.LEVEL_COUNT, 36);
   LEVELS.forEach((d, i) => assert.equal(d.num, i + 1, `slot ${i}`));
 });
 
 test('level ids are unique, stable, kebab-case', () => {
   const ids = LEVELS.map((d) => d.id);
-  assert.equal(new Set(ids).size, 16);
+  assert.equal(new Set(ids).size, 36);
   ids.forEach((id) => assert.match(id, /^[a-z0-9]+(-[a-z0-9]+)*$/));
 });
 
@@ -37,7 +38,7 @@ test('levels are not copies of each other (distinct object sets and action mixes
     const { rt } = makeRuntime(OBEY, d.num);
     return rt.objects().map((o) => o.id).sort().join(',');
   });
-  assert.equal(new Set(sigs).size, 16);
+  assert.equal(new Set(sigs).size, 36);
   const mechanics = new Set(LEVELS.flatMap((d) => d.actions));
   for (const m of ['tap', 'drag', 'hold', 'wait', 'choice', 'sequence']) assert.ok(mechanics.has(m), 'mechanic ' + m);
 });
@@ -270,20 +271,20 @@ test('L14: charging without battery does nothing; early release resets', () => {
   assert.equal(log.completed.choices.sign, 'graffiti');
 });
 
-test('L15: the question only appears after all three gears; intro reflects choices', () => {
-  const r = makeRuntime(OBEY, 15, { choices: { gift: 'prank', rule: 'potato' } });
+test('L35: the question only appears after all three gears; intro reflects choices', () => {
+  const r = makeRuntime(OBEY, 35, { choices: { gift: 'prank', rule: 'potato' } });
   assert.match(r.rt.line, /bonked me/);
   assert.match(r.rt.line, /potato/);
   assert.equal(r.rt.findObject('yes').hidden, true);
   assert.equal(r.rt.dispatch({ type: 'tap', target: 'yes' }), false);
   play(r.rt, r.clock, r.def.alternatives.why);
   assert.equal(r.log.completed.choices.trust, 'why');
-  const nice = makeRuntime(OBEY, 15, { choices: { gift: 'return', rule: 'door', sign: 'fix' } });
+  const nice = makeRuntime(OBEY, 35, { choices: { gift: 'return', rule: 'door', sign: 'fix' } });
   assert.match(nice.rt.line, /nice to me/);
 });
 
-test('L16: three outcomes; quill only with all secrets; OBEY does not end the game', () => {
-  let r = makeRuntime(OBEY, 16);
+test('L36: three outcomes; quill only with all secrets; OBEY does not end the game', () => {
+  let r = makeRuntime(OBEY, 36);
   assert.equal(r.rt.findObject('quill').hidden, true);
   assert.equal(r.rt.dispatch({ type: 'tap', target: 'quill' }), false);
   play(r.rt, r.clock, [{ tap: 'obey' }, { tap: 'obey' }]);
@@ -292,10 +293,10 @@ test('L16: three outcomes; quill only with all secrets; OBEY does not end the ga
   assert.equal(r.log.completed, null, 'short hold does not repair');
   play(r.rt, r.clock, r.def.solution);
   assert.equal(r.log.completed.ending, 'hero');
-  r = makeRuntime(OBEY, 16);
+  r = makeRuntime(OBEY, 36);
   play(r.rt, r.clock, r.def.alternatives.chaos);
   assert.equal(r.log.completed.ending, 'chaos');
-  r = makeRuntime(OBEY, 16, { allSecrets: true });
+  r = makeRuntime(OBEY, 36, { allSecrets: true });
   play(r.rt, r.clock, r.def.alternatives.secret.steps);
   assert.equal(r.log.completed.ending, 'secret');
 });
@@ -321,4 +322,184 @@ test('costume aside is prefixed to the intro, but not on the silent level', () =
   assert.match(r.rt.line, /^BEEP\. /);
   const s = makeRuntime(OBEY, 11, { costumeAside: 'BEEP.' });
   assert.equal(s.rt.line, '…');
+});
+
+/* ------------------------------------------------------------------ 2.0 */
+test('every level completes with 3 stars on Easy, Medium and Hard via its intended path', () => {
+  for (const d of LEVELS) {
+    for (const diff of ['easy', 'medium', 'hard']) {
+      const { rt, clock, log } = makeRuntime(OBEY, d.num, { difficulty: diff });
+      const path = d.num === 3 && diff === 'hard' ? [{ wait: 15500 }] : d.solution;
+      play(rt, clock, path);
+      assert.ok(log.completed, `${d.id} on ${diff}`);
+      assert.equal(log.completed.stars, 3, `${d.id} on ${diff}`);
+      assert.equal(log.completed.difficulty, diff);
+    }
+  }
+});
+
+test('every alternative path (choices, patient routes, endings) completes', () => {
+  let count = 0;
+  for (const d of LEVELS) {
+    for (const [k, raw] of Object.entries(d.alternatives || {})) {
+      const p = normalizePath(raw);
+      const { rt, clock, log } = makeRuntime(OBEY, d.num, { allSecrets: !!p.allSecrets });
+      play(rt, clock, p.steps);
+      assert.ok(log.completed, `${d.id} alternative ${k}`);
+      count++;
+    }
+  }
+  assert.equal(count, 8);
+});
+
+test('Hard: only one hint tier; a trap costs 2 extra actions', () => {
+  const { rt, clock } = makeRuntime(OBEY, 12, { difficulty: 'hard' });
+  assert.equal(rt.hintLimit(), 1);
+  const h1 = rt.hint(), h2 = rt.hint();
+  assert.equal(h1.tier, 1); assert.equal(h2.tier, 1); assert.equal(h1.total, 1);
+  assert.equal(rt.stats.hints, 1);
+  play(rt, clock, [{ tap: 'left' }]);
+  assert.equal(rt.stats.fails, 1);
+  assert.equal(rt.stats.actions, 3, '1 tap + 2 penalty');
+  const m = makeRuntime(OBEY, 12, { difficulty: 'medium' });
+  play(m.rt, m.clock, [{ tap: 'left' }]);
+  assert.equal(m.rt.stats.actions, 1);
+  assert.equal(m.rt.hintLimit(), 3);
+});
+
+test('Hard-mode room tweaks: longer countdown (L3), harsher queue (L6), faster flood (L27)', () => {
+  let r = makeRuntime(OBEY, 3, { difficulty: 'hard' });
+  assert.equal(r.rt.state.t, 15);
+  r = makeRuntime(OBEY, 6, { difficulty: 'hard' });
+  r.clock.advance(6000);
+  play(r.rt, r.clock, [{ tap: 'bell' }]);
+  assert.equal(r.rt.state.serving, 12);
+  r = makeRuntime(OBEY, 27, { difficulty: 'hard' });
+  r.clock.advance(15000);
+  assert.equal(r.rt.stats.fails, 1, 'room floods within 15 s on Hard');
+  assert.equal(r.rt.state.flood, 0, 'trap resets the water');
+  r = makeRuntime(OBEY, 27, { difficulty: 'medium' });
+  r.clock.advance(15000);
+  assert.equal(r.rt.stats.fails, 0);
+  assert.equal(r.rt.state.flood, 7);
+});
+
+test('guided runs (Show me how) always score 1 star and are flagged', () => {
+  const { rt, clock, log } = makeRuntime(OBEY, 1);
+  rt.restart({ guided: true });
+  play(rt, clock, [{ tap: 'red' }, { tap: 'blue' }]);
+  assert.equal(log.completed.stars, 1);
+  assert.equal(log.completed.guided, true);
+  rt.restart();
+  assert.equal(rt.guided, false, 'a normal restart clears guided mode');
+});
+
+test('nope reactions count harmless wrong moves without resetting the room', () => {
+  const { rt, clock } = makeRuntime(OBEY, 2);
+  play(rt, clock, [{ tap: 'closet' }]);
+  assert.equal(rt.nopes, 1);
+  assert.equal(rt.nopeTarget, 'closet');
+  assert.equal(rt.stats.fails, 0);
+  play(rt, clock, [{ tap: 'mat' }]);
+  assert.equal(rt.state.matLifted, true);
+});
+
+test('traps report a laughing narrator and remember the fail text', () => {
+  const { rt, clock } = makeRuntime(OBEY, 16);
+  play(rt, clock, [{ tap: 'no' }]);
+  assert.equal(rt.mood, 'laughing');
+  assert.match(rt.lastFail.text, /TRUTH/);
+  assert.equal(rt.state.q, 0);
+});
+
+test('new levels: wrong moves behave as documented', () => {
+  let r = makeRuntime(OBEY, 15); // volume
+  play(r.rt, r.clock, [{ tap: 'door' }, { tap: 'up' }, { tap: 'up' }, { tap: 'up' }]);
+  assert.equal(r.rt.nopes, 1); assert.equal(r.rt.stats.fails, 1); assert.equal(r.rt.state.vol, 3);
+  r = makeRuntime(OBEY, 17); // sock
+  play(r.rt, r.clock, [{ tap: 'd3' }, { tap: 'cat' }, { drop: ['sock', 'narrator'] }]);
+  assert.equal(r.log.completed, null); assert.equal(r.rt.nopes, 2);
+  r = makeRuntime(OBEY, 18); // simon
+  play(r.rt, r.clock, [{ tap: 'drum' }, { tap: 'bell' }]);
+  assert.equal(r.rt.stats.fails, 1); assert.equal(r.rt.state.i, 0);
+  r = makeRuntime(OBEY, 19); // shy
+  play(r.rt, r.clock, [{ tap: 'shy' }, { tap: 'shy' }]);
+  assert.equal(r.rt.state.runs, 2); assert.equal(r.log.completed, null);
+  play(r.rt, r.clock, [{ tap: 'eyes' }]);
+  assert.equal(r.rt.findObject('shy').hidden, true);
+  r = makeRuntime(OBEY, 20); // scale
+  play(r.rt, r.clock, [{ drop: ['w-MASSIVE', 'pan'] }]);
+  assert.equal(r.rt.stats.fails, 1); assert.deepEqual(r.rt.state.pan, []);
+  play(r.rt, r.clock, [{ drop: ['w-A', null] }]);
+  assert.equal(r.rt.nopes, 1);
+  r = makeRuntime(OBEY, 21); // nap
+  play(r.rt, r.clock, [{ tap: 'door' }, { tap: 'back' }]);
+  assert.equal(r.rt.state.hour, 11); assert.equal(r.rt.nopes, 1);
+  play(r.rt, r.clock, [{ tap: 'fwd' }, { tap: 'fwd' }, { tap: 'fwd' }, { tap: 'fwd' }]);
+  assert.equal(r.rt.state.hour, 3); assert.equal(r.rt.overlay, 'sleep');
+  r = makeRuntime(OBEY, 22); // paint
+  play(r.rt, r.clock, [{ tap: 'door' }]);
+  assert.equal(r.rt.stats.fails, 1);
+  play(r.rt, r.clock, [{ hold: ['fan', 900] }]);
+  assert.equal(r.rt.state.wet, true);
+  r = makeRuntime(OBEY, 23); // gravity
+  play(r.rt, r.clock, [{ tap: 'key' }, { tap: 'door' }]);
+  assert.equal(r.rt.nopes, 2); assert.equal(r.rt.state.drift, 1);
+  r = makeRuntime(OBEY, 24); // copycat
+  play(r.rt, r.clock, [{ tap: 'lampR' }]);
+  assert.deepEqual([r.rt.state.L, r.rt.state.R], [false, true]); assert.equal(r.log.completed, null);
+  r = makeRuntime(OBEY, 25); // mirror
+  play(r.rt, r.clock, [{ tap: 'green' }, { tap: 'orange' }]);
+  assert.equal(r.rt.stats.fails, 2);
+  r = makeRuntime(OBEY, 26); // twins
+  play(r.rt, r.clock, [{ tap: 'q-boss' }]);
+  assert.equal(r.rt.findObject('q-meta').disabled, true, 'only one question');
+  play(r.rt, r.clock, [{ tap: 'leftdoor' }]);
+  assert.equal(r.rt.stats.fails, 1);
+  r = makeRuntime(OBEY, 27); // drip
+  play(r.rt, r.clock, [{ hold: ['valve', 2500] }]);
+  assert.equal(r.log.completed, null); assert.equal(r.rt.nopes, 1);
+  r = makeRuntime(OBEY, 28); // swamp
+  play(r.rt, r.clock, [{ tap: 's2t' }, { tap: 's1t' }]);
+  assert.equal(r.rt.nopes, 1); assert.equal(r.rt.stats.fails, 1);
+  r = makeRuntime(OBEY, 29); // tv
+  play(r.rt, r.clock, [{ tap: 'hatch' }, { tap: 'chdown' }]);
+  assert.equal(r.rt.nopes, 1); assert.equal(r.rt.state.ch, 4);
+  r = makeRuntime(OBEY, 30); // password
+  play(r.rt, r.clock, [{ tap: 't-password' }, { tap: 'enter' }]);
+  assert.equal(r.rt.stats.fails, 1); assert.deepEqual(r.rt.state.entry, []);
+  r = makeRuntime(OBEY, 31); // cards
+  assert.equal(r.rt.dispatch({ type: 'tap', target: 'cardJ' }), false, 'no picking while shuffling');
+  r.clock.advance(5200);
+  assert.equal(r.rt.state.pos.J, 1, 'joker ends in the middle');
+  play(r.rt, r.clock, [{ tap: 'cardB' }]);
+  assert.equal(r.rt.stats.fails, 1);
+  r = makeRuntime(OBEY, 32); // lights
+  play(r.rt, r.clock, [{ tap: 'b3' }, { tap: 'b2' }]);
+  assert.equal(r.log.completed, null);
+  r = makeRuntime(OBEY, 33); // contract
+  play(r.rt, r.clock, [{ tap: 'flap' }, { tap: 'agree' }]);
+  assert.equal(r.rt.nopes, 1); assert.equal(r.rt.stats.fails, 1);
+  r = makeRuntime(OBEY, 34); // quiz
+  play(r.rt, r.clock, [{ tap: 'opt2' }, { tap: 'opt1' }]);
+  assert.equal(r.rt.stats.fails, 1); assert.equal(r.rt.state.q, 0);
+});
+
+test('L32 lights: making every bulb light up is a trap', () => {
+  const { rt, clock } = makeRuntime(OBEY, 32);
+  play(rt, clock, [{ tap: 'b3' }]);
+  assert.deepEqual(rt.state.b, [1, 0, 1, 0, 1], 'a bulb flips itself and its neighbours');
+  rt.state.b = [1, 0, 0, 0, 1];
+  play(rt, clock, [{ tap: 'b3' }]); // → all five on
+  assert.equal(rt.stats.fails, 1);
+  assert.deepEqual(rt.state.b, [1, 1, 0, 1, 1], 'reset to the start pattern');
+});
+
+test('QA2-D5: Level 3 walkthrough path matches the Hard countdown', () => {
+  const d = OBEY.getLevel(3);
+  assert.deepEqual(d.guide({ difficulty: 'hard' }), [{ wait: 15500 }]);
+  assert.deepEqual(d.guide({ difficulty: 'easy' }), [{ wait: 10500 }]);
+  const { rt, clock, log } = makeRuntime(OBEY, 3, { difficulty: 'hard' });
+  play(rt, clock, d.guide({ difficulty: 'hard' }));
+  assert.ok(log.completed);
 });

@@ -11,7 +11,8 @@
 
   P.isCompleted = function (s, n) { return s.completed.indexOf(n) >= 0; };
   P.totalStars = function (s) { return OBEY.save.sumStars(s.bestStars); };
-  P.canPlay = function (s, n) { return Number.isInteger(n) && n >= 1 && n <= L && n <= s.highestUnlocked; };
+  /** A level is playable once reached in order, or if it was already finished (e.g. migrated saves). */
+  P.canPlay = function (s, n) { return Number.isInteger(n) && n >= 1 && n <= L && (n <= s.highestUnlocked || P.isCompleted(s, n)); };
   P.hasProgress = function (s) { return s.completed.length > 0 || s.secrets.length > 0; };
 
   /** The level "Continue" should open: the first unlocked, uncompleted level, or null if all done. */
@@ -50,6 +51,14 @@
         ev.push({ type: 'theme', id: t.id });
       }
     });
+    OBEY.TROPHIES.forEach(function (t) {
+      var tier = P.trophyTier(s, t);
+      var had = s.trophies[t.id] || 0;
+      if (tier > had) {
+        s.trophies[t.id] = tier;
+        ev.push({ type: 'trophy', id: t.id, tier: tier, upgraded: had > 0 });
+      }
+    });
     OBEY.ACHIEVEMENTS.forEach(function (a) {
       if (!s.achievements[a.id] && P.achievementMet(s, a)) {
         s.achievements[a.id] = Date.now();
@@ -57,6 +66,59 @@
       }
     });
     return ev;
+  };
+
+  /** Chapter cup metal: the lowest difficulty used across its four levels (0 = not earned). */
+  P.chapterTier = function (s, chapterId) {
+    var c = OBEY.CHAPTERS.filter(function (x) { return x.id === chapterId; })[0];
+    if (!c) return 0;
+    var tier = 3;
+    for (var i = 0; i < c.levels.length; i++) {
+      var n = c.levels[i];
+      if (!P.isCompleted(s, n)) return 0;
+      tier = Math.min(tier, OBEY.difficultyRank(s.bestDifficulty[n] || 'medium'));
+    }
+    return tier;
+  };
+
+  /** Current tier a trophy qualifies for (0 = not earned). */
+  P.trophyTier = function (s, t) {
+    if (t.kind === 'chapter') return P.chapterTier(s, t.chapter);
+    var hardCount = 0;
+    for (var k in s.bestDifficulty) if (s.bestDifficulty[k] === 'hard') hardCount++;
+    switch (t.id) {
+      case 'clean-sweep': return s.stats.noHint.length >= 10 ? t.tier : 0;
+      case 'flawless': return s.stats.flawless.length >= 10 ? t.tier : 0;
+      case 'hard-boiled': return hardCount >= 12 ? t.tier : 0;
+      case 'good-sport': return s.stats.fails >= 25 ? t.tier : 0;
+      case 'platinum-bossworth':
+        return OBEY.CHAPTERS.every(function (c) { return P.chapterTier(s, c.id) === 3; }) ? t.tier : 0;
+      default: return 0;
+    }
+  };
+
+  /** Progress toward a trophy as [current, target] for display. */
+  P.trophyProgress = function (s, t) {
+    if (t.kind === 'chapter') {
+      var c = OBEY.CHAPTERS.filter(function (x) { return x.id === t.chapter; })[0];
+      return [c.levels.filter(function (n) { return P.isCompleted(s, n); }).length, 4];
+    }
+    var hardCount = 0;
+    for (var k in s.bestDifficulty) if (s.bestDifficulty[k] === 'hard') hardCount++;
+    switch (t.id) {
+      case 'clean-sweep': return [Math.min(s.stats.noHint.length, 10), 10];
+      case 'flawless': return [Math.min(s.stats.flawless.length, 10), 10];
+      case 'hard-boiled': return [Math.min(hardCount, 12), 12];
+      case 'good-sport': return [Math.min(s.stats.fails, 25), 25];
+      case 'platinum-bossworth': return [OBEY.CHAPTERS.filter(function (c) { return P.chapterTier(s, c.id) === 3; }).length, 9];
+      default: return [0, 1];
+    }
+  };
+
+  P.setDifficulty = function (s, id) {
+    if (OBEY.DIFFICULTY_IDS.indexOf(id) < 0) return false;
+    s.difficulty = id;
+    return true;
   };
 
   /**
@@ -72,7 +134,10 @@
     if (firstTime) { s.completed.push(n); s.completed.sort(function (a, b) { return a - b; }); }
     s.bestStars[n] = Math.max(prev, stars);
     s.totalStars = P.totalStars(s);
-    if (n < L) s.highestUnlocked = Math.max(s.highestUnlocked, n + 1);
+    // Unlock the level after the unbroken run of finished levels (never skip ahead on replays).
+    var run = 0;
+    while (P.isCompleted(s, run + 1)) run++;
+    s.highestUnlocked = Math.max(s.highestUnlocked, Math.min(L, run + 1));
     if (U.isObj(result.choices)) {
       Object.keys(result.choices).forEach(function (k) {
         var v = result.choices[k];
@@ -82,6 +147,13 @@
     s.stats.defiance += Math.max(0, Math.floor(Number(result.defies) || 0));
     s.stats.hintsUsed += Math.max(0, Math.floor(Number(result.hints) || 0));
     s.stats.levelsFinished += 1;
+    s.stats.fails += Math.max(0, Math.floor(Number(result.fails) || 0));
+    var diff = OBEY.DIFFICULTY_IDS.indexOf(result.difficulty) >= 0 ? result.difficulty : (s.difficulty || 'medium');
+    if (OBEY.difficultyRank(diff) > OBEY.difficultyRank(s.bestDifficulty[n])) s.bestDifficulty[n] = diff;
+    if (!result.guided) {
+      if (!result.hints && s.stats.noHint.indexOf(n) < 0) s.stats.noHint.push(n);
+      if (!result.fails && s.stats.flawless.indexOf(n) < 0) s.stats.flawless.push(n);
+    }
     var ev = [{ type: 'level', n: n, stars: stars, best: s.bestStars[n], improved: stars > prev && !firstTime, firstTime: firstTime }];
     return ev.concat(P.evaluate(s));
   };
@@ -101,7 +173,7 @@
     return true;
   };
 
-  /** Records an ending after Level 16 was completed. Returns events or null if not allowed. */
+  /** Records an ending after the final level was completed. Returns events or null if not allowed. */
   P.recordEnding = function (s, id) {
     if (!P.endingAllowed(s, id)) return null;
     var first = s.endings.seen.indexOf(id) < 0;
@@ -136,10 +208,12 @@
 
   /**
    * New Game: restarts the campaign (levels, stars, secrets, choices, campaign stats).
-   * Keeps achievements, unlocked/selected cosmetics, ending history, tutorial flag and settings.
+   * Keeps achievements, trophies, unlocked/selected cosmetics, ending history, tutorial flag and settings.
    */
-  P.newGame = function (s) {
+  P.newGame = function (s, difficulty) {
     var fresh = OBEY.save.defaults();
+    fresh.difficulty = OBEY.DIFFICULTY_IDS.indexOf(difficulty) >= 0 ? difficulty : s.difficulty;
+    fresh.trophies = U.clone(s.trophies);
     fresh.costumes = U.clone(s.costumes);
     fresh.themes = U.clone(s.themes);
     fresh.achievements = U.clone(s.achievements);

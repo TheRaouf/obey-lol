@@ -128,6 +128,186 @@
     },
     {
       "level": 15,
+      "id": "volume-knob",
+      "stars": 3,
+      "actions": 5,
+      "par": 5,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 16,
+      "id": "opposite-day",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 17,
+      "id": "lost-sock",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 18,
+      "id": "bossworth-says",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 19,
+      "id": "shy-button",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 20,
+      "id": "weight-of-words",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 21,
+      "id": "nap-time",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 22,
+      "id": "wet-paint",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 23,
+      "id": "zero-gravity",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 24,
+      "id": "copycat",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 25,
+      "id": "mirror-mirror",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 26,
+      "id": "two-of-a-kind",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 27,
+      "id": "the-drip",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 28,
+      "id": "swamp-stones",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 29,
+      "id": "channel-surfing",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 30,
+      "id": "the-password",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 31,
+      "id": "pick-a-card",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 32,
+      "id": "lights-out",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 33,
+      "id": "terms-and-conditions",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 34,
+      "id": "the-rehearsal",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 35,
       "id": "last-instruction",
       "stars": 3,
       "actions": 4,
@@ -136,7 +316,7 @@
       "path": "intended solution (mouse)"
     },
     {
-      "level": 16,
+      "level": 36,
       "id": "final-decision",
       "stars": 3,
       "actions": 1,

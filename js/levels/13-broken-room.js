@@ -68,13 +68,13 @@
         s.announced = true;
         if (target < 0) {
           s.pos = 0;
+          api.nope();
           api.say(first ? 'You bumped the wall. Wait — you pressed RIGHT and went LEFT? Oh no. The room is BROKEN. Everything is backwards!' : 'Bonk. That\'s a wall.', 'surprised');
           return true;
         }
         target = Math.min(target, DOOR);
         if (target === GAP) {
-          s.pos = 0;
-          api.say('Whoops — straight into the gap! Back to the start. Mind the hole.', 'pleased');
+          api.fail('Whoops — straight into the gap! *distant splash* Back to the start. Mind the hole.');
           return true;
         }
         s.pos = target;

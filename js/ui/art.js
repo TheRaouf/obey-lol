@@ -8,7 +8,8 @@
   var SW3 = 'stroke="' + INK + '" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
 
   function svg(vb, inner, cls) {
-    return '<svg class="' + (cls || 'art') + '" viewBox="' + vb + '" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">' + inner + '</svg>';
+    var stretch = cls && /fill-art|water-art/.test(cls);
+    return '<svg class="' + (cls || 'art') + '" viewBox="' + vb + '" preserveAspectRatio="' + (stretch ? 'none' : 'xMidYMid meet') + '" aria-hidden="true" focusable="false">' + inner + '</svg>';
   }
   function esc(s) { return OBEY.util.escape(s); }
 
@@ -44,6 +45,11 @@
           '<circle cx="75" cy="96" r="2.6" fill="' + p + '"/><circle cx="125" cy="96" r="2.6" fill="' + p + '"/>' +
           '<path d="M60 74 L88 68" ' + SW + '/><path d="M140 74 L112 68" ' + SW + '/>' +
           '<path d="M156 66 Q164 80 156 86 Q148 80 156 66Z" fill="#7cc8ff" ' + SW3 + '/>';
+      case 'laughing':
+        return '<path d="M60 96 Q75 84 90 96" fill="none" ' + SW + '/><path d="M110 96 Q125 84 140 96" fill="none" ' + SW + '/>' +
+          '<path d="M58 104 Q54 116 60 122" fill="none" stroke="#7cc8ff" stroke-width="5" stroke-linecap="round"/><path d="M142 104 Q146 116 140 122" fill="none" stroke="#7cc8ff" stroke-width="5" stroke-linecap="round"/>';
+      case 'sleep':
+        return '<path d="M62 100 L88 100" ' + SW + '/><path d="M112 100 L138 100" ' + SW + '/>';
       case 'defeated':
         return '<path d="M62 102 Q75 110 88 102" fill="none" ' + SW + '/><path d="M112 102 Q125 110 138 102" fill="none" ' + SW + '/>' +
           '<path d="M62 88 L88 82" ' + SW3 + '/><path d="M138 88 L112 82" ' + SW3 + '/>';
@@ -62,6 +68,8 @@
       case 'surprised': return '<ellipse cx="100" cy="140" rx="11" ry="14" fill="#7a1f3d" ' + SW3 + '/>';
       case 'panicked': return '<path d="M76 140 Q82 132 88 140 Q94 148 100 140 Q106 132 112 140 Q118 148 124 140" fill="none" ' + SW + '/>';
       case 'defeated': return '<path d="M84 146 Q100 136 116 146" fill="none" ' + SW + '/>';
+      case 'laughing': return '<path d="M70 124 Q100 168 130 124 Z" fill="#7a1f3d" ' + SW3 + '/><path d="M76 126 L124 126 L120 134 L80 134Z" fill="#fff"/><ellipse cx="100" cy="150" rx="12" ry="6" fill="#ff6f91"/>';
+      case 'sleep': return '<ellipse cx="100" cy="140" rx="7" ry="6" fill="#7a1f3d" ' + SW3 + '/>';
       default: return '<path d="M84 138 L116 138" ' + SW + '/>';
     }
   }
@@ -108,9 +116,11 @@
       body = '<path d="' + BLOB + '" fill="' + fill + '" ' + SW + '/><path d="M64 160 Q100 178 136 160" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="8" stroke-linecap="round"/>';
     }
     var mask = costume === 'ninja' && overlay !== 'potato' ? '<rect x="26" y="78" width="148" height="40" rx="12" fill="#1f2033" ' + SW3 + '/>' : '';
-    var face = eyes(mood, costume === 'ninja') + (overlay === 'gag' ? '' : mouth(mood));
+    var faceMood = overlay === 'sleep' ? 'sleep' : mood;
+    var face = eyes(faceMood, costume === 'ninja') + (overlay === 'gag' ? '' : '<g class="mouth">' + mouth(faceMood) + '</g>');
+    if (overlay === 'sleep') face += '<g class="zzz"><text x="150" y="60" font-size="26" fill="' + INK + '">z</text><text x="166" y="40" font-size="20" fill="' + INK + '">z</text><text x="178" y="24" font-size="14" fill="' + INK + '">z</text></g>';
     var gag = overlay === 'gag' ? '<g transform="rotate(-8 100 140)"><rect x="70" y="128" width="60" height="20" rx="4" fill="#d9d4c7" ' + SW3 + '/></g><g transform="rotate(10 100 140)"><rect x="72" y="130" width="56" height="18" rx="4" fill="#ebe6da" ' + SW3 + '/></g>' : '';
-    var tilt = mood === 'defeated' ? ' transform="rotate(-7 100 110) translate(0 6)"' : (mood === 'surprised' ? ' transform="translate(0 -4)"' : '');
+    var tilt = mood === 'laughing' ? ' class="laugh-shake"' : mood === 'defeated' ? ' transform="rotate(-7 100 110) translate(0 6)"' : (mood === 'surprised' ? ' transform="translate(0 -4)"' : '');
     var acc = overlay === 'potato' ? '' : accessoryFront(costume);
     var back = overlay === 'potato' ? '' : accessoryBack(costume);
     return svg('-6 -10 212 222', '<g' + tilt + '>' + back + body + mask + face + gag + acc + '</g>', 'narrator-svg mood-' + mood + ' costume-' + costume);
@@ -156,7 +166,8 @@
         return svg('0 0 120 200', '<rect x="8" y="6" width="104" height="190" rx="10" fill="#7a3528" ' + SW + '/>' + bricks + '<rect x="8" y="6" width="104" height="190" rx="10" fill="none" ' + SW + '/>' + sign);
       }
       return svg('0 0 120 200', '<rect x="8" y="6" width="104" height="190" rx="10" fill="#a0784d" ' + SW + '/><rect x="20" y="' + (o.small ? 64 : 54) + '" width="80" height="60" rx="6" fill="#b88d5f" ' + SW3 + '/><rect x="20" y="126" width="80" height="56" rx="6" fill="#b88d5f" ' + SW3 + '/>' +
-        '<circle cx="94" cy="118" r="7" fill="#ffd23f" ' + SW3 + '/>' + (o.keyhole ? '<path d="M94 128 l-4 12 h8 z" fill="' + INK + '"/>' : '') + sign);
+        '<circle cx="94" cy="118" r="7" fill="#ffd23f" ' + SW3 + '/>' + (o.keyhole ? '<path d="M94 128 l-4 12 h8 z" fill="' + INK + '"/>' : '') + sign +
+        (o.wet ? '<g class="wet-drips"><path d="M30 70 l0 16 M58 130 l0 20 M84 76 l0 14 M40 160 l0 18" stroke="#2bc46f" stroke-width="7" stroke-linecap="round"/></g>' : ''));
     },
     mat: function (o) {
       return o.lifted ? svg('0 0 200 60', '<path d="M10 50 L190 50 L176 20 L24 20 Z" fill="#6b5a3b" ' + SW + '/><path d="M24 20 Q100 -10 176 20" fill="#8f7a52" ' + SW3 + '/>')
@@ -240,8 +251,9 @@
       return svg('0 0 100 100', '<path d="M10 96 L10 50 Q50 0 90 50 L90 96Z" fill="#1c1640" ' + SW3 + '/>' +
         (o.mouse ? '<circle cx="50" cy="76" r="14" fill="#b8b2c9"/><circle cx="38" cy="62" r="7" fill="#b8b2c9"/><circle cx="62" cy="62" r="7" fill="#b8b2c9"/><circle cx="45" cy="74" r="2" fill="#000"/><circle cx="55" cy="74" r="2" fill="#000"/><rect x="58" y="30" width="34" height="20" rx="3" fill="#fffdf6" ' + SW3 + '/><text x="75" y="45" text-anchor="middle" font-size="12" fill="' + INK + '">shh</text>' : '<circle cx="42" cy="70" r="3" fill="#ffd23f"/><circle cx="58" cy="70" r="3" fill="#ffd23f"/>'));
     },
-    lever: function () {
-      return svg('0 0 100 180', '<rect x="14" y="130" width="72" height="40" rx="8" fill="#4b4466" ' + SW + '/><path d="M50 134 L72 30" stroke="' + INK + '" stroke-width="12" stroke-linecap="round"/><path d="M50 134 L72 30" stroke="#c3ccd8" stroke-width="6" stroke-linecap="round"/><circle cx="72" cy="26" r="16" fill="#e5243b" ' + SW + '/>');
+    lever: function (o) {
+      var x = o && o.down ? 24 : 72;
+      return svg('0 0 100 180', '<rect x="14" y="130" width="72" height="40" rx="8" fill="#4b4466" ' + SW + '/><path d="M50 134 L' + x + ' 30" stroke="' + INK + '" stroke-width="12" stroke-linecap="round"/><path d="M50 134 L' + x + ' 30" stroke="#c3ccd8" stroke-width="6" stroke-linecap="round"/><circle cx="' + x + '" cy="26" r="16" fill="#e5243b" ' + SW + '/>');
     },
     parrot: function (o) {
       return svg('0 0 120 150', '<path d="M10 136 L110 136" ' + SW + '/><path d="M60 136 L60 150" ' + SW + '/>' +
@@ -303,6 +315,147 @@
     },
     quill: function () {
       return svg('0 0 140 100', '<path d="M20 86 C50 60 90 20 132 8 C120 40 90 70 40 80 Z" fill="#ffd23f" ' + SW + '/><path d="M20 86 L60 54" ' + SW3 + '/><path d="M8 96 L22 84" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>');
+    }    ,
+    /* ---------------------------------------------------------- 2.0 objects */
+    speaker: function (o) {
+      var v = o.vol || 0, waves = '';
+      for (var i = 0; i < v; i++) waves += '<path d="M' + (126 + i * 14) + ' ' + (60 - i * 8) + ' Q' + (140 + i * 16) + ' 90 ' + (126 + i * 14) + ' ' + (120 + i * 8) + '" fill="none" stroke="' + INK + '" stroke-width="5" stroke-linecap="round" opacity="' + (1 - i * 0.15) + '"/>';
+      return svg('0 0 220 180', '<rect x="20" y="30" width="90" height="120" rx="14" fill="#4b4466" ' + SW + '/><circle cx="65" cy="70" r="20" fill="#2d2850" ' + SW3 + '/><circle cx="65" cy="118" r="26" fill="#2d2850" ' + SW3 + '/><circle cx="65" cy="118" r="9" fill="#c3ccd8"/>' + waves + (v === 0 ? '<path d="M130 70 L170 110 M170 70 L130 110" stroke="#e5243b" stroke-width="8" stroke-linecap="round"/>' : ''));
+    },
+    drawer: function (o) {
+      return svg('0 0 200 90', '<rect x="4" y="4" width="192" height="82" rx="8" fill="#c98b4a" ' + SW + '/>' + (o.open ? '<rect x="14" y="14" width="172" height="62" rx="6" fill="#3b2a1a" ' + SW3 + '/><text x="100" y="54" text-anchor="middle" font-size="20" fill="#ffd23f">?!</text>' : '<rect x="76" y="36" width="48" height="12" rx="6" fill="#ffd23f" ' + SW3 + '/>') + '<text x="20" y="28" font-size="18" fill="' + INK + '">' + o.n + '</text>');
+    },
+    basket: function () {
+      return svg('0 0 160 130', '<path d="M14 40 L146 40 L130 124 L30 124 Z" fill="#e0b46a" ' + SW + '/><path d="M30 60 L130 60 M26 82 L134 82 M24 104 L136 104" stroke="#a87a3a" stroke-width="5"/><path d="M40 40 Q80 -6 120 40" fill="none" ' + SW + '/>');
+    },
+    catbed: function () {
+      return svg('0 0 200 100', '<ellipse cx="100" cy="66" rx="94" ry="30" fill="#b48cff" ' + SW + '/><ellipse cx="100" cy="58" rx="70" ry="18" fill="#e9dcff" ' + SW3 + '/>');
+    },
+    sock: function () {
+      return svg('0 0 120 100', '<path d="M30 6 L64 6 L64 54 L104 66 Q118 74 108 90 L44 86 Q26 82 30 64 Z" fill="#fffdf6" ' + SW + '/><path d="M30 18 L64 18 M30 32 L64 32 M30 46 L64 46" stroke="#e5243b" stroke-width="7"/>');
+    },
+    cat: function (o) {
+      var c = '#ff9f43';
+      return svg('0 0 160 140', '<ellipse cx="86" cy="98" rx="62" ry="36" fill="' + c + '" ' + SW + '/><path d="M140 96 Q170 70 150 44" fill="none" stroke="' + c + '" stroke-width="12" stroke-linecap="round"/><circle cx="52" cy="66" r="34" fill="' + c + '" ' + SW + '/>' +
+        '<path d="M26 46 L22 14 L48 36 Z M78 46 L84 14 L58 36 Z" fill="' + c + '" ' + SW3 + '/>' +
+        (o.eating ? '<path d="M38 62 L48 66 M66 62 L56 66" ' + SW3 + '/><path d="M40 82 Q52 92 64 82" fill="#fff" ' + SW3 + '/><path d="M60 84 L86 80 L80 90Z" fill="#7cc8ff" ' + SW3 + '/>'
+          : (o.grumpy ? '<path d="M36 56 L48 64 M68 56 L56 64" ' + SW3 + '/><circle cx="44" cy="68" r="3" fill="' + INK + '"/><circle cx="60" cy="68" r="3" fill="' + INK + '"/><path d="M44 84 Q52 78 60 84" fill="none" ' + SW3 + '/>'
+          : '<circle cx="42" cy="64" r="5" fill="' + INK + '"/><circle cx="62" cy="64" r="5" fill="' + INK + '"/><path d="M46 80 Q52 86 58 80" fill="none" ' + SW3 + '/>')));
+    },
+    drum: function () {
+      return svg('0 0 140 140', '<ellipse cx="70" cy="44" rx="56" ry="18" fill="#fffdf6" ' + SW + '/><path d="M14 44 L14 104 Q70 132 126 104 L126 44" fill="#e5243b" ' + SW + '/><path d="M14 60 L40 110 L70 62 L100 112 L126 60" fill="none" stroke="#ffd23f" stroke-width="5"/><path d="M96 8 L72 40 M120 14 L84 42" stroke="#a0784d" stroke-width="7" stroke-linecap="round"/>');
+    },
+    horn: function () {
+      return svg('0 0 160 120', '<path d="M10 52 L70 52 L130 16 L130 104 L70 68 L10 68 Z" fill="#ffd23f" ' + SW + '/><ellipse cx="130" cy="60" rx="14" ry="44" fill="#f5b400" ' + SW + '/><circle cx="24" cy="60" r="18" fill="#e5243b" ' + SW + '/>');
+    },
+    shybutton: function (o) {
+      return svg('0 0 120 120', '<circle cx="60" cy="68" r="48" fill="#4b4466" ' + SW + '/><circle cx="60" cy="58" r="42" fill="#ff77b4" ' + SW + '/>' +
+        (o.asleep ? '<path d="M38 54 L52 54 M68 54 L82 54" ' + SW3 + '/><text x="88" y="24" font-size="22" fill="' + INK + '">z</text>' : '<circle cx="45" cy="52" r="6" fill="' + INK + '"/><circle cx="75" cy="52" r="6" fill="' + INK + '"/><ellipse cx="38" cy="66" rx="7" ry="4" fill="#e5243b" opacity=".5"/><ellipse cx="82" cy="66" rx="7" ry="4" fill="#e5243b" opacity=".5"/>') +
+        '<path d="M50 74 Q60 80 70 74" fill="none" ' + SW3 + '/>');
+    },
+    scale: function (o) {
+      var t = o.tilt || 0, dy = t * 12;
+      return svg('0 0 300 150', '<path d="M150 30 L150 136 M110 140 L190 140" ' + SW + '/><circle cx="150" cy="26" r="8" fill="#ffd23f" ' + SW3 + '/>' +
+        '<g transform="rotate(' + (t * 7) + ' 150 30)"><path d="M40 30 L260 30" ' + SW + '/></g>' +
+        '<path d="M40 ' + (30 - dy) + ' L20 ' + (70 - dy) + ' L100 ' + (70 - dy) + ' Z" fill="#c3ccd8" ' + SW3 + ' opacity=".9"/>' +
+        '<path d="M260 ' + (30 + dy) + ' L200 ' + (70 + dy) + ' L280 ' + (70 + dy) + ' Z" fill="#c3ccd8" ' + SW3 + ' opacity=".9"/>' +
+        (t === 0 ? '<text x="150" y="110" text-anchor="middle" font-size="22" fill="' + INK + '">=</text>' : ''));
+    },
+    clock: function (o) {
+      var h = (o.hour || 12) % 12, ang = h * 30;
+      var marks = '';
+      for (var i = 1; i <= 12; i++) { var a = (i * 30 - 90) * Math.PI / 180; marks += '<text x="' + (100 + 70 * Math.cos(a)).toFixed(1) + '" y="' + (107 + 70 * Math.sin(a)).toFixed(1) + '" text-anchor="middle" font-size="18" fill="' + INK + '">' + i + '</text>'; }
+      return svg('0 0 200 200', '<circle cx="100" cy="100" r="92" fill="#fffdf6" ' + SW + '/>' + marks +
+        '<path d="M100 100 L100 30" transform="rotate(0 100 100)" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
+        '<path d="M100 100 L100 52" transform="rotate(' + ang + ' 100 100)" stroke="#e5243b" stroke-width="9" stroke-linecap="round"/><circle cx="100" cy="100" r="8" fill="' + INK + '"/>');
+    },
+    fan: function (o) {
+      return svg('0 0 140 200', '<path d="M70 120 L70 180 M30 190 L110 190" ' + SW + '/><circle cx="70" cy="70" r="60" fill="#e9eef5" ' + SW + '/>' +
+        '<g class="' + (o.spinning ? 'spin' : '') + '" style="transform-origin:70px 70px">' +
+        '<path d="M70 70 Q50 20 70 16 Q90 20 70 70Z M70 70 Q120 50 124 70 Q120 90 70 70Z M70 70 Q90 120 70 124 Q50 120 70 70Z M70 70 Q20 90 16 70 Q20 50 70 70Z" fill="#7fb2ff" ' + SW3 + '/></g><circle cx="70" cy="70" r="9" fill="' + INK + '"/>');
+    },
+    mug: function () {
+      return svg('0 0 100 80', '<rect x="14" y="10" width="56" height="60" rx="8" fill="#ff77b4" ' + SW + '/><path d="M70 24 Q94 24 92 44 Q90 60 70 58" fill="none" ' + SW + '/>');
+    },
+    water: function () {
+      return svg('0 0 100 20', '<rect width="100" height="20" fill="#3ec1ff" opacity=".55"/><path d="M0 2 Q12 -2 25 2 T50 2 T75 2 T100 2" fill="none" stroke="#fff" stroke-width="1.5" opacity=".8"/>', 'art water-art');
+    },
+    pipe: function (o) {
+      return svg('0 0 200 90', '<rect x="0" y="16" width="200" height="34" fill="#8a86a8" ' + SW + '/><rect x="84" y="10" width="32" height="46" rx="6" fill="#c3ccd8" ' + SW3 + '/>' + (o.leaking ? '<path d="M100 56 L96 70 M106 56 L112 72" stroke="#3ec1ff" stroke-width="5" stroke-linecap="round"/>' : ''));
+    },
+    drip: function () {
+      return svg('0 0 30 160', '<g class="drip-fall"><path d="M15 10 Q24 28 15 34 Q6 28 15 10Z" fill="#3ec1ff" ' + SW3 + '/></g>');
+    },
+    valve: function () {
+      return svg('0 0 100 100', '<circle cx="50" cy="50" r="40" fill="none" stroke="#e5243b" stroke-width="12"/><circle cx="50" cy="50" r="40" fill="none" ' + SW3 + '/><path d="M50 10 L50 90 M10 50 L90 50" stroke="#e5243b" stroke-width="8"/><circle cx="50" cy="50" r="12" fill="#c3ccd8" ' + SW3 + '/>');
+    },
+    bucket: function () {
+      return svg('0 0 120 120', '<path d="M14 30 L106 30 L94 112 L26 112 Z" fill="#7fb2ff" ' + SW + '/><ellipse cx="60" cy="30" rx="46" ry="12" fill="#2f6fe4" ' + SW3 + '/><path d="M18 34 Q60 -20 102 34" fill="none" ' + SW3 + '/>');
+    },
+    swamp: function () {
+      return svg('0 0 200 100', '<rect width="200" height="100" fill="#3d8a5a"/><path d="M0 20 Q50 10 100 20 T200 20 M0 60 Q50 50 100 60 T200 60" fill="none" stroke="#5fd98a" stroke-width="3" opacity=".6"/>', 'art fill-art');
+    },
+    bank: function () {
+      return svg('0 0 40 100', '<rect width="40" height="100" fill="#a0784d"/><path d="M0 0 L40 0" stroke="' + INK + '" stroke-width="3"/>', 'art fill-art');
+    },
+    stone: function (o) {
+      return svg('0 0 100 90', '<ellipse cx="50" cy="56" rx="44" ry="26" fill="' + (o.bubbly ? '#6b7a63' : '#a8a3b8') + '" ' + SW + '/>' + (o.bubbly ? '<circle cx="30" cy="30" r="8" fill="#cfefff" ' + SW3 + '/><circle cx="54" cy="18" r="6" fill="#cfefff" ' + SW3 + '/><circle cx="72" cy="32" r="9" fill="#cfefff" ' + SW3 + '/>' : '<path d="M24 50 Q50 40 76 50" fill="none" stroke="#fff" stroke-width="4" opacity=".6"/>'));
+    },
+    tv: function (o) {
+      return svg('0 0 300 170', '<path d="M120 4 L150 30 L180 4" fill="none" ' + SW + '/><rect x="6" y="28" width="288" height="138" rx="18" fill="#4b4466" ' + SW + '/><rect x="26" y="40" width="248" height="114" rx="10" fill="' + (o.staticky ? '#8a86a8' : '#1c1640') + '" ' + SW3 + '/>');
+    },
+    remote: function () {
+      return svg('0 0 140 150', '<rect x="10" y="4" width="120" height="142" rx="24" fill="#2d2850" ' + SW + '/><circle cx="70" cy="18" r="5" fill="#e5243b"/>');
+    },
+    card: function (o) {
+      if (!o.up) return svg('0 0 100 140', '<rect x="6" y="6" width="88" height="128" rx="10" fill="#e5243b" ' + SW + '/><rect x="16" y="16" width="68" height="108" rx="6" fill="none" stroke="#fff" stroke-width="3"/><path d="M50 36 L70 70 L50 104 L30 70 Z" fill="#fff" opacity=".6"/>');
+      return svg('0 0 100 140', '<rect x="6" y="6" width="88" height="128" rx="10" fill="#fffdf6" ' + SW + '/>' + (o.joker
+        ? '<text x="50" y="60" text-anchor="middle" font-size="22" fill="#e5243b">JOKER</text><path d="M30 80 L40 100 L50 80 L60 100 L70 80 L70 110 L30 110Z" fill="#b48cff" ' + SW3 + '/>'
+        : '<text x="50" y="84" text-anchor="middle" font-size="44" fill="' + INK + '">7</text>'));
+    },
+    bulb: function (o) {
+      return svg('0 0 100 160', (o.on ? '<circle cx="50" cy="56" r="48" fill="#fff6a8" opacity=".6"/>' : '') + '<path d="M50 10 C80 10 92 34 86 58 C82 74 68 82 66 100 L34 100 C32 82 18 74 14 58 C8 34 20 10 50 10Z" fill="' + (o.on ? '#ffe066' : '#d9d4c7') + '" ' + SW + '/><rect x="32" y="100" width="36" height="26" rx="4" fill="#8a86a8" ' + SW3 + '/><path d="M40 60 Q50 40 60 60" fill="none" stroke="' + (o.on ? '#e5a800' : '#8a86a8') + '" stroke-width="4"/>');
+    },
+    catflap: function () {
+      return svg('0 0 120 100', '<rect x="4" y="4" width="112" height="92" rx="12" fill="#a0784d" ' + SW + '/><rect x="24" y="22" width="72" height="62" rx="10" fill="#c3ccd8" ' + SW + '/><path d="M44 40 L40 28 L52 36 M76 40 L80 28 L68 36" fill="none" ' + SW3 + '/>');
+    },
+    fish: function () {
+      return svg('0 0 120 70', '<path d="M10 35 Q50 0 90 35 Q50 70 10 35Z" fill="#7fb2ff" ' + SW + '/><path d="M88 35 L114 14 L114 56 Z" fill="#7fb2ff" ' + SW + '/><circle cx="34" cy="30" r="4" fill="' + INK + '"/>');
+    },
+    mirror: function () {
+      return svg('0 0 140 170', '<ellipse cx="70" cy="85" rx="66" ry="80" fill="#d9a441" ' + SW + '/><ellipse cx="70" cy="85" rx="54" ry="68" fill="#cfefff" ' + SW3 + '/><path d="M40 50 L60 30 M36 70 L70 36" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".7"/>');
+    },
+    twin: function () {
+      return narrator('alien', 'suspicious', null).replace('narrator-svg', 'narrator-svg twin-svg').replace(/#7be37b/g, '#7fb2ff');
+    },
+    /* -------------------------------------------------------- 2.0 gag props */
+    pie: function () {
+      return svg('0 0 200 160', '<path d="M30 60 Q100 20 170 60 Q190 90 160 110 Q140 150 120 120 Q100 160 80 122 Q50 150 40 112 Q10 96 30 60Z" fill="#fff8e1" ' + SW + '/><circle cx="80" cy="74" r="8" fill="#e5243b"/><path d="M70 50 Q100 40 130 52" fill="none" stroke="#f2c27b" stroke-width="8" stroke-linecap="round"/>');
+    },
+    chicken: function () {
+      return svg('0 0 200 120', '<path d="M20 70 Q60 30 120 50 Q170 40 184 60 Q170 90 120 86 Q60 110 20 70Z" fill="#ffe066" ' + SW + '/><path d="M176 52 L196 46 L184 62Z" fill="#ff9f43" ' + SW3 + '/><path d="M150 40 Q156 26 166 36 Q172 26 176 42" fill="#e5243b" ' + SW3 + '/><circle cx="164" cy="56" r="4" fill="' + INK + '"/><path d="M60 86 L52 112 M90 92 L90 116" ' + SW + '/>');
+    },
+    trombone: function () {
+      return svg('0 0 220 100', '<path d="M10 40 L150 40 M10 60 L150 60 M10 40 Q-4 50 10 60" fill="none" stroke="#f5b400" stroke-width="10" stroke-linecap="round"/><path d="M150 50 L200 20 L200 80 Z" fill="#ffd23f" ' + SW + '/>');
+    },
+    zap: function () {
+      return svg('0 0 120 160', '<path d="M70 4 L20 90 L58 90 L40 156 L104 60 L66 60 L90 4 Z" fill="#ffe066" ' + SW + '/>');
+    },
+    splash: function () {
+      return svg('0 0 200 140', '<path d="M100 130 Q60 130 40 100 Q60 110 70 90 Q40 60 60 30 Q76 70 90 60 Q90 20 110 8 Q112 50 124 60 Q140 30 160 34 Q140 70 150 92 Q164 106 172 98 Q150 130 100 130Z" fill="#3ec1ff" ' + SW + '/>');
+    },
+    /** Trophy cup; tier 1 bronze, 2 silver, 3 gold, 4 platinum; 0 = empty plinth. */
+    trophy: function (o) {
+      var tier = o.tier || 0;
+      var fill = ['#d9d4c7', '#d08a4b', '#c9d1dc', '#ffd23f', '#e8f6ff'][tier];
+      var shine = tier === 4 ? '<path d="M64 28 L72 40 M100 22 L100 36 M136 28 L128 40" stroke="#7fb2ff" stroke-width="4" stroke-linecap="round"/>' : '';
+      if (o.special) {
+        return svg('0 0 200 200', shine + '<path d="M100 20 L118 66 L168 70 L130 102 L142 152 L100 126 L58 152 L70 102 L32 70 L82 66 Z" fill="' + fill + '" ' + SW + (tier ? '' : ' opacity=".45"') + '/><rect x="64" y="160" width="72" height="26" rx="6" fill="#4b4466" ' + SW + '/>');
+      }
+      return svg('0 0 200 200', shine + '<path d="M54 30 L146 30 L140 92 Q100 132 60 92 Z" fill="' + fill + '" ' + SW + (tier ? '' : ' opacity=".45"') + '/>' +
+        '<path d="M56 44 Q20 44 30 74 Q38 92 62 90 M144 44 Q180 44 170 74 Q162 92 138 90" fill="none" ' + SW + '/>' +
+        '<path d="M88 116 L112 116 L116 150 L84 150 Z" fill="' + fill + '" ' + SW3 + '/><rect x="60" y="150" width="80" height="32" rx="6" fill="#4b4466" ' + SW + '/>' +
+        (tier ? '<path d="M78 46 Q76 70 92 84" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".6"/>' : ''));
     }
   };
 

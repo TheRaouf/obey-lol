@@ -503,3 +503,132 @@ button.obj:active > svg { transform: scale(.97); }
   button.obj.has-art:hover > svg { transform: none; }
 }
 @media print { body { background: #fff; } }
+
+/* ======================================================================
+   2.0 — voice, wrong-answer gags, "Show me how", difficulty, trophies
+   ====================================================================== */
+.obj-static { pointer-events: none; }
+
+/* Bossworth talks: the mouth flaps while a line is spoken */
+.narrator-btn.talking .mouth { animation: talk .13s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+@keyframes talk { from { transform: scaleY(.35) scaleX(1.05); } to { transform: scaleY(1.15); } }
+.laugh-shake { animation: laugh .18s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 50% 80%; }
+@keyframes laugh { from { transform: rotate(-3deg) translateY(0); } to { transform: rotate(3deg) translateY(-3px); } }
+.zzz text { animation: zzz 2s ease-in-out infinite; }
+.zzz text:nth-child(2) { animation-delay: .3s; } .zzz text:nth-child(3) { animation-delay: .6s; }
+@keyframes zzz { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+
+/* Gags over the stage */
+.stage-wrap { position: relative; width: 100%; max-width: 640px; margin: 0 auto; }
+.gag-layer { position: absolute; inset: 0; pointer-events: none; z-index: 600; overflow: hidden; border-radius: var(--r-lg); }
+.gag { position: absolute; inset: 0; display: grid; place-items: center; }
+.gag > svg { position: absolute; width: 62%; height: 62%; }
+.gag-word {
+  position: relative; font-family: var(--font-display); font-size: clamp(2rem, 11cqi, 4.6rem); color: var(--accent);
+  background: var(--paper); border: 6px double var(--accent); border-radius: 14px; padding: 0 .35em; transform: rotate(-10deg);
+  animation: gag-stamp .45s cubic-bezier(.2, 1.7, .4, 1) .25s both;
+}
+.gag-layer { container-type: inline-size; }
+@keyframes gag-stamp { 0% { transform: scale(2.6) rotate(-10deg); opacity: 0; } 100% { transform: rotate(-10deg); opacity: 1; } }
+.gag-pie > svg { animation: pie-fly .5s cubic-bezier(.3, .1, .4, 1) both, gag-fade 1.9s ease-in forwards; }
+@keyframes pie-fly { from { transform: translate(-90%, -80%) scale(.3) rotate(-40deg); } 70% { transform: scale(1.15, .8); } to { transform: none; } }
+.gag-chicken > svg { animation: chicken-fly 1.2s linear both; }
+@keyframes chicken-fly { from { transform: translateX(-130%) rotate(0); } to { transform: translateX(130%) rotate(720deg); } }
+.gag-trombone > svg { animation: trombone-rise 1.6s ease-in-out both; }
+@keyframes trombone-rise { 0% { transform: translateY(120%); } 30% { transform: translateY(0) rotate(-6deg); } 60% { transform: rotate(6deg); } 100% { transform: translateY(0) rotate(-12deg) scale(.95); opacity: .2; } }
+.gag-zap > svg { animation: zap-flash .12s steps(2) 8; }
+.gag-zap { animation: zap-bg .12s steps(2) 8; }
+@keyframes zap-flash { 50% { opacity: .2; transform: translateX(6px); } }
+@keyframes zap-bg { 50% { background: rgba(255, 230, 102, .4); } }
+.gag-splash > svg { animation: splash-up .7s cubic-bezier(.2, 1.4, .4, 1) both, gag-fade 1.9s ease-in forwards; transform-origin: 50% 100%; }
+@keyframes splash-up { from { transform: translateY(80%) scaleY(.2); } to { transform: none; } }
+@keyframes gag-fade { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+.stage.flash-fail { animation: flash-fail .5s ease-out, wobble .5s ease-in-out; }
+@keyframes wobble { 0%, 100% { transform: none; } 20% { transform: rotate(-1.5deg) scale(.99); } 40% { transform: rotate(1.5deg); } 60% { transform: rotate(-.8deg); } 80% { transform: rotate(.5deg); } }
+.reduce-motion .gag > svg { animation: none !important; opacity: .85; }
+
+/* Harmless wrong moves */
+.obj.nope-shake { animation: nope-shake .4s ease-in-out; }
+@keyframes nope-shake { 0%, 100% { translate: 0; } 20% { translate: -8px 0; } 40% { translate: 7px 0; } 60% { translate: -5px 0; } 80% { translate: 3px 0; } }
+.nope-sticker {
+  position: absolute; left: 50%; top: -6px; translate: -50% -100%; z-index: 700; pointer-events: none; white-space: nowrap;
+  font-family: var(--font-display); font-size: max(13px, 4cqi); color: #fff; background: var(--accent); border: 3px solid var(--ink);
+  border-radius: 8px; padding: 0 8px; rotate: -8deg; animation: nope-pop .9s ease-out forwards;
+}
+@keyframes nope-pop { 0% { opacity: 0; scale: .4; } 20% { opacity: 1; scale: 1.15; } 80% { opacity: 1; scale: 1; } 100% { opacity: 0; translate: -50% -160%; } }
+.stage.stage-nope { animation: nope-shake .35s ease-in-out; }
+
+/* "Show me how" */
+.obj.guide-target, .narrator-btn.guide-target { outline: 5px solid var(--good); outline-offset: 3px; border-radius: 14px; }
+.obj.guide-target:not(.hold-btn)::before {
+  content: '▼'; position: absolute; left: 50%; top: -4px; translate: -50% -100%; z-index: 650; color: var(--good);
+  font-size: max(18px, 6cqi); text-shadow: 0 2px 0 var(--ink); animation: guide-bob .7s ease-in-out infinite alternate; pointer-events: none;
+}
+@keyframes guide-bob { from { translate: -50% -100%; } to { translate: -50% -140%; } }
+.guide-box, .wrong-card { border: var(--line) solid var(--ink); border-radius: var(--r-md); padding: 12px 14px; box-shadow: var(--shadow-sm); }
+.guide-box { background: #e8fff3; }
+.guide-box .guide-title { margin: 0 0 6px; }
+.guide-note { font-weight: 700; color: var(--accent); margin: 0 0 6px; }
+.guide-steps { margin: 0 0 8px; padding-left: 1.4em; }
+.guide-steps li { margin: 3px 0; color: var(--muted); }
+.guide-steps li.current { color: var(--ink); font-weight: 700; }
+.guide-steps li.done { text-decoration: line-through; }
+.guide-steps li .icon { color: var(--good); margin-right: 4px; }
+.wrong-card { background: #fff0f0; animation: toast-in .25s ease-out; scroll-margin: 16px; }
+.wrong-card p { margin: 0 0 6px; }
+.wrong-title { display: flex; gap: 8px; align-items: center; color: var(--accent); font-size: 1.1em; }
+.wrong-card .btn-row { margin-top: 6px; }
+.chip-btn.locked-chip { opacity: .6; border-style: dashed; }
+
+/* Difficulty */
+.diff-badge { display: inline-block; font-size: .78rem; font-weight: 700; padding: 0 6px; border-radius: 6px; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); vertical-align: 1px; }
+.diff-badge.diff-easy { background: #c9f7dd; } .diff-badge.diff-hard { background: #ffc9c9; }
+.diff-options { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.diff-option { text-align: left; display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border: var(--line) solid var(--ink); border-radius: var(--r-md); background: var(--paper); cursor: pointer; box-shadow: var(--shadow-sm); min-height: var(--tap); }
+.diff-option:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+.diff-option.current { outline: 4px solid var(--accent-2); }
+.diff-option.diff-easy { border-left-width: 12px; border-left-color: var(--good); }
+.diff-option.diff-medium { border-left-width: 12px; border-left-color: #f5b400; }
+.diff-option.diff-hard { border-left-width: 12px; border-left-color: var(--accent); }
+.diff-name { font-family: var(--font-display); font-size: 1.3em; }
+.diff-name em { font-family: var(--font-body); font-size: .65em; font-style: normal; color: var(--muted); }
+.diff-blurb { font-size: .92em; color: var(--muted); }
+.btn.small-btn { min-height: 36px; padding: .15em .7em; font-size: .85em; margin-left: 6px; }
+.diff-line { color: var(--on-bg); margin: 12px 0 0; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+.node-disc { position: relative; }
+.node-medal { position: absolute; right: -8px; bottom: -6px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-body); font-weight: 700; font-size: 12px; border: 2px solid var(--ink); }
+.medal-easy { background: #d08a4b; color: #fff; } .medal-medium { background: #c9d1dc; color: var(--ink); } .medal-hard { background: #ffd23f; color: var(--ink); }
+
+/* Trophy room */
+.trophy-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+.trophy-card { background: var(--paper-2); border: var(--line) dashed var(--ink); border-radius: var(--r-lg); padding: 14px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.trophy-card.won { background: var(--paper); border-style: solid; box-shadow: var(--shadow-sm); }
+.trophy-card h2 { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; margin: 0; }
+.trophy-card .bar { width: 100%; }
+.trophy-card p { margin: 0; }
+.trophy-art { width: 110px; height: 110px; }
+.trophy-art svg { width: 100%; height: 100%; }
+.trophy-card.won .trophy-art { animation: trophy-shine 3s ease-in-out infinite; }
+@keyframes trophy-shine { 0%, 100% { filter: none; } 50% { filter: drop-shadow(0 0 10px rgba(255, 210, 63, .9)); } }
+.trophy-tier { font-weight: 700; display: inline-flex; gap: 4px; align-items: center; }
+.tier-3 .trophy-tier, .tier-4 .trophy-tier { color: #9a6b00; }
+.unlock-list li.unlock-trophy { background: #fff1b8; }
+
+/* 2.0 level objects */
+.obj.mirror-text { transform: scaleX(-1); font-family: var(--font-display); color: #2d2850; opacity: .8; --fx: 1; line-height: 1.3; white-space: pre-line; }
+.obj.tv-text { color: #7dffb2; font-family: var(--font-body); font-weight: 700; padding: 4px 8px; text-align: center; }
+.obj.tv-text.static { color: #1c1640; animation: tv-static .2s steps(2) infinite; }
+@keyframes tv-static { 50% { opacity: .7; } }
+.obj.shape-btn { border: var(--line) solid var(--ink); border-radius: var(--r-md); background: var(--paper); --fx: 3.2; box-shadow: var(--shadow-sm); text-shadow: 0 3px 0 var(--ink); }
+.obj.shape-btn.green { color: #2bc46f; } .obj.shape-btn.purple { color: #9b5de5; } .obj.shape-btn.orange { color: #ff8c1a; }
+.obj.card-slide { transition: left .9s cubic-bezier(.5, 0, .3, 1); }
+.obj.floaty > svg { animation: floaty 3s ease-in-out infinite; }
+.obj.floaty.slow > svg { animation-duration: 4.5s; }
+@keyframes floaty { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-10%) rotate(6deg); } }
+.spin { animation: spin .25s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.drip-fall { animation: drip 1s ease-in infinite; }
+@keyframes drip { from { transform: translateY(0); opacity: 1; } to { transform: translateY(110px); opacity: .2; } }
+.obj.art-water { transition: top .6s ease, height .6s ease; }
+.wet-drips { animation: floaty 2s ease-in-out infinite; }
+.reduce-motion .obj.floaty > svg, .reduce-motion .spin, .reduce-motion .drip-fall { animation: none !important; }

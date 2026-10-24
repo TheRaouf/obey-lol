@@ -15,7 +15,7 @@ async function goLevel(page, n) {
 const focused = (page) => page.evaluate(() => document.activeElement && (document.activeElement.getAttribute('data-obj') || document.activeElement.id || document.activeElement.tagName));
 
 test('D1: keyboard focus stays on the object used, including across timer re-renders', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(15) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
   await goLevel(page, 11);
   await page.locator(H.sel('btn-blue')).focus();
   await page.keyboard.press('Enter');
@@ -40,8 +40,8 @@ test('D1: keyboard focus stays on the object used, including across timer re-ren
   assert.equal(await focused(page), 'bell');
   await page.keyboard.press('Enter');
   await page.waitForSelector('#complete:not([hidden])');
-  // L15: when the used object disappears, focus moves to the next usable object (not <body>).
-  await goLevel(page, 15);
+  // L35: when the used object disappears, focus moves to the next usable object (not <body>).
+  await goLevel(page, 35);
   await page.locator(H.sel('gearA')).focus();
   await page.keyboard.press('Enter');
   const f = await focused(page);
@@ -52,8 +52,8 @@ test('D1: keyboard focus stays on the object used, including across timer re-ren
 });
 
 test('D2: releasing a keyboard hold early cancels it; key state never gets stuck', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(15) });
-  await goLevel(page, 16);
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
+  await goLevel(page, 36);
   await page.locator(H.sel('wrench')).focus();
   await page.keyboard.down(' ');
   await page.clock.runFor(850);
@@ -83,8 +83,8 @@ test('D2: releasing a keyboard hold early cancels it; key state never gets stuck
 });
 
 test('D3: pointer hold released outside the stage ends the hold', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(15) });
-  await goLevel(page, 16);
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
+  await goLevel(page, 36);
   const box = await page.locator(H.sel('wrench')).boundingBox();
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
   await page.mouse.down();
@@ -101,7 +101,7 @@ test('D3: pointer hold released outside the stage ends the hold', async () => {
 });
 
 test('D4: completion card is modal — Tab cannot reach the level underneath', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(15) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
   await goLevel(page, 12);
   await page.locator(H.sel('lever')).click();
   await page.waitForSelector('#complete:not([hidden])');
@@ -125,7 +125,7 @@ function contrast(a, b) {
 }
 
 test('D5: dark-scene buttons and sunset legends are readable', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(16, (d) => { d.endings.seen = ['chaos']; d.themes.unlocked.push('sunset'); d.themes.selected = 'sunset'; return d; }) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(36, (d) => { d.endings.seen = ['chaos']; d.themes.unlocked.push('sunset'); d.themes.selected = 'sunset'; return d; }) });
   await page.evaluate(() => { location.hash = 'ending/chaos'; });
   await page.waitForSelector('[data-end-skip]');
   const c = await page.locator('[data-end-skip]').evaluate((b) => getComputedStyle(b).color);

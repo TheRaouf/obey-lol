@@ -23,7 +23,7 @@ async function goLevel(page, n) {
 
 /* ------------------------------------------------------------------ secrets */
 test('all 15 secrets: discoverable via the UI, counted once, persisted after reload', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(15) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
   const defs = await H.levelDefs(page);
   const secrets = await page.evaluate(() => OBEY.SECRETS);
   for (const sec of secrets) {
@@ -84,7 +84,7 @@ test('costumes: locked ones cannot be worn; all 8 selectable, visible and persis
   await o.ctx.close();
 
   const ids = ['classic', 'royal', 'alien', 'detective', 'wizard', 'robot', 'dino', 'ninja'];
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(16, (d) => { d.costumes.unlocked = ids.slice(); return d; }) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(36, (d) => { d.costumes.unlocked = ids.slice(); return d; }) });
   await page.evaluate(() => { location.hash = 'costumes'; });
   await page.waitForSelector('#screen-costumes:not([hidden])');
   const svgs = new Set();
@@ -121,7 +121,7 @@ test('themes: unlock rules, selection changes real presentation, persistence', a
   await page.evaluate(() => { location.hash = 'themes'; });
   await page.waitForSelector('#screen-themes:not([hidden])');
   assert.equal(await page.locator('[data-act="theme"]').count(), 1, 'only candy unlocked after level 5');
-  await H.seed(page, H.saveWith(16));
+  await H.seed(page, H.saveWith(36));
   await page.evaluate(() => { location.hash = 'themes'; });
   await page.waitForSelector('[data-act="theme"][data-id="sunset"]');
   const looks = {};
@@ -160,7 +160,7 @@ test('achievements screen: locked/unlocked states and progress match the save', 
   assert.ok(!s.achievements.collector && !s.achievements['full-campaign']);
   assert.equal(await page.locator('.ach.got').count(), Object.keys(s.achievements).length);
   assert.match(await page.locator('.ach', { hasText: 'Collector' }).innerText(), /2\/8/);
-  assert.match(await page.locator('.ach', { hasText: 'Full Campaign' }).innerText(), /3\/16/);
+  assert.match(await page.locator('.ach', { hasText: 'Full Campaign' }).innerText(), /3\/36/);
   assert.equal(await page.locator('.ending-card.seen').count(), 0);
   await H.shot(page, 'achievements');
   assert.deepEqual(errors, []);
@@ -172,7 +172,7 @@ test('every main menu control works and returns to the menu', async () => {
   const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(1) });
   await page.evaluate(() => { location.hash = 'menu'; });
   await H.shot(page, 'main-menu');
-  const items = [['Adventure map', 'map'], ['Secret field notes', 'secrets'], ['Narrator costumes', 'costumes'], ['Themes', 'themes'], ['Achievements', 'achievements'], ['Settings', 'settings'], ['Credits', 'credits']];
+  const items = [['Adventure map', 'map'], ['Secret field notes', 'secrets'], ['Narrator costumes', 'costumes'], ['Themes', 'themes'], ['Achievements', 'achievements'], ['Trophy room', 'trophies'], ['Settings', 'settings'], ['Credits', 'credits']];
   for (const [label, screen] of items) {
     await page.locator('.menu-nav').getByRole('button', { name: new RegExp('^' + label) }).click();
     await page.waitForSelector(`#screen-${screen}:not([hidden])`);
@@ -203,7 +203,9 @@ test('New Game: cancel keeps progress; confirm resets the campaign but keeps cos
   assert.equal((await page.evaluate(() => OBEY_TEST.save())).completed.length, 8);
   await page.getByRole('button', { name: 'New game' }).click();
   await page.getByRole('button', { name: 'Start new game' }).click();
+  await H.chooseDifficulty(page, 'hard');
   await page.waitForFunction(() => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === 1);
+  assert.equal((await page.evaluate(() => OBEY_TEST.save())).difficulty, 'hard');
   const s = await page.evaluate(() => OBEY_TEST.save());
   assert.deepEqual(s.completed, []);
   assert.deepEqual(s.secrets, []);
@@ -244,7 +246,7 @@ test('hints are graduated and do not change the level; restart gives a clean att
     await page.locator('#hint-btn').click();
     assert.match(await page.locator('#hint-box').innerText(), new RegExp('Hint ' + n + ' of 3'));
   }
-  assert.match(await page.locator('#hint-btn').innerText(), /Hints used/);
+  assert.match(await page.locator('#hint-btn').innerText(), /No hints left/);
   assert.deepEqual(await page.evaluate(() => OBEY_TEST.runtime().state), before);
   await page.getByRole('button', { name: 'Restart level' }).click();
   const r = await page.evaluate(() => OBEY_TEST.runtime());
@@ -281,9 +283,9 @@ test('rapid repeated input completes once and rewards once', async () => {
 });
 
 test('keyboard only: tap, pick-and-place and hold all work', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(15) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
   const defs = await H.levelDefs(page);
-  for (const n of [2, 8, 9, 14, 16]) {
+  for (const n of [2, 8, 9, 14, 36]) {
     await goLevel(page, n);
     await H.playSteps(page, defs[n - 1].solution, 'keyboard');
     await page.waitForSelector('#complete:not([hidden])');
@@ -345,11 +347,11 @@ test('touch input: tap, tap-to-place and press-and-hold on a phone viewport', as
 
 /* -------------------------------------------------------- persistence */
 test('progress, settings, cosmetics, achievements and endings survive reload', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(16, (d) => { d.endings.seen = ['hero']; d.endings.history = [{ id: 'hero', at: 1 }]; d.themes.unlocked.push('ocean'); d.themes.selected = 'ocean'; d.settings.sound = false; d.settings.textSize = 'large'; return d; }) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(36, (d) => { d.endings.seen = ['hero']; d.endings.history = [{ id: 'hero', at: 1 }]; d.themes.unlocked.push('ocean'); d.themes.selected = 'ocean'; d.settings.sound = false; d.settings.textSize = 'large'; return d; }) });
   await page.reload();
   await page.waitForSelector('.screen:not([hidden])');
   const s = await page.evaluate(() => OBEY_TEST.save());
-  assert.equal(s.completed.length, 16);
+  assert.equal(s.completed.length, 36);
   assert.deepEqual(s.endings.seen, ['hero']);
   assert.equal(s.settings.sound, false);
   assert.equal(await page.evaluate(() => document.documentElement.getAttribute('data-text')), 'large');
@@ -368,6 +370,7 @@ test('malformed save data does not crash; the game starts fresh and keeps a back
   assert.equal(await page.evaluate(() => localStorage.getItem('obeylol.save.corrupt')), '{{{garbage');
   assert.deepEqual((await page.evaluate(() => OBEY_TEST.save())).completed, []);
   await page.getByRole('button', { name: 'Play', exact: true }).click();
+  await H.chooseDifficulty(page);
   await page.waitForSelector('.tutorial');
   assert.deepEqual(errors, []);
   await ctx.close();
@@ -376,11 +379,11 @@ test('malformed save data does not crash; the game starts fresh and keeps a back
 test('obsolete v1 save is migrated', async () => {
   const { page, errors, ctx } = await H.openGame(browser, base, { initScript: () => { if (!sessionStorage.getItem('y')) { sessionStorage.setItem('y', '1'); localStorage.setItem('obeylol.save', JSON.stringify({ version: 1, level: 3, stars: { 1: 2, 2: 3 }, secretsFound: ['polly'], sound: false })); } } });
   const s = await page.evaluate(() => OBEY_TEST.save());
-  assert.equal(s.version, 2);
+  assert.equal(s.version, 3);
   assert.deepEqual(s.completed, [1, 2]);
   assert.equal(s.highestUnlocked, 3);
   assert.equal(s.settings.sound, false);
-  assert.equal(JSON.parse(await page.evaluate(() => localStorage.getItem('obeylol.save'))).version, 2);
+  assert.equal(JSON.parse(await page.evaluate(() => localStorage.getItem('obeylol.save'))).version, 3);
   assert.deepEqual(errors, []);
   await ctx.close();
 });
@@ -396,6 +399,7 @@ test('storage that throws: game still runs with an in-memory save and a warning'
   await page.waitForSelector('.toast >> text=Storage is blocked');
   assert.equal(await page.evaluate(() => OBEY_TEST.persistent()), false);
   await page.getByRole('button', { name: 'Play', exact: true }).click();
+  await H.chooseDifficulty(page);
   await page.getByRole('button', { name: 'Skip tutorial' }).click();
   await H.playSteps(page, [{ tap: 'red' }, { tap: 'blue' }]);
   await page.waitForSelector('#complete:not([hidden])');
@@ -409,6 +413,7 @@ test('storage that throws: game still runs with an in-memory save and a warning'
 test('tutorial: skippable, saved, replayable from settings', async () => {
   const { page, errors, ctx } = await H.openGame(browser, base);
   await page.getByRole('button', { name: 'Play', exact: true }).click();
+  await H.chooseDifficulty(page);
   await page.getByRole('button', { name: 'Skip tutorial' }).click();
   await page.waitForFunction(() => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === 1);
   await page.reload();
@@ -449,14 +454,14 @@ test('sound toggle, reduced motion (system and manual), text size', async () => 
   await page.reload();
   await page.waitForSelector('.screen:not([hidden])');
   const s = await page.evaluate(() => OBEY_TEST.save().settings);
-  assert.deepEqual(s, { sound: false, motion: 'reduce', textSize: 'large' });
+  assert.deepEqual(s, { sound: false, voice: 'babble', motion: 'reduce', textSize: 'large' });
   assert.deepEqual(errors, []);
   await ctx.close();
 });
 
 test('interactive stage objects have accessible names; no image-only buttons', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(15, (d) => { d.secrets = []; return d; }) });
-  for (let n = 1; n <= 16; n++) {
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35, (d) => { d.secrets = []; return d; }) });
+  for (let n = 1; n <= 36; n++) {
     await goLevel(page, n);
     const bad = await page.evaluate(() => [...document.querySelectorAll('button')].filter((b) => b.offsetParent !== null && !(b.getAttribute('aria-label') || b.textContent.trim())).map((b) => b.outerHTML.slice(0, 80)));
     assert.deepEqual(bad, [], 'L' + n);
@@ -474,6 +479,7 @@ test('the game runs from file:// (no server) with saving', async () => {
   await page.goto('file://' + path.join(H.ROOT, 'index.html'));
   await page.waitForSelector('#screen-menu:not([hidden])');
   await page.getByRole('button', { name: 'Play', exact: true }).click();
+  await H.chooseDifficulty(page);
   await page.getByRole('button', { name: 'Skip tutorial' }).click();
   await page.locator(H.sel('red')).click();
   await page.locator(H.sel('blue')).click();
