@@ -34,8 +34,8 @@
   A.addObject('a-jelly', function () {
     return svg('0 0 200 170',
       '<ellipse cx="100" cy="150" rx="92" ry="14" fill="#c3ccd8" ' + SW + '/>' +
-      '<path d="M26 146 L38 40 Q100 14 162 40 L174 146 Z" fill="#7be37b" opacity=".85" ' + SW + '/>' +
-      '<g opacity=".8"><rect x="58" y="104" width="86" height="12" rx="4" fill="#4b4466"/><path d="M62 102 Q64 82 82 82 L140 86 Q148 90 144 98 L64 104Z" fill="#e5243b"/></g>' +
+      '<path d="M26 146 L38 40 Q100 14 162 40 L174 146 Z" fill="#7be37b" ' + SW + '/>' +
+      '<g opacity=".55"><rect x="58" y="104" width="86" height="12" rx="4" fill="#4b4466"/><path d="M62 102 Q64 82 82 82 L140 86 Q148 90 144 98 L64 104Z" fill="#e5243b"/></g>' +
       '<path d="M50 52 Q56 90 52 128" stroke="#fff" stroke-opacity=".55" stroke-width="8" fill="none" stroke-linecap="round"/>' +
       '<path d="M38 40 Q100 62 162 40" fill="none" ' + SW3 + '/>');
   });
@@ -101,7 +101,7 @@
       '<path d="M50 0 L50 40" stroke="' + INK + '" stroke-width="8" stroke-linecap="round"/>' +
       '<rect x="22" y="40" width="56" height="50" rx="10" fill="#fffdf6" ' + SW + '/>' +
       '<rect x="34" y="90" width="9" height="22" rx="2" fill="#c3ccd8" ' + SW3 + '/><rect x="57" y="90" width="9" height="22" rx="2" fill="#c3ccd8" ' + SW3 + '/>' +
-      '<path d="M34 54 L34 74" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/>');
+      '<path d="M34 54 L34 74" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".5"/>');
   });
 
   /* Lift doors with a floor indicator: o.floor text. */
@@ -110,7 +110,7 @@
       '<rect x="10" y="40" width="180" height="196" rx="8" fill="#a8a3b8" ' + SW + '/>' +
       '<rect x="26" y="56" width="72" height="180" fill="#c3ccd8" ' + SW + '/><rect x="102" y="56" width="72" height="180" fill="#c3ccd8" ' + SW + '/>' +
       '<path d="M40 70 L40 220" stroke="#fff" stroke-opacity=".5" stroke-width="6" stroke-linecap="round"/>' +
-      '<rect x="60" y="4" width="80" height="30" rx="6" fill="#1c1640" ' + SW3 + '/>' + T(100, 27, 20, '#ffb020', o.floor || '▲'));
+      '<rect x="54" y="2" width="92" height="36" rx="7" fill="#1c1640" ' + SW3 + '/>' + T(100, 30, 26, '#ffb020', o.floor || '▲', ' font-weight="700"'));
   });
 
   /* Photocopier: o.note = something lies on the glass; o.busy = light bar flashing. */
@@ -120,11 +120,11 @@
       '<rect x="14" y="44" width="192" height="30" rx="6" fill="#c3ccd8" ' + SW + '/>' +
       '<rect x="40" y="50" width="140" height="18" rx="3" fill="#8fd3ff" ' + SW3 + '/>' +
       (o.note ? '<path d="M96 48 L124 46 L126 66 L98 68 Z" fill="#fff8b8" ' + SW3 + '/>' : '') +
-      (o.busy ? '<rect x="40" y="52" width="16" height="14" fill="#2bf07f" opacity=".85"/>' : '') +
+      (o.busy ? '<rect x="40" y="52" width="16" height="14" fill="#2bf07f"/>' : '') +
       '<rect x="40" y="96" width="140" height="34" rx="6" fill="#c3ccd8" ' + SW3 + '/><rect x="40" y="140" width="140" height="34" rx="6" fill="#c3ccd8" ' + SW3 + '/>' +
       '<path d="M96 113 L124 113 M96 157 L124 157" ' + SW3 + '/>' +
       '<path d="M200 90 L216 86 L216 120 L200 120" fill="#fffdf6" ' + SW3 + '/>' +
-      '<path d="M32 80 L188 80" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/>');
+      '<path d="M32 80 L188 80" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".5"/>');
   });
 
   /* Office printer body (tray and lid are separate stage objects). o.jam shows a red error light. */
@@ -132,7 +132,7 @@
     return svg('0 0 220 180',
       '<rect x="14" y="40" width="192" height="134" rx="14" fill="#e9eef5" ' + SW + '/>' +
       '<rect x="30" y="16" width="160" height="32" rx="8" fill="#c3ccd8" ' + SW + '/>' +
-      '<path d="M30 60 L190 60" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".8"/>' +
+      '<path d="M30 60 L190 60" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".5"/>' +
       '<circle cx="186" cy="80" r="8" fill="' + (o.jam ? '#e5243b' : '#2bf07f') + '" ' + SW3 + '/>');
   });
 
@@ -203,7 +203,7 @@
       '<rect x="30" y="22" width="100" height="40" rx="6" fill="#1c1640" ' + SW3 + '/><path d="M44 42 L116 42" stroke="#7dffb2" stroke-width="5" stroke-dasharray="8 6"/>' +
       '<rect x="30" y="80" width="100" height="100" rx="8" fill="#2d2850" ' + SW3 + '/>' +
       '<rect x="66" y="80" width="28" height="18" rx="3" fill="#8a86a8" ' + SW3 + '/>' +
-      (o.pouring ? '<path d="M80 98 L80 176" stroke="#7a4a24" stroke-width="8"/>' : '') +
+      (o.pouring ? '<path d="M80 98 L80 176" stroke="#9a6b3f" stroke-width="8"/>' : '') +
       '<rect x="22" y="196" width="116" height="16" rx="4" fill="#8a86a8" ' + SW + '/>');
   });
 
@@ -212,14 +212,16 @@
     var f = Math.max(0, Math.min(100, o.fill || 0)), max = o.max || 80;
     var top = 34, bottom = 126, h = (bottom - top) * f / 100, ly = bottom - (bottom - top) * max / 100;
     return svg('0 0 140 150',
-      (o.spill ? '<ellipse cx="70" cy="140" rx="66" ry="10" fill="#7a4a24" ' + SW3 + '/>' : '') +
+      (o.spill ? '<ellipse cx="70" cy="140" rx="66" ry="10" fill="#9a6b3f" ' + SW3 + '/>' : '') +
       '<path d="M104 52 Q134 52 132 80 Q130 104 104 102" fill="none" stroke="' + INK + '" stroke-width="12"/><path d="M104 52 Q134 52 132 80 Q130 104 104 102" fill="none" stroke="#fffdf6" stroke-width="5"/>' +
       '<rect x="20" y="' + top + '" width="88" height="' + (bottom - top) + '" rx="8" fill="#fffdf6"/>' +
-      (f > 0 ? '<rect x="20" y="' + (bottom - h).toFixed(1) + '" width="88" height="' + h.toFixed(1) + '" fill="#7a4a24"/>' : '') +
+      (f > 0 ? '<rect x="20" y="' + (bottom - h).toFixed(1) + '" width="88" height="' + h.toFixed(1) + '" fill="#9a6b3f"/>' : '') +
       '<path d="M20 ' + ly + ' L108 ' + ly + '" stroke="#e5243b" stroke-width="4" stroke-dasharray="7 5"/>' +
-      T(64, ly - 6, 14, '#e5243b', 'MAX') +
       '<rect x="20" y="' + top + '" width="88" height="' + (bottom - top) + '" rx="8" fill="none" ' + SW + '/>' +
-      '<path d="M30 46 L30 110" stroke="#fff" stroke-opacity=".6" stroke-width="5" stroke-linecap="round"/>');
+      '<path d="M30 ' + (ly + 8) + ' L30 110" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>' +
+      /* MAX on its own white tab just above the red dashed line (the line stays the tell). */
+      '<rect x="24" y="' + (ly - 29) + '" width="80" height="25" rx="5" fill="#fffdf6" ' + SW3 + '/>' +
+      T(64, ly - 9, 22, '#e5243b', 'MAX', ' font-weight="700"'));
   });
 
   /* Vending machine: o.dropped = A2 snack fell and knocked the keycard into the tray; o.taken = tray emptied. */
@@ -256,7 +258,7 @@
 
   /* The sensor's field of view: a translucent wedge stretched over its box (apex top-right). */
   A.addObject('a-cone', function (o) {
-    return svg('0 0 100 100', '<path d="M100 0 L0 100 L100 100 Z" fill="' + (o.on ? '#e5243b' : '#ffd23f') + '" opacity=".16"/><path d="M100 0 L0 100" stroke="' + (o.on ? '#e5243b' : '#b58900') + '" stroke-width="1.2" stroke-dasharray="3 2" fill="none" vector-effect="non-scaling-stroke"/>', 'art fill-art');
+    return svg('0 0 100 100', '<path d="M100 0 L0 100 L100 100 Z" fill="' + (o.on ? '#e5243b' : '#ffd23f') + '" opacity=".16"/><path d="M100 0 L0 100" stroke="' + (o.on ? '#e5243b' : '#f5b400') + '" stroke-width="1.2" stroke-dasharray="3 2" fill="none" vector-effect="non-scaling-stroke"/>', 'art fill-art');
   });
 
   /* Office desk with a dark gap underneath. */
@@ -264,7 +266,7 @@
     return svg('0 0 200 120',
       '<rect x="6" y="10" width="188" height="18" rx="4" fill="#a0784d" ' + SW + '/>' +
       '<rect x="14" y="28" width="56" height="88" fill="#c98b4a" ' + SW + '/><rect x="24" y="44" width="36" height="8" rx="3" fill="#6b5a3b"/><rect x="24" y="78" width="36" height="8" rx="3" fill="#6b5a3b"/>' +
-      '<rect x="70" y="28" width="116" height="88" fill="#3b2a1a" opacity=".35"/><path d="M186 28 L186 116" ' + SW + '/>');
+      '<rect x="70" y="28" width="116" height="88" fill="#c3ccd8" ' + SW3 + '/><rect x="70" y="28" width="116" height="10" fill="#8a86a8" ' + SW3 + '/><path d="M186 28 L186 116" ' + SW + '/>');
   });
 
   /* Revolving door seen from above. o.turn = quarter turns pushed; you ride in the compartment that starts at the bottom. */
