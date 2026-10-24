@@ -260,6 +260,10 @@
   // Chapters 0–7 keep their 2.1 loops. From 2.3 (E76) the later chapters get a family timbre
   // (office, home, outdoors, science, show, final) on top of their own scale and root, and the
   // Sabotage Studio bonus pack (chapter -1) has its own whole-tone "studio" family.
+  // 2.4.1 follow-up: the 2.4 packs get their own families (supermarket, school, castle, sea, sports). A family may
+  // also set `scale` (its own mode instead of SCALES[ch % 9]), `tempo` (step length × STEP_S), `dur`
+  // (arpeggio note length, s), `bassDur`, `drone` (a soft fifth under the bass) and one quiet colour
+  // event every 16 steps (`chime`, `chirp`, `swell`). Tonal voices stay ≤ .05, colour events ≤ .02.
   var SCALES = [[0, 2, 4, 7, 9], [0, 3, 5, 7, 10], [0, 2, 5, 7, 9], [0, 2, 4, 7, 11], [0, 3, 5, 8, 10], [0, 2, 3, 7, 9], [0, 4, 5, 7, 11], [0, 2, 4, 6, 9], [0, 3, 7, 8, 10]];
   var ROOTS = [262, 247, 277, 233, 294, 220, 262, 247, 196];
   var WHOLE_TONE = [0, 2, 4, 6, 8, 10];
@@ -271,41 +275,68 @@
     science: { wave: 'sawtooth', filter: 900, q: 4, vol: 0.04 },
     show: { wave: 'square', vol: 0.03, vib: 4, vibRate: 5 },
     final: { wave: 'triangle', vol: 0.05, bassEvery: 4 },
-    studio: { wave: 'triangle', filter: 2200, vol: 0.045 }
+    studio: { wave: 'triangle', filter: 2200, vol: 0.045 },
+    // Supermarket muzak: soft sines, major-sixth pentatonic, a shop-PA "ding-dong" every 16 steps.
+    supermarket: { wave: 'sine', vol: 0.045, scale: [0, 2, 4, 7, 9], dur: 0.6, chime: true },
+    // School recorder: breathy triangle with a slow wobble, a little quicker than the core loop.
+    school: { wave: 'triangle', filter: 2400, vol: 0.045, vib: 3, vibRate: 5.5, scale: [0, 2, 4, 5, 7, 9], tempo: 0.9 },
+    // Castle lute: plucked, filtered saw in a minor (dorian) pentatonic, stately, over a root-and-fifth drone.
+    castle: { wave: 'sawtooth', filter: 1200, vol: 0.035, scale: [0, 2, 3, 7, 9], tempo: 1.15, dur: 0.28, drone: true },
+    // Under the sea: rolling sines with a wide slow vibrato and a low-passed wave swell every 16 steps.
+    sea: { wave: 'sine', vol: 0.045, vib: 6, vibRate: 1.5, scale: [0, 2, 5, 7, 10], tempo: 1.2, dur: 0.7, swell: true },
+    // Sports day brass band: short filtered squares, march tempo, oom-pah bass every 2 steps (no drums).
+    sports: { wave: 'square', filter: 1600, vol: 0.035, scale: [0, 4, 7, 9, 12], tempo: 0.85, dur: 0.24, bassEvery: 2, bassDur: 0.4, bassVol: 0.045 }
   };
-  /** The music family of a chapter index (0-based; -1 = the bonus pack). */
+  // [first chapter id of the pack, family]; the Final Factory is found by id (else the last chapter).
+  var PACKS = [['button-bay', 'core'], ['stapler-steppes', 'office'], ['kitchen-kerfuffle', 'home'], ['brolly-beach', 'outdoors'],
+    ['beaker-basin', 'science'], ['magic-matinee', 'show'], ['aisle-antics', 'supermarket'], ['chalkboard-chasm', 'school'],
+    ['moat-mayhem', 'castle'], ['periscope-pier', 'sea'], ['hurdle-hollow', 'sports']];
+  /** The music family of a chapter index (0-based; -1 = the bonus pack). 2.4.1 follow-up: mapped by pack, so new
+   * chapters can never fall through to `final` (the 2.4 bug: every index >= 33 played the finale). */
   function musicFamily(ch) {
     if (ch < 0) return 'studio';
-    if (ch <= 7) return 'core';
-    if (ch <= 12) return 'office';
-    if (ch <= 17) return 'home';
-    if (ch <= 22) return 'outdoors';
-    if (ch <= 27) return 'science';
-    if (ch <= 32) return 'show';
-    return 'final';
+    var ids = (OBEY.CHAPTERS || []).map(function (x) { return x.id; });
+    var f = ids.indexOf('final-factory');
+    if (f < 0) f = ids.length - 1;
+    if (ch === f) return 'final';
+    var best = 'core', at = -1;
+    PACKS.forEach(function (e) { var s = ids.indexOf(e[0]); if (s >= 0 && s <= ch && s > at) { at = s; best = e[1]; } });
+    return best;
   }
   var STEP_S = 0.42;
-  var music = { on: false, chapter: 0, timer: null, step: 0 };
+  var music = { on: false, chapter: 0, timer: null, step: 0, stepS: STEP_S };
+  function stepFor(ch) { return STEP_S * (FAMILIES[musicFamily(ch)].tempo || 1); }
   function musicTick() {
     var c = ensure();
     if (!c || !music.on) return;
-    var ch = music.chapter, fam = FAMILIES[musicFamily(ch)];
-    var sc = ch < 0 ? WHOLE_TONE : SCALES[ch % SCALES.length], base = ch < 0 ? 233 : ROOTS[ch % ROOTS.length];
+    var ch = music.chapter, fam = FAMILIES[musicFamily(ch)], st = music.stepS;
+    var sc = ch < 0 ? WHOLE_TONE : (fam.scale || SCALES[ch % SCALES.length]), base = ch < 0 ? 233 : ROOTS[ch % ROOTS.length];
     var prev = routeTo; routeTo = musicBus;
     var deg = sc[(music.step * 2 + Math.floor(music.step / 4)) % sc.length];
     // Swing pushes every off-beat 8th later: at 0.58 the pair splits 58 / 42.
-    var at = fam.swing && music.step % 2 ? (fam.swing - 0.5) * 2 * STEP_S : 0;
-    tone(base * Math.pow(2, deg / 12) * (music.step % 8 < 4 ? 1 : 2), at, 0.5, { type: fam.wave, vol: Math.min(0.05, fam.vol), filter: fam.filter, q: fam.q, vib: fam.vib || 0, vibRate: fam.vibRate });
-    if (music.step % (fam.bassEvery || 8) === 0) tone(base / 2, 0, 1.6, { type: 'sine', vol: 0.06 });
-    if (fam.chirp && music.step % 16 === 15) tone(2600, 0.1, 0.12, { type: 'sine', vol: 0.015, slide: 3200 });
+    var at = fam.swing && music.step % 2 ? (fam.swing - 0.5) * 2 * st : 0;
+    tone(base * Math.pow(2, deg / 12) * (music.step % 8 < 4 ? 1 : 2), at, fam.dur || 0.5, { type: fam.wave, vol: Math.min(0.05, fam.vol), filter: fam.filter, q: fam.q, vib: fam.vib || 0, vibRate: fam.vibRate });
+    if (music.step % (fam.bassEvery || 8) === 0) {
+      tone(base / 2, 0, fam.bassDur || 1.6, { type: 'sine', vol: Math.min(0.06, fam.bassVol || 0.06) });
+      if (fam.drone) tone(base * 0.75, 0, fam.bassDur || 1.6, { type: 'sine', vol: 0.03 });
+    }
+    var bar = music.step % 16 === 15;
+    if (fam.chirp && bar) tone(2600, 0.1, 0.12, { type: 'sine', vol: 0.015, slide: 3200 });
+    if (fam.chime && bar) { tone(1319, 0.05, 0.3, { type: 'sine', vol: 0.015 }); tone(1047, 0.3, 0.45, { type: 'sine', vol: 0.015 }); }
+    if (fam.swell && bar) noise(0, 1.6, { from: 400, to: 900, vol: 0.02, filterType: 'lowpass', attack: 0.6 });
     routeTo = prev;
     music.step++;
   }
   function startMusic(chapter) {
     music.chapter = typeof chapter === 'number' && isFinite(chapter) ? chapter : 0;
-    if (music.on) return;
-    music.on = true; music.step = 0;
-    music.timer = root.setInterval(musicTick, STEP_S * 1000);
+    var st = stepFor(music.chapter);
+    if (music.on) {
+      // A new family may have its own tempo: restart the clock only when the step length changes.
+      if (st !== music.stepS) { root.clearInterval(music.timer); music.stepS = st; music.timer = root.setInterval(musicTick, st * 1000); }
+      return;
+    }
+    music.on = true; music.step = 0; music.stepS = st;
+    music.timer = root.setInterval(musicTick, st * 1000);
   }
   function stopMusic() { music.on = false; if (music.timer) root.clearInterval(music.timer); music.timer = null; }
 

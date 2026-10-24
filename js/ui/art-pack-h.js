@@ -377,7 +377,9 @@
       '<path d="M74 104 L80 116 L86 104 Z" fill="#f5b400" ' + SW3 + '/>');
   });
 
+  // 2.4.1 follow-up (bible §15): one wall shelf in the game; the code below is the fallback.
   add('h-shelf', function () {
+    if (A.hasObject('shelf')) return A.object('shelf', { deep: true });
     return svg('0 0 200 60', '<rect x="4" y="10" width="192" height="18" rx="5" fill="' + WOOD + '" ' + SW + '/><path d="M30 28 L44 52 M170 28 L156 52" ' + SW + '/>');
   });
 
@@ -391,7 +393,7 @@
     var occ = '';
     switch (o.occ) {
       case 'you': occ = '<rect x="32" y="26" width="36" height="46" rx="14" fill="#ffd23f" ' + SW3 + '/><circle cx="44" cy="44" r="4" fill="' + INK + '"/><circle cx="56" cy="44" r="4" fill="' + INK + '"/><path d="M50 26 L50 16" ' + SW3 + '/><circle cx="50" cy="14" r="4" fill="#e5243b"/>'; break;
-      case 'guard': occ = '<path d="M26 80 L26 48 Q50 14 74 48 L74 80 Z" fill="' + STONE + '" ' + SW3 + '/><path d="M34 56 L66 56" ' + SW3 + '/><text x="66" y="30" font-family="Bagel Fat One, Atkinson Hyperlegible, sans-serif" font-size="24" fill="' + INK + '">z</text>'; break;
+      case 'guard': occ = '<path d="M26 80 L26 48 Q50 14 74 48 L74 80 Z" fill="' + STONE + '" ' + SW3 + '/><path d="M34 56 L66 56" ' + SW3 + '/>' + A.sleepZ([[64, 12, 14, SW3]]); break;
       case 'door': occ = '<path d="M28 86 L28 46 Q50 18 72 46 L72 86 Z" fill="' + WOOD + '" ' + SW3 + '/><circle cx="62" cy="62" r="4" fill="' + GOLD + '" ' + SW3 + '/>'; break;
     }
     return svg('0 0 100 100', '<rect x="3" y="3" width="94" height="94" rx="8" fill="' + (o.dark ? '#8a86a8' : '#fff8dd') + '" ' + SW3 + '/>' + occ);
@@ -416,13 +418,17 @@
       '<path d="M70 104 Q74 116 70 120 M130 104 Q134 118 130 120" fill="none" stroke="#3ec1ff" stroke-width="6" stroke-linecap="round"/>');
   });
 
+  // 2.4.1 follow-up (bible §15): one postcard drawing; this is its picture side. Fallback below.
   add('h-postcard', function () {
+    if (A.hasObject('b-postcard')) return A.object('b-postcard', { picture: true });
     return svg('0 0 200 140', '<rect x="8" y="10" width="184" height="120" rx="6" fill="#fffdf6" ' + SW + '/><rect x="18" y="20" width="90" height="100" rx="4" fill="#3ec1ff" ' + SW3 + '/>' +
       '<circle cx="80" cy="44" r="14" fill="#ffd23f" ' + SW3 + '/><path d="M18 92 Q40 82 63 92 T108 92 L108 120 L18 120 Z" fill="#f3d998" ' + SW3 + '/>' +
       hair('M120 50 L180 50 M120 70 L180 70 M120 90 L170 90') + '<rect x="156" y="18" width="26" height="22" rx="2" fill="#ff6f91" ' + SW3 + '/>');
   });
 
+  // 2.4.1 follow-up (bible §15): one bin drawing; the castle's is the plain grey waste-paper `bin`. Fallback below.
   add('h-bin', function () {
+    if (A.hasObject('bin')) return A.object('bin', { plain: true });
     return svg('0 0 120 160', '<path d="M14 30 L106 30 L96 152 L24 152 Z" fill="#8a86a8" ' + SW + '/><rect x="8" y="18" width="104" height="16" rx="5" fill="#4b4466" ' + SW3 + '/>' + hair('M40 46 L44 140 M60 46 L60 140 M80 46 L76 140'));
   });
 

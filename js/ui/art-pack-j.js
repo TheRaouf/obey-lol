@@ -35,6 +35,8 @@
   add('j-egg', function () { return svg('0 0 160 200', EGG(80, 100, 86)); });
 
   add('j-crate', function (o) {
+    // 2.4.1 follow-up (bible §15): one crate drawing; this is the landscape `crate {wide}`. The code below is the fallback.
+    if (A.hasObject('crate')) return A.object('crate', { wide: true, stamp: o.stamp || '' });
     return svg('0 0 200 170',
       '<rect x="8" y="8" width="184" height="154" rx="8" fill="#c98b4a" ' + SW + '/>' +
       '<path d="M8 8 L192 162 M192 8 L8 162" stroke="' + INK + '" stroke-opacity=".35" stroke-width="3"/>' +
@@ -47,16 +49,21 @@
 
   add('j-spoon', function (o) {
     var k = o.kind || 'tea', s = '';
+    // 2.4.1 follow-up (bible §15): the teaspoon is the canonical metal `b-spoon`, lying in this 200×140 box (bowl at 48,130, so
+    // the egg sits where it did). The ladle and the fork stay here: the L213 tell is the ladle's deep bowl beside them.
+    if (k === 'tea' && A.hasObject('b-spoon')) return A.object('b-spoon', { lying: true });
     if (k === 'tea') {
       s = '<path d="M70 128 L188 112" stroke="#c3ccd8" stroke-width="10" stroke-linecap="round"/><path d="M70 128 L188 112" fill="none" ' + SW3 + '/>' +
         '<ellipse cx="48" cy="130" rx="24" ry="9" fill="#c3ccd8" ' + SW + '/>';
     } else if (k === 'ladle') {
-      s = '<path d="M98 98 Q140 40 184 20" fill="none" stroke="#8a86a8" stroke-width="12" stroke-linecap="round"/><path d="M98 98 Q140 40 184 20" fill="none" ' + SW3 + '/>' +
+      // Handle as a filled, outlined shape (bible §3.3: thick shapes are fills, not ink strokes).
+      s = '<path d="M93 95 Q134 36 181 13 Q192 12 189 24 Q146 46 104 101 Z" fill="#8a86a8" ' + SW3 + '/>' +
         '<path d="M10 92 L106 92 Q104 136 58 136 Q12 136 10 92Z" fill="#c3ccd8" ' + SW + '/><path d="M24 104 Q34 124 54 126" ' + HI + ' stroke-width="6"/>';
     } else {
-      s = '<path d="M84 118 L188 108" stroke="#c3ccd8" stroke-width="10" stroke-linecap="round"/>' +
-        '<path d="M28 106 L86 104 L86 128 L28 130" fill="none" stroke="#c3ccd8" stroke-width="9" stroke-linecap="round"/>' +
-        '<path d="M28 106 L86 106 M28 117 L86 116 M28 129 L86 126 M86 104 L86 128" fill="none" ' + SW3 + '/>';
+      // Fork: handle, neck and three tines as filled, outlined shapes.
+      s = '<path d="M84 112 L186 103 Q193 108 186 114 L86 124 Z" fill="#c3ccd8" ' + SW3 + '/>' +
+        '<path d="M70 102 L92 102 L92 128 L70 128 Z" fill="#c3ccd8" ' + SW3 + '/>' +
+        '<path d="M24 101 L72 102 L72 109 L24 109 Q20 105 24 101 Z M24 111 L72 111 L72 119 L24 119 Q20 115 24 111 Z M24 121 L72 121 L72 128 L24 129 Q20 125 24 121 Z" fill="#c3ccd8" ' + SW3 + '/>';
     }
     return svg('0 0 200 140', s);
   });
@@ -140,7 +147,20 @@
     if (o.whistle) s += '<path d="M128 112 Q134 150 124 160" fill="none" stroke="#e5243b" stroke-width="4" stroke-linecap="round"/><rect x="112" y="156" width="26" height="13" rx="5" fill="#c3ccd8" ' + SW3 + '/>';
     return s;
   }
-  add('j-boss', function (o) { return svg('0 0 200 200', bossBody(o)); });
+  // 2.4.1: the on-stage Bossworth is the narrator's own drawing (bible §2.1 — one Bossworth), with the cape behind
+  // it and the goalkeeper kit / whistle on top. bossBody() stays as the fallback if art.js has no narrator.
+  function bossExtras(o) {
+    var top = '';
+    if (o.kit) top += '<path d="M26 128 Q100 146 174 128 Q170 166 140 180 Q100 192 60 180 Q30 166 26 128Z" fill="#2bc46f" ' + SW3 + '/>' + txt(100, 174, 26, '1', '#fffdf6', ' stroke="' + INK + '" stroke-width="1.5"');
+    if (o.whistle) top += '<path d="M128 112 Q134 150 124 160" fill="none" stroke="#e5243b" stroke-width="4" stroke-linecap="round"/><rect x="112" y="156" width="26" height="13" rx="5" fill="#c3ccd8" ' + SW3 + '/>';
+    return { back: o.cape ? '<path d="M40 70 L14 190 L186 190 L160 70 Z" fill="#e5243b" ' + SW + '/>' : '', top: top };
+  }
+  add('j-boss', function (o) {
+    if (!A.narrator) return svg('0 0 200 200', bossBody(o));
+    var base = A.narrator('classic', o.mood || 'neutral'), x = bossExtras(o);
+    var open = base.indexOf('>') + 1, close = base.lastIndexOf('</svg>');
+    return base.slice(0, open) + x.back + base.slice(open, close) + x.top + base.slice(close);
+  });
 
   /* --------------------------------------------------------------- referee */
   add('j-coin', function (o) {

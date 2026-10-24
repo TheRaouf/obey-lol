@@ -108,7 +108,7 @@ and `--paper`, add one front accessory and at most one back accessory, and add a
 | panicked | big eyes, pinprick pupils r 2.6, sweat drop | zig-zag | `jitter` .25 s | 1.35 |
 | defeated | droopy closed arcs, sad brows | small frown | tilted −7°, sunk 6 px | 0.82 |
 | laughing | squeezed arcs, blue tears | wide open, teeth, tongue | `laugh-shake` .18 s | 1.15 + laugh SFX |
-| overlay `sleep` | flat lines + "z z z" | small "o" | `zzz` 2 s | — |
+| overlay `sleep` | flat lines + three ink Z paths (16 `SW`, 12 and 9 `SW3`, rising to the top right; `A.sleepZ`, §3.3) | small "o" | `zzz` 2 s per Z, 300 ms apart (inline, so it needs no CSS rule) | — |
 | overlay `gag` | current eyes | taped mouth (two rotated strips) | — | — |
 | overlay `potato` | current eyes on a potato body | — (no accessories) | — | — |
 
@@ -287,7 +287,12 @@ the 40 levels:
 | `b-tin` | `word`, `color` | A labelled shop tin in the old `f-tin` 120×140 box (stacks keep their pitch); `color` = label band (default `#e5243b`); type `min(30, floor(150 / len))` units, held to 88 units with `textLength` past a 0.62 em estimate (BEANS 30 units ≈ 12.8 px at L135) |
 | `a-chair` | `legs` | Four legs and a rail instead of the swivel base, viewBox `5 0 150 200` (0.75 aspect) |
 | `a-plug` | `lying` | On its side, prongs left, cable right, 140×80 |
-| `a-photo` | `tall`, `subject` | `tall` = a 120×140 portrait-format frame of a person (`#d9a441` frame, `#cfefff` glass, `#ffb347` sitter). `subject: 'person'` is passed by `b-frame` for clarity; the code keys only on `tall`. Without `tall`, `pet` = `'fish'` (default) or `'cat'` |
+| `a-photo` | `tall`, `subject` | Two formats in the `#d9a441` frame: 140×130 landscape (default) and `tall` = 120×140 portrait. `subject` (follow-up, implemented) = `'person'` (`#ffb347` sitter on `#cfefff` glass), `'fish'` (`#8fd3ff` glass) or `'cat'` (`#ffe7a3`), in either format; `pet` is the older name for the same option (L50 uses it). Default subject: `person` when `tall`, else `fish`. In the tall frame a pet is the landscape drawing at .7 with its strokes thickened to 4.3 so they render at 3 |
+| `crate` | `stamp`, `wide` (follow-up) | `stamp` = the plate word (default "NOTHING"; `''` = no plate; > 7 letters held to 76 units). `wide` = the landscape 200×170 shipping crate (`#c98b4a`, plank cross at ink .35, 176 × 62 plate, 34-unit type, > 6 letters held to 160 units, one .5 highlight); `j-crate` redirects here |
+| `bin` | `plain` (follow-up) | Grey `#8a86a8` waste-paper bin, `#4b4466` rim, three .35 ink slats, one .5 highlight, no recycling arrow, in a 120×160 box; `h-bin` redirects here (L190) |
+| `shelf` | `deep` (follow-up) | 18-unit board with an `SW` outline on long `SW` brackets, 200×60; `h-shelf` redirects here (L181) |
+| `b-spoon` | `lying` (follow-up) | Flat on its side in a 200×140 box, bowl left at (48, 130), handle rising to the right at −7.7°; `j-spoon {kind:'tea'}` redirects here (L213). Default change: the handle is a filled 10-unit `#c3ccd8` bar with an `SW3` outline (was a 16-unit ink stroke under a 9-unit one) |
+| `b-postcard` | `picture` (follow-up) | The picture side: cream `#fffdf6` card, `#3ec1ff` sea, `#ffd23f` sun, `#f3d998` beach, message hairlines and a `#ff6f91` stamp; `h-postcard` redirects here (L177) |
 | `a-portrait` | `costume`, `crown`, `bg`, `frame`, `scorched` | Bossworth in oils from `A.narrator`: `costume` (`'royal'` or `crown` = orange King Bossworth with the crown, §2.1), `bg` canvas (default `#b48cff`), `frame` (default `#d9a441`), `scorched` = `#2d2850` frame and a .55 soot wash with `#8a86a8` smoke curls (L182) |
 | `b-torch` | `lens` | Yellow `#ffd23f` lens without the beam. Default change: the lens is always drawn now, pale `#e9eef5` when off |
 | `c-umbrella` | `stand` | Closed, stored tip-down with the hook up (rotated 180°) |
@@ -372,9 +377,13 @@ the one-glyph × close buttons L7 `close` and L101 `x`, which is the intended us
   stage edge. `i-coral` = four fingers (r 10 → 8) and two twigs (r 6 → 5) on a `#8a86a8` rock with
   one .5 highlight; `i-weed` = one frond r 7 → 4 in `#2fae84`. `g-band` uses an even-odd ring path.
   Copy these, do not invent a third method.
-- **Sleep z's are paths (2.4.1).** The reference is `h-dragon` asleep: Z shapes drawn as `SW` ink
-  paths, placed after any mirror transform. The narrator's `sleep` overlay (`art.js`, `<g
-  class="zzz">`) and a few props still use `<text>` "z" (see §18).
+- **Sleep z's are paths (2.4.1; finished in the follow-up).** Z shapes are ink paths (top bar,
+  diagonal, bottom bar), never `<text>`, placed after any mirror transform. Build them with
+  `OBEY.art.sleepZ([[x, y, size, SW|SW3], …], pulse)` (`art.js`): sizes ≥ 14 units take `SW`, smaller
+  ones `SW3`; a pair or trio rises to the upper right, each Z smaller. Users: the narrator's `sleep`
+  overlay (16/12/9, `pulse` = each Z runs the `zzz` keyframes inline, 300 ms apart), `shybutton
+  {asleep}` (14/8), `e-hamster` asleep (16/12), `e-avatar {asleep}` (20/13), the `h-chesstile` guard
+  (14, `SW3`) and `h-dragon` (18/11, its own copy of the same construction). No `<text>` z is left.
 - Shapes: rounded rectangles (rx 6–24), eggs and blobs, wedges. Corners are always rounded; there are
   no sharp, spiky or realistic silhouettes except the deliberate zig-zag of the `zap` bolt and the
   dino spikes.
@@ -494,11 +503,24 @@ menu `plus` (New game), `bowtie` (costumes), `palette` (themes), `scroll` (credi
 room; Achievements keeps `star`); chapter landmarks `button`, `stapler`, `sock`, `palm`, `flask`,
 `rocket`, `curtain` (plus the existing `gear`). `OBEY.art.chapterIcon(c)` maps a 0-based chapter
 index (or chapter id): 0–7 `button` (core), 8–12 `stapler` (office), 13–17 `sock` (home), 18–22
-`palm` (outdoors), 23–25 `flask` (science), 26–27 `rocket` (space), 28–32 `curtain` (show), 33+
-`gear`. Every menu slip now has an icon, so the label column is straight. **2.4.1 gap:** the 2.4
-chapters are indices 33–57 (supermarket, school, castle, sea, sports) and the Final Factory is 58, so
-all 25 new chapters fall through to the Final Factory's `gear` on the map, chapter cards and cups.
-They need their own landmarks (§18).
+`palm` (outdoors), 23–25 `flask` (science), 26–27 `rocket` (space), 28–32 `curtain` (show), 33–37
+`cart` (supermarket), 38–42 `pencil` (school), 43–47 `tower` (castle), 48–52 `anchor` (sea), 53–57
+`whistle` (sports day), and the Final Factory (58 today) `gear`. Every menu slip now has an icon, so
+the label column is straight.
+**Follow-up fix (the 2.4 bug):** 2.4 shipped with every index ≥ 33 mapped to `gear`, so all 25
+chapters of packs F–J showed the finale's landmark. The mapping is now by pack, not by number:
+`LANDMARKS` in `art-extra.js` lists `[first chapter id of the pack, icon]`, the pack of chapter k is
+the last entry whose first chapter is ≤ k, and the Final Factory is found by its id
+`'final-factory'` (else `CHAPTERS.length − 1`). `OBEY.art.packOf(table, c, fin)` does the lookup.
+Adding a chapter to a pack, or a new pack before the finale, can no longer move anything onto the
+gear; a new pack only needs one line in `LANDMARKS` (and `PACKS` in `audio.js`, §9.4).
+The five 2.4 landmarks (`art-extra.js`, 24 units, `currentColor`, stroke 2.2, round caps and joins):
+`cart` = a shop trolley in side view, basket line and two filled 1.7 wheels; `pencil` = a pencil at
+45° with ferrule line and a filled graphite tip; `tower` = a castle tower with three merlons, an
+arched door, an arrow slit and a ground line; `anchor` = ring, shank, stock and a 7.5-radius crown
+with two barbs; `whistle` = a referee's whistle (barrel round a 5.5 circle, mouthpiece, filled pea,
+lanyard curl). Each reads at 18 px (map), 40 px (chapter card) and 52 units engraved on a cup.
+`sports` deliberately is not a trophy: the cups already are trophies.
 
 ---
 
@@ -915,10 +937,25 @@ packs sound alike:
 | 18–22 | outdoors | sine, vol .05 | — | a 2.6 → 3.2 kHz chirp every 16 steps, vol .015 |
 | 23–27 | science | sawtooth, vol .04 | lowpass 900, Q 4 | — |
 | 28–32 | show | square, vol .03 | — | vibrato 5 Hz, depth 4 |
-| 33+ | final | triangle, vol .05 | — | bass every 4 steps. **2.4.1 gap:** `musicFamily` returns `final` for every chapter ≥ 33, so the 25 chapters of packs F–J (33–57) play the Final Factory timbre (§18) |
+| 33–37 | supermarket (follow-up) | sine, vol .045, notes 600 ms | — | own scale [0 2 4 7 9] (major pentatonic muzak); a shop-PA "ding-dong" every 16 steps: 1319 Hz sine 300 ms then 1047 Hz 450 ms at +250 ms, vol .015 |
+| 38–42 | school (follow-up) | triangle, vol .045 | lowpass 2400 | recorder: vibrato 5.5 Hz depth 3; scale [0 2 4 5 7 9]; tempo × 0.9 (378 ms steps) |
+| 43–47 | castle (follow-up) | sawtooth, vol .035, notes 280 ms (plucked) | lowpass 1200 | lute: dorian pentatonic [0 2 3 7 9]; tempo × 1.15 (483 ms); drone = a 0.75 × root sine (a fifth under the root) vol .03 beside the bass |
+| 48–52 | sea (follow-up) | sine, vol .045, notes 700 ms | — | vibrato 1.5 Hz depth 6 (a slow roll); scale [0 2 5 7 10]; tempo × 1.2 (504 ms); a wave swell every 16 steps: lowpass noise 400 → 900 Hz, 1.6 s, attack 600 ms, vol .02 |
+| 53–57 | sports (follow-up) | square, vol .035, notes 240 ms | lowpass 1600 | brass band: scale [0 4 7 9 12]; tempo × 0.85 (357 ms, a march); oom-pah bass every 2 steps, 400 ms, vol .045. No drums |
+| last (58) | final | triangle, vol .05 | — | bass every 4 steps. Only the Final Factory, found by id `'final-factory'` (else the last chapter) |
 | −1 (bonus) | studio | triangle, vol .045 | lowpass 2200 | whole-tone scale on 233 Hz |
 
 The bonus pack passes chapter −1 (it used to borrow chapter 9's loop).
+**Mapping (follow-up fix).** 2.4 shipped `musicFamily` returning `final` for every chapter ≥ 33, so
+packs F–J played the finale. It is now by pack: `PACKS` in `audio.js` lists `[first chapter id,
+family]` exactly like `LANDMARKS` (§4), and only the `'final-factory'` chapter is `final`. A family
+may set `scale` (instead of `SCALES[ch % 9]`; roots still cycle by `ch % 9`), `tempo` (× `STEP_S`;
+`startMusic` restarts the clock when a chapter change alters the step length), `dur` (arpeggio note
+length, default 500 ms), `bassEvery`/`bassDur`/`bassVol`, `drone`, and one colour event every 16
+steps (`chirp`, `chime`, `swell`). Limits: arpeggio ≤ .05 (clamped in code), bass ≤ .06, drone .03,
+colour events ≤ .02; no drums, no melody that quotes a tune. Check: `OBEY.audio.musicFamily(i)`
+for i = 0…58 gives core ×8, office, home, outdoors ×5 each, science ×5, show ×5, supermarket,
+school, castle, sea, sports ×5 each, and `final` for 58 only.
 
 ### 9.5 Captions
 
@@ -1085,6 +1122,11 @@ registered and returns the canonical:
 | sofa | `b-sofa` | `d-sofa` → `b-sofa`, bottom-anchored |
 | torch | `b-torch` | `c-torch` → `b-torch {on, lens:true}` |
 | router | `a-router` | `d-router` (2.3) |
+| crate (follow-up) | `crate` (`art.js`) | `j-crate` → `crate {wide:true, stamp: o.stamp \|\| ''}` (L213 OSTRICH crate) |
+| bin (follow-up) | `bin` (`art.js`) | `h-bin` → `bin {plain:true}` (L190) |
+| wall shelf (follow-up) | `shelf` (`art.js`) | `h-shelf` → `shelf {deep:true}` (L181) |
+| teaspoon (follow-up) | `b-spoon` | `j-spoon {kind:'tea'}` → `b-spoon {lying:true}` (L213); `ladle` and `fork` stay in `j-spoon` |
+| postcard (follow-up) | `b-postcard` | `h-postcard` → `b-postcard {picture:true}` (L177) |
 
 **Kept separate on purpose** (similar names, different objects or a tell that lives in the drawing):
 
@@ -1108,11 +1150,11 @@ registered and returns the canonical:
 | `c-balloon` vs `d-balloon` | Hot-air balloon vs party balloon |
 | `a-stamp` vs `c-stamp` | Rubber stamp vs postage stamp |
 | `b-stool` vs `d-stool` | `d-stool` has the broken leg, the tell |
-
-Checked and left for 2.5: spoons (`b-spoon` metal, `d-spoon` wooden, `j-spoon` race spoon), `shelf`
-vs `h-shelf` (different aspect), `crate` vs `j-crate` (portrait "NOTHING" crate vs landscape stamped
-crate), `bin` vs `h-bin`, `basket` vs `h-basket`, the three postcards and the three windows (each
-carries different information).
+| `d-spoon` vs `b-spoon` (follow-up) | Wooden spoon: wood does not conduct, which is the L97 bridge-the-gap tell (the paperclip does). It must not look metal |
+| `j-spoon {ladle, fork}` (follow-up) | The L213 set: the ladle's deep bowl is the tell, judged beside the teaspoon and the fork. Only the teaspoon is shared with `b-spoon` |
+| `basket` vs `h-basket` (follow-up) | Laundry basket vs a counterweight basket hung on a rope whose countable rocks (`n`) are the L173 state, like `e-jar`'s beans |
+| `c-postcard` vs `b-postcard` (follow-up) | Writing side whose address (Gran Olga, Fjordvik, NORWAY) and dashed stamp slot are the L92 tell; 220×140 |
+| `b-window`, `c-window`, `h-window` (follow-up) | Each window carries its level's information: `b-window` day/night and opening casement (L68, L69); `c-window` the rain outside, the L73 tell; `h-window` a castle arch with the porter's state (L176). Same ink, sky blues and cross-bar language, so they read as one family |
 
 ---
 
@@ -1179,7 +1221,7 @@ Playwright; npm scripts `art:strokes`, `art:contrast`, `art:sheets`):
   `tools/art/lib.js` reads the level count from `OBEY.LEVEL_COUNT` in `js/core/ns.js`, so the
   default (no `--levels`) covers every level, `1-LEVEL_COUNT,1001-1004`, and seeds a save with all of
   them done; strokes and sheets no longer time out on 137+. The full 2.4.1 run takes about 5 minutes.
-  Gap: `lib.js` `packOf()` still labels everything from 133 up as "Final", so packs F–J are not
+  Since 2.4.1 `lib.js` `pack()` labels packs A…J and Final correctly, so packs F–J are
   reported separately (§18).
 - `node tools/level-lab.js <level files> [--art <packs>] [--fit] [--shots]` — runs each level's
   solution, `checks` and `alternatives` headless; `--fit` measures card text with a `Range` (the
@@ -1220,29 +1262,42 @@ The 2.1 baseline used scratchpad scripts (`art/contrast.py`, `art/capture.js`, `
 - The 2.4 review's SHOULD 1–9 and POLISH 1–9 are applied; SHOULD 10 is partial (below). See the
   "Applied in 2.4.1" table in `docs/ART-REVIEW-2.4.md`.
 
+**Closed in the 2.4.1 follow-up pass** (details in `docs/ART-REVIEW-2.4.1.md`, "Remaining items"):
+- ~~Chapter landmarks and music for the 2.4 chapters (the 2.4 bug: indices 33–57 drew the `gear`
+  and played `final`)~~ **Done:** mapped by pack id with the finale found by id (§4, §9.4); five
+  landmarks `cart`, `pencil`, `tower`, `anchor`, `whistle` and five music families
+  `supermarket`, `school`, `castle`, `sea`, `sports`. Verified on the map, chapter cards and the
+  trophy room, and `musicFamily(58)` = `final` only.
+- ~~Sleep z's drawn as `<text>`~~ **Done:** `OBEY.art.sleepZ` paths in the narrator `sleep`
+  overlay, `shybutton {asleep}`, `e-hamster`, `e-avatar {asleep}` (also had a "z z" `<text>`) and the
+  `h-chesstile` guard (§3.3). `css/style.css` `.zzz text` no longer matches anything; the pulse is
+  inline on each path.
+- ~~Duplicates left for 2.5~~ **Done:** `crate`, `bin`, `shelf`, `b-spoon` (teaspoon) and
+  `b-postcard` are canonical with `j-crate`, `h-bin`, `h-shelf`, `j-spoon {tea}` and `h-postcard`
+  redirecting; `d-spoon`, the `j-spoon` ladle and fork, `h-basket`, `c-postcard` and the three
+  windows are kept separate with reasons (§15).
+- ~~`a-photo` `subject` accepted but unused~~ **Done:** implemented, `person`/`fish`/`cat` in both
+  formats (§3.2).
+
+**Closed in the final 2.4.1 pass** (coordinator):
+- ~~Map at 320 px~~ **Done:** on screens narrower than 560 px the map rows are spaced at least ~100 px
+  apart (`mapRow()` in `screens.js`, re-laid on resize). Measured: 0 node overlaps and 0 label hits at
+  320, 390, 820 and 1180 px wide.
+- ~~Text at the 320 px phone (SHOULD 10)~~ **Done:** `Stage._fitText` keeps 1 px of air (stops at
+  −1 px instead of +1 px). `level-lab --fit` on all 236 levels: 0 problems.
+- ~~`tools/art/lib.js` pack labels~~ **Done:** packs A…J are 20-level blocks from Level 33, Final is the
+  last four levels.
+- ~~`App.landmarkIcon` fallback~~ **Done:** it now calls `A.chapterIcon` only.
+- ~~Level metadata on L8, L19, L21~~ **Resolved in the lab:** levels 1–32 predate it; the lab reads their
+  recap from `extras.TRICKS`, skips the `checks` rule (their wrong moves are covered by
+  `tests/unit/levels.test.js`) and plays each level's own Hard path (`def.guide`). All 236 levels: 0
+  problems.
+- ~~`j-spoon` ladle and fork thick strokes~~ **Done:** filled, outlined shapes (§3.3).
+- ~~`j-boss` hand-built narrator copy~~ **Done:** `j-boss` now wraps `A.narrator('classic', mood)`
+  with the cape behind and kit/whistle on top; `bossBody()` stays as the fallback.
+- Dead CSS `.zzz text` removed.
+
 **Still open:**
-- **Chapter landmarks and music for the 2.4 chapters.** `OBEY.art.chapterIcon` and
-  `OBEY.audio.musicFamily` map every chapter index ≥ 33 to the Final Factory (`gear` icon, `final`
-  timbre). The 25 chapters of packs F–J (indices 33–57) therefore all show the gear on the map,
-  chapter cards and cups, and play the finale's loop. Needs five landmark icons (supermarket,
-  school, castle, sea, sports; 24-unit, `currentColor`, stroke 2.2), five music families, and
-  Final Factory = index 58 (`CHAPTERS.length − 1`), not 33.
-- **Map at 320 px:** nodes overlap each other at that width, and some two-line region labels touch a
-  neighbouring node's title or stars (no label covers a disc).
-- **Text at the 320 px phone (2.4 SHOULD 10, partial).** `Stage._fitText` and `level-lab --fit`
-  measure the glyphs with a `Range` since 2.4, but the fitter still stops at 1 px of overflow, which
-  ignores Bagel's tall ascent. At 320×700 the new short signs sit on that tolerance (−0.8 px at the
-  19.2 px cap) and about 33 older cards spill by 2–4 px (the 2.3 baseline: L174 `list`, L218 `rules`,
-  the L230 header row and `h3` "Bronze" 0.5 px from its edge, L215 plaques at 11.6 px). Fix in core:
-  2 px of slack.
-- **Sleep z's still drawn as `<text>`:** the narrator's `sleep` overlay (`art.js` `.zzz`), `shybutton
-  {asleep}`, `e-hamster` asleep and the `h-chesstile` guard. Redraw as `SW` paths like `h-dragon`.
-- **`tools/art/lib.js` `packOf()`** labels levels 133–236 "Final"; split it into F 133–152, G
-  153–172, H 173–192, I 193–212, J 213–232 and Final 233–236 so `strokes.js` reports per pack.
-- **Bespoke stroke exceptions** (unchanged since 2.3): L56 `b-ants`, L92 `c-stamp`, L127 `e-stilts`,
-  L97 `d-clip`.
-- **Duplicates left for 2.5:** spoons, `shelf`/`h-shelf`, `crate`/`j-crate`, `bin`/`h-bin`,
-  `basket`/`h-basket`, postcards, windows (§15).
-- **`j-boss`** is a hand-built copy of the narrator body (§2.1); keep it in step, or rebuild it on
-  `A.narrator` with `cape`/`kit` overlays.
+- **Bespoke stroke exceptions** (unchanged since 2.3, accepted): L56 `b-ants`, L92 `c-stamp`,
+  L127 `e-stilts`, L97 `d-clip`.
 - Not art: L148 `doors`/`beam` hit boxes overlap by design (the beam zone sits inside the doors).

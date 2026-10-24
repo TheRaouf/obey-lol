@@ -271,3 +271,38 @@ Verification:
   design (the beam zone sits inside the doors) and was not touched.
 - Before/after stage shots at 1180×900 of every touched level, plus mid states for L65, L73, L138, L142,
   L150, L151 and L172.
+
+## Remaining items (follow-up pass, bible §18)
+
+The four art items still open after 2.4.1, done by the Art Director. No puzzle logic, object id,
+interactivity or level file changed; every art key keeps its name.
+
+| Item | Status | What changed |
+|---|---|---|
+| 1. 2.4 bug: chapters 33–57 showed the Final Factory `gear` and played `final` | done | `A.chapterIcon` (`art-extra.js`) and `musicFamily` (`audio.js`) map by pack: a `[first chapter id, value]` table, the last entry whose first chapter is ≤ k, and the finale found by id `'final-factory'` (else `CHAPTERS.length − 1`). New `OBEY.art.packOf(table, c, fin)`. New landmark icons `cart`, `pencil`, `tower`, `anchor`, `whistle` (24 units, `currentColor`, stroke 2.2). New music families `supermarket`, `school`, `castle`, `sea`, `sports` with optional `scale`, `tempo`, `dur`, `bassEvery/bassDur/bassVol`, `drone`, `chime`, `swell` (bible §9.4); arpeggio ≤ .05, colour events ≤ .02; `startMusic` restarts its clock when the step length changes. |
+| 2. Sleep z's drawn as `<text>` | done | New `OBEY.art.sleepZ(zs, pulse)` in `art.js` (the `h-dragon` construction). Narrator `sleep` overlay (16 `SW`, 12 and 9 `SW3`, each with the `zzz` pulse inline, 300 ms apart), `shybutton {asleep}`, `e-hamster`, `e-avatar {asleep}` (it also had a "z z" `<text>`) and the `h-chesstile` guard. |
+| 3. Duplicates left for 2.5 | done | Canonical + redirect (with the old drawing as fallback, `e-chair` style): `j-crate` → `crate {wide, stamp}`, `h-bin` → `bin {plain}`, `h-shelf` → `shelf {deep}`, `j-spoon {tea}` → `b-spoon {lying}`, `h-postcard` → `b-postcard {picture}`. Each option keeps the old viewBox, so boxes do not move. `b-spoon`'s handle is now a filled bar with an `SW3` outline (was a thick bespoke stroke). Kept separate, with reasons in bible §15: `d-spoon` (wood, L97 tell), `j-spoon` ladle and fork (L213 set), `h-basket` (countable rocks, L173), `c-postcard` (address and stamp slot, L92), `b-window` / `c-window` / `h-window` (each carries its level's information). |
+| 4. `a-photo` `subject` unused | done | Implemented: `subject` = `person` / `fish` / `cat` in both formats, `pet` kept as the older name, default `person` when `tall` else `fish`. L50 and `b-frame` (L72) render exactly as before. |
+
+Verification:
+- `OBEY.art.chapterIcon(i)` / `OBEY.audio.musicFamily(i)` for every chapter: 0–7 button/core, 8–12
+  stapler/office, 13–17 sock/home, 18–22 palm/outdoors, 23–25 flask/science, 26–27 rocket/science,
+  28–32 curtain/show, 33–37 cart/supermarket, 38–42 pencil/school, 43–47 tower/castle, 48–52
+  anchor/sea, 53–57 whistle/sports, 58 gear/final; −1 studio.
+- Screenshots (1180×900 and 320×700): icon sheet at 56 px and 1.25 em; chapter cards for chapters
+  34, 39, 44, 49, 54 and 59; the map regions from L133 to L233; the trophy room cups for every 2.4
+  chapter; stages of L8, L19, L21 (narrator asleep), L50, L56, L67, L68, L72, L130, L132, L177, L179,
+  L181, L190, L213. One fix made from the shots: `e-avatar` z's moved to a rising diagonal, because
+  in a row between the ears they read as "OzzO" at 40 px (L132).
+- `node tools/level-lab.js` on the 34 level files that use a changed key, packs A–J, `--fit`:
+  1648 checks, fit 0 problems. The 9 problems are level metadata, not art: L8, L19 and L21 have no
+  `trick` sentence and no wrong move in `checks` (they were not run in earlier passes).
+- `node tools/art/strokes.js` on 27 of those levels: nothing outside 2.5–7 px except the known
+  bespoke exceptions (L56 `b-ants`, L127 `e-stilts`).
+- `npm test`: 1266 pass. `node tools/check.js`: only `sw.js is out of date`.
+
+Still open after this pass (bible §18): `App.landmarkIcon`'s numeric fallback in `app-extra.js`
+(dead while `art-extra.js` loads, but still says 33+ → `gear`); the `.zzz text` rule in
+`css/style.css` now matches nothing and can go; L8/L19/L21 lab metadata; `j-spoon` ladle and fork
+still use bespoke thick strokes; plus the items already listed there (map and text at 320 px,
+`j-boss`, bespoke stroke exceptions).

@@ -296,20 +296,33 @@
       '<circle cx="' + (hx - 5).toFixed(1) + '" cy="' + (hy - 2).toFixed(1) + '" r="2.5" fill="' + INK + '"/><circle cx="' + (hx + 5).toFixed(1) + '" cy="' + (hy - 2).toFixed(1) + '" r="2.5" fill="' + INK + '"/>');
   });
 
-  /* Desk photo frame: o.pet = 'fish' | 'cat'. */
-  /* The canonical framed photo (bible §15): `b-frame` redirects here with `subject: 'person'` and
-   * `tall` (a 120×140 portrait-format frame). `pet` = 'fish' (default) | 'cat'. */
-  A.addObject('a-photo', function (o) {
-    if (o.tall) {
-      return svg('0 0 120 140', '<rect x="10" y="10" width="100" height="120" rx="6" fill="#d9a441" ' + SW + '/><rect x="24" y="24" width="72" height="92" fill="#cfefff" ' + SW3 + '/>' +
-        '<circle cx="60" cy="60" r="16" fill="#ffb347" ' + SW3 + '/><path d="M36 116 Q60 80 84 116" fill="#ffb347" ' + SW3 + '/><path d="M52 58 L56 58 M64 58 L68 58 M54 66 Q60 70 66 66" ' + SW3 + '/>' +
-        '<path d="M30 32 L30 50" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>');
+  /* The canonical framed photo (bible §15), `#d9a441` frame. Two formats: landscape 140×130 desk photo (default) and
+   * `tall` = a 120×140 portrait-format frame (`b-frame` redirects here). 2.4.1 follow-up: `subject` = who is in the picture,
+   * 'person' | 'fish' | 'cat', in either format (`pet` is the older name for the same option). Default subject:
+   * 'person' when `tall`, else 'fish'. Each subject has its own glass colour: person `#cfefff`, fish `#8fd3ff`,
+   * cat `#ffe7a3`. In the tall frame a pet is the landscape drawing at .7 (its strokes stay 3 units). */
+  var PHOTO_BG = { person: '#cfefff', fish: '#8fd3ff', cat: '#ffe7a3' };
+  function photoSubject(who, tall) {
+    if (who === 'person') {
+      return tall
+        ? '<circle cx="60" cy="60" r="16" fill="#ffb347" ' + SW3 + '/><path d="M36 116 Q60 80 84 116" fill="#ffb347" ' + SW3 + '/><path d="M52 58 L56 58 M64 58 L68 58 M54 66 Q60 70 66 66" ' + SW3 + '/>'
+        : '<circle cx="70" cy="56" r="18" fill="#ffb347" ' + SW3 + '/><path d="M40 112 Q70 72 100 112" fill="#ffb347" ' + SW3 + '/><path d="M61 54 L65 54 M75 54 L79 54 M63 63 Q70 68 77 63" ' + SW3 + '/>';
     }
-    var pet = o.pet === 'cat'
+    var pet = who === 'cat'
       ? '<circle cx="70" cy="74" r="26" fill="#ff9f43" ' + SW3 + '/><path d="M48 60 L46 36 L64 52 Z M92 60 L94 36 L76 52 Z" fill="#ff9f43" ' + SW3 + '/><circle cx="61" cy="72" r="4" fill="' + INK + '"/><circle cx="79" cy="72" r="4" fill="' + INK + '"/>'
       : '<path d="M36 74 Q66 46 94 74 Q66 102 36 74Z" fill="#ff9f43" ' + SW3 + '/><path d="M92 74 L112 58 L112 90 Z" fill="#ff9f43" ' + SW3 + '/><circle cx="54" cy="70" r="4" fill="' + INK + '"/><circle cx="40" cy="44" r="5" fill="none" stroke="#3a86ff" stroke-width="3"/><circle cx="50" cy="32" r="3" fill="none" stroke="#3a86ff" stroke-width="3"/>';
+    return tall ? '<g transform="translate(60 72) scale(.7) translate(-72 -66)">' + pet.replace(/stroke-width="3"/g, 'stroke-width="4.3"') + '</g>' : pet;
+  }
+  A.addObject('a-photo', function (o) {
+    var tall = !!o.tall, who = o.subject || o.pet || (tall ? 'person' : 'fish');
+    if (!PHOTO_BG[who]) who = tall ? 'person' : 'fish';
+    if (tall) {
+      return svg('0 0 120 140', '<rect x="10" y="10" width="100" height="120" rx="6" fill="#d9a441" ' + SW + '/><rect x="24" y="24" width="72" height="92" fill="' + PHOTO_BG[who] + '" ' + SW3 + '/>' +
+        photoSubject(who, true) +
+        '<path d="M30 32 L30 50" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>');
+    }
     return svg('0 0 140 130',
-      '<rect x="6" y="6" width="128" height="118" rx="8" fill="#d9a441" ' + SW + '/><rect x="18" y="18" width="104" height="94" fill="' + (o.pet === 'cat' ? '#ffe7a3' : '#8fd3ff') + '" ' + SW3 + '/>' + pet);
+      '<rect x="6" y="6" width="128" height="118" rx="8" fill="#d9a441" ' + SW + '/><rect x="18" y="18" width="104" height="94" fill="' + PHOTO_BG[who] + '" ' + SW3 + '/>' + photoSubject(who, false));
   });
 
   /* A mug on the desk with a slogan colour (no text: captions live on the stage). */

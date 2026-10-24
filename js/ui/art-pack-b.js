@@ -332,8 +332,15 @@
       '<path d="M32 40 L108 40 M32 148 L108 148" stroke="#8a86a8" stroke-width="3"/>');
   });
 
+  /* The canonical metal teaspoon (bible §15), `#c3ccd8`. Default: standing, bowl up, 80×200; `down` = bowl down (in a mug).
+   * 2.4.1 follow-up: the handle is a filled shape with an `SW3` outline (was a 16-unit ink stroke under a 9-unit one, §3.3).
+   * `lying` = flat on its side in a 200×140 box, bowl left at (48, 130), handle rising to the right (`j-spoon {tea}`, L213). */
   add('b-spoon', function (o) {
-    return svg('0 0 80 200', (o.down ? '<g transform="rotate(180 40 100)">' : '<g>') + '<ellipse cx="40" cy="44" rx="26" ry="36" fill="#c3ccd8" ' + SW + '/><path d="M40 80 L40 190" stroke="' + INK + '" stroke-width="16" stroke-linecap="round"/><path d="M40 80 L40 190" stroke="#c3ccd8" stroke-width="9" stroke-linecap="round"/>' + hi('M28 30 L30 52') + '</g>');
+    if (o.lying) {
+      return svg('0 0 200 140', '<g transform="rotate(-7.7 70 128)"><rect x="62" y="123" width="126" height="10" rx="5" fill="#c3ccd8" ' + SW3 + '/></g>' +
+        '<ellipse cx="48" cy="130" rx="24" ry="9" fill="#c3ccd8" ' + SW + '/>' + hi('M34 127 L50 125'));
+    }
+    return svg('0 0 80 200', (o.down ? '<g transform="rotate(180 40 100)">' : '<g>') + '<rect x="35" y="70" width="10" height="122" rx="5" fill="#c3ccd8" ' + SW3 + '/><ellipse cx="40" cy="44" rx="26" ry="36" fill="#c3ccd8" ' + SW + '/>' + hi('M28 30 L30 52') + '</g>');
   });
 
   add('b-soupmug', function (o) {
@@ -359,7 +366,15 @@
       (o.card ? '<rect x="30" y="148" width="140" height="12" rx="3" fill="#ffd23f" ' + SW3 + '/>' : ''));
   });
 
-  add('b-postcard', function () {
+  /* The canonical postcard (bible §15). Default: the yellow writing side (stamp, address lines), 200×140.
+   * 2.4.1 follow-up: `picture` = the picture side, a seaside view on cream card with the message beside it (`h-postcard`, L177).
+   * `c-postcard` stays separate: its written address and stamp slot are the L92 tell. */
+  add('b-postcard', function (o) {
+    if (o.picture) {
+      return svg('0 0 200 140', '<rect x="8" y="10" width="184" height="120" rx="6" fill="#fffdf6" ' + SW + '/><rect x="18" y="20" width="90" height="100" rx="4" fill="#3ec1ff" ' + SW3 + '/>' +
+        '<circle cx="80" cy="44" r="14" fill="#ffd23f" ' + SW3 + '/><path d="M18 92 Q40 82 63 92 T108 92 L108 120 L18 120 Z" fill="#f3d998" ' + SW3 + '/>' +
+        '<path d="M120 50 L180 50 M120 70 L180 70 M120 90 L170 90" fill="none" stroke="' + INK + '" stroke-opacity=".35" stroke-width="2"/><rect x="156" y="18" width="26" height="22" rx="2" fill="#ff6f91" ' + SW3 + '/>');
+    }
     return svg('0 0 200 140', '<rect x="10" y="14" width="180" height="112" rx="8" fill="#ffd23f" ' + SW + '/><rect x="140" y="26" width="38" height="44" rx="4" fill="#ff77b4" ' + SW3 + '/>' +
       '<path d="M100 26 L100 116" ' + SW3 + '/><path d="M24 44 L86 44 M24 64 L80 64 M24 84 L70 84" ' + SW3 + '/><path d="M112 92 L180 92 M112 108 L170 108" ' + SW3 + '/>');
   });

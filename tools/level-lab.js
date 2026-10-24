@@ -64,11 +64,15 @@ const ok = (cond, msg) => { checks++; if (!cond) { problems++; console.log('  �
 
 for (const def of defs.sort((a, b) => a.num - b.num)) {
   console.log(`L${def.num} ${def.id} — ${def.title}`);
-  ['id', 'num', 'title', 'objective', 'intro', 'par', 'hints', 'init', 'view', 'on', 'done', 'solution', 'wrong', 'trick'].forEach((k) => ok(def[k] !== undefined, 'missing field ' + k));
+  // Levels 1–32 predate the lab: their trick recap lives in extras.TRICKS and their wrong moves are covered
+  // by tests/unit/levels.test.js, so the lab reads the recap from there and skips the `checks` rule.
+  const legacy = def.num <= 32;
+  const trick = def.trick || (legacy && OBEY.extras && OBEY.extras.trickFor(def.num));
+  ['id', 'num', 'title', 'objective', 'intro', 'par', 'hints', 'init', 'view', 'on', 'done', 'solution', 'wrong'].forEach((k) => ok(def[k] !== undefined, 'missing field ' + k));
   ok(/^[a-z0-9]+(-[a-z0-9]+)*$/.test(def.id), 'id must be kebab-case');
   ok(Array.isArray(def.hints) && def.hints.length === 3 && def.hints.every((h) => typeof h === 'string' && h.length > 8), 'exactly 3 real hints');
-  ok(typeof def.trick === 'string' && def.trick.length > 15, 'trick sentence');
-  ok(Array.isArray(def.checks) && def.checks.some((c) => c.expect === 'fail' || c.expect === 'nope'), 'declare at least one wrong move in checks (expect fail or nope)');
+  ok(typeof trick === 'string' && trick.length > 15, 'trick sentence');
+  if (!legacy) ok(Array.isArray(def.checks) && def.checks.some((c) => c.expect === 'fail' || c.expect === 'nope'), 'declare at least one wrong move in checks (expect fail or nope)');
   const { rt } = runtime(def);
   const objs = rt.objects();
   const ids = objs.map((o) => o.id);
@@ -81,7 +85,7 @@ for (const def of defs.sort((a, b) => a.num - b.num)) {
   }
   for (const diff of ['easy', 'medium', 'hard']) {
     const r = runtime(def, diff);
-    play(r.rt, r.clock, def.solution);
+    play(r.rt, r.clock, def.guide ? def.guide({ difficulty: diff }) : def.solution); // some rooms differ on Hard (e.g. L3's longer countdown)
     ok(r.log.done && r.log.done.stars === 3 && !r.log.done.ruin, `solution must finish with 3★ on ${diff} (got ${r.log.done ? r.log.done.stars + '★' : 'not finished'})`);
   }
   for (const [k, p] of Object.entries(def.alternatives || {})) {
