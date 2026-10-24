@@ -168,6 +168,8 @@
   });
 
   add('h-bossportrait', function (o) {
+    // 2.4.1 SHOULD 7 (bible §15): redirect to the canonical drawing; the code below is the fallback.
+    if (A.hasObject('a-portrait')) return A.object('a-portrait', { costume: 'royal', bg: '#7fb2ff', frame: '#f5b400', scorched: o.scorched });
     var face = o.scorched
       ? '<circle cx="100" cy="112" r="50" fill="#4b4466" ' + SW + '/><circle cx="82" cy="106" r="8" fill="#fffdf6" ' + SW3 + '/><circle cx="118" cy="106" r="8" fill="#fffdf6" ' + SW3 + '/><path d="M86 136 Q100 128 114 136" fill="none" stroke="#fffdf6" stroke-width="4"/><path d="M70 60 Q80 40 76 30 M100 58 Q110 40 104 26 M128 60 Q138 44 132 32" fill="none" stroke="#8a86a8" stroke-width="5" stroke-linecap="round"/>'
       : '<circle cx="100" cy="112" r="50" fill="#ff9f43" ' + SW + '/><circle cx="82" cy="106" r="7" fill="' + INK + '"/><circle cx="118" cy="106" r="7" fill="' + INK + '"/><path d="M70 94 L92 92 M108 92 L130 94" ' + SW + '/><path d="M86 134 Q100 144 114 134" fill="none" ' + SW3 + '/>' +
@@ -179,8 +181,14 @@
     var L = OBEY.util.escape(o.letter || 'B');
     var face = '<text x="100" y="156" text-anchor="middle" font-family="Bagel Fat One, Atkinson Hyperlegible, sans-serif" font-size="64" fill="' + INK + '">' + L + '</text>';
     if (o.mirror) face = '<g transform="translate(200 0) scale(-1 1)">' + face + '</g>';
-    return svg('0 0 200 200', '<rect x="80" y="8" width="40" height="56" rx="16" fill="' + WOOD + '" ' + SW + '/><path d="M70 64 L130 64 L136 88 L64 88 Z" fill="#4b4466" ' + SW3 + '/>' +
-      '<circle cx="100" cy="136" r="54" fill="#e5243b" ' + SW + '/><circle cx="100" cy="136" r="44" fill="#ff6f91" ' + SW3 + '/>' + face + hi('M88 16 L88 44'));
+    var seal = '<rect x="80" y="8" width="40" height="56" rx="16" fill="' + WOOD + '" ' + SW + '/><path d="M70 64 L130 64 L136 88 L64 88 Z" fill="#4b4466" ' + SW3 + '/>' +
+      '<circle cx="100" cy="136" r="54" fill="#e5243b" ' + SW + '/><circle cx="100" cy="136" r="44" fill="#ff6f91" ' + SW3 + '/>' + face + hi('M88 16 L88 44');
+    if (!o.cased) return svg('0 0 200 200', seal);
+    // o.cased (2.4.1): a glass case on a wall shelf with brackets, for a seal on display (L178).
+    return svg('0 0 200 200', '<rect x="28" y="4" width="144" height="170" rx="10" fill="#e3f7fc"/>' +
+      '<g transform="translate(100 92) scale(.74) translate(-100 -100)">' + seal + '</g>' +
+      '<rect x="28" y="4" width="144" height="170" rx="10" fill="none" ' + SW + '/>' + hi('M44 20 L44 60') +
+      '<rect x="16" y="172" width="168" height="14" rx="5" fill="' + WOOD + '" ' + SW + '/><path d="M40 186 L40 198 L56 186 M160 186 L160 198 L144 186" fill="' + WOOD2 + '" ' + SW3 + '/>');
   });
 
   add('h-decree', function (o) {
@@ -190,7 +198,9 @@
       if (o.mirror) t = '<g transform="translate(200 0) scale(-1 1)">' + t + '</g>';
       mark = '<circle cx="100" cy="162" r="26" fill="#e5243b" ' + SW3 + '/>' + t;
     }
-    return svg('0 0 200 200', '<rect x="30" y="20" width="140" height="170" rx="6" fill="#fff8dd" ' + SW + '/><rect x="22" y="10" width="156" height="20" rx="10" fill="#ffe066" ' + SW3 + '/>' +
+    // o.hung (default on): a cord from the rod to a wall nail, so the letter does not float mid-wall.
+    var cord = o.hung === false ? '' : '<path d="M46 16 L100 -2 L154 16" fill="none" ' + SW3 + '/><circle cx="100" cy="-2" r="5" fill="#4b4466" ' + SW3 + '/>';
+    return svg(o.hung === false ? '0 0 200 200' : '0 -9 200 209', cord + '<rect x="30" y="20" width="140" height="170" rx="6" fill="#fff8dd" ' + SW + '/><rect x="22" y="10" width="156" height="20" rx="10" fill="#ffe066" ' + SW3 + '/>' +
       hair('M50 52 L150 52 M50 72 L150 72 M50 92 L150 92 M50 112 L130 112') + mark);
   });
 
@@ -212,6 +222,8 @@
   });
 
   add('h-jar', function (o) {
+    // 2.4.1 SHOULD 7 (bible §15): redirect to the canonical drawing; the code below is the fallback.
+    if (A.hasObject('b-jar')) return A.object('b-jar', { fill: o.color || '#ff6f91', lid: '#fffdf6', label: true });
     var c = o.color || '#ff6f91';
     return svg('0 0 120 160', '<rect x="20" y="40" width="80" height="112" rx="14" fill="' + c + '" ' + SW + '/><rect x="26" y="20" width="68" height="24" rx="6" fill="#fffdf6" ' + SW3 + '/><rect x="36" y="80" width="48" height="34" rx="4" fill="#fffdf6" ' + SW3 + '/>' + hi('M34 56 L34 140'));
   });
@@ -224,7 +236,12 @@
     else if (mood === 'droopy') eyes = '<path d="M138 70 L158 70" ' + SW + '/><path d="M140 72 Q148 80 156 72" fill="#fffdf6" ' + SW3 + '/><circle cx="148" cy="75" r="3" fill="' + INK + '"/>';
     else eyes = '<circle cx="148" cy="74" r="8" fill="#fffdf6" ' + SW3 + '/><circle cx="150" cy="75" r="4" fill="' + INK + '"/>';
     var extra = '';
-    if (mood === 'asleep') extra = '<text x="176" y="40" font-family="Bagel Fat One, Atkinson Hyperlegible, sans-serif" font-size="26" fill="' + INK + '" opacity=".75">z</text>';
+    var zz = '';
+    if (mood === 'asleep') { // 2.4.1: drawn as paths (was a Bagel <text>); placed after the flip so a left-facing dragon's z never mirrors
+      var zx = function (x, s) { return o.face === 'left' ? 200 - x - s : x; };
+      var z = function (x, y, s) { x = zx(x, s); return 'M' + x + ' ' + y + ' L' + (x + s) + ' ' + y + ' L' + x + ' ' + (y + s) + ' L' + (x + s) + ' ' + (y + s); };
+      zz = '<path d="' + z(164, 26, 18) + ' ' + z(184, 6, 11) + '" fill="none" ' + SW + '/>';
+    }
     if (mood === 'sneeze') extra = '<path d="M186 96 Q200 80 200 100 Q200 120 186 106 Z" fill="#ff9f43" ' + SW3 + '/><path d="M178 92 L196 76 M178 104 L198 116" stroke="#ffd23f" stroke-width="6" stroke-linecap="round"/>';
     var inner = '<path d="M30 150 Q0 120 20 96 Q24 130 54 136" fill="' + body + '" ' + SW + '/>' +
       '<path d="M40 170 Q30 110 90 104 Q130 100 150 130 Q160 170 130 176 L60 176 Q42 176 40 170 Z" fill="' + body + '" ' + SW + '/>' +
@@ -235,7 +252,7 @@
       '<circle cx="176" cy="84" r="3" fill="' + INK + '"/>' + eyes +
       '<path d="M60 176 L60 190 M120 176 L120 190" ' + SW + '/>' + hi('M70 116 Q60 130 58 150') + extra;
     if (o.face === 'left') inner = '<g transform="translate(200 0) scale(-1 1)">' + inner + '</g>';
-    return svg('0 0 200 200', inner);
+    return svg('0 0 200 200', inner + zz);
   });
 
   add('h-oven', function (o) {
@@ -280,8 +297,11 @@
       mouth + '<circle cx="80" cy="166" r="12" fill="none" stroke="' + GOLD + '" stroke-width="6"/><circle cx="80" cy="166" r="12" fill="none" ' + SW3 + ' stroke-opacity=".6"/>');
   });
 
-  add('h-horn', function () {
-    return svg('0 0 200 120', '<path d="M20 60 Q60 50 120 20 L140 30 L140 90 L120 100 Q60 70 20 66 Z" fill="' + GOLD + '" ' + SW + '/><ellipse cx="140" cy="60" rx="14" ry="32" fill="#f5b400" ' + SW + '/><rect x="8" y="54" width="16" height="16" rx="4" fill="#4b4466" ' + SW3 + '/>' + hi('M50 58 L100 38'));
+  // o.hook (default on): hangs by a cord from a wall peg (L185 "on a hook").
+  add('h-horn', function (o) {
+    var hook = o.hook === false ? '' : '<path d="M60 52 L84 9 L106 34" fill="none" ' + SW3 + '/>';
+    var peg = o.hook === false ? '' : '<rect x="68" y="2" width="32" height="12" rx="5" fill="' + WOOD + '" ' + SW3 + '/><circle cx="84" cy="8" r="4" fill="#4b4466" ' + SW3 + '/>';
+    return svg('0 0 200 120', hook + '<path d="M20 60 Q60 50 120 20 L140 30 L140 90 L120 100 Q60 70 20 66 Z" fill="' + GOLD + '" ' + SW + '/><ellipse cx="140" cy="60" rx="14" ry="32" fill="#f5b400" ' + SW + '/><rect x="8" y="54" width="16" height="16" rx="4" fill="#4b4466" ' + SW3 + '/>' + hi('M50 58 L100 38') + peg);
   });
 
   add('h-banner', function (o) {
@@ -308,9 +328,14 @@
       '<path d="M20 24 L20 172 M120 24 L120 172" stroke="' + WOOD + '" stroke-width="6"/>' + hi('M42 34 Q44 56 54 70'));
   });
 
-  add('h-hammer', function () {
-    return svg('0 0 200 200', '<path d="M60 180 L130 70" stroke="' + WOOD + '" stroke-width="16" stroke-linecap="round"/><path d="M60 180 L130 70" fill="none" ' + SW3 + ' stroke-opacity=".4"/>' +
-      '<rect x="96" y="26" width="90" height="46" rx="8" fill="#8a86a8" transform="rotate(33 141 49)" ' + SW + '/>' + hi('M112 38 L150 62'));
+  // o.hook (default on): a wall plate with a hook under the handle (L189 "on a hook").
+  add('h-hammer', function (o) {
+    // 2.4.1 SHOULD 7 (bible §15): redirect to the canonical drawing; the code below is the fallback.
+    if (A.hasObject('hammer')) return A.object('hammer', { hook: o.hook !== false });
+    var plate = o.hook === false ? '' : '<rect x="66" y="78" width="30" height="40" rx="7" fill="' + WOOD + '" ' + SW3 + '/>';
+    var hook = o.hook === false ? '' : '<path d="M84 98 L108 112 Q118 116 120 104" fill="none" stroke="#4b4466" stroke-width="7" stroke-linecap="round"/><path d="M84 98 L108 112 Q118 116 120 104" fill="none" ' + SW3 + ' stroke-opacity=".6"/><circle cx="82" cy="98" r="5" fill="#4b4466" ' + SW3 + '/>';
+    return svg('0 0 200 200', plate + '<path d="M60 180 L130 70" stroke="' + WOOD + '" stroke-width="16" stroke-linecap="round"/><path d="M60 180 L130 70" fill="none" ' + SW3 + ' stroke-opacity=".4"/>' +
+      '<rect x="96" y="26" width="90" height="46" rx="8" fill="#8a86a8" transform="rotate(33 141 49)" ' + SW + '/>' + hi('M112 38 L150 62') + hook);
   });
 
   add('h-candle', function (o) {
