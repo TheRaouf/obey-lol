@@ -2,107 +2,107 @@
   {
     "device": "iPad 9.7\" landscape",
     "viewport": "1024x768",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "iPad 9.7\" portrait",
     "viewport": "768x1024",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "iPad Air / 10.9\" landscape",
     "viewport": "1180x820",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "iPad Air / 10.9\" portrait",
     "viewport": "820x1180",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "iPad Pro 11\" landscape",
     "viewport": "1194x834",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "iPad Pro 11\" portrait",
     "viewport": "834x1194",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "iPad Pro 12.9\" landscape",
     "viewport": "1366x1024",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "iPad Pro 12.9\" portrait",
     "viewport": "1024x1366",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "iPad mini landscape",
     "viewport": "1133x744",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "iPad mini portrait",
     "viewport": "744x1133",
-    "levels": 140,
+    "levels": 240,
     "stageFitsOnScreen": true,
     "engine": "chromium"
   },
   {
     "device": "Slide Over",
     "viewport": "320x1024",
-    "levels": 140,
+    "levels": 240,
     "engine": "chromium"
   },
   {
     "device": "Split View 1/3",
     "viewport": "375x1024",
-    "levels": 140,
+    "levels": 240,
     "engine": "chromium"
   },
   {
     "device": "Split View 1/2 (9.7\")",
     "viewport": "507x768",
-    "levels": 140,
+    "levels": 240,
     "engine": "chromium"
   },
   {
     "device": "Split View 1/2 (12.9\")",
     "viewport": "678x1024",
-    "levels": 140,
+    "levels": 240,
     "engine": "chromium"
   },
   {
     "device": "Split View 2/3 (11\")",
     "viewport": "694x834",
-    "levels": 140,
+    "levels": 240,
     "engine": "chromium"
   },
   {
     "device": "Split View 2/3 (12.9\")",
     "viewport": "981x1024",
-    "levels": 140,
+    "levels": 240,
     "engine": "chromium"
   }
 ]
