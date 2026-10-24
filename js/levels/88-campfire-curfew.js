@@ -14,7 +14,7 @@
     title: 'Campfire Curfew',
     objective: 'Put the campfire out properly before bed.',
     intro: 'Lights out, campers! Just blow on the fire like a birthday candle. One big puff! And ignore the ranger\'s sign. Rangers love long words like "extinguish". Show-offs.',
-    introMood: 'pleased',
+    introMood: 'panicked',
     actions: ['drag', 'tap', 'hold', 'sequence'],
     par: 3,
     hints: [

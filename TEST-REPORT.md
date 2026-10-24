@@ -1,4 +1,38 @@
-# Test report — OBEY? LOL. 2.2.0
+# Test report — OBEY? LOL. 2.3.0
+
+Date: 2026-10-24. Counts come from logged runs: `tests/logs/unit-23.tap`, `tests/logs/e2e-23.tap`
+(Node v22.23.4, Playwright Chromium).
+
+**CI (GitHub Actions run 40114372968, commit ce2a774):** Chromium job (static, unit, all 120 browser tests)
+**passed**; WebKit job (Safari's engine: iPad, campaign, 2.0 and 2.1 suites) **passed**.
+
+| Suite | Where | Run | Passed | Failed |
+|---|---|---|---|---|
+| Static checks (`tools/check.js`) | local | 1,996 checks | 1,996 | 0 |
+| Unit tests (`tests/unit`) | local | 764 | 764 | 0 |
+| Browser tests, Chromium (9 files) | local | 120 | 120 | 0 |
+| Art checks: `npm run art:contrast` | local | all rows | pass | 0 |
+| Art checks: `npm run art:strokes` (140 levels) | local | 536 outlines | 96.3 % in 3–6 px | 4 known exceptions |
+
+The 2.3 release changed art, layout, text sizes and sound only — no puzzle logic, solutions or ids
+(enforced: the level lab and the unit suite play every level's solution, wrong moves and ruins on all
+difficulties). Browser tests caught two layout regressions during the release, both fixed:
+
+| # | Defect | Fix |
+|---|---|---|
+| 1 | The credits' new "THE END?" stamp widened the page on phones (its 2.2× stamp-in animation overflowed) | `.credits-end` clips its overflow |
+| 2 | On CI fonts, L119's rules card overflowed by 13 px at 320 px with the new 11 px text floor | Phone-sized stages (< 340 px) may fit card text down to 10 px, then tighten line spacing; verified with 6 % wider glyphs: no card overflows |
+
+Art review status: `docs/ART-REVIEW-2.3.md` — 92 applied, 2 partial, 5 deviated (documented), 1 already done.
+
+## Not verified
+- Physical devices, Firefox, and sound by ear (tests check which sounds and captions are requested).
+- The new animations (blinks, star pops, idle) were checked in screenshots and for reduced-motion
+  switches, not watched frame by frame.
+
+---
+
+# Test report — OBEY? LOL. 2.2.0 (previous release)
 
 Date: 2026-10-24. Counts come from logged runs: `tests/logs/unit-22.tap`, `tests/logs/e2e-22.tap`
 (Node v22.23.4, Playwright Chromium).

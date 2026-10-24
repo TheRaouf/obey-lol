@@ -62,35 +62,50 @@
     setTimeout(function () { t.classList.add('out'); setTimeout(function () { t.remove(); }, 400); }, 4200);
   };
 
+  /* --------------------------------------------------------- reward sounds */
+  // 2.3 E81: reward sounds never stack. Each starts at least REWARD_GAP ms after the previous one
+  // started (bible §9.2: simultaneous voices sum ≤ 0.35). The request is made at once (so the test hook
+  // and captions see it); the sound itself, and its caption, start when its slot comes up.
+  var REWARD_GAP = 380;
+  App.rewardAt = 0;
+  /** Plays a reward sound in the queue. minDelay (ms): not before this long from now. */
+  App.playReward = function (name, minDelay) {
+    var now = Date.now();
+    var at = Math.max(now + (minDelay || 0), App.rewardAt + REWARD_GAP);
+    App.rewardAt = at;
+    OBEY.audio.play(name, at > now ? { delay: at - now } : undefined);
+    return at - now;
+  };
+
   /** Turns progress events into feedback. */
   App.announce = function (events) {
     (events || []).forEach(function (ev) {
       if (ev.type === 'secret') {
         var s = OBEY.getSecret(ev.id);
         App.toast('Secret found: ' + s.name + ' (' + ev.count + '/15)', 'secret');
-        OBEY.audio.play('secret');
+        App.playReward('secret');
       } else if (ev.type === 'achievement') {
         var a = OBEY.ACHIEVEMENTS.filter(function (x) { return x.id === ev.id; })[0];
         App.toast('Achievement unlocked: ' + a.name, 'achievement');
-        OBEY.audio.play('achievement');
+        App.playReward('achievement');
       } else if (ev.type === 'costume') {
         App.toast('New costume: ' + OBEY.COSTUMES.filter(function (c) { return c.id === ev.id; })[0].name, 'unlock');
-        OBEY.audio.play('unlock');
+        App.playReward('unlock');
       } else if (ev.type === 'trophy') {
         var t = OBEY.TROPHIES.filter(function (x) { return x.id === ev.id; })[0];
         App.toast((ev.upgraded ? 'Trophy upgraded: ' : 'Trophy won: ') + t.name + ' (' + OBEY.TROPHY_TIERS[ev.tier] + ')', 'achievement');
-        OBEY.audio.play('trophy');
+        App.playReward('trophy');
       } else if (ev.type === 'theme') {
         App.toast('New theme: ' + OBEY.THEMES.filter(function (c) { return c.id === ev.id; })[0].name, 'unlock');
-        OBEY.audio.play('unlock');
+        App.playReward('unlock');
       } else if (ev.type === 'ruin') {
         App.toast('Level ruined: ' + OBEY.extras.getRuin(ev.id).name + ' (' + ev.count + '/' + OBEY.extras.RUINS.length + ')', 'secret');
       } else if (ev.type === 'jigsaw') {
         App.toast('Jigsaw piece found! (' + ev.count + '/9)', 'secret');
-        OBEY.audio.play('secret');
+        App.playReward('secret');
       } else if (ev.type === 'badge') {
         App.toast('Daily Dare badge: ' + ev.days + '-day streak!', 'achievement');
-        OBEY.audio.play('achievement');
+        App.playReward('achievement');
       }
     });
   };
@@ -227,7 +242,7 @@
         <button class="chip-btn" data-act="nav" data-to="map">${A.icon('map')}<span>Map</span></button>
         <h1 class="level-title"><span class="lvl-num">${OBEY.levelLabel(n)} <span class="diff-badge diff-${s.difficulty}">${E(diffName(s.difficulty))}</span>${s.settings.timer ? ' <span class="run-timer" id="run-timer" role="timer" aria-label="Time on this attempt">0:00.0</span>' : ''}</span><span class="lvl-name">${E(def.title)}</span></h1>
         <div class="topbar-end tools">
-          <button class="chip-btn" data-act="hint" id="hint-btn" aria-keyshortcuts="H">${A.icon('hint')}<span>Hint</span></button>
+          <button class="chip-btn" data-act="hint" id="hint-btn" aria-keyshortcuts="H">${A.icon('hint')}<span>Hint</span><b class="count-badge" aria-hidden="true"></b></button>
           <button class="chip-btn" data-act="guide" id="guide-btn" aria-keyshortcuts="G">${A.icon('eye')}<span>Show me how</span></button>
           <button class="chip-btn" data-act="restart" aria-label="Restart level" aria-keyshortcuts="R">${A.icon('restart')}<span>Restart</span></button>
           ${P.skipBlocker(s, n) ? '' : `<button class="chip-btn" data-act="skip" id="skip-btn">${A.icon('skip')}<span>Skip</span></button>`}
@@ -299,9 +314,10 @@
         var accepted = rtNow.dispatch(a);
         if (rtNow.stats.fails !== failsBefore) accepted = false; // a trap never counts as a guide step
         else if (accepted && App.guide && rtNow.status === 'playing') a._changed = JSON.stringify(rtNow.state) !== stateBefore;
-        if (accepted && a.type === 'tap') OBEY.audio.play('tap');
+        if (accepted && a.type === 'tap') OBEY.audio.play(a.target === 'narrator' ? 'boing' : 'tap'); // 2.3 E85: poking Bossworth
         if (accepted && a.type === 'drop') OBEY.audio.play('drop');
-        if (accepted && a.type === 'holdstart') OBEY.audio.play('hold');
+        if (accepted && a.type === 'holdstart') App.holdSound(a.target);
+        if (a.type === 'holdend') App.holdSound(null);
         App.afterAction(a, accepted);
         if (App.afterDispatch) App.afterDispatch(a, accepted);
       },
@@ -377,6 +393,9 @@
     var hb = doc.getElementById('hint-btn');
     var left = rt.hintLimit() - rt.hintIndex;
     hb.querySelector('span').textContent = left > 0 ? 'Hint (' + left + ')' : 'No hints left';
+    // 2.3 E8: the count stays visible on phones, where the label is hidden (styled by E86).
+    var badge = hb.querySelector('.count-badge');
+    if (badge) { badge.textContent = String(Math.max(0, left)); badge.classList.toggle('empty', left <= 0); }
     hb.setAttribute('aria-label', left > 0 ? 'Hint, ' + left + ' left' : 'No hints left');
     if (App.guide) App.renderGuide();
     App.updateGuideButton();
@@ -390,6 +409,25 @@
     n.classList.add('talking');
     clearTimeout(App.talkTimer);
     App.talkTimer = setTimeout(function () { n.classList.remove('talking'); }, ms);
+  };
+
+  /* ------------------------------------------------------- hold sounds */
+  // 2.3 E78: the hum runs for the whole hold. A charging button (.hold-btn, whose bar fills in 2 s)
+  // dings when the bar is full; letting go early cuts the hum.
+  App.HOLD_MS = 2000;
+  App.holdSound = function (target) {
+    clearTimeout(App.holdTimer);
+    App.holdTimer = null;
+    if (!target) { OBEY.audio.stopHold(); return; }
+    OBEY.audio.play('hold');
+    var rt = App.runtime, o = rt && rt.findObject(target);
+    if (!o || !/\bhold-btn\b/.test(o.cls || '')) return;
+    App.holdTimer = setTimeout(function () {
+      App.holdTimer = null;
+      var now = App.runtime;
+      if (now !== rt || !rt.holds || rt.holds[target] === undefined) return;
+      OBEY.audio.play('charged');
+    }, App.HOLD_MS);
   };
 
   /* ------------------------------------------------- wrong-answer feedback */
@@ -421,6 +459,7 @@
     clearTimeout(App.gagTimer);
     App.gagTimer = setTimeout(function () { layer.innerHTML = ''; }, 1900);
     App.flashStage();
+    App.holdSound(null);
     App.stage.reset();
     if (App.buzz) App.buzz([60, 40, 90]);
     if (App.afterFail) App.afterFail();
@@ -631,6 +670,7 @@
     App.setLevelInert(false);
     App.stopGuide();
     clearTimeout(App.idleTimer); clearTimeout(App.talkTimer); clearTimeout(App.gagTimer); clearTimeout(App.pointTimer);
+    App.holdSound(null);
     if (App.levelLeft) App.levelLeft();
     OBEY.audio.stopVoice();
     if (App.runtime) App.runtime.destroy();
@@ -705,11 +745,23 @@
     App.stopGuide();
     App.hideWrongCard();
     clearTimeout(App.idleTimer);
-    OBEY.audio.play('success');
-    setTimeout(function () { OBEY.audio.play('stamp'); }, 250);
+    App.holdSound(null);
+    App.playReward('success');
+    // 2.3 E79: the thud waits for the SOLVED stamp to land (stamp-card: .15 s delay + .45 s overshoot).
+    App.playReward('stamp', App.STAMP_LAND_MS);
     App.renderLevel();
     App.showComplete(result, events);
+    App.playStarChimes(result.stars);
     App.announce(events.filter(function (e) { return e.type !== 'level' && e.type !== 'ending' && e.type !== 'ruin' && e.type !== 'best' && e.type !== 'dare' && e.type !== 'roast'; }));
+  };
+
+  App.STAMP_LAND_MS = 520;
+  // 2.3 E80 ↔ E68: the stars pop in at 0 / 120 / 240 ms (.big-stars .icon:nth-child animation-delay);
+  // each chime sounds STAR_POP_MS later, when that star's overshoot peaks: 120 / 240 / 360 ms.
+  App.STAR_DELAYS_MS = [0, 120, 240];
+  App.STAR_POP_MS = 120;
+  App.playStarChimes = function (n) {
+    for (var i = 0; i < Math.min(3, n || 0); i++) OBEY.audio.play('star' + (i + 1), { delay: App.STAR_DELAYS_MS[i] + App.STAR_POP_MS });
   };
 
   App.showComplete = function (r, events) {
@@ -916,7 +968,7 @@
       App.save.settings.sound = !App.save.settings.sound;
       App.persist(); App.applySettings(); App.refresh();
       doc.querySelector('[data-act="toggle-sound"]').focus();
-      OBEY.audio.play('ui');
+      OBEY.audio.play('toggle', { off: !App.save.settings.sound });
     },
     tutorial: function () { App.tutorial(null); },
     'reset-all': function () {
@@ -933,6 +985,16 @@
 
   App.actions = ACTIONS;
 
+  /** The sound a [data-act] click makes (2.3 E85); null when the action plays its own. */
+  App.clickSound = function (b) {
+    var act = b.getAttribute('data-act');
+    if (act === 'toggle-sound' || act === 'toggle-setting') return null; // they play `toggle` with the new state
+    if (act === 'costume') return 'wear';
+    if (act === 'theme') return 'paint';
+    if (act === 'open-level' && !P.canPlay(App.save, Number(b.getAttribute('data-level')))) return 'locked';
+    return 'ui';
+  };
+
   function onClick(e) {
     var b = e.target.closest('[data-act]');
     if (!b || b.tagName === 'INPUT') return;
@@ -940,7 +1002,8 @@
     var fn = ACTIONS[b.getAttribute('data-act')];
     if (!fn) return;
     e.preventDefault();
-    if (b.getAttribute('data-act') !== 'toggle-sound') OBEY.audio.play('ui');
+    var snd = App.clickSound(b);
+    if (snd) OBEY.audio.play(snd);
     fn(b);
   }
 

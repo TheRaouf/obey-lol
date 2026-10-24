@@ -42,9 +42,9 @@
     view: function (s) {
       var pct = Math.round(s.level * 100);
       return [
-        O('taps', 22, 6, 30, 22, { art: 'b-taps', artOpts: { on: s.on }, label: 'Hot tap, ' + (s.on ? 'running (tap to turn off)' : 'off (tap to turn on)') }),
+        O('taps', 22, 12, 30, 22, { art: 'b-taps', artOpts: { on: s.on }, label: 'Hot tap, ' + (s.on ? 'running (tap to turn off)' : 'off (tap to turn on)') }),
         O('duck', 72, 8, 22, 18, { art: 'b-duck', label: 'Rubber duck (tap to launch it into the bath)' }),
-        O('tub', 4, 30, 62, 42, { art: 'b-bathtub', artOpts: { level: s.level * 0.667, plug: s.plug }, zone: true, free: true, label: 'Bathtub, ' + (s.plug ? 'plug in' : 'drain open') + ', water ' + pct + '% of the way to the red line' }),
+        O('tub', 4, 34, 62, 42, { art: 'b-bathtub', artOpts: { level: s.level * 0.667, plug: s.plug }, zone: true, free: true, label: 'Bathtub, ' + (s.plug ? 'plug in' : 'drain open') + ', water ' + pct + '% of the way to the red line' }),
         O('plug', 72, 50, 22, 22, { art: 'b-plug', drag: true, hidden: s.plug, label: 'Bath plug on its chain (drag it into the bath)' }),
         O('line', 4, 76, 62, 10, { kind: 'static', text: 'Red dashed line = perfect bath. Overflow hole stops it there.', label: '', cls: 'tag-card' }),
         O('meter', 70, 76, 26, 10, { kind: 'static', text: 'Water: ' + pct + '%', label: 'Water level ' + pct + ' percent', cls: 'tag-card' })

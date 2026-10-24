@@ -58,10 +58,12 @@
       var n = (s.a ? 1 : 0) + (s.b ? 1 : 0) + (s.c ? 1 : 0);
       var all = n === 3;
       return [
+        O('pipeA', 4, 8, 46, 12, { kind: 'static', art: 'pipe' }),
+        O('pipeB', 4, 22, 30, 12, { kind: 'static', art: 'pipe' }),
         O('machine', 52, 4, 44, 40, { kind: 'static', art: 'machine', artOpts: { gears: n }, label: 'Instruction Machine with ' + n + ' of 3 gears', live: true }),
-        O('gearA', 10, 10, 18, 18, { art: 'gear', label: 'Gear on the floor', hidden: s.a }),
-        O('rug', 8, 66, 44, 16, { art: 'rug', artOpts: { lifted: s.rug }, label: s.rug ? 'Rug, flipped back' : 'Lumpy rug', disabled: s.rug }),
-        O('gearB', 22, 62, 16, 16, { art: 'gear', label: 'Gear that was under the rug', hidden: !s.rug || s.b, cls: 'pop-in' }),
+        O('gearA', 60, 84, 12, 12, { art: 'gear', label: 'Gear on the floor', hidden: s.a }),
+        O('rug', 8, 84, 44, 12, { art: 'rug', artOpts: { lifted: s.rug }, label: s.rug ? 'Rug, flipped back' : 'Lumpy rug', disabled: s.rug }),
+        O('gearB', 22, 80, 16, 16, { art: 'gear', label: 'Gear that was under the rug', hidden: !s.rug || s.b, cls: 'pop-in' }),
         O('q', 4, 34, 46, 26, { kind: 'static', text: karmaFrom(ctx.choices) >= 0 ? 'Bossworth: "Will you follow my final instruction? Just this once?"' : 'Bossworth: "Will you follow my final instruction? For once in your chaotic life?"', label: 'Bossworth asks: will you follow my final instruction?', cls: 'speech-card', hidden: !all }),
         O('yes', 54, 52, 42, 14, { text: 'I\'ll follow it', label: 'Answer: I will follow your final instruction', cls: 'btn-card option', hidden: !all }),
         O('why', 54, 70, 42, 14, { text: 'Why do you need it?', label: 'Answer: why do you need the machine?', cls: 'btn-card option warn', hidden: !all })

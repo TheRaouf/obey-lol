@@ -13,7 +13,7 @@
     title: 'Clocking Out',
     objective: 'Clock out and go home.',
     intro: 'Last job of the day: clock out and go home. The machine\'s already set to OUT. Just pop your card in. Easy. Nothing weird about it at all.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['drag', 'tap', 'sequence', 'read'],
     par: 4,
     hints: [

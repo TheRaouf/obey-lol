@@ -59,7 +59,7 @@
         O('yellow', 26, 76, 16, 16, { text: 'Y', label: 'Yellow button', cls: 'color-btn yellow' }),
         O('blue', 46, 76, 16, 16, { text: 'B', label: 'Blue button', cls: 'color-btn blue' }),
         O('replay', 68, 75, 28, 10, { text: 'Replay signal', label: 'Replay the docking signal', cls: 'btn-card ghost', free: true }),
-        O('thrust', 68, 87, 28, 11, { text: 'THRUST', label: 'Fire thrusters at the station', cls: 'btn-card accent' })
+        O('thrust', 68, 87, 28, 11, { text: 'THRUST', label: 'Fire thrusters at the station', cls: 'btn-card big' })
       ];
     },
 

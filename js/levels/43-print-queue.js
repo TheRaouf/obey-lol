@@ -15,7 +15,7 @@
     title: 'Print Queue',
     objective: 'Get your exit pass printed.',
     intro: 'Your exit pass is in the print queue. Behind my portrait. Four hundred pages, full colour, life size. Wait your turn. Patiently. Forever.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['tap', 'choice', 'read'],
     par: 2,
     hints: [
@@ -48,8 +48,9 @@
         O('cancel', 4, 66, 30, 12, { text: 'Cancel his job', label: 'Cancel Bossworth\'s print job', cls: 'btn-card accent' }),
         O('bump', 36, 66, 30, 12, { text: 'Move mine up', label: 'Move my job up the queue', cls: 'btn-card' }),
         O('print', 4, 82, 62, 13, { text: 'Print exit pass', label: 'Print exit pass to the chosen printer', cls: 'btn-card big' }),
-        O('mfd', 70, 6, 26, 22, { kind: 'static', art: 'a-printer', label: '3rd floor printer, busy printing a giant portrait' }),
-        O('doris', 68, 34, 30, 30, { kind: 'static', text: 'Psst! The basement printer is never busy. Nobody knows it exists.\n— Doris', label: 'Sticky note from Doris: the basement printer is never busy, nobody knows it exists', cls: 'ticket-card' }),
+        O('mfdtable', 66, 66, 24, 8, { kind: 'static', art: 'table' }),
+        O('mfd', 68, 48, 22, 20, { kind: 'static', art: 'a-printer', label: '3rd floor printer, busy printing a giant portrait' }),
+        O('doris', 68, 4, 28, 37, { kind: 'static', text: 'Psst! The basement printer is never busy. Nobody knows it exists.\n— Doris', label: 'Sticky note from Doris: the basement printer is never busy, nobody knows it exists', cls: 'ticket-card' }),
         O('plant', 82, 72, 12, 24, { art: 'plant', label: 'Office plant', free: true })
       ];
     },

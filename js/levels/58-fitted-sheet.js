@@ -39,9 +39,9 @@
         O('sheet', 6, 42, 38, 26, { art: 'b-sheet', artOpts: { balled: s.folds }, drag: true, hidden: s.where !== 'floor', label: s.folds ? 'Fitted sheet, now a ball (drag it)' : 'Fitted sheet with elastic corners (drag it)' }),
         O('fold', 6, 74, 38, 12, { text: 'FOLD (corners in)', label: 'Try to fold the fitted sheet', cls: 'btn-card' }),
         O('bedtag', 52, 4, 44, 14, { kind: 'static', text: 'Mattress: bare.\nShivering slightly.', label: 'Note on the bed: the mattress is bare', cls: 'tag-card' }),
-        O('bed', 50, 22, 46, 34, { art: 'b-bed', artOpts: { sheet: s.where === 'bed' }, zone: true, free: true, label: s.where === 'bed' ? 'Bed with a fitted sheet on it' : 'Bed with a bare mattress' }),
-        O('drawer', 54, 66, 38, 18, { art: 'drawer', artOpts: { n: '' }, zone: true, free: true, label: 'Linen drawer' }),
-        O('drawertag', 54, 87, 38, 9, { kind: 'static', text: 'Linen (just shove it in)', label: '', cls: 'tag-card' })
+        O('bed', 50, 44, 46, 32, { art: 'b-bed', artOpts: { sheet: s.where === 'bed' }, zone: true, free: true, label: s.where === 'bed' ? 'Bed with a fitted sheet on it' : 'Bed with a bare mattress' }),
+        O('drawer', 58, 76, 30, 12, { art: 'drawer', artOpts: { n: '' }, zone: true, free: true, label: 'Linen drawer' }),
+        O('drawertag', 52, 87, 42, 9, { kind: 'static', text: 'Linen (just shove it in)', label: '', cls: 'tag-card' })
       ];
     },
 

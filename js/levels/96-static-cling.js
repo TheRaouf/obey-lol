@@ -35,9 +35,9 @@
       return [
         O('door', 4, 16, 28, 66, { art: 'door', artOpts: { sign: 'SWIPE CARD' }, label: 'Lab door with a card reader' + (s.card ? ' (you have the keycard)' : '') }),
         O('shelf', 56, 24, 40, 8, { kind: 'static', art: 'shelf', label: 'High shelf' }),
-        O('keycard', 64, 6, 24, 16, { art: 'd-keycard', label: 'Paper-thin keycard on the top shelf', zone: true, hidden: s.card }),
-        O('hero', 38, 58, 14, 22, { kind: 'static', art: 'hero', label: 'You, in a very woolly jumper', cls: s.charged ? 'shimmer' : '' }),
-        O('held', 36, 44, 16, 11, { kind: 'static', art: 'd-keycard', artOpts: { tilt: 8 }, label: 'You are holding the keycard', hidden: !s.card, cls: 'pop-in' }),
+        O('keycard', 64, 9, 24, 16, { art: 'd-keycard', label: 'Paper-thin keycard on the top shelf', zone: true, hidden: s.card }),
+        O('hero', 38, 64, 14, 16, { kind: 'static', art: 'hero', label: 'You, in a very woolly jumper', cls: s.charged ? 'shimmer' : '' }),
+        O('held', 37, 54, 16, 11, { kind: 'static', art: 'd-keycard', artOpts: { tilt: 8 }, label: 'You are holding the keycard', hidden: !s.card, cls: 'pop-in' }),
         O('balloon', 56, 42, 18, 28, { art: 'd-balloon', artOpts: { charged: s.charged }, label: s.charged ? 'Balloon, crackling with static (drag it)' : 'Balloon (press and hold to rub it on your jumper)', hold: !s.charged, drag: s.charged, hidden: s.card, cls: s.rubbing ? 'charging' : '' }),
         O('stool', 78, 56, 18, 24, { art: 'd-stool', label: 'Wobbly stool' }),
         O('tag', 36, 86, 60, 10, { kind: 'static', text: 'Jumper: 100% wool. Keycard: paper-thin.', label: 'Your jumper is 100% wool. The keycard is paper-thin.', cls: 'tag-card' })

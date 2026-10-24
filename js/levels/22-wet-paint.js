@@ -13,7 +13,7 @@
     title: 'Wet Paint',
     objective: 'Leave without ruining the paint job.',
     intro: 'Fresh paint on the exit! Don\'t touch it. Don\'t fan it. Don\'t do ANYTHING for about a hundred years.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['hold', 'wait', 'tap'],
     par: 2,
     hints: [

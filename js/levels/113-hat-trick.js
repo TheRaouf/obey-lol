@@ -48,7 +48,7 @@
         O('guide', 22, 20, 56, 9, { kind: 'static', text: 'Inside, top to bottom: hanky, dove, rabbit, badger.', label: 'Hat layers, top to bottom: hanky, dove, rabbit, badger', cls: 'tag-card' }),
         O('table', 26, 70, 48, 8, { kind: 'static', label: '', cls: 'keypad-bg' }),
         O('hat', 30, 32, 40, 40, { art: 'e-tophat', artOpts: { peek: shown === 'none' ? '' : shown }, label: 'Magic top hat (press and hold to reach inside)', hold: true }),
-        O('wand', 78, 80, 16, 14, { art: 'e-wand', label: 'Spare wand (for another level)', free: true })
+        O('wand', 78, 78, 18, 18, { art: 'e-wand', label: 'Spare wand (for another level)', free: true })
       ];
     },
 

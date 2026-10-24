@@ -48,11 +48,11 @@
         O('sign', 4, 3, 60, 18, { kind: 'static', text: 'RANGER: bears sniff out ANYTHING smelly!', label: 'Ranger sign: bears sniff out anything with a smell', cls: 'sign-card' }),
         O('bear', 76, 4, 20, 20, { kind: 'static', art: 'c-bear', label: 'A bear peeking out of the bushes' }),
         O('bush', 70, 16, 28, 16, { kind: 'static', art: 'c-bush', label: '' }),
-        O('box', 4, 30, 32, 28, { art: 'c-bearbox', artOpts: { count: n }, label: 'Bear-proof box with ' + n + ' item' + (n === 1 ? '' : 's') + ' inside (drop zone)', zone: true, free: true }),
-        O('tent', 54, 32, 42, 38, { art: 'c-tent', label: 'Your tent (tap to go to sleep)' })
+        O('box', 4, 48, 32, 28, { art: 'c-bearbox', artOpts: { count: n }, label: 'Bear-proof box with ' + n + ' item' + (n === 1 ? '' : 's') + ' inside (drop zone)', zone: true, free: true }),
+        O('tent', 54, 40, 42, 38, { art: 'c-tent', label: 'Your tent (tap to go to sleep)' })
       ];
       ITEMS.forEach(function (it, i) {
-        objs.push(O(it.id, 4 + i * 19, 76, 16, 16, { art: it.art, label: it.label + ' (drag it)', drag: true, hidden: !!s.boxed[it.id] }));
+        objs.push(O(it.id, 4 + i * 19, 80, 16, 16, { art: it.art, label: it.label + ' (drag it)', drag: true, hidden: !!s.boxed[it.id] }));
       });
       return objs;
     },

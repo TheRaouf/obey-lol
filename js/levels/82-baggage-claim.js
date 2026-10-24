@@ -46,7 +46,7 @@
     view: function (s) {
       var objs = [
         O('tag', 4, 4, 52, 18, { kind: 'static', text: 'YOUR CLAIM TAG:\nblack case · yellow ribbon · gold star sticker', label: 'Your claim tag: black case, yellow ribbon, gold star sticker', cls: 'ticket-card' }),
-        O('sign', 62, 6, 34, 12, { kind: 'static', text: 'Carousel 3 · from Sunnyvale', label: 'Sign: carousel 3, flight from Sunnyvale', cls: 'plaque-card' }),
+        O('sign', 60, 5, 36, 14, { kind: 'static', text: 'Carousel 3 · from Sunnyvale', label: 'Sign: carousel 3, flight from Sunnyvale', cls: 'plaque-card' }),
         O('belt', 0, 50, 100, 18, { kind: 'static', art: 'c-belt', label: 'Moving luggage carousel' })
       ];
       BAGS.forEach(function (b, i) {

@@ -33,16 +33,16 @@
 
     view: function (s) {
       return [
-        O('poster', 4, 4, 40, 34, { kind: 'static', text: 'FIRE DRILL\n1. Leave belongings.\n2. Never use the lift.\n3. Take the stairs.', label: 'Poster: fire drill. 1, leave belongings. 2, never use the lift. 3, take the stairs.', cls: 'book-card' }),
+        O('poster', 4, 4, 40, 38, { kind: 'static', text: 'FIRE DRILL\n1. Leave belongings.\n2. Never use the lift.\n3. Take the stairs.', label: 'Poster: fire drill. 1, leave belongings. 2, never use the lift. 3, take the stairs.', cls: 'book-card' }),
         O('bell', 48, 4, 12, 12, { kind: 'static', art: 'a-firebell', artOpts: { ringing: true }, label: 'Fire alarm bell, ringing' }),
         O('portrait', 64, 4, 16, 18, { art: 'a-portrait', label: 'Bossworth\'s portrait' }),
         O('ext', 84, 4, 12, 26, { art: 'a-extinguisher', artOpts: { spraying: s.foaming }, label: 'Fire extinguisher (press and hold)', hold: true, cls: s.foaming ? 'charging' : '' }),
-        O('lift', 46, 34, 24, 42, { art: 'a-elevator', artOpts: { floor: '3' }, label: 'Lift' }),
+        O('lift', 46, 40, 24, 42, { art: 'a-elevator', artOpts: { floor: '3' }, label: 'Lift' }),
         O('stairs', 74, 34, 22, 50, { art: 'door', artOpts: { sign: 'STAIRS' }, label: 'Door to the stairs' }),
-        O('hero', 6, 42, 10, 16, { kind: 'static', art: 'hero', label: 'You', cls: 'hero-sprite' }),
-        O('mug', 18, 46, 12, 10, { art: 'mug', label: 'Your coffee, in your hand (drag it to put it down)', drag: true, hidden: !s.holding }),
-        O('desk', 4, 62, 38, 22, { art: 'a-desk', label: 'Your desk (put things down here)', zone: true }),
-        O('mugdown', 26, 54, 12, 10, { kind: 'static', art: 'mug', label: 'Your coffee, left on the desk', hidden: s.holding }),
+        O('hero', 6, 66, 10, 16, { kind: 'static', art: 'hero', label: 'You', cls: 'hero-sprite' }),
+        O('mug', 5, 70, 10, 10, { art: 'mug', label: 'Your coffee, in your hand (drag it to put it down)', drag: true, hidden: !s.holding }),
+        O('desk', 20, 62, 24, 22, { art: 'a-desk', label: 'Your desk (put things down here)', zone: true }),
+        O('mugdown', 30, 56, 10, 10, { kind: 'static', art: 'mug', label: 'Your coffee, left on the desk', hidden: s.holding }),
         O('inv', 4, 88, 38, 9, { kind: 'static', text: s.holding ? 'In your hand: coffee' : 'Hands: free', label: s.holding ? 'You are holding a coffee' : 'Your hands are free', cls: 'tag-card' })
       ];
     },

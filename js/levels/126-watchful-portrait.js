@@ -41,8 +41,8 @@
         O('plaque', 28, 36, 44, 8.5, { kind: 'static', text: 'Duke Ogleton (stares a lot)', label: '', cls: 'tag-card' }),
         O('lamp', 4, 6, 12, 36, { art: 'lamp', artOpts: { on: true }, label: 'Standing lamp' }),
         O('clock', 76, 8, 20, 20, { art: 'clock', artOpts: { hour: s.clicked.clock ? 6 : 12 }, label: s.clicked.clock ? 'Clock (it clicked: the hand jumped to 6)' : 'Wall clock' }),
-        O('vase', 4, 56, 18, 26, { art: 'e-vase', artOpts: { color: s.clicked.vase ? '#2bc46f' : '#9b5de5' }, label: s.clicked.vase ? 'Vase (it clicked and turned)' : 'Vase on a plinth' }),
-        O('shelf', 72, 46, 24, 32, { art: 'e-bookshelf', artOpts: { pulled: !!s.clicked.shelf }, label: 'Bookshelf' }),
+        O('vase', 4, 66, 18, 26, { art: 'e-vase', artOpts: { color: s.clicked.vase ? '#2bc46f' : '#9b5de5' }, label: s.clicked.vase ? 'Vase (it clicked and turned)' : 'Vase on a plinth' }),
+        O('shelf', 72, 58, 24, 32, { art: 'e-bookshelf', artOpts: { pulled: !!s.clicked.shelf }, label: 'Bookshelf' }),
         O('rug', 28, 84, 40, 12, { art: 'rug', label: 'Rug ("the switch is under here")' })
       ];
     },

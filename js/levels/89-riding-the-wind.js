@@ -45,7 +45,7 @@
         O('hilltag', 70, 44, 30, 7, { kind: 'static', text: 'Postcard Hill', label: '', cls: 'tag-card' }),
         O('up', 4, 82, 28, 13, { text: 'Burner ▲', label: 'Fire the burner to go up one level', cls: 'btn-card' }),
         O('down', 35, 82, 28, 13, { text: 'Vent ▼', label: 'Open the vent to go down one level', cls: 'btn-card' }),
-        O('go', 66, 82, 30, 13, { text: 'Ride the wind', label: 'Let the wind carry the balloon', cls: 'btn-card accent' })
+        O('go', 66, 82, 30, 13, { text: 'Ride the wind', label: 'Let the wind carry the balloon', cls: 'btn-card big' })
       );
       return objs;
     },

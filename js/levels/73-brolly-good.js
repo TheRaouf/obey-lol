@@ -35,9 +35,11 @@
       return [
         O('window', 6, 6, 38, 38, { kind: 'static', art: 'c-window', artOpts: { rain: true }, label: 'Window: dark clouds and pouring rain outside' }),
         O('paper', 50, 5, 46, 21, { kind: 'static', text: 'Tourist Times: "SUNSHINE ALL DAY!"', label: 'Newspaper headline: sunshine all day', cls: 'sign-card' }),
-        O('date', 56, 28, 36, 8, { kind: 'static', text: 'Edition: last Tuesday', label: 'Newspaper date: last Tuesday', cls: 'tag-card' }),
-        O('brolly', 8, 50, 16, 30, { art: 'c-umbrella', artOpts: { open: false }, label: s.brolly ? 'Your umbrella (carried, closed)' : 'Closed umbrella in a stand', cls: s.brolly ? 'subtle' : '' }),
-        O('shades', 28, 62, 20, 12, { art: 'c-sunglasses', label: s.shades ? 'Sunglasses (wearing them)' : 'Sunglasses', cls: s.shades ? 'subtle' : '' }),
+        O('date', 54, 28, 40, 9, { kind: 'static', text: 'Edition: last Tuesday', label: 'Newspaper date: last Tuesday', cls: 'tag-card' }),
+        O('stand', 8, 72, 12, 18, { kind: 'static', art: 'bin', label: 'Umbrella stand' }),
+        O('brolly', 8, 58, 16, 30, { art: 'c-umbrella', artOpts: { open: false }, label: s.brolly ? 'Your umbrella (carried, closed)' : 'Closed umbrella in a stand', cls: s.brolly ? 'subtle' : '' }),
+        O('bench', 26, 72, 24, 8, { kind: 'static', art: 'table' }),
+        O('shades', 28, 65, 20, 12, { art: 'c-sunglasses', label: s.shades ? 'Sunglasses (wearing them)' : 'Sunglasses', cls: s.shades ? 'subtle' : '' }),
         O('door', 62, 38, 30, 48, { art: 'door', artOpts: { sign: 'PROMENADE' }, label: 'Door to the promenade' }),
         O('inv', 4, 88, 52, 8, { kind: 'static', text: carry.length ? 'Carrying: ' + carry.join(' + ') : 'Carrying: nothing', label: 'Inventory: ' + (carry.join(', ') || 'nothing'), cls: 'tag-card' })
       ];

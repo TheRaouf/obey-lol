@@ -19,7 +19,7 @@
     title: 'Calendar Clash',
     objective: 'Book a meeting when you and Bossworth are both free.',
     intro: 'Book us a one-to-one. Monday morning! I\'m free. Well, it says "nap", but naps don\'t count. Book Monday morning. Be bold.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['tap', 'logic', 'read'],
     par: 1,
     hints: [

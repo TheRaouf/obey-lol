@@ -19,7 +19,7 @@
     title: 'Fire Formula',
     objective: 'Put out the bin fire.',
     intro: 'Small fire in the lab. Totally under control. Throw the OXYGEN on it. Oxygen is basically fresh air, and fresh air calms everybody down.',
-    introMood: 'pleased',
+    introMood: 'panicked',
     actions: ['drag', 'recipe'],
     par: 4,
     hints: [
@@ -38,9 +38,10 @@
     view: function (s) {
       var mix = s.water ? 'Flask: WATER (H₂O)' : (s.H || s.O ? 'Flask: ' + (s.H ? s.H + '×H ' : '') + (s.O ? s.O + '×O' : '') : 'Flask: empty');
       var objs = [
+        O('bench', 4, 54, 92, 18, { kind: 'static', art: 'table', label: 'Lab bench' }),
         O('recipe', 4, 4, 52, 14, { kind: 'static', text: 'WATER = H + H + O', label: 'Recipe card: water equals hydrogen plus hydrogen plus oxygen', cls: 'sign-card' }),
-        O('fire', 66, 22, 30, 40, { art: 'd-fire', label: 'Bin fire', zone: true }),
-        O('flask', 22, 24, 30, 36, { art: 'd-flask', artOpts: { empty: !s.water && !s.H && !s.O, color: s.water ? '#3ec1ff' : '#e9e6f0', bubbling: !s.water && (s.H + s.O) > 0 }, label: s.water ? 'Flask full of water (drag it)' : 'Mixing flask (drop elements in)', zone: !s.water, drag: s.water, cls: s.water ? 'pop-in' : '' }),
+        O('fire', 66, 23, 30, 40, { art: 'd-fire', label: 'Bin fire', zone: true }),
+        O('flask', 22, 25, 30, 36, { art: 'd-flask', artOpts: { empty: !s.water && !s.H && !s.O, color: s.water ? '#3ec1ff' : '#e9e6f0', bubbling: !s.water && (s.H + s.O) > 0 }, label: s.water ? 'Flask full of water (drag it)' : 'Mixing flask (drop elements in)', zone: !s.water, drag: s.water, cls: s.water ? 'pop-in' : '' }),
         O('mix', 14, 62, 46, 9, { kind: 'static', text: mix, label: mix, cls: 'tag-card' })
       ];
       JARS.forEach(function (j, i) {

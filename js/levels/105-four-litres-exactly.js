@@ -35,16 +35,16 @@
 
     view: function (s) {
       return [
-        O('pump', 4, 4, 18, 24, { art: 'd-pump', label: 'Fuel pump: fills a tank to the top', zone: true }),
-        O('hose', 26, 8, 18, 15, { art: 'd-hose', label: 'Pump hose (drag it)', drag: true }),
+        O('pump', 4, 58, 16, 24, { art: 'd-pump', label: 'Fuel pump: fills a tank to the top', zone: true }),
+        O('hose', 4, 36, 18, 15, { art: 'd-hose', label: 'Pump hose (drag it)', drag: true }),
         O('rocket', 70, 2, 26, 40, { art: 'd-rocket', artOpts: { fuel: 0 }, label: 'Rocket, fuel tank empty', zone: true }),
         O('need', 68, 45, 30, 14, { kind: 'static', text: 'Needs 4 L\nEXACTLY', label: 'The rocket needs exactly 4 litres', cls: 'panel-card' }),
-        O('t5', 26, 30, 16, 28, { art: 'd-tank', artOpts: { cap: 5, level: s.t5 }, label: '5 litre tank holding ' + s.t5 + ' litres (drag it)', drag: true, zone: true }),
-        O('t5tag', 18, 61, 25, 9, { kind: 'static', text: '5 L tank: ' + s.t5 + ' L', label: '', cls: 'tag-card' }),
-        O('t3', 46, 30, 16, 28, { art: 'd-tank', artOpts: { cap: 3, level: s.t3 }, label: '3 litre tank holding ' + s.t3 + ' litres (drag it)', drag: true, zone: true }),
-        O('t3tag', 45, 61, 25, 9, { kind: 'static', text: '3 L tank: ' + s.t3 + ' L', label: '', cls: 'tag-card' }),
-        O('drain', 4, 76, 26, 18, { art: 'd-drain', label: 'Drain: empties a tank', zone: true }),
-        O('how', 34, 76, 62, 20, { kind: 'static', text: 'Drag a tank onto the pump to fill it, onto the drain to empty it, or onto the other tank to pour.', label: 'How to: drag a tank onto the pump to fill it, onto the drain to empty it, or onto the other tank to pour.', cls: 'tag-card' })
+        O('t5', 24, 58, 16, 28, { art: 'd-tank', artOpts: { cap: 5, level: s.t5 }, label: '5 litre tank holding ' + s.t5 + ' litres (drag it)', drag: true, zone: true }),
+        O('t5tag', 19, 87, 22, 9, { kind: 'static', text: '5 L tank: ' + s.t5 + ' L', label: '', cls: 'tag-card' }),
+        O('t3', 44, 58, 16, 28, { art: 'd-tank', artOpts: { cap: 3, level: s.t3 }, label: '3 litre tank holding ' + s.t3 + ' litres (drag it)', drag: true, zone: true }),
+        O('t3tag', 42, 87, 22, 9, { kind: 'static', text: '3 L tank: ' + s.t3 + ' L', label: '', cls: 'tag-card' }),
+        O('drain', 66, 78, 28, 16, { art: 'd-drain', label: 'Drain: empties a tank', zone: true }),
+        O('how', 4, 4, 62, 22, { kind: 'static', text: 'Drag a tank onto the pump to fill it, onto the drain to empty it, or onto the other tank to pour.', label: 'How to: drag a tank onto the pump to fill it, onto the drain to empty it, or onto the other tank to pour.', cls: 'tag-card' })
       ];
     },
 

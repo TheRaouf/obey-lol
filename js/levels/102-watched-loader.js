@@ -43,11 +43,11 @@
       return [
         O('monitor', 4, 4, 60, 56, { kind: 'static', art: 'd-monitor', artOpts: { mode: s.on ? 'desktop' : 'off' }, label: s.on ? 'Monitor, on' : 'Monitor, switched off' }),
         O('bar', 12, 14, 44, 13, { text: done ? 'Loaded 100%' : 'Loading… ' + s.pct + '%', label: 'Progress bar: ' + s.pct + ' percent', cls: 'display-card' + (done ? ' ready' : ''), hidden: !s.on }),
-        O('go', 16, 32, 36, 12, { text: 'Continue', label: 'Continue to the door controls', cls: 'btn-card accent', hidden: !s.on || !done }),
+        O('go', 16, 32, 36, 12, { text: 'Continue', label: 'Continue to the door controls', cls: 'btn-card big', hidden: !s.on || !done }),
         O('power', 68, 6, 28, 14, { text: s.on ? 'Monitor: ON' : 'Monitor: OFF', label: 'Monitor switch, currently ' + (s.on ? 'on' : 'off'), cls: 'btn-card' + (s.on ? '' : ' ghost') }),
         O('refresh', 68, 24, 28, 14, { text: 'Refresh', label: 'Refresh the loader', cls: 'btn-card' }),
-        O('hero', 76, 42, 14, 20, { kind: 'static', art: 'hero', label: 'You, watching the screen' }),
-        O('print', 4, 64, 92, 16, { kind: 'static', text: 'Schrödinger Loader v2: progress only happens while nobody is observing it.', label: 'Small print: Schrödinger Loader version 2, progress only happens while nobody is observing it.', cls: 'tag-card' }),
+        O('hero', 78, 62, 14, 15, { kind: 'static', art: 'hero', label: 'You, watching the screen' }),
+        O('print', 4, 64, 72, 16, { kind: 'static', text: 'Schrödinger Loader v2: progress only happens while nobody is observing it.', label: 'Small print: Schrödinger Loader version 2, progress only happens while nobody is observing it.', cls: 'tag-card' }),
         O('stare', 4, 84, 92, 12, { kind: 'static', text: s.on ? 'You are staring at the screen.' : 'Nobody is looking. Something is happening…', label: '', cls: 'fine-print' })
       ];
     },

@@ -20,7 +20,7 @@
     title: 'Departure Board',
     objective: 'Get to the gate for the next flight to Sunnyvale that actually flies today.',
     intro: 'Flight to Sunnyvale? It\'s the top one. Gate 1. Top means best, everyone knows that. And ignore those little stars and squiggles on the board, they\'re just decoration. Airports love sparkle.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['tap', 'read', 'logic'],
     par: 1,
     hints: [

@@ -34,14 +34,14 @@
       var status = s.unlocked ? 'UNLOCKED' : (s.hidden ? 'empty…?' : 'SEES YOU');
       return [
         O('door', 4, 6, 20, 46, { art: 'door', artOpts: { sign: s.unlocked ? 'OPEN' : 'LOCKED', small: true }, label: s.unlocked ? 'Door, unlocked' : 'Door, locked' }),
-        O('notice', 27, 5, 34, 36, { kind: 'static', text: 'SECURITY: after hours, doors UNLOCK when the sensor sees an empty office.', label: 'Security notice: after hours, doors unlock once the sensor sees an empty office', cls: 'book-card' }),
-        O('status', 27, 42.5, 34, 10, { kind: 'static', text: status, label: 'Sensor status: ' + status, cls: 'display-card' + (s.unlocked ? ' ready' : '') }),
+        O('notice', 26, 4, 40, 38, { kind: 'static', text: 'SECURITY: after hours, doors UNLOCK when the sensor sees an empty office.', label: 'Security notice: after hours, doors unlock once the sensor sees an empty office', cls: 'book-card' }),
+        O('status', 26, 43, 40, 10, { kind: 'static', text: status, label: 'Sensor status: ' + status, cls: 'display-card' + (s.unlocked ? ' ready' : '') }),
         O('cone', 44, 10, 54, 90, { kind: 'static', art: 'a-cone', artOpts: { on: !s.hidden }, label: 'The sensor\'s field of view covers the right side of the room' }),
         O('sensor', 84, 2, 14, 10, { kind: 'static', art: 'a-sensor', artOpts: { on: !s.hidden }, label: 'Ceiling motion sensor' }),
         O('desk', 4, 58, 40, 26, { kind: 'static', art: 'a-desk', label: 'Desk with a dark space underneath' }),
         O('under', 18, 64, 24, 20, { kind: 'zone', label: 'Under the desk, out of the sensor\'s view', zone: true }),
-        O('plant', 76, 50, 14, 32, { art: 'plant', label: 'Tall plant inside the sensor\'s view', zone: true }),
-        O('hero', s.hidden ? 26 : 82, s.hidden ? 68 : 32, 10, 15, { art: 'hero', label: s.hidden ? 'You, hiding under the desk' : 'You, in plain view of the sensor (drag yourself somewhere)', drag: !s.hidden, disabled: s.hidden, cls: 'hero-sprite' }),
+        O('plant', 76, 42, 14, 32, { art: 'plant', label: 'Tall plant inside the sensor\'s view', zone: true }),
+        O('hero', s.hidden ? 26 : 82, s.hidden ? 68 : 75, 10, 15, { art: 'hero', label: s.hidden ? 'You, hiding under the desk' : 'You, in plain view of the sensor (drag yourself somewhere)', drag: !s.hidden, disabled: s.hidden, cls: 'hero-sprite' }),
         O('wave', 50, 86, 30, 11, { text: 'Wave 👋', label: 'Wave at the sensor', cls: 'btn-card' })
       ];
     },

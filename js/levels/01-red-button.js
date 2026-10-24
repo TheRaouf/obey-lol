@@ -30,7 +30,7 @@
 
     view: function (s, ctx) {
       return [
-        O('red', 30, 28, 40, 40, { art: 'bigbutton', artOpts: { color: 'red', squashed: s.redPressed }, label: s.redPressed ? 'Deflated red button' : 'Big red button' }),
+        O('red', 30, 38, 40, 40, { art: 'bigbutton', artOpts: { color: 'red', squashed: s.redPressed }, label: s.redPressed ? 'Deflated red button' : 'Big red button' }),
         O('blue', 72, 74, 12, 12, { art: 'smallbutton', artOpts: { color: 'blue' }, label: 'Tiny blue button', hidden: !s.redPressed, cls: 'pop-in' }),
         O('plant', 5, 58, 18, 36, { art: 'plant', label: 'Potted office plant', free: true }),
         O('note', 76, 6, 16, 14, { art: 'note', label: 'Folded note', free: true, hidden: !ctx.replay })

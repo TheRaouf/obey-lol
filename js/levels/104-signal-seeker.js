@@ -41,7 +41,7 @@
         O('info', 4, 2, 92, 11, { kind: 'static', text: 'Fun fact: microwaves and Wi-Fi both hum at 2.4 GHz.', label: 'Fun fact: microwaves and Wi-Fi both hum at 2.4 gigahertz.', cls: 'tag-card' }),
         O('microwave', 4, 18, 28, 20, { art: 'd-microwave', label: 'Microwave, humming away', zone: true }),
         O('router', 72, 16, 24, 17, { kind: 'static', art: 'd-router', label: 'Wi-Fi router' }),
-        O('connect', 36, 24, 30, 13, { text: 'CONNECT', label: 'Connect to the Wi-Fi', cls: 'btn-card accent big' }),
+        O('connect', 36, 24, 30, 13, { text: 'CONNECT', label: 'Connect to the Wi-Fi', cls: 'btn-card big' }),
         O('bars', 36, 42, 30, 10, { kind: 'static', text: 'Signal: ' + here.bars + (here.bars === 1 ? ' bar' : ' bars'), label: 'Signal: ' + here.bars + ' of 4 bars', cls: 'panel-card' + (here.bars === 4 ? ' ok' : '') }),
         O('table', 4, 78, 28, 8, { kind: 'static', art: 'table', label: '' }),
         O('sofa', 36, 78, 28, 17, { kind: 'static', art: 'd-sofa', label: '' }),

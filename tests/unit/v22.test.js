@@ -27,8 +27,8 @@ function v4Save() {
   return d;
 }
 
-test('2.2 registry: 136 campaign levels, bonus pack at 1001–1004, version 2.2.0, schema 5', () => {
-  assert.equal(OBEY.VERSION, '2.2.0');
+test('registry: 136 campaign levels, bonus pack at 1001–1004, version 2.3.0, schema 5', () => {
+  assert.equal(OBEY.VERSION, '2.3.0');
   assert.equal(S.SCHEMA, 5);
   assert.equal(OBEY.LEVEL_COUNT, 136);
   assert.equal(OBEY.levels.filter(Boolean).length, 136);

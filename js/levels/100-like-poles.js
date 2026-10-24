@@ -15,7 +15,7 @@
     title: 'Like Poles',
     objective: 'Push the key cart to the far end of the tube.',
     intro: 'Opposites attract, likes repel. I basically invented that. So put the magnet in the dock with S facing the cart\'s N, and off it zooms. Trust the lab coat.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['tap', 'drag', 'physics'],
     par: 2,
     hints: [

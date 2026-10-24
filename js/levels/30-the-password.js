@@ -34,7 +34,7 @@
         O('door', 66, 2, 30, 46, { kind: 'static', art: 'door', artOpts: { sign: 'PASSWORD?' }, label: 'Door asking for a password' }),
         O('display', 4, 6, 58, 16, { kind: 'static', text: s.entry.length ? s.entry.join(' ') : '(type the password)', label: 'Password entry: ' + (s.entry.join(' ') || 'empty'), cls: 'display-card' }),
         O('clear', 4, 26, 26, 11, { text: 'Clear', label: 'Clear the entry', cls: 'btn-card ghost', free: true }),
-        O('enter', 34, 26, 28, 11, { text: 'ENTER', label: 'Enter the password', cls: 'btn-card accent' })
+        O('enter', 34, 26, 28, 11, { text: 'ENTER', label: 'Enter the password', cls: 'btn-card big' })
       ];
       TILES.forEach(function (t, i) {
         objs.push(O('t-' + t, 4 + (i % 3) * 32, 56 + Math.floor(i / 3) * 18, 28, 14, { text: t, label: 'Word tile: ' + t, cls: 'btn-card big' }));

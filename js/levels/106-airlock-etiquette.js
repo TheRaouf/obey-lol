@@ -37,9 +37,9 @@
         O('shipTag', 2, 16, 22, 8, { kind: 'static', text: 'SHIP', label: '', cls: 'tag-card' }),
         O('lockTag', 41, 16, 18, 8, { kind: 'static', text: 'AIRLOCK', label: '', cls: 'tag-card' }),
         O('spaceTag', 76, 16, 22, 8, { kind: 'static', text: 'SPACE', label: '', cls: 'tag-card' }),
-        O('innerDoor', 26, 18, 14, 52, { kind: 'static', art: 'd-airdoor', artOpts: { open: s.inner }, label: 'Inner door, ' + (s.inner ? 'open' : 'closed') }),
-        O('outerDoor', 60, 18, 14, 52, { kind: 'static', art: 'd-airdoor', artOpts: { open: s.outer }, label: 'Outer door, ' + (s.outer ? 'open' : 'closed') }),
-        O('hero', POS[s.at], 40, 14, 22, { kind: 'static', art: 'hero', label: 'You, ' + (s.at === 'ship' ? 'inside the ship' : (s.at === 'lock' ? 'in the airlock chamber' : 'out in space')), cls: 'hero-sprite' }),
+        O('innerDoor', 25, 46, 18, 30, { kind: 'static', art: 'd-airdoor', artOpts: { open: s.inner }, label: 'Inner door, ' + (s.inner ? 'open' : 'closed') }),
+        O('outerDoor', 61, 46, 18, 30, { kind: 'static', art: 'd-airdoor', artOpts: { open: s.outer }, label: 'Outer door, ' + (s.outer ? 'open' : 'closed') }),
+        O('hero', POS[s.at], 61, 14, 15, { kind: 'static', art: 'hero', label: 'You, ' + (s.at === 'ship' ? 'inside the ship' : (s.at === 'lock' ? 'in the airlock chamber' : 'out in space')), cls: 'hero-sprite' }),
         O('inner', 4, 78, 28, 16, { text: 'Inner door:\n' + (s.inner ? 'OPEN' : 'CLOSED'), label: 'Inner door switch, ' + (s.inner ? 'open' : 'closed'), cls: 'btn-card' + (s.inner ? ' accent' : '') }),
         O('step', 36, 78, 28, 16, { text: 'Step forward', label: 'Step forward', cls: 'btn-card big' }),
         O('outer', 68, 78, 28, 16, { text: 'Outer door:\n' + (s.outer ? 'OPEN' : 'CLOSED'), label: 'Outer door switch, ' + (s.outer ? 'open' : 'closed'), cls: 'btn-card' + (s.outer ? ' accent' : '') })

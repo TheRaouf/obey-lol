@@ -15,7 +15,7 @@
     title: 'Sticky Situation',
     objective: 'Log in to Bossworth\'s computer.',
     intro: 'My password is unguessable. It is NOT my pet\'s name. And it is NOT written on a sticky note. Don\'t look at the sticky note. Especially not under it.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['tap', 'read', 'logic'],
     par: 2,
     hints: [
@@ -33,20 +33,21 @@
 
     view: function (s) {
       var objs = [
-        O('monitor', 4, 4, 58, 24, { kind: 'static', text: 'LOG IN: Bossworth\nPassword: ________', label: 'Computer login for Bossworth, asking for a password', cls: 'display-card' }),
-        O('note', 4, 31, 58, 14, { text: 'DO NOT LIFT THIS NOTE', label: 'Sticky note: do not lift this note', cls: 'ticket-card', hidden: s.lifted }),
-        O('hint', 4, 31, 58, 14, { kind: 'static', text: 'Password = my pet\'s name + the year on my mug', label: 'Hidden note: password is my pet\'s name plus the year on my mug', cls: 'ticket-card', hidden: !s.lifted }),
+        O('monitor', 4, 4, 56, 24, { kind: 'static', text: 'LOG IN: Bossworth\nPassword: ________', label: 'Computer login for Bossworth, asking for a password', cls: 'display-card' }),
+        O('note', 4, 31, 56, 14, { text: 'DO NOT LIFT THIS NOTE', label: 'Sticky note: do not lift this note', cls: 'ticket-card', hidden: s.lifted }),
+        O('hint', 4, 31, 56, 14, { kind: 'static', text: 'Password = my pet\'s name + the year on my mug', label: 'Hidden note: password is my pet\'s name plus the year on my mug', cls: 'ticket-card', hidden: !s.lifted }),
+        O('shelf', 2, 64, 96, 19, { kind: 'static', art: 'shelf' }),
         O('photo1', 4, 50, 20, 18, { kind: 'static', art: 'a-photo', artOpts: { pet: 'fish' }, label: 'Photo of Bossworth and his goldfish, Sir Bubbles' }),
         O('mug1', 28, 52, 18, 16, { kind: 'static', art: 'a-bossmug', artOpts: { color: '#ffd23f' }, label: 'Bossworth\'s mug: Best Boss since 1998' }),
         O('photo2', 52, 50, 20, 18, { kind: 'static', art: 'a-photo', artOpts: { pet: 'cat' }, label: 'Photo of Doris and her cat, Mr Whiskers' }),
         O('mug2', 76, 52, 18, 16, { kind: 'static', art: 'a-bossmug', artOpts: { color: '#ff77b4' }, label: 'Doris\'s mug: Staff of the Month 2015' }),
         O('cap1', 2, 70, 23, 17, { kind: 'static', text: 'Bossworth & Sir Bubbles', label: '', cls: 'tag-card' }),
-        O('cap2', 26, 70, 23, 17, { kind: 'static', text: 'BEST BOSS since 1998', label: '', cls: 'tag-card' }),
+        O('cap2', 26, 70, 23, 19, { kind: 'static', text: 'BEST BOSS since 1998', label: '', cls: 'tag-card' }),
         O('cap3', 50, 70, 23, 17, { kind: 'static', text: 'Doris & Mr Whiskers', label: '', cls: 'tag-card' }),
-        O('cap4', 74, 70, 24, 17, { kind: 'static', text: 'Doris: Staff of the Month 2015', label: '', cls: 'tag-card' })
+        O('cap4', 74, 70, 24, 19, { kind: 'static', text: 'Doris: Staff of the Month 2015', label: '', cls: 'tag-card' })
       ];
       OPTIONS.forEach(function (p, i) {
-        objs.push(O('p' + i, 66, 4 + i * 10.5, 31, 9.5, { text: p, label: 'Try password ' + p, cls: 'btn-card option' }));
+        objs.push(O('p' + i, 62, 4 + i * 10.5, 34, 9.5, { text: p, label: 'Try password ' + p, cls: 'btn-card option' }));
       });
       return objs;
     },

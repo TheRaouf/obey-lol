@@ -17,7 +17,7 @@
     title: 'Dots and Dashes',
     objective: 'Reply to Mission Control with the decoded message.',
     intro: 'That\'s just static from the rover. Beep-boop, meaningless. Reply BOOM. It\'s my catchphrase, and Mission Control loves a catchphrase.',
-    introMood: 'pleased',
+    introMood: 'panicked',
     actions: ['tap', 'decode', 'reading'],
     par: 1,
     hints: [

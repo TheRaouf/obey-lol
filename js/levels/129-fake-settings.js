@@ -15,7 +15,7 @@
     title: 'Fake Settings',
     objective: 'Find the way out through the settings.',
     intro: 'Struggling? Here are my Settings. Switch Difficulty to EASY! Leave Brightness alone, it\'s moody on purpose. And "Exit door" does nothing. Purely cosmetic.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['tap', 'read', 'sequence'],
     par: 4,
     hints: [
@@ -43,7 +43,7 @@
         O('door', 50, 41, 46, 10, { text: s.door ? 'ON ▸' : (full ? 'OFF ▸' : 'OFF (needs Brightness 100%)'), label: 'Exit door: ' + (s.door ? 'on' : 'off') + (full ? '' : ', greyed out, needs Brightness 100 percent'), cls: 'btn-card' + (full ? '' : ' ghost') }),
         O('preview', 4, 55, 58, 41, { kind: 'static', text: s.door ? '' : (full ? 'Room preview:\nempty. Very empty.' : 'Room preview:\ntoo dark to see'), label: s.door ? 'Room preview with an exit door in it' : 'Room preview', cls: full ? 'tag-card' : 'panel-card' }),
         O('reset', 66, 58, 30, 14, { text: 'Reset to defaults', label: 'Reset to defaults', cls: 'btn-card' }),
-        O('close', 66, 76, 30, 14, { text: 'Close ✕', label: 'Close settings', cls: 'btn-card accent' })
+        O('close', 66, 76, 30, 14, { text: 'Close ✕', label: 'Close settings', cls: 'btn-card big' })
       ];
       if (s.door) out.push(O('exit', 24, 58, 18, 36, { art: 'door', artOpts: { sign: 'EXIT' }, label: 'Exit door in the room preview' }));
       return out;

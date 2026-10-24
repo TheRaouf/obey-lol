@@ -14,7 +14,7 @@
     title: 'Stock Take',
     objective: 'Fill in the stapler audit honestly.',
     intro: 'Audit day! We own exactly twelve staplers. I bought them myself. Tick 12 and let\'s go home. Counting is for accountants and toddlers.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['tap', 'count'],
     par: 1,
     hints: [

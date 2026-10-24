@@ -1,5 +1,21 @@
 # OBEY? LOL. — Release notes
 
+## Version 2.3.0
+
+**Everything looks (and sounds) like it belongs together.** Our art director went through every screen,
+level, theme, animation and sound and came back with 100 improvements. All of them are in.
+
+- **Rooms stand on the floor** — no more furniture floating halfway up the wall — and objects cast a little
+  shadow where they touch the ground.
+- **Every chapter has its own icon and music**, from the stapler of the office to the curtain of the talent show.
+- **Bossworth blinks**, greets you in more than one mood, and finally gets to show off his Instruction Machine
+  in the endings.
+- **Stars chime as they land**, rewards no longer pile on top of each other, and switches, costumes and
+  themes have their own little sounds.
+- **Easier to read and kinder to eyes:** bigger text on phones, slower flashing, captions at the bottom.
+
+**How to update:** reload the game. Your progress carries over.
+
 ## Version 2.2.0
 
 **A hundred more ways to not do what you're told.** 100 new levels in 25 new chapters, played before the

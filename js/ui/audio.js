@@ -14,6 +14,7 @@
   var vols = { sfx: 0.8, voice: 0.8, music: 0.4 };
   var voiceNodes = [];
   var onPlay = null;
+  var holdVoice = null; // the running hold hum, so a release can cut it short (2.3 E78)
   var routeTo = null; // which bus tone()/noise() connect to while a sound is being built
 
   function ensure() {
@@ -40,10 +41,11 @@
     return ctx;
   }
 
-  /** One enveloped oscillator note. opts: type, vol, slide (end freq), vib (Hz depth), filter, attack, track */
+  /** One enveloped oscillator note. opts: type, vol, slide (end freq), vib (Hz depth), filter, attack, track.
+   *  Returns { o, g } (the oscillator and its envelope gain) so a caller can cut it early. */
   function tone(freq, start, dur, opts) {
     var c = ensure();
-    if (!c) return;
+    if (!c) return null;
     opts = opts || {};
     var t0 = c.currentTime + start, vol = opts.vol || 0.08;
     var o = c.createOscillator(), g = c.createGain(), out = g;
@@ -66,6 +68,7 @@
     out.connect(opts.track ? voiceBus : (routeTo || sfxBus));
     o.start(t0); o.stop(t0 + dur + 0.05);
     if (opts.track) voiceNodes.push(o);
+    return { o: o, g: g };
   }
 
   /** Filtered noise burst (splats, whooshes, cymbals). */
@@ -95,7 +98,9 @@
     pick: function () { tone(300, 0, 0.14, { type: 'sine', vol: 0.07, slide: 700 }); },
     drop: function () { tone(500, 0, 0.12, { type: 'sine', vol: 0.07, slide: 160 }); noise(0.05, 0.08, { from: 400, vol: 0.06, filterType: 'lowpass' }); },
     nope: function () { tone(180, 0, 0.11, { type: 'square', vol: 0.05, filter: 900 }); tone(150, 0.13, 0.16, { type: 'square', vol: 0.05, filter: 900 }); },
-    hold: function () { tone(220, 0, 0.5, { type: 'triangle', vol: 0.03, slide: 440 }); },
+    // 2.3 E78: the hum lasts the whole 2 s hold; OBEY.audio.stopHold() cuts it on an early release.
+    hold: function () { stopHold(); holdVoice = tone(220, 0, 2.0, { type: 'triangle', vol: 0.03, slide: 660 }); },
+    charged: function () { stopHold(); tone(659, 0, 0.12, { type: 'sine', vol: 0.04 }); tone(988, 0, 0.12, { type: 'sine', vol: 0.04 }); },
     // Wrong-answer gags
     pie: function () { tone(1200, 0, 0.35, { type: 'sine', vol: 0.06, slide: 300 }); noise(0.3, 0.35, { from: 900, to: 200, vol: 0.2, filterType: 'lowpass' }); },
     chicken: function () { tone(700, 0, 0.12, { type: 'sawtooth', vol: 0.06, slide: 1100, filter: 2000 }); tone(900, 0.16, 0.28, { type: 'sawtooth', vol: 0.07, slide: 500, vib: 40, vibRate: 18, filter: 2200 }); },
@@ -103,7 +108,11 @@
     zap: function () { tone(120, 0, 0.45, { type: 'sawtooth', vol: 0.06, vib: 60, vibRate: 40 }); noise(0, 0.45, { from: 3000, vol: 0.07, q: 4 }); },
     splash: function () { noise(0, 0.6, { from: 3000, to: 300, vol: 0.2 }); tone(500, 0.05, 0.3, { type: 'sine', vol: 0.05, slide: 120 }); },
     fail: function () { SFX.trombone(); },
-    laugh: function () { [0, 0.14, 0.28, 0.42].forEach(function (t, i) { tone(340 - i * 18, t, 0.1, { type: 'square', vol: 0.035, filter: 1400, slide: 280 - i * 18 }); }); },
+    // 2.3 E83: the laugh follows the costume voice (dino low, alien high); 190 Hz (classic) gives the old 340 Hz.
+    laugh: function (o) {
+      var base = (o && o.base) || 190, f0 = Math.max(160, Math.min(520, 340 * base / 190)), k = f0 / 340;
+      [0, 0.14, 0.28, 0.42].forEach(function (t, i) { tone(f0 - i * 18 * k, t, 0.1, { type: 'square', vol: 0.035, filter: 1400, slide: (280 - i * 18) * k }); });
+    },
     // Rewards
     success: function () { [523, 659, 784].forEach(function (f, i) { tone(f, i * 0.08, 0.14, { type: 'square', vol: 0.04, filter: 3000 }); }); chord([523, 659, 784, 1046], 0.26, 0.6, 'triangle', 0.04); noise(0.26, 0.4, { from: 6000, vol: 0.03, filterType: 'highpass' }); },
     secret: function () { [1318, 1568, 1976, 2637].forEach(function (f, i) { tone(f, i * 0.07, 0.4, { type: 'sine', vol: 0.05 }); }); },
@@ -120,8 +129,39 @@
     warmer: function () { tone(1568, 0, 0.09, { type: 'sine', vol: 0.03 }); tone(2093, 0.06, 0.12, { type: 'sine', vol: 0.025 }); },
     stamp: function () { tone(110, 0, 0.18, { type: 'square', vol: 0.09, slide: 55 }); noise(0, 0.12, { from: 300, vol: 0.12, filterType: 'lowpass' }); },
     ending: function () { [262, 330, 392, 523, 659, 784].forEach(function (f, i) { tone(f, i * 0.12, 0.34, { type: 'triangle', vol: 0.06 }); }); chord([523, 659, 784, 1046], 0.75, 1.2, 'sine', 0.04); },
-    boom: function () { noise(0, 1.2, { from: 800, to: 60, vol: 0.3, filterType: 'lowpass' }); tone(90, 0, 0.9, { type: 'sawtooth', vol: 0.08, slide: 25 }); }
+    boom: function () { noise(0, 1.2, { from: 800, to: 60, vol: 0.3, filterType: 'lowpass' }); tone(90, 0, 0.9, { type: 'sawtooth', vol: 0.08, slide: 25 }); },
+    // 2.3 E80: one chime per earned star (C6, E6, G6), timed by the app to the staggered star pop.
+    star1: function () { starChime(1047); },
+    star2: function () { starChime(1319); },
+    star3: function () { starChime(1568); },
+    // 2.3 E84: U.N.D.O.'s voice — three filtered square bleeps.
+    undo: function () { [1400, 1750, 1180].forEach(function (f, i) { tone(f, i * 0.08, 0.035, { type: 'square', vol: 0.03, filter: 2000, filterType: 'bandpass', q: 3, attack: 0.004 }); }); },
+    // 2.3 E85: meta-screen actions.
+    toggle: function (o) { var on = !(o && o.off); tone(on ? 660 : 990, 0, 0.06, { type: 'sine', vol: 0.04, slide: on ? 990 : 660, attack: 0.006 }); },
+    wear: function () { noise(0, 0.18, { from: 2000, to: 6000, vol: 0.05, filterType: 'highpass' }); tone(784, 0.04, 0.12, { type: 'triangle', vol: 0.04 }); },
+    paint: function () { noise(0, 0.25, { from: 800, to: 3000, vol: 0.06, filterType: 'bandpass', q: 1.4 }); },
+    locked: function () { tone(110, 0, 0.07, { type: 'square', vol: 0.05, filter: 500, attack: 0.004 }); },
+    boing: function () { tone(300, 0, 0.09, { type: 'sine', vol: 0.06, slide: 600, vib: 20, vibRate: 12 }); tone(600, 0.09, 0.16, { type: 'sine', vol: 0.06, slide: 250, vib: 20, vibRate: 12 }); }
   };
+
+  function starChime(f) {
+    tone(f, 0, 0.09, { type: 'triangle', vol: 0.05, attack: 0.005 });
+    noise(0, 0.04, { from: 6000, vol: 0.02, filterType: 'highpass', attack: 0.003 });
+  }
+
+  /** Cuts the hold hum short (the player let go before the hold finished). */
+  function stopHold() {
+    var h = holdVoice;
+    holdVoice = null;
+    if (!h || !ctx) return;
+    try {
+      var now = ctx.currentTime;
+      h.g.gain.cancelScheduledValues(now);
+      h.g.gain.setValueAtTime(Math.max(0.0001, h.g.gain.value), now);
+      h.g.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+      h.o.stop(now + 0.06);
+    } catch (e) { /* already stopped */ }
+  }
 
   /* ------------------------------------------------------------------ voice */
   var VOICES = {
@@ -163,8 +203,13 @@
         t += step;
       }
       t += step * 0.4;
+      // 2.3 E82: phrase like speech — pause after commas, full stops and ellipses.
+      if (/(…|\.\.\.)$/.test(w)) t += step * 3;
+      else if (/\.$/.test(w)) t += step * 2;
+      else if (/[,;:]$/.test(w)) t += step * 1.2;
     });
-    if (mood === 'laughing') SFX.laugh();
+    if (mood === 'laughing') SFX.laugh({ base: v.base });
+    return t;
   }
 
   function stopVoice() {
@@ -189,41 +234,85 @@
         u.rate = Math.max(0.6, Math.min(1.6, v.speed * (mood === 'panicked' ? 1.25 : 1)));
         u.volume = Math.max(0, Math.min(1, vols.voice));
         root.speechSynthesis.speak(u);
+        duckMusic(Math.max(ms, line.length * 60));
         return Math.max(ms, line.length * 60);
       } catch (e) { /* fall back to babble */ }
     }
-    babble(text, costume, mood);
+    var dur = babble(text, costume, mood);
+    duckMusic(Math.max(ms, (dur || 0) * 1000));
     return ms;
+  }
+
+  /** 2.3 E77: music dips to 45 % under the voice and comes back when the line ends (bible §9.4). */
+  function duckMusic(ms) {
+    if (!music.on || !musicBus || !ctx) return;
+    try {
+      var now = ctx.currentTime, g = musicBus.gain;
+      g.cancelScheduledValues(now);
+      g.setValueAtTime(g.value, now);
+      g.setTargetAtTime(vols.music * 0.45, now, 0.05);
+      g.setTargetAtTime(vols.music, now + ms / 1000, 0.2);
+    } catch (e) { /* ignore */ }
   }
 
   /* ------------------------------------------------------------------ music */
   // A gentle generative loop per chapter: a pentatonic arpeggio over a soft bass note.
+  // Chapters 0–7 keep their 2.1 loops. From 2.3 (E76) the later chapters get a family timbre
+  // (office, home, outdoors, science, show, final) on top of their own scale and root, and the
+  // Sabotage Studio bonus pack (chapter -1) has its own whole-tone "studio" family.
   var SCALES = [[0, 2, 4, 7, 9], [0, 3, 5, 7, 10], [0, 2, 5, 7, 9], [0, 2, 4, 7, 11], [0, 3, 5, 8, 10], [0, 2, 3, 7, 9], [0, 4, 5, 7, 11], [0, 2, 4, 6, 9], [0, 3, 7, 8, 10]];
   var ROOTS = [262, 247, 277, 233, 294, 220, 262, 247, 196];
+  var WHOLE_TONE = [0, 2, 4, 6, 8, 10];
+  var FAMILIES = {
+    core: { wave: 'triangle', filter: 1800, vol: 0.05 },
+    office: { wave: 'square', filter: 1400, vol: 0.035, swing: 0.58 },
+    home: { wave: 'triangle', filter: 1800, vol: 0.05 },
+    outdoors: { wave: 'sine', vol: 0.05, chirp: true },
+    science: { wave: 'sawtooth', filter: 900, q: 4, vol: 0.04 },
+    show: { wave: 'square', vol: 0.03, vib: 4, vibRate: 5 },
+    final: { wave: 'triangle', vol: 0.05, bassEvery: 4 },
+    studio: { wave: 'triangle', filter: 2200, vol: 0.045 }
+  };
+  /** The music family of a chapter index (0-based; -1 = the bonus pack). */
+  function musicFamily(ch) {
+    if (ch < 0) return 'studio';
+    if (ch <= 7) return 'core';
+    if (ch <= 12) return 'office';
+    if (ch <= 17) return 'home';
+    if (ch <= 22) return 'outdoors';
+    if (ch <= 27) return 'science';
+    if (ch <= 32) return 'show';
+    return 'final';
+  }
+  var STEP_S = 0.42;
   var music = { on: false, chapter: 0, timer: null, step: 0 };
   function musicTick() {
     var c = ensure();
     if (!c || !music.on) return;
-    var sc = SCALES[music.chapter % SCALES.length], base = ROOTS[music.chapter % ROOTS.length];
+    var ch = music.chapter, fam = FAMILIES[musicFamily(ch)];
+    var sc = ch < 0 ? WHOLE_TONE : SCALES[ch % SCALES.length], base = ch < 0 ? 233 : ROOTS[ch % ROOTS.length];
     var prev = routeTo; routeTo = musicBus;
     var deg = sc[(music.step * 2 + Math.floor(music.step / 4)) % sc.length];
-    tone(base * Math.pow(2, deg / 12) * (music.step % 8 < 4 ? 1 : 2), 0, 0.5, { type: 'triangle', vol: 0.05, filter: 1800 });
-    if (music.step % 8 === 0) tone(base / 2, 0, 1.6, { type: 'sine', vol: 0.06 });
+    // Swing pushes every off-beat 8th later: at 0.58 the pair splits 58 / 42.
+    var at = fam.swing && music.step % 2 ? (fam.swing - 0.5) * 2 * STEP_S : 0;
+    tone(base * Math.pow(2, deg / 12) * (music.step % 8 < 4 ? 1 : 2), at, 0.5, { type: fam.wave, vol: Math.min(0.05, fam.vol), filter: fam.filter, q: fam.q, vib: fam.vib || 0, vibRate: fam.vibRate });
+    if (music.step % (fam.bassEvery || 8) === 0) tone(base / 2, 0, 1.6, { type: 'sine', vol: 0.06 });
+    if (fam.chirp && music.step % 16 === 15) tone(2600, 0.1, 0.12, { type: 'sine', vol: 0.015, slide: 3200 });
     routeTo = prev;
     music.step++;
   }
   function startMusic(chapter) {
-    music.chapter = chapter || 0;
+    music.chapter = typeof chapter === 'number' && isFinite(chapter) ? chapter : 0;
     if (music.on) return;
     music.on = true; music.step = 0;
-    music.timer = root.setInterval(musicTick, 420);
+    music.timer = root.setInterval(musicTick, STEP_S * 1000);
   }
   function stopMusic() { music.on = false; if (music.timer) root.clearInterval(music.timer); music.timer = null; }
 
   OBEY.audio = {
     setEnabled: function (on) {
       enabled = !!on;
-      if (!enabled) { stopVoice(); if (ctx && ctx.state === 'running') { try { ctx.suspend(); } catch (e) { /* ignore */ } } }
+      if (!enabled) { stopVoice(); stopHold(); if (ctx && ctx.state === 'running') { try { ctx.suspend(); } catch (e) { /* ignore */ } } }
     },
     isEnabled: function () { return enabled; },
     setVoice: function (mode) { voiceMode = ['babble', 'speech', 'off'].indexOf(mode) >= 0 ? mode : 'babble'; if (voiceMode === 'off') stopVoice(); },
@@ -231,18 +320,31 @@
     speechAvailable: speechAvailable,
     /** Must be called from a user gesture handler (browser autoplay rules). */
     unlock: function () { unlocked = true; },
-    play: function (name) {
-      if (onPlay) { try { onPlay(name); } catch (e) { /* captions are optional */ } }
-      if (!enabled || !unlocked || !SFX[name]) return;
-      try { SFX[name](); } catch (e) { /* audio is optional */ }
+    /**
+     * Plays a sound. opts (optional): { delay: ms } starts it later (the caption appears with it);
+     * other fields are passed to the recipe (e.g. { off: true } for `toggle`, { base } for `laugh`).
+     */
+    play: function (name, opts) {
+      var fire = function () {
+        if (onPlay) { try { onPlay(name); } catch (e) { /* captions are optional */ } }
+        if (!enabled || !unlocked || !SFX[name]) return;
+        try { SFX[name](opts); } catch (e) { /* audio is optional */ }
+      };
+      if (opts && opts.delay > 0) root.setTimeout(fire, opts.delay); else fire();
     },
+    /** Cuts the hold hum (2.3 E78), e.g. when the player lets go early. */
+    stopHold: stopHold,
     /** Called for every requested sound, even when sound is off (used for captions). */
     setOnPlay: function (f) { onPlay = f; },
     /** Volumes 0–100 for 'sfx', 'voice' and 'music'. */
     setVolume: function (kind, v) {
       vols[kind] = Math.max(0, Math.min(1, (Number(v) || 0) / 100));
       var bus = { sfx: sfxBus, voice: voiceBus, music: musicBus }[kind];
-      if (bus) bus.gain.value = vols[kind];
+      if (bus) {
+        // Cancel any ducking automation first, or the new value could be ignored.
+        try { bus.gain.cancelScheduledValues(ctx.currentTime); bus.gain.setValueAtTime(vols[kind], ctx.currentTime); } catch (e) { /* ignore */ }
+        bus.gain.value = vols[kind];
+      }
     },
     volume: function (kind) { return Math.round(vols[kind] * 100); },
     /** iOS/iPadOS only allow audio that starts inside a touch/click: create and resume the context there. */
@@ -268,6 +370,7 @@
     speak: speak,
     stopVoice: stopVoice,
     talkTime: talkTime,
+    musicFamily: musicFamily,
     names: function () { return Object.keys(SFX); }
   };
 })(typeof window !== 'undefined' ? window : globalThis);

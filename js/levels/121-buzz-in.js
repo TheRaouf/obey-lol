@@ -45,10 +45,10 @@
       });
       out.push(O('podium', 6, 66, 30, 30, { kind: 'static', art: 'e-podium', artOpts: { color: '#3ec1ff' }, label: '' }));
       out.push(O('buzzer', 10, 54, 22, 18, { art: 'e-buzzer', artOpts: { color: '#e5243b', lit: s.buzzed }, label: s.buzzed ? 'Your buzzer (buzzed in!)' : 'Your contestant buzzer' }));
-      out.push(O('status', 38, 62, 24, 12, { kind: 'static', text: s.buzzed ? 'You buzzed in!' : 'Nobody has buzzed', label: '', cls: 'tag-card' }));
+      out.push(O('status', 37, 61, 26, 13, { kind: 'static', text: s.buzzed ? 'You buzzed in!' : 'Nobody has buzzed', label: '', cls: 'tag-card' }));
       out.push(O('hostPodium', 64, 66, 30, 30, { kind: 'static', art: 'e-podium', artOpts: { color: '#ffd23f' }, label: '' }));
       out.push(O('host', 68, 54, 22, 18, { art: 'e-buzzer', artOpts: { color: '#ffd23f' }, label: 'Gold HOST ONLY buzzer' }));
-      out.push(O('hostTag', 64, 78, 30, 8, { kind: 'static', text: 'HOST ONLY', label: '', cls: 'tag-card' }));
+      out.push(O('hostTag', 64, 88, 30, 8, { kind: 'static', text: 'HOST ONLY', label: '', cls: 'tag-card' }));
       return out;
     },
 

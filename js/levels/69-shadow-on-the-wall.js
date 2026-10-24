@@ -39,10 +39,10 @@
         O('stand', 32, 22, 18, 66, { kind: 'static', art: 'b-coatstand', artOpts: {}, label: 'Coat stand between the lamp and the wall' }),
         O('hat', 31, 17, 20, 11, { art: 'b-hat', drag: true, hidden: !s.hat, label: 'Bossworth\'s tall hat with a wide brim, on top of the coat stand (drag it)' }),
         O('coat', 34, 31, 14, 30, { art: 'b-coat', drag: true, hidden: !s.coat, label: 'Long coat hanging on the coat stand (drag it)' }),
-        O('shadow', 58, 4, 38, 64, { kind: 'static', art: 'b-shadow', artOpts: { hat: s.hat, coat: s.coat }, label: scary ? 'Huge shadow on the wall: a horned head' + (s.coat ? ' and a broad body' : '') : 'Shadow on the wall: just a thin pole with two hooks' }),
+        O('shadow', 58, 4, 38, 64, { kind: 'static', art: 'b-shadow', artOpts: { hat: s.hat, coat: s.coat }, label: scary ? 'Huge shadow on the wall: a hat with a horn-shaped brim' + (s.coat ? ' and a broad body' : '') : 'Shadow on the wall: just a thin pole with two hooks' }),
         O('wardrobe', 22, 84, 30, 13, { art: 'drawer', artOpts: { n: '' }, zone: true, free: true, label: 'Wardrobe drawer' }),
         O('police', 58, 72, 38, 11, { text: 'Call the police', label: 'Phone the police', cls: 'btn-card' }),
-        O('sleep', 58, 86, 38, 11, { text: 'Go to sleep', label: 'Go to sleep', cls: 'btn-card accent' })
+        O('sleep', 58, 86, 38, 11, { text: 'Go to sleep', label: 'Go to sleep', cls: 'btn-card big' })
       ];
     },
 

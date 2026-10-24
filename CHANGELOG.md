@@ -2,7 +2,38 @@
 
 All notable changes to this project. Versions follow semantic versioning.
 
-## [2.2.0] — 2026-10-24
+## [2.3.0] — 2026-10-24
+
+The art release: a full review by the game's art director (docs/ART-REVIEW-2.3.md) produced 100
+enhancements (14 P1, 46 P2, 40 P3), applied in six groups.
+
+### Changed — look
+- Rooms stand on the floor: about 45 levels re-laid so furniture, machines and heroes sit on the floor band;
+  objects that touch the floor get a contact shadow.
+- One outline weight: a stage-side normaliser brings 95.6 % of outlines to 3–6 px on every screen size.
+- Colours brought back to the art bible's palette across all five 2.2 art packs; highlights capped at 55 %.
+- Broken art fixed: Level 20 scale, Level 21 clock, Level 11 footprint numerals, door signs that shrank to
+  6–8 px, the Level 69 "burglar" shadow, Level 97's answer paperclip, Level 112's colour-only wires.
+- Each chapter has an icon (map regions, trophies, chapter cards); the endings show the Instruction Machine;
+  the credits gain a cast strip; Bossworth blinks and opens levels in a range of moods.
+- Hard shadows return in Sunset and the dark endings; unearned stars are visible; yellow buttons use ink glyphs.
+
+### Changed — sound
+- Music families per art pack (office, home, outdoors, science, showbiz, final) and a "studio" loop for the
+  bonus pack; music ducks under Bossworth's voice.
+- Star chimes in time with the star animation; rewards queue 380 ms apart instead of stacking; the hold hum
+  lasts the full 2 s and a "charged" ding confirms it; U.N.D.O. has its own bleeps; switches, costumes,
+  themes, locked levels and poking Bossworth have their own sounds. Every new sound has a caption.
+
+### Accessibility
+- Stage text at least 12 px (cards shrink to fit, never below 11 px); 35 cards enlarged so nothing spills.
+- The zap gag flashes under 3 Hz; captions moved to the bottom and toasts to the top so neither covers
+  the controls; reduced motion respected by every new animation.
+
+### Tools
+- `npm run art:strokes`, `art:contrast`, `art:sheets` (tools/art/): outline, contrast and contact-sheet checks.
+
+
 
 ### Added
 - 100 new levels (33–132) in 25 new chapters, between Static Summit and the Final Factory:

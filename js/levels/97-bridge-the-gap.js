@@ -20,7 +20,7 @@
     title: 'Bridge the Gap',
     objective: 'Light the bulb to open the door.',
     intro: 'To open the door, close the circuit. Bridge the gap with the rubber duck. Ducks are famously excellent conductors. Of choirs. Same thing.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['drag', 'tap', 'classify'],
     par: 2,
     hints: [
@@ -42,8 +42,8 @@
         O('wire', 14, 12, 64, 16, { kind: 'static', art: 'd-wire-h', artOpts: { bridge: s.bridged }, label: s.bridged ? 'Wire, bridged by a paperclip' : 'Wire with a gap in the middle' }),
         O('gap', 39, 8, 14, 22, { text: 'GAP', label: 'The gap in the wire (drop something here)', cls: 'tag-card', zone: true, hidden: s.bridged }),
         O('bulb', 80, 4, 14, 24, { kind: 'static', art: 'bulb', label: 'Bulb, off. It is wired to the door lock.' }),
-        O('switch', 4, 38, 24, 14, { text: 'Flip switch', label: 'Circuit switch', cls: 'btn-card accent' }),
-        O('chart', 32, 36, 38, 26, { kind: 'static', text: 'CONDUCTORS: metals\nINSULATORS: rubber, wood\nLIQUIDS: never near wires!', label: 'Chart: conductors are metals. Insulators are rubber and wood. Liquids must never go near wires.', cls: 'honest-card' }),
+        O('switch', 4, 38, 24, 14, { text: 'Flip switch', label: 'Circuit switch', cls: 'btn-card big' }),
+        O('chart', 30, 35, 42, 28, { kind: 'static', text: 'CONDUCTORS: metals\nINSULATORS: rubber, wood\nLIQUIDS: never near wires!', label: 'Chart: conductors are metals. Insulators are rubber and wood. Liquids must never go near wires.', cls: 'honest-card' }),
         O('door', 74, 34, 22, 40, { art: 'door', artOpts: { sign: 'BULB LOCK', small: true }, label: 'Door that opens when the bulb lights' })
       ];
       ITEMS.forEach(function (it, i) {

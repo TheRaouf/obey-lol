@@ -13,7 +13,7 @@
     title: 'Suggestion Box',
     objective: 'Get your suggestion read.',
     intro: 'Got a suggestion? Pop it in the suggestion box! I read every single one. Personally. With great interest. Mm-hm. Very carefully.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['drag', 'observe', 'read'],
     par: 1,
     hints: [
@@ -32,9 +32,9 @@
 
     view: function () {
       return [
-        O('box', 36, 4, 28, 42, { art: 'a-suggestbox', label: 'Suggestion box marked IDEAS. Its cable runs straight into a shredder underneath.', zone: true }),
-        O('caption', 28, 48, 36, 9, { kind: 'static', text: 'Read daily!*', label: 'Caption: read daily', cls: 'tag-card' }),
-        O('fine', 28, 58, 36, 6, { kind: 'static', text: '*by the shredder', label: 'Fine print: by the shredder', cls: 'fine-print' }),
+        O('box', 36, 50, 28, 42, { art: 'a-suggestbox', label: 'Suggestion box marked IDEAS. Its cable runs straight into a shredder underneath.', zone: true }),
+        O('caption', 28, 30, 36, 9, { kind: 'static', text: 'Read daily!*', label: 'Caption: read daily', cls: 'tag-card' }),
+        O('fine', 28, 40, 36, 6, { kind: 'static', text: '*by the shredder', label: 'Fine print: by the shredder', cls: 'fine-print' }),
         O('board', 68, 4, 28, 22, { art: 'a-noticeboard', label: 'Staff noticeboard', zone: true }),
         O('handbook', 67, 28, 31, 48, { kind: 'static', text: 'HANDBOOK p.3\nSuggestions handed to the boss in person must be read aloud.', label: 'Staff handbook page 3: a suggestion handed to the boss in person must be read aloud', cls: 'book-card' }),
         O('slip', 6, 68, 30, 24, { text: 'SUGGESTION:\nLet the player go home.', label: 'Your suggestion slip: let the player go home (drag it)', cls: 'ticket-card', drag: true }),

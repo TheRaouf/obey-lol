@@ -39,7 +39,7 @@
         O('timed', 54, 52, 42, 11, { kind: 'static', text: 'TIMER ' + s.time + ' min', label: 'Timer: ' + s.time + ' minutes', cls: 'display-card' }),
         O('mdown', 54, 66, 20, 12, { text: 'TIMER −', label: 'Take 20 minutes off the timer', cls: 'btn-card' }),
         O('mup', 76, 66, 20, 12, { text: 'TIMER +', label: 'Add 20 minutes to the timer', cls: 'btn-card' }),
-        O('start', 30, 84, 40, 12, { text: 'START', label: 'Start baking', cls: 'btn-card accent' })
+        O('start', 30, 84, 40, 12, { text: 'START', label: 'Start baking', cls: 'btn-card big' })
       ];
     },
 

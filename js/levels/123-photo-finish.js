@@ -18,7 +18,7 @@
     title: 'Photo Finish',
     objective: 'Give the gold medal to the winner.',
     intro: 'What a race! I won. Obviously. By a mile. Hang the gold medal on bib number 1, that\'s me. Ignore the photo finish. It\'s blurry. And unflattering.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['drag', 'observe'],
     par: 1,
     narratorZone: true,

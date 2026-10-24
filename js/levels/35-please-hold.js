@@ -15,7 +15,7 @@
     title: 'Please Hold',
     objective: 'Get the frozen door keypad working.',
     intro: 'The door keypad froze. Don\'t bother calling IT, nobody ever answers. Just jab the buttons harder. Technology respects confidence.',
-    introMood: 'pleased',
+    introMood: 'annoyed',
     actions: ['hold', 'tap', 'sequence'],
     par: 4,
     hints: [

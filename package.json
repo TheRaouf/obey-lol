@@ -1,6 +1,6 @@
 {
   "name": "obey-lol",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "OBEY? LOL. — an offline browser puzzle adventure where the narrator lies, begs, sulks and occasionally tells the truth.",
   "private": true,
   "license": "MIT",
@@ -10,7 +10,10 @@
     "test": "node --test tests/unit/*.test.js",
     "test:e2e": "node --test --test-concurrency=1 tests/e2e/*.e2e.test.js",
     "test:all": "npm run check && npm test && npm run test:e2e",
-    "package": "bash tools/package.sh"
+    "package": "bash tools/package.sh",
+    "art:strokes": "node tools/art/strokes.js",
+    "art:contrast": "node tools/art/contrast.js",
+    "art:sheets": "node tools/art/sheets.js"
   },
   "devDependencies": {
     "playwright": "^1.45.0"

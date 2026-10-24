@@ -31,7 +31,10 @@
     init: function () { return { open: [false, false, false], catMoved: false }; },
 
     view: function (s) {
-      var objs = [];
+      var objs = [
+        O('chest', 4, 5, 40, 60, { kind: 'static', text: ' ', cls: 'tag-card', label: '' }),
+        O('legs', 4, 63, 40, 9, { kind: 'static', art: 'table' })
+      ];
       for (var i = 0; i < 3; i++) {
         objs.push(O('d' + (i + 1), 6, 8 + i * 19, 36, 17, { art: 'drawer', artOpts: { n: i + 1, open: s.open[i] }, label: 'Drawer ' + (i + 1) + (s.open[i] ? ', contains ' + ITEMS[i] : '') }));
       }

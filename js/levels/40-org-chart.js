@@ -19,7 +19,7 @@
     title: 'The Org Chart',
     objective: 'Hand your report to your actual manager.',
     intro: 'Hand your report to your manager. That\'s me. I manage everybody. Check the org chart if you must, but it\'ll just say me. In big letters.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['drag', 'observe'],
     par: 1,
     hints: [

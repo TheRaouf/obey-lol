@@ -37,7 +37,7 @@
       return [
         O('table', 18, 70, 46, 8, { kind: 'static', art: 'table' }),
         O('gift', 24, 36, 34, 34, { art: 'gift', artOpts: { shaking: s.shaking }, label: 'Gift box (drag it somewhere, or press and hold to shake)', drag: true, hold: true, freeHold: true }),
-        O('bow', 32, 26, 18, 12, { art: 'bow', label: 'Bow on the gift (pull to open)' }),
+        O('bow', 32, 36, 18, 12, { art: 'bow', label: 'Bow on the gift (pull to open)' }),
         O('tag', 56, 46, 14, 12, { art: 'tag', label: s.tagRead ? 'Gift tag: To Bossworth, from Bossworth' : 'Gift tag' }),
         O('mailbox', 74, 46, 22, 46, { art: 'mailbox', label: 'Mailbox (return to sender)', zone: true, free: true })
       ];

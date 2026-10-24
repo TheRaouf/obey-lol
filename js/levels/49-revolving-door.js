@@ -39,7 +39,7 @@
         O('lobby', 18, 74, 30, 10, { kind: 'static', text: 'LOBBY', label: 'The lobby is at the bottom', cls: 'tag-card' }),
         O('status', 66, 14, 30, 24, { kind: 'static', text: 'Your section faces:\n' + f, label: 'Your section faces ' + f, cls: 'display-card' + (s.turn % 4 === 2 ? ' ready' : '') }),
         O('push', 66, 42, 30, 13, { text: 'PUSH ↻', label: 'Push the door a quarter turn', cls: 'btn-card big' }),
-        O('step', 66, 59, 30, 13, { text: 'Step out', label: 'Step out of your section', cls: 'btn-card accent' }),
+        O('step', 66, 59, 30, 13, { text: 'Step out', label: 'Step out of your section', cls: 'btn-card big' }),
         O('sign', 4, 88, 92, 9, { kind: 'static', text: 'Please do not spin for fun. — Management', label: 'Sign: please do not spin for fun', cls: 'tag-card' })
       ];
     },

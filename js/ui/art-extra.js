@@ -58,9 +58,19 @@
       '<rect x="1.5" y="1.5" width="297" height="297" fill="none" stroke="' + INK + '" stroke-width="3"/></svg>';
   };
 
-  /** U.N.D.O., the glitchy sidekick program: a floppy disk with a face. */
-  A.undoBot = function (glitch) {
-    return '<svg class="undo-bot' + (glitch ? ' glitching' : '') + '" viewBox="0 0 100 100" aria-hidden="true" focusable="false">' +
+  /** U.N.D.O., the glitchy sidekick program: a floppy disk with a face.
+   * E16: `o.small` (the default, for the 30 px chat head) drops the shutter detail, enlarges the label
+   * window to 60 % of the body and draws bigger eyes and a thicker smirk. Pass { small: false } for
+   * the full drawing at large sizes. */
+  A.undoBot = function (glitch, o) {
+    var small = !(o && o.small === false);
+    var head = '<svg class="undo-bot' + (small ? ' undo-bot-small' : '') + (glitch ? ' glitching' : '') + '" viewBox="0 0 100 100" aria-hidden="true" focusable="false">';
+    if (small) {
+      return head + '<rect x="8" y="8" width="84" height="84" rx="8" fill="#2d2850" ' + SW + '/><rect x="30" y="8" width="40" height="12" fill="#c3ccd8" ' + SW3 + '/>' +
+        '<rect x="17" y="30" width="66" height="54" rx="6" fill="#f5feff" ' + SW3 + '/><circle cx="36" cy="52" r="7" fill="' + INK + '"/><circle cx="64" cy="52" r="7" fill="' + INK + '"/>' +
+        '<path d="M38 70 Q50 76 62 70" fill="none" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/><path d="M60 38 L74 33" stroke="' + INK + '" stroke-width="6" stroke-linecap="round"/></svg>';
+    }
+    return head +
       '<rect x="8" y="8" width="84" height="84" rx="8" fill="#2d2850" ' + SW + '/><rect x="26" y="8" width="48" height="26" fill="#c3ccd8" ' + SW3 + '/><rect x="58" y="12" width="10" height="18" fill="#2d2850"/>' +
       '<rect x="20" y="46" width="60" height="38" rx="4" fill="#f5feff" ' + SW3 + '/><circle cx="38" cy="62" r="5" fill="' + INK + '"/><circle cx="62" cy="62" r="5" fill="' + INK + '"/>' +
       '<path d="M40 74 Q50 80 60 74" fill="none" ' + SW3 + '/><path d="M64 54 L72 50" ' + SW3 + '/></svg>';
@@ -74,4 +84,36 @@
   A.addIcon('keyboard', '<rect x="2" y="6" width="20" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 10 h1 M10 10 h1 M14 10 h1 M18 10 h1 M7 14 h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>');
   A.addIcon('timer', '<circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 13 V9 M9 2 h6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>');
   A.addIcon('piece', '<path d="M4 7 h5 a3 3 0 1 1 6 0 h5 v5 a3 3 0 1 0 0 6 v3 H4 v-3 a3 3 0 1 0 0 -6z" fill="currentColor"/>');
+
+  /* 2.3 E2: menu icons. 24-unit viewBox, currentColor, stroke 2.2, round caps. */
+  var ST = 'fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"';
+  A.addIcon('plus', '<path d="M12 5 V19 M5 12 H19" ' + ST + '/>');
+  A.addIcon('bowtie', '<path d="M3.5 7 L10 10.2 V13.8 L3.5 17 Z M20.5 7 L14 10.2 V13.8 L20.5 17 Z" ' + ST + '/><rect x="10" y="9.8" width="4" height="4.4" rx="1.2" fill="currentColor"/>');
+  A.addIcon('palette', '<path d="M12 3.2 C6.8 3.2 3 7 3 12 C3 16.9 6.9 20.8 11.6 20.8 C13 20.8 13.6 20 13.4 18.9 C13.2 17.7 12.4 17.2 12.6 16 C12.8 14.9 13.8 14.4 15 14.4 H16.6 C19.2 14.4 21 12.7 21 10.2 C21 6.2 17 3.2 12 3.2 Z" ' + ST + '/><circle cx="7.6" cy="11.2" r="1.5" fill="currentColor"/><circle cx="9.8" cy="7.2" r="1.5" fill="currentColor"/><circle cx="14.6" cy="6.8" r="1.5" fill="currentColor"/>');
+  A.addIcon('scroll', '<path d="M7 17 V6 A2 2 0 0 1 9 4 H19 A2 2 0 0 1 19 8 H17 V18 A2 2 0 0 1 15 20 H5 A2 2 0 0 1 5 16 H15 V18 M17 8 V6" ' + ST + '/><path d="M10 9 H14 M10 12.5 H14" ' + ST + '/>');
+  A.addIcon('cup', '<path d="M7 4 H17 V8.5 A5 5 0 0 1 7 8.5 Z" ' + ST + '/><path d="M7 5.5 H4.5 A2.6 2.6 0 0 0 7.4 10.4 M17 5.5 H19.5 A2.6 2.6 0 0 1 16.6 10.4 M12 13.5 V17 M8 20 H16 M9.5 17 H14.5" ' + ST + '/>');
+
+  /* 2.3 E54: one landmark icon per chapter family (map regions, trophy cups, chapter cards). */
+  A.addIcon('button', '<path d="M3.5 15 V17 A8.5 3 0 0 0 20.5 17 V15" ' + ST + '/><ellipse cx="12" cy="15" rx="8.5" ry="3" ' + ST + '/><path d="M6.5 14 V10.5 A5.5 3.5 0 0 1 17.5 10.5 V14" ' + ST + '/>');
+  A.addIcon('stapler', '<path d="M3 16 H21 V19.5 H3 Z" ' + ST + '/><path d="M4 13.5 C7 9.5 14 8 20.5 8.8 V12.2 L5 13.8" ' + ST + '/><circle cx="5" cy="14.6" r="1.3" fill="currentColor"/>');
+  A.addIcon('sock', '<path d="M8 3 H14 V11.5 L18.6 14 A2.8 2.8 0 0 1 16.4 19.2 L10 18.2 A3.4 3.4 0 0 1 7.6 14.8 Z" ' + ST + '/><path d="M8 6.5 H14" ' + ST + '/>');
+  A.addIcon('palm', '<path d="M12.5 20.5 C12.6 16 11.6 12.4 12 9 M7 20.5 H18" ' + ST + '/><path d="M12 9 C9.6 5.6 5.6 5.8 3.2 8.2 M12 9 C14.4 5.6 18.4 5.8 20.8 8.2 M12 9 C9.2 8.2 6.6 10 6 13 M12 9 C14.8 8.2 17.4 10 18 13 M12 9 C11.2 6.2 12 4 13.6 3" ' + ST + '/>');
+  A.addIcon('flask', '<path d="M9 3 H15 M10 3 V9.2 L4.8 18.2 A1.9 1.9 0 0 0 6.5 21 H17.5 A1.9 1.9 0 0 0 19.2 18.2 L14 9.2 V3" ' + ST + '/><path d="M7.4 15 H16.6" ' + ST + '/>');
+  A.addIcon('rocket', '<path d="M12 2.6 C15.6 5.2 16.6 10.2 14.8 16 H9.2 C7.4 10.2 8.4 5.2 12 2.6 Z M9.4 12.4 L6.2 16.6 L9.2 16 M14.6 12.4 L17.8 16.6 L14.8 16 M10.8 19 L12 21.6 L13.2 19" ' + ST + '/><circle cx="12" cy="9" r="1.8" fill="currentColor"/>');
+  A.addIcon('curtain', '<path d="M3 3.8 H21 M4.5 3.8 V19.5 C6.8 20.2 8.6 18.8 9.6 16.6 C8.6 12.4 8.6 8 10 3.8 M19.5 3.8 V19.5 C17.2 20.2 15.4 18.8 14.4 16.6 C15.4 12.4 15.4 8 14 3.8" ' + ST + '/>');
+
+  /** Landmark icon for a chapter (0-based index or chapter id): 0–7 core, 8–12 office, 13–17 home,
+   * 18–22 outdoors, 23–25 science, 26–27 space, 28–32 show, 33 final. */
+  A.chapterIcon = function (c) {
+    var k = typeof c === 'number' ? c : OBEY.CHAPTERS.map(function (x) { return x.id; }).indexOf(c);
+    if (k < 0) return 'button';
+    if (k <= 7) return 'button';
+    if (k <= 12) return 'stapler';
+    if (k <= 17) return 'sock';
+    if (k <= 22) return 'palm';
+    if (k <= 25) return 'flask';
+    if (k <= 27) return 'rocket';
+    if (k <= 32) return 'curtain';
+    return 'gear';
+  };
 })(typeof window !== 'undefined' ? window : globalThis);
