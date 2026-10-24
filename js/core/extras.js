@@ -413,7 +413,10 @@
     splash: 'sploosh', laugh: 'Bossworth laughs', success: 'victory jingle', secret: 'sparkly chime', unlock: 'unlock jingle',
     achievement: 'achievement fanfare', trophy: 'trophy fanfare', stamp: 'stamp thud', ending: 'ending fanfare', boom: 'huge explosion',
     hold: 'rising hum', drop: 'soft thump', pick: 'pick-up blip', glitch: 'digital glitch', phone: 'phone ringing', ruin: 'everything falls apart',
-    gameover: 'game-over sting', chapter: 'chapter fanfare', warmer: 'twinkle'
+    gameover: 'game-over sting', chapter: 'chapter fanfare', warmer: 'twinkle',
+    // 2.3 (art review E78, E80, E84, E85)
+    charged: 'charged ding', star1: 'star chime', star2: 'star chime', star3: 'star chime', undo: 'U.N.D.O. beeps',
+    toggle: 'switch click', wear: 'wardrobe swish', paint: 'paint swish', locked: 'locked thunk', boing: 'boing'
   };
 
   /* -------------------------------------------- 2.1 achievements and trophy */

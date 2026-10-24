@@ -44,7 +44,7 @@
     if (ch && ch.levels[0] === n && counters().cards.indexOf(ch.id) < 0) {
       counters().cards.push(ch.id);
       App.persist();
-      App.chapterCard('Chapter ' + (OBEY.CHAPTERS.indexOf(ch) + 1), ch.name);
+      App.chapterCard('Chapter ' + (OBEY.CHAPTERS.indexOf(ch) + 1), ch.name, OBEY.CHAPTERS.indexOf(ch));
     }
     if (App.dare && App.dare.n === n) App.setAside('Daily Dare: finish at par (' + rt.def.par + ' actions) with no hints and no traps.', { kind: 'dare' });
     else {
@@ -100,10 +100,33 @@
     }, 9000));
   };
 
-  App.chapterCard = function (kicker, title) {
+  /* 2.3 E54/E66: each pack family has a landmark icon (drawn by art-extra.js). Chapter indexes are 0-based. */
+  App.landmarkIcon = function (chIndex) {
+    if (A.chapterIcon) { var k = A.chapterIcon(chIndex); if (k) return k; }
+    if (chIndex < 0) return null;
+    if (chIndex <= 7) return 'button';
+    if (chIndex <= 12) return 'stapler';
+    if (chIndex <= 17) return 'sock';
+    if (chIndex <= 22) return 'palm';
+    if (chIndex === 26 || chIndex === 27) return 'rocket';
+    if (chIndex <= 27) return 'flask';
+    if (chIndex <= 32) return 'curtain';
+    return 'gear';
+  };
+  /** The icon's SVG, or '' when that icon has not been drawn (an empty <svg> is not shown). */
+  App.landmarkSvg = function (chIndex, cls) {
+    var k = App.landmarkIcon(chIndex);
+    if (!k) return '';
+    var svg = A.icon(k, cls);
+    return /<svg[^>]*><\/svg>$/.test(svg) ? '' : svg;
+  };
+
+  App.chapterCard = function (kicker, title, chIndex) {
     var fx = doc.getElementById('fx-layer');
-    OBEY.audio.play('chapter');
-    fx.innerHTML = '<div class="chapter-card"><span class="cc-kicker">' + E(kicker) + '</span><span class="cc-title">' + E(title) + '</span></div>';
+    App.playReward('chapter');
+    var icon = typeof chIndex === 'number' ? App.landmarkSvg(chIndex, 'cc-icon') : '';
+    fx.innerHTML = '<div class="chapter-card' + (icon ? ' has-icon' : '') + '">' + icon +
+      '<span class="cc-kicker cc-stamp">' + E(kicker) + '</span><span class="cc-title">' + E(title) + '</span></div>';
     clearTimeout(App.fxTimer);
     App.fxTimer = setTimeout(function () { fx.innerHTML = ''; }, 1900);
   };
@@ -121,7 +144,6 @@
       c.undoMet = true;
       if (ch && X.UNDO_CHATS[ch.id] && c.chats.indexOf(ch.id) < 0) c.chats.push(ch.id);
       App.persist();
-      OBEY.audio.play('glitch');
     }
     msgs.forEach(function (m, i) {
       App.visit.timers.push(setTimeout(function () { App.undoSay(m.who, m.text, m.leak); }, 400 + i * 900));
@@ -134,6 +156,10 @@
   App.undoSay = function (who, text, leak) {
     var log = doc.querySelector('#undo-chat .undo-log');
     if (!log) return;
+    // 2.3 E84: U.N.D.O. bleeps on each of its messages; a leaked chat glitches once as it starts.
+    var last = log.lastElementChild;
+    if (!leak) OBEY.audio.play('undo');
+    else if (!last || !last.classList.contains('leak')) OBEY.audio.play('glitch');
     var li = doc.createElement('li');
     li.className = 'undo-msg' + (leak ? ' leak' : '') + (who === 'U.N.D.O.' ? ' from-undo' : '');
     li.innerHTML = '<b>' + E(who) + ':</b> ' + E(text);
@@ -149,7 +175,6 @@
     var tip = X.undoTip(App.save, App.levelNum);
     if (!tip) return;
     App.visit.tipShown = true;
-    OBEY.audio.play('glitch');
     App.undoSay('U.N.D.O.', 'Psst. ' + tip);
   };
 
@@ -272,7 +297,7 @@
     if (ch && ch.levels.every(function (n) { return P.isCompleted(s, n); }) && c.roasted.indexOf(ch.id) < 0) {
       c.roasted.push(ch.id);
       r.roast = X.chapterRoast(s, ch.id);
-      setTimeout(function () { OBEY.audio.play('chapter'); }, 700);
+      setTimeout(function () { App.playReward('chapter'); }, 700);
     }
     return ev.concat(P.evaluate(s));
   };
@@ -398,7 +423,8 @@
     if (!st) return;
     var want = st.music && st.sound && App.screen === 'level' && !doc.hidden && App.levelNum;
     if (want) {
-      var ch = OBEY.isBonus(App.levelNum) ? 8 : Math.max(0, OBEY.CHAPTERS.indexOf(OBEY.chapterOf(App.levelNum)));
+      // 2.3 E76: the bonus pack has its own "studio" loop (-1) instead of borrowing chapter 9's.
+      var ch = OBEY.isBonus(App.levelNum) ? -1 : Math.max(0, OBEY.CHAPTERS.indexOf(OBEY.chapterOf(App.levelNum)));
       if (OBEY.audio.musicOn() && OBEY.audio.musicChapter() !== ch) OBEY.audio.stopMusic();
       if (!OBEY.audio.musicOn()) OBEY.audio.startMusic(ch);
     } else OBEY.audio.stopMusic();
@@ -414,8 +440,9 @@
     var el = doc.getElementById('captions');
     if (!el) return;
     // Keep the last two captions, so a sound that follows another doesn't hide it.
-    var now = Date.now(), recent = (App.capRecent || []).filter(function (c) { return now - c.at < 1800; });
-    recent.push({ text: '[' + X.CAPTIONS[name] + ']', at: now });
+    var now = Date.now(), text = '[' + X.CAPTIONS[name] + ']';
+    var recent = (App.capRecent || []).filter(function (c) { return now - c.at < 1800 && c.text !== text; });
+    recent.push({ text: text, at: now }); // a repeat (e.g. three star chimes) refreshes instead of stacking
     App.capRecent = recent.slice(-2);
     el.textContent = App.capRecent.map(function (c) { return c.text; }).join(' ');
     el.hidden = false;
@@ -575,6 +602,7 @@
   ACT['toggle-setting'] = function (b) {
     var k = b.getAttribute('data-key');
     App.save.settings[k] = !App.save.settings[k];
+    OBEY.audio.play('toggle', { off: !App.save.settings[k] }); // 2.3 E85
     App.persist(); App.applySettings(); App.refresh();
     var again = doc.querySelector('[data-act="toggle-setting"][data-key="' + k + '"]');
     if (again) again.focus();
