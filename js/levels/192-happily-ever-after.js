@@ -39,7 +39,7 @@
           O('note', 4, 4, 60, 14, { kind: 'static', text: 'THE END (of the kingdom)', label: 'A note: the end, of the kingdom', cls: 'sign-card' }),
           O('crown', 10, 66, 22, 12, { kind: 'static', art: 'h-crown', artOpts: { paper: true }, label: 'A paper crown on the floor' }),
           O('table', 34, 66, 32, 12, { kind: 'static', art: 'table', label: '' }),
-          O('candle', 44, 40, 12, 26, { kind: 'static', art: 'h-candle', artOpts: { lit: false }, label: 'The candle, blown out' }),
+          O('candle', 44, 44, 12, 26, { kind: 'static', art: 'h-candle', artOpts: { lit: false }, label: 'The candle, blown out' }),
           O('exit', 74, 36, 24, 40, { art: 'door', artOpts: { sign: 'EXIT' }, label: 'An ordinary door marked EXIT' })
         ];
       }
@@ -49,7 +49,7 @@
         O('b2', 84, 4, 12, 24, { kind: 'static', art: 'h-banner', artOpts: { color: '#e5243b' }, label: '' }),
         O('count', 66, 30, 32, 10, { kind: 'static', text: 'Turrets: ' + (4 + s.extra), label: 'The kingdom has ' + (4 + s.extra) + ' turrets', cls: 'tag-card' }),
         O('table', 34, 66, 32, 12, { kind: 'static', art: 'table', label: '' }),
-        O('candle', 44, 40, 12, 26, { art: 'h-candle', artOpts: { lit: true }, hold: true, cls: s.blowing ? 'charging' : '', label: 'The kingdom candle, burning (press and hold to blow on it)' }),
+        O('candle', 44, 44, 12, 26, { art: 'h-candle', artOpts: { lit: true }, hold: true, cls: s.blowing ? 'charging' : '', label: 'The kingdom candle, burning (press and hold to blow on it)' }),
         O('castle', 74, 42, 24, 34, { art: 'door', artOpts: { sign: 'CASTLE' }, label: 'A door marked CASTLE' }),
         O('more', 4, 84, 44, 12, { text: 'Light MORE candles', label: 'Light more candles', cls: 'btn-card accent' })
       ];

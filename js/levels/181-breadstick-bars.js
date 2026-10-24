@@ -44,7 +44,7 @@
         O('jar3', 84, 2, 10, 10, { kind: 'static', art: 'h-jar', artOpts: { color: '#5fd98a' }, label: 'Jar of pickles' })
       ];
       BARS.forEach(function (t, i) {
-        out.push(O('bar' + (i + 1), X0 + i * GAPX, 20, 9, 56, { art: 'h-bar', artOpts: { type: t, eaten: s.eaten[i] }, disabled: s.eaten[i], label: 'Bar ' + (i + 1) + ': ' + (s.eaten[i] ? 'eaten (just crumbs)' : (t === 'bread' ? 'knobbly golden bar with seeds and crumbs underneath' : 'smooth grey bar with rivets')) }));
+        out.push(O('bar' + (i + 1), X0 + i * GAPX, 44, 9, 32, { art: 'h-bar', artOpts: { type: t, eaten: s.eaten[i] }, disabled: s.eaten[i], label: 'Bar ' + (i + 1) + ': ' + (s.eaten[i] ? 'eaten (just crumbs)' : (t === 'bread' ? 'knobbly golden bar with seeds and crumbs underneath' : 'smooth grey bar with rivets')) }));
         out.push(O('n' + (i + 1), X0 + i * GAPX, 78, 9, 8, { kind: 'static', text: String(i + 1), label: '', cls: 'tag-card' }));
       });
       out.push(O('squeeze', X0 + (g < 0 ? 0 : g) * GAPX - 1, 88, 22, 9, { text: 'Squeeze through', label: 'Squeeze through the gap', cls: 'btn-card big', hidden: g < 0 }));

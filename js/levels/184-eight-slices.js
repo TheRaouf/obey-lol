@@ -36,7 +36,7 @@
     view: function (s) {
       var used = s.v + (s.h ? 1 : 0);
       return [
-        O('sign', 4, 4, 54, 13, { kind: 'static', text: '8 GUESTS. KNIFE: 3 CUTS LEFT', label: 'Sign: 8 guests. The blunt knife has 3 cuts left.', cls: 'sign-card' }),
+        O('sign', 4, 4, 54, 16, { kind: 'static', text: '8 GUESTS. KNIFE: 3 CUTS LEFT', label: 'Sign: 8 guests. The blunt knife has 3 cuts left.', cls: 'sign-card' }),
         O('count', 64, 4, 32, 13, { kind: 'static', text: 'Cuts: ' + used + ' of 3\nSlices: ' + pieces(s), label: 'Cuts used: ' + used + ' of 3. Slices so far: ' + pieces(s), cls: 'tag-card' }),
         O('above', 4, 24, 24, 10, { kind: 'static', text: 'From above', label: '', cls: 'tag-card' }),
         O('side', 4, 56, 24, 10, { kind: 'static', text: 'From the side', label: '', cls: 'tag-card' }),

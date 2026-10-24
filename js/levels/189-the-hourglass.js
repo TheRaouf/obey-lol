@@ -48,7 +48,7 @@
         O('hammer', 64, 6, 16, 16, { art: 'h-hammer', label: 'The wizard\'s hammer on a hook' }),
         O('owl', 84, 4, 12, 16, { kind: 'static', art: 'h-owl', artOpts: { asleep: true }, label: 'A sleeping owl on a perch' }),
         O('table', 18, 66, 42, 12, { kind: 'static', art: 'table', label: '' }),
-        O('glass', 30, 40, 18, 26, { art: 'h-hourglass', artOpts: { top: s.top / TOTAL, bottom: s.bottom / TOTAL, broken: s.broken }, disabled: s.broken, label: s.broken ? 'The hourglass, smashed' : 'Hourglass: ' + s.top + ' seconds of sand on top, ' + s.bottom + ' at the bottom (tap to turn it over)' }),
+        O('glass', 30, 44, 18, 26, { art: 'h-hourglass', artOpts: { top: s.top / TOTAL, bottom: s.bottom / TOTAL, broken: s.broken }, disabled: s.broken, label: s.broken ? 'The hourglass, smashed' : 'Hourglass: ' + s.top + ' seconds of sand on top, ' + s.bottom + ' at the bottom (tap to turn it over)' }),
         O('door', 72, 36, 24, 40, { art: 'door', artOpts: { sign: open ? 'OPEN' : 'SEALED', open: open }, label: open ? 'The wizard\'s door, unsealed' : 'The wizard\'s door, sealed' })
       ];
     },

@@ -157,8 +157,9 @@ if (shots || fit) {
             for (const o of document.querySelectorAll('#stage .obj:not([hidden])')) {
               const t = o.querySelector('.obj-text');
               if (t && !o.classList.contains('has-art')) {
-                const r = o.getBoundingClientRect(), q = t.getBoundingClientRect();
-                const over = Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top);
+                const r = o.getBoundingClientRect(), b = t.getBoundingClientRect();
+                const rg = document.createRange(); rg.selectNodeContents(t); const q = rg.getBoundingClientRect(); // the glyphs, not the block
+                const over = Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top, b.bottom - r.bottom, r.top - b.top);
                 if (over > 1.5) out.push(`text spills ${Math.round(over)}px out of "${o.dataset.obj}"`);
               }
             }

@@ -33,7 +33,7 @@
       return [
         O('lane', 4, 14, 40, 60, { kind: 'static', art: 'j-alley', artOpts: { shot: s.shot, down: s.shot === 'edge' ? 'edge' : null, ball: s.shot }, label: 'Bowling lane with ten pins and a gutter on each side' }),
         O('card', 48, 3, 48, 42, { kind: 'static', text: 'OFFICIAL SCORECARD\n(Mini Golf)\nLowest score wins!\nBossworth: 1\nYou: ?', label: 'Official scorecard, mini golf. Lowest score wins. Bossworth: 1. You: not yet.', cls: 'book-card' }),
-        O('rule', 48, 48, 48, 18, { kind: 'static', text: 'House rule: all scores go on the official card.', label: 'House rule: all scores go on the official card.', cls: 'sign-card' }),
+        O('rule', 47, 47, 49, 22, { kind: 'static', text: 'House rule: all scores go on the official card.', label: 'House rule: all scores go on the official card.', cls: 'sign-card' }),
         O('mid', 4, 80, 30, 15, { text: 'Aim: middle (STRIKE!)', label: 'Aim at the middle for a strike', cls: 'btn-card accent' }),
         O('edge', 35, 80, 30, 15, { text: 'Aim: edge pin', label: 'Aim at the edge pin', cls: 'btn-card' }),
         O('gutter', 66, 80, 30, 15, { text: 'Aim: the gutter', label: 'Aim straight for the gutter', cls: 'btn-card' })

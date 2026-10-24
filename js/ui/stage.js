@@ -71,7 +71,10 @@
       node.style.fontSize = '';
       node.style.lineHeight = '';
       if (!node.offsetWidth) return;
-      var over = function () { var r = node.getBoundingClientRect(), q = t.getBoundingClientRect(); return Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top); };
+      // Measure the glyphs themselves (a Range), not the text block: a single word wider than the card
+      // spills sideways while the block stays card-sized.
+      var range = root.document.createRange();
+      var over = function () { var r = node.getBoundingClientRect(); range.selectNodeContents(t); var q = range.getBoundingClientRect(); var b = t.getBoundingClientRect(); return Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top, b.bottom - r.bottom, r.top - b.top); };
       var fs = parseFloat(root.getComputedStyle(node).fontSize);
       for (var i = 0; i < 40 && fs > floor; i++) {
         if (over() <= 1) break;

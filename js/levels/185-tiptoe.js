@@ -33,8 +33,8 @@
 
     view: function (s) {
       return [
-        O('sign', 4, 4, 46, 13, { kind: 'static', text: 'SHH! DRAGON NAPPING', label: 'Sign: shh, dragon napping', cls: 'sign-card' }),
-        O('clomp', 4, 19, 42, 10, { kind: 'static', text: 'Wakes at any CLOMP', label: 'It wakes at any clomp', cls: 'tag-card' }),
+        O('sign', 4, 3, 48, 15, { kind: 'static', text: 'SHH! DRAGON NAPPING', label: 'Sign: shh, dragon napping', cls: 'sign-card' }),
+        O('clomp', 4, 20, 42, 10, { kind: 'static', text: 'Wakes at any CLOMP', label: 'It wakes at any clomp', cls: 'tag-card' }),
         O('horn', 66, 6, 26, 15, { art: 'h-horn', label: 'Wake-up horn on a hook' }),
         O('steps', 66, 24, 30, 10, { kind: 'static', text: 'Steps: ' + s.pos + ' of 3', label: 'Quiet steps taken: ' + s.pos + ' of 3', cls: 'tag-card' }),
         O('dragon', 22, 32, 48, 44, { kind: 'static', art: 'h-dragon', artOpts: { mood: 'asleep' }, label: 'A big dragon, fast asleep across the room' }),

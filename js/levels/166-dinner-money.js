@@ -39,8 +39,8 @@
     view: function (s) {
       var t = total(s);
       var out = [
-        O('menu', 4, 3, 44, 15, { kind: 'static', text: 'Today: pasta + pudding\n85p', label: 'Menu board: pasta and pudding, 85p', cls: 'display-card' }),
-        O('sign', 52, 3, 44, 15, { kind: 'static', text: 'EXACT MONEY ONLY.\nNo change given!', label: 'Sign on the till: exact money only, no change given', cls: 'sign-card' }),
+        O('menu', 4, 2, 44, 19, { kind: 'static', text: 'Today: pasta + pudding\n85p', label: 'Menu board: pasta and pudding, 85p', cls: 'display-card' }),
+        O('sign', 52, 2, 44, 22, { kind: 'static', text: 'EXACT MONEY ONLY.\nNo change given!', label: 'Sign on the till: exact money only, no change given', cls: 'sign-card' }),
         O('paid', 4, 22, 44, 9, { kind: 'static', text: 'In the dish: ' + money(t), label: 'In the dish: ' + money(t), cls: 'tag-card' }),
         O('kid', 6, 48, 18, 30, { kind: 'static', art: 'g-kid', artOpts: { color: '#3ec1ff', hair: '#9a6b3f' }, label: '' }),
         O('counter', 28, 62, 70, 14, { kind: 'static', art: 'table' }),

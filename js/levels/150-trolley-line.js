@@ -33,7 +33,7 @@
     view: function (s) {
       var left = BAGS - s.carried;
       return [
-        O('sign', 18, 20, 40, 15, { kind: 'static', text: 'Trolley wheels lock past the yellow line', label: 'Sign on the lamp post: trolley wheels lock past the yellow line', cls: 'sign-card' }),
+        O('sign', 16, 17, 44, 22, { kind: 'static', text: 'Trolley wheels lock past the yellow line', label: 'Sign on the lamp post: trolley wheels lock past the yellow line', cls: 'sign-card' }),
         O('post', 58, 22, 14, 52.5, { kind: 'static', art: 'f-lamppost', label: '' }),
         O('line', 60, 74, 9, 13, { kind: 'static', art: 'f-floorline', label: 'Yellow line painted across the car park', cls: 'backdrop' }),
         O('trolley', 6, 63, 26, 21, { kind: 'static', art: 'f-trolley', artOpts: { bags: left > 0 }, label: 'Trolley with ' + left + ' bags of shopping, on your side of the yellow line' }),

@@ -34,7 +34,7 @@
       var out = [
         O('sea', 0, 0, 100, 100, { kind: 'static', art: 'i-sea', cls: 'backdrop' }),
         O('log', 4, 3, 46, 32, { kind: 'static', text: 'OCTO\'S TIDY LOG\nstarfish: 1 ➜ 4\nboot: 2 ➜ 3\ncrab: 4 ➜ 1', label: 'Octo\'s tidy log: starfish put in chest 1 was moved to 4. Boot put in 2 was moved to 3. Crab put in 4 was moved to 1.', cls: 'ticket-card' }),
-        O('gate', 56, 3, 40, 12, { kind: 'static', text: s.keyIn === 2 ? 'GATE: OPEN' : 'Chest 2 opens the gate', label: s.keyIn === 2 ? 'The gate is open' : 'Sign: chest 2 opens the gate', cls: 'sign-card' }),
+        O('gate', 54, 3, 42, 15, { kind: 'static', text: s.keyIn === 2 ? 'GATE: OPEN' : 'Chest 2 opens the gate', label: s.keyIn === 2 ? 'The gate is open' : 'Sign: chest 2 opens the gate', cls: 'sign-card' }),
         O('octo', 52, 17, 44, 35, { kind: 'static', art: 'i-octopus', label: 'Octo the octopus, watching every chest' }),
         O('key', 6, 40, 18, 11, { art: 'key', label: 'The gate key (drag it into a chest)', drag: true, hidden: s.keyIn === 2 })
       ];

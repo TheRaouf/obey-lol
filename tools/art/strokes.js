@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Art QA: rendered outline weight of every stage art object (bible §3.3, §17; review 2.3 E97).
  *
- *   node tools/art/strokes.js [--levels 1-136,1001-1004] [--viewport 1180x900] [--json out.json] [--strict]
+ *   node tools/art/strokes.js [--levels 1-N,1001-1004 (default: every level)] [--viewport 1180x900] [--json out.json] [--strict]
  *
  * For each non-stretch `svg.art` on the stage it takes the house outline (the 4-unit ink stroke; the
  * 3-unit one, or else the thickest ink stroke, when there is none), reads its *computed* stroke-width

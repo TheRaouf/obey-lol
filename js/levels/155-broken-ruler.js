@@ -34,8 +34,8 @@
       var out = [
         O('q', 4, 3, 92, 10, { kind: 'static', text: 'Q: How long is the pencil, in cm?', label: 'Question: how long is the pencil, in centimetres?', cls: 'plaque-card' }),
         O('tag', 4, 16, 52, 8, { kind: 'static', text: 'The class ruler. It has seen things.', label: '', cls: 'tag-card' }),
-        O('measure', 4, 28, 92, 30, { kind: 'static', art: 'g-measure', label: 'A ruler snapped off at the left: its first mark is 2, then 3, 4 and so on up to 12. The pencil lies from the 2 mark to the 9 mark.' }),
-        O('desk', 2, 58, 96, 19, { kind: 'static', art: 'table' }),
+        O('measure', 4, 33, 92, 30, { kind: 'static', art: 'g-measure', label: 'A ruler snapped off at the left: its first mark is 2, then 3, 4 and so on up to 12. The pencil lies from the 2 mark to the 9 mark.' }),
+        O('desk', 7, 58, 86, 19, { kind: 'static', art: 'table' }),
         O('ask', 4, 78, 44, 7, { kind: 'static', text: 'Your answer:', label: '', cls: 'tag-card' })
       ];
       ANS.forEach(function (n, i) {

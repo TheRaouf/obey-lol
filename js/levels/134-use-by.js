@@ -32,7 +32,7 @@
 
     view: function (s) {
       var out = [
-        O('today', 4, 3, 44, 10, { kind: 'static', text: 'Today: Monday 14th', label: 'Sign: today is Monday the 14th', cls: 'sign-card' }),
+        O('today', 4, 2, 44, 14, { kind: 'static', text: 'Today: Monday 14th', label: 'Sign: today is Monday the 14th', cls: 'sign-card' }),
         O('list', 52, 3, 44, 10, { kind: 'static', text: 'List: milk to last till Sun 20th', label: 'Shopping list: milk that lasts until Sunday the 20th', cls: 'tag-card' }),
         O('fridge', 6, 16, 88, 59, { kind: 'static', art: 'f-fridge', label: 'Milk fridge. A raised back row stands behind the front row of cartons.' })
       ];

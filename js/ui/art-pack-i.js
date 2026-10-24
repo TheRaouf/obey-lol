@@ -100,7 +100,7 @@
       ? '<path d="M60 20 L96 110 L24 110Z" fill="#2bc46f" ' + SW + '/>'
       : '<rect x="26" y="24" width="68" height="86" rx="4" fill="#e5243b" ' + SW + '/><path d="M26 24 L94 24" ' + SW + '/>';
     return svg('0 0 120 180', top + '<path d="M14 110 L106 110 L96 146 L24 146Z" fill="#fffdf6" ' + SW + '/>' +
-      '<circle cx="60" cy="80" r="22" fill="#fff" ' + SW3 + '/>' + txt(60, 90, 28, o.n || '') +
+      '<circle cx="60" cy="78" r="26" fill="#fff" ' + SW3 + '/>' + txt(60, 91, 36, o.n || '') +
       '<path d="M0 150 Q15 140 30 150 T60 150 T90 150 T120 150" fill="none" stroke="#fff" stroke-width="5" opacity=".7"/>');
   });
 

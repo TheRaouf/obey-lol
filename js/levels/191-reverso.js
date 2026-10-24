@@ -46,7 +46,7 @@
         O('spell', 4, 25, 60, 13, { kind: 'static', text: 'REVERSO: undoes the LAST thing that happened. One use.', label: 'Spellbook page: Reverso undoes the last thing that happened. One use.', cls: 'tag-card' }),
         O('owl', 70, 4, 18, 22, { art: 'h-owl', label: 'The wizard\'s owl (pat it)' }),
         O('table', 4, 66, 36, 12, { kind: 'static', art: 'table', label: '' }),
-        O('book', 8, 48, 28, 19, { kind: 'static', art: 'h-spellbook', artOpts: { glow: !s.used }, label: 'Open spellbook at the REVERSO page' }),
+        O('book', 8, 51, 28, 19, { kind: 'static', art: 'h-spellbook', artOpts: { glow: !s.used }, label: 'Open spellbook at the REVERSO page' }),
         O('cauldron', 44, 50, 26, 26, { art: 'h-cauldron', artOpts: { color: '#9b5de5' }, label: 'Cauldron (stir it)' }),
         O('door', 76, 36, 22, 40, { art: 'door', artOpts: { sign: open ? 'OPEN' : 'LOCKED', open: open, keyhole: !open }, label: open ? 'Study door, unlocked' : 'Study door, locked' }),
         O('cast', 6, 84, 40, 12, { text: s.used ? 'Spell used' : 'Cast REVERSO', label: s.used ? 'Reverso has been used' : 'Cast Reverso', cls: 'btn-card big' + (s.used ? ' ghost' : '') })

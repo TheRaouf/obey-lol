@@ -35,7 +35,7 @@
 
     view: function (s) {
       var out = [
-        O('rule', 4, 3, 44, 11, { kind: 'static', text: 'Smallest number first', label: 'Library sign: smallest number first', cls: 'sign-card' }),
+        O('rule', 4, 3, 44, 14, { kind: 'static', text: 'Smallest number first', label: 'Library sign: smallest number first', cls: 'sign-card' }),
         O('tip', 52, 3, 44, 11, { kind: 'static', text: 'Tip: 520.3 is the same as 520.30', label: 'Tip card: 520.3 is the same as 520.30', cls: 'tag-card' }),
         O('shelf', 4, 34, 92, 18, { kind: 'static', art: 'shelf' }),
         O('trolleyTag', 30, 84, 40, 6, { kind: 'static', text: 'Returns trolley', label: '', cls: 'tag-card' }),

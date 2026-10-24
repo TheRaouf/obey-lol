@@ -33,7 +33,7 @@
     view: function (s) {
       var f = s.fallen;
       return [
-        O('sign', 4, 3, 64, 15, { kind: 'static', text: 'DOMINO RALLY: ring the bell! Each domino knocks over the next.', label: 'Domino rally: ring the bell. Each domino knocks over the next one.', cls: 'sign-card' }),
+        O('sign', 4, 3, 70, 22, { kind: 'static', text: 'DOMINO RALLY: ring the bell! Each domino knocks over the next.', label: 'Domino rally: ring the bell. Each domino knocks over the next one.', cls: 'sign-card' }),
         O('bell', 88, 64, 10, 10, { kind: 'static', art: 'bell', label: 'Bell at the end of the line' }),
         O('d1', 6, 58, 10, 16, { art: 'j-domino', artOpts: { top: 1, bottom: 1, fallen: f }, label: 'Smallest domino (push it)' }),
         O('d2', 17, 56, 9, 18, { kind: 'static', art: 'j-domino', artOpts: { top: 1, bottom: 2, fallen: f }, label: 'Domino 2' }),

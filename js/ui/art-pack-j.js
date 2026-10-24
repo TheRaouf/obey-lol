@@ -80,9 +80,11 @@
   add('j-tile', function (o) {
     var s = '<rect x="4" y="4" width="92" height="92" rx="8" fill="' + (o.finish ? '#fffdf6' : '#f3d998') + '" ' + SW3 + '/>';
     if (o.finish) for (var r = 0; r < 4; r++) for (var q = 0; q < 4; q++) if ((r + q) % 2 === 0) s += '<rect x="' + (10 + q * 20) + '" y="' + (10 + r * 20) + '" width="20" height="20" fill="#2d2850" opacity=".85"/>';
-    if (o.puddle) s += '<path d="M18 60 Q14 40 36 40 Q46 26 66 34 Q88 34 84 56 Q90 76 66 80 Q44 88 30 78 Q12 76 18 60Z" fill="#7fb2ff" ' + SW3 + '/><path d="M34 56 Q44 50 56 54" ' + HI + ' stroke-width="5"/>';
-    if (o.start) s += txt(50, 60, 24, 'GO');
-    else s += '<circle cx="' + (o.puddle ? 26 : 50) + '" cy="' + (o.puddle ? 26 : 50) + '" r="' + (o.puddle ? 17 : 26) + '" fill="#fffdf6" ' + SW3 + '/>' + txt(o.puddle ? 26 : 50, o.puddle ? 35 : 62, o.puddle ? 24 : 34, o.n);
+    // 2.4 review: the puddle fills the tile and the numeral disc sits in it at the full 34-unit size (it was a
+    // 24-unit corner numeral, 8.5 px on a phone); GO is 34 units too.
+    if (o.puddle) s += '<path d="M10 54 Q6 22 32 16 Q50 6 70 14 Q96 18 91 50 Q96 84 68 89 Q42 97 22 87 Q4 80 10 54Z" fill="#7fb2ff" ' + SW3 + '/><path d="M18 40 Q22 26 36 22" ' + HI + ' stroke-width="5"/>';
+    if (o.start) s += txt(50, 62, 34, 'GO');
+    else s += '<circle cx="50" cy="50" r="26" fill="#fffdf6" ' + SW3 + '/>' + txt(50, 62, 34, o.n);
     return svg('0 0 100 100', s);
   });
 

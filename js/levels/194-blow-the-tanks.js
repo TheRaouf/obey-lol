@@ -54,10 +54,10 @@
         O('legend', 62, 14, 34, 20, { kind: 'static', text: 'AIR in tanks: rise\nWATER in tanks: sink', label: 'Control legend: air in the tanks makes you rise, water makes you sink', cls: 'honest-card' }),
         O('depth', 62, 37, 34, 11, { kind: 'static', text: 'Depth: ' + s.depth + ' m', label: 'Depth gauge: ' + s.depth + ' metres', cls: 'display-card' + (s.depth === 0 ? ' ready' : '') }),
         O('tanks', 62, 50, 34, 14, { kind: 'static', text: 'Tanks: ' + tanks, label: 'Tanks are ' + tanks, cls: 'panel-card' }),
-        O('flood', 4, 79, 21, 14, { text: 'FLOOD', label: 'Flood the tanks with water', cls: 'btn-card big accent' }),
-        O('blow', 27, 79, 21, 14, { text: 'BLOW', label: 'Blow air into the tanks', cls: 'btn-card big' }),
-        O('hatch', 50, 79, 21, 14, { text: 'Open hatch', label: 'Open the hatch', cls: 'btn-card big' }),
-        O('emergency', 75, 77, 21, 18, { text: 'EMERGENCY BLOW', label: 'Emergency blow (do not press)', cls: 'btn-card small accent' })
+        O('flood', 4, 79, 20, 14, { text: 'FLOOD', label: 'Flood the tanks with water', cls: 'btn-card big accent' }),
+        O('blow', 26, 79, 20, 14, { text: 'BLOW', label: 'Blow air into the tanks', cls: 'btn-card big' }),
+        O('hatch', 48, 79, 20, 14, { text: 'Open hatch', label: 'Open the hatch', cls: 'btn-card big' }),
+        O('emergency', 70, 77, 26, 18, { text: 'EMERGENCY BLOW', label: 'Emergency blow (do not press)', cls: 'btn-card accent' })
       ];
     },
 
