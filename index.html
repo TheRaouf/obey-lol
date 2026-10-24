@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" data-theme="classic">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>OBEY? LOL.</title>
+  <meta name="description" content="A funny, deceptive puzzle adventure where the narrator lies, begs, sulks and occasionally tells the truth. Obey, disobey, or find a third option.">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#ff4f6d">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to game</a>
+  <div id="app" class="app" data-screen="boot">
+    <noscript>
+      <div class="panel noscript">OBEY? LOL. needs JavaScript to run. It is a fully offline game — nothing is sent anywhere.</div>
+    </noscript>
+    <div class="boot" id="boot">Loading… (Bossworth is putting on his tie.)</div>
+
+    <section id="screen-menu" class="screen" hidden aria-labelledby="menu-title"></section>
+    <section id="screen-map" class="screen" hidden aria-labelledby="map-title"></section>
+    <section id="screen-level" class="screen" hidden aria-label="Level"></section>
+    <section id="screen-secrets" class="screen" hidden aria-labelledby="secrets-title"></section>
+    <section id="screen-costumes" class="screen" hidden aria-labelledby="costumes-title"></section>
+    <section id="screen-themes" class="screen" hidden aria-labelledby="themes-title"></section>
+    <section id="screen-achievements" class="screen" hidden aria-labelledby="achievements-title"></section>
+    <section id="screen-settings" class="screen" hidden aria-labelledby="settings-title"></section>
+    <section id="screen-credits" class="screen" hidden aria-labelledby="credits-title"></section>
+    <section id="screen-ending" class="screen" hidden aria-label="Ending"></section>
+  </div>
+
+  <div id="toasts" class="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+  <div id="modal-root"></div>
+
+  <!-- Core (DOM-free; also loaded by the Node unit tests in this exact order) -->
+  <script src="js/core/ns.js"></script>
+  <script src="js/core/data.js"></script>
+  <script src="js/core/save.js"></script>
+  <script src="js/core/progress.js"></script>
+  <script src="js/core/engine.js"></script>
+  <!-- Levels -->
+  <script src="js/levels/01-red-button.js"></script>
+  <script src="js/levels/02-wrong-door.js"></script>
+  <script src="js/levels/03-hands-off.js"></script>
+  <script src="js/levels/04-missing-button.js"></script>
+  <script src="js/levels/05-reverse-psychology.js"></script>
+  <script src="js/levels/06-waiting-room.js"></script>
+  <script src="js/levels/07-fake-tutorial.js"></script>
+  <script src="js/levels/08-object-permanence.js"></script>
+  <script src="js/levels/09-suspicious-gift.js"></script>
+  <script src="js/levels/10-rulebook.js"></script>
+  <script src="js/levels/11-silent-level.js"></script>
+  <script src="js/levels/12-double-bluff.js"></script>
+  <script src="js/levels/13-broken-room.js"></script>
+  <script src="js/levels/14-final-warning.js"></script>
+  <script src="js/levels/15-last-instruction.js"></script>
+  <script src="js/levels/16-final-decision.js"></script>
+  <!-- UI -->
+  <script src="js/ui/art.js"></script>
+  <script src="js/ui/audio.js"></script>
+  <script src="js/ui/stage.js"></script>
+  <script src="js/ui/screens.js"></script>
+  <script src="js/ui/endings.js"></script>
+  <script src="js/ui/app.js"></script>
+</body>
+</html>

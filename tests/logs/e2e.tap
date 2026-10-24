@@ -1,0 +1,262 @@
+TAP version 13
+# Subtest: first launch: tutorial, then a full 16-level campaign via the UI, ending in the Hero ending
+ok 1 - first launch: tutorial, then a full 16-level campaign via the UI, ending in the Hero ending
+  ---
+  duration_ms: 11367.943702
+  type: 'test'
+  ...
+# Subtest: map progression: locked levels cannot be opened; completing unlocks the next node immediately
+ok 2 - map progression: locked levels cannot be opened; completing unlocks the next node immediately
+  ---
+  duration_ms: 1751.644874
+  type: 'test'
+  ...
+# Subtest: replay: worse result keeps the best stars; better result improves them
+ok 3 - replay: worse result keeps the best stars; better result improves them
+  ---
+  duration_ms: 1607.039451
+  type: 'test'
+  ...
+# Subtest: alternative paths: every recorded choice can be made through the UI
+ok 4 - alternative paths: every recorded choice can be made through the UI
+  ---
+  duration_ms: 1666.636969
+  type: 'test'
+  ...
+# Subtest: Chaos ending via dragging the fuse; endings gallery replay
+ok 5 - Chaos ending via dragging the fuse; endings gallery replay
+  ---
+  duration_ms: 5903.3163
+  type: 'test'
+  ...
+# Subtest: Secret Master ending requires all 15 secrets and Level 16
+ok 6 - Secret Master ending requires all 15 secrets and Level 16
+  ---
+  duration_ms: 2357.868144
+  type: 'test'
+  ...
+# Subtest: all 15 secrets: discoverable via the UI, counted once, persisted after reload
+ok 7 - all 15 secrets: discoverable via the UI, counted once, persisted after reload
+  ---
+  duration_ms: 5973.804388
+  type: 'test'
+  ...
+# Subtest: field notes: undiscovered secrets show clues only for reached levels
+ok 8 - field notes: undiscovered secrets show clues only for reached levels
+  ---
+  duration_ms: 269.143586
+  type: 'test'
+  ...
+# Subtest: costumes: locked ones cannot be worn; all 8 selectable, visible and persistent
+ok 9 - costumes: locked ones cannot be worn; all 8 selectable, visible and persistent
+  ---
+  duration_ms: 1886.435951
+  type: 'test'
+  ...
+# Subtest: themes: unlock rules, selection changes real presentation, persistence
+ok 10 - themes: unlock rules, selection changes real presentation, persistence
+  ---
+  duration_ms: 1457.505871
+  type: 'test'
+  ...
+# Subtest: achievements screen: locked/unlocked states and progress match the save
+ok 11 - achievements screen: locked/unlocked states and progress match the save
+  ---
+  duration_ms: 1099.558167
+  type: 'test'
+  ...
+# Subtest: every main menu control works and returns to the menu
+ok 12 - every main menu control works and returns to the menu
+  ---
+  duration_ms: 3037.005785
+  type: 'test'
+  ...
+# Subtest: New Game: cancel keeps progress; confirm resets the campaign but keeps cosmetics
+ok 13 - New Game: cancel keeps progress; confirm resets the campaign but keeps cosmetics
+  ---
+  duration_ms: 546.861695
+  type: 'test'
+  ...
+# Subtest: Reset all progress requires confirmation
+ok 14 - Reset all progress requires confirmation
+  ---
+  duration_ms: 610.276706
+  type: 'test'
+  ...
+# Subtest: hints are graduated and do not change the level; restart gives a clean attempt
+ok 15 - hints are graduated and do not change the level; restart gives a clean attempt
+  ---
+  duration_ms: 568.28039
+  type: 'test'
+  ...
+# Subtest: timers stop when leaving a level (no completion in the background)
+ok 16 - timers stop when leaving a level (no completion in the background)
+  ---
+  duration_ms: 252.803486
+  type: 'test'
+  ...
+# Subtest: rapid repeated input completes once and rewards once
+ok 17 - rapid repeated input completes once and rewards once
+  ---
+  duration_ms: 265.104941
+  type: 'test'
+  ...
+# Subtest: keyboard only: tap, pick-and-place and hold all work
+ok 18 - keyboard only: tap, pick-and-place and hold all work
+  ---
+  duration_ms: 749.044293
+  type: 'test'
+  ...
+# Subtest: touch input: tap, tap-to-place and press-and-hold on a phone viewport
+ok 19 - touch input: tap, tap-to-place and press-and-hold on a phone viewport
+  ---
+  duration_ms: 864.176194
+  type: 'test'
+  ...
+# Subtest: progress, settings, cosmetics, achievements and endings survive reload
+ok 20 - progress, settings, cosmetics, achievements and endings survive reload
+  ---
+  duration_ms: 514.53219
+  type: 'test'
+  ...
+# Subtest: malformed save data does not crash; the game starts fresh and keeps a backup
+ok 21 - malformed save data does not crash; the game starts fresh and keeps a backup
+  ---
+  duration_ms: 307.567115
+  type: 'test'
+  ...
+# Subtest: obsolete v1 save is migrated
+ok 22 - obsolete v1 save is migrated
+  ---
+  duration_ms: 258.852049
+  type: 'test'
+  ...
+# Subtest: storage that throws: game still runs with an in-memory save and a warning
+ok 23 - storage that throws: game still runs with an in-memory save and a warning
+  ---
+  duration_ms: 533.267928
+  type: 'test'
+  ...
+# Subtest: tutorial: skippable, saved, replayable from settings
+ok 24 - tutorial: skippable, saved, replayable from settings
+  ---
+  duration_ms: 628.212663
+  type: 'test'
+  ...
+# Subtest: sound toggle, reduced motion (system and manual), text size
+ok 25 - sound toggle, reduced motion (system and manual), text size
+  ---
+  duration_ms: 551.964734
+  type: 'test'
+  ...
+# Subtest: interactive stage objects have accessible names; no image-only buttons
+ok 26 - interactive stage objects have accessible names; no image-only buttons
+  ---
+  duration_ms: 443.284121
+  type: 'test'
+  ...
+# Subtest: the game runs from file:// (no server) with saving
+ok 27 - the game runs from file:// (no server) with saving
+  ---
+  duration_ms: 623.318309
+  type: 'test'
+  ...
+# Subtest: D1: keyboard focus stays on the object used, including across timer re-renders
+ok 28 - D1: keyboard focus stays on the object used, including across timer re-renders
+  ---
+  duration_ms: 650.565349
+  type: 'test'
+  ...
+# Subtest: D2: releasing a keyboard hold early cancels it; key state never gets stuck
+ok 29 - D2: releasing a keyboard hold early cancels it; key state never gets stuck
+  ---
+  duration_ms: 459.165091
+  type: 'test'
+  ...
+# Subtest: D3: pointer hold released outside the stage ends the hold
+ok 30 - D3: pointer hold released outside the stage ends the hold
+  ---
+  duration_ms: 559.638246
+  type: 'test'
+  ...
+# Subtest: D4: completion card is modal — Tab cannot reach the level underneath
+ok 31 - D4: completion card is modal — Tab cannot reach the level underneath
+  ---
+  duration_ms: 705.57692
+  type: 'test'
+  ...
+# Subtest: D5: dark-scene buttons and sunset legends are readable
+ok 32 - D5: dark-scene buttons and sunset legends are readable
+  ---
+  duration_ms: 313.435294
+  type: 'test'
+  ...
+# Subtest: D7: Replay from the completion card counts as a replay (Déjà Vu note appears)
+ok 33 - D7: Replay from the completion card counts as a replay (Déjà Vu note appears)
+  ---
+  duration_ms: 694.394905
+  type: 'test'
+  ...
+# Subtest: D8: browser Back closes an open confirm dialog and the tutorial
+ok 34 - D8: browser Back closes an open confirm dialog and the tutorial
+  ---
+  duration_ms: 407.110446
+  type: 'test'
+  ...
+# Subtest: D9: pressing on the gift and then dragging it still delivers it
+ok 35 - D9: pressing on the gift and then dragging it still delivers it
+  ---
+  duration_ms: 538.822003
+  type: 'test'
+  ...
+# Subtest: latent: re-entering the same level never runs two attempts at once
+ok 36 - latent: re-entering the same level never runs two attempts at once
+  ---
+  duration_ms: 297.475443
+  type: 'test'
+  ...
+# Subtest: viewport 320x700: all main screens, levels and overlays fit
+ok 37 - viewport 320x700: all main screens, levels and overlays fit
+  ---
+  duration_ms: 4682.822737
+  type: 'test'
+  ...
+# Subtest: viewport 390x844: all main screens, levels and overlays fit
+ok 38 - viewport 390x844: all main screens, levels and overlays fit
+  ---
+  duration_ms: 4630.795166
+  type: 'test'
+  ...
+# Subtest: viewport 768x1024: all main screens, levels and overlays fit
+ok 39 - viewport 768x1024: all main screens, levels and overlays fit
+  ---
+  duration_ms: 4638.471631
+  type: 'test'
+  ...
+# Subtest: viewport 1365x900: all main screens, levels and overlays fit
+ok 40 - viewport 1365x900: all main screens, levels and overlays fit
+  ---
+  duration_ms: 4546.276018
+  type: 'test'
+  ...
+# Subtest: viewport 1920x1080: all main screens, levels and overlays fit
+ok 41 - viewport 1920x1080: all main screens, levels and overlays fit
+  ---
+  duration_ms: 4639.817758
+  type: 'test'
+  ...
+# Subtest: resizing the window keeps the layout valid
+ok 42 - resizing the window keeps the layout valid
+  ---
+  duration_ms: 729.555219
+  type: 'test'
+  ...
+1..42
+# tests 42
+# suites 0
+# pass 42
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 75792.17357

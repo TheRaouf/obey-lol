@@ -1,0 +1,153 @@
+{
+  "levels": [
+    {
+      "level": 1,
+      "id": "red-button",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 2,
+      "id": "wrong-door",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 3,
+      "id": "hands-off",
+      "stars": 3,
+      "actions": 0,
+      "par": 0,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 4,
+      "id": "missing-button",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 5,
+      "id": "reverse-psychology",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 6,
+      "id": "waiting-room",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 7,
+      "id": "fake-tutorial",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 8,
+      "id": "object-permanence",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 9,
+      "id": "suspicious-gift",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 10,
+      "id": "rulebook",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 11,
+      "id": "silent-level",
+      "stars": 3,
+      "actions": 5,
+      "par": 5,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 12,
+      "id": "double-bluff",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 13,
+      "id": "broken-room",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 14,
+      "id": "final-warning",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 15,
+      "id": "last-instruction",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 16,
+      "id": "final-decision",
+      "stars": 3,
+      "actions": 1,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    }
+  ],
+  "endings": {
+    "hero": "passed",
+    "chaos": "passed",
+    "secret": "passed"
+  }
+}
