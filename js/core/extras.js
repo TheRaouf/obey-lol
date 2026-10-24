@@ -49,15 +49,41 @@
     { id: 'alarm-enthusiast', level: 30, name: 'Alarm Enthusiast', trigger: { type: 'fails', count: 4 },
       line: 'The alarm has gone off four times. The neighbours called. The door opened to let the noise out.',
       clue: 'Every alarm has a breaking point. Wrong passwords help it find it.' },
-    { id: 'terms-agreer', level: 33, name: 'Agrees to Everything', trigger: { type: 'fails', count: 4 },
+    { id: 'screen-sharer', level: 36, name: 'Screen Sharer', trigger: null, line: '', clue: 'Check what your open tab is called. Then share it with the whole meeting.' },
+    { id: 'scenic-route', level: 38, name: 'The Scenic Route', trigger: null, line: '', clue: 'Bossworth hates waiting. A lift that stops at five wrong floors is basically a weapon.' },
+    { id: 'paper-mountain', level: 41, name: 'Paper Mountain', trigger: null, line: '', clue: 'Copy 100% never helps. Press it until the copier gives up. Six usually does it.' },
+    { id: 'foam-party', level: 45, name: 'Foam Party', trigger: null, line: '', clue: 'There is no fire. There is an extinguisher. Press and hold it anyway.' },
+    { id: 'spin-cycle', level: 49, name: 'Spin Cycle', trigger: null, line: '', clue: 'He said never stop pushing. Take him at his word: twelve pushes, three laps.' },
+    { id: 'alarm-whacker', level: 53, name: 'Alarm Whacker', trigger: null, line: '', clue: 'Poking a chirping smoke alarm with a broom once is rude. Three times is a lifestyle.' },
+    { id: 'shrunken-jumper', level: 57, name: 'Shrunken Jumper', trigger: null, line: '', clue: 'Bossworth\'s lucky wool jumper really wants that hot wash. Its label really doesn\'t.' },
+    { id: 'bossworth-bloom', level: 64, name: 'Bossworth in Bloom', trigger: null, line: '', clue: 'Not everything in the plant room that could use a watering is a plant.' },
+    { id: 'bubble-avalanche', level: 66, name: 'Bubble Avalanche', trigger: null, line: '', clue: 'One squirt of washing-up liquid is plenty. The whole bottle is… more.' },
+    { id: 'rug-mountain', level: 72, name: 'Rug Mountain', trigger: null, line: '', clue: 'Bossworth says everything fits under the rug. Test that theory. All of it.' },
+    { id: 'gull-buffet', level: 76, name: 'Gull Buffet', trigger: null, line: '', clue: 'The gull is a drop zone too. Share your chips with it and watch the whole flock RSVP.' },
+    { id: 'spin-doctor', level: 79, name: 'Spin Doctor', trigger: null, line: '', clue: 'Signposts are only screwed on so tight. Eight turns in one go and it takes off.' },
+    { id: 'travel-light', level: 84, name: 'Travel Light', trigger: null, line: '', clue: 'There is a third way to close a suitcase. It involves owning nothing.' },
+    { id: 'dinner-bell', level: 86, name: 'Dinner Bell', trigger: null, line: '', clue: 'Bossworth swears the bell brings fish. Ring it five times and something big does turn up.' },
+    { id: 'return-to-sender', level: 92, name: 'Return to Sender', trigger: null, line: '', clue: 'He begged you not to stamp him. A stamp sticks to anything, including narrators.' },
+    { id: 'absolute-zero', level: 93, name: 'Absolute Zero', trigger: null, line: '', clue: 'He said ZERO. The dial is in kelvin. Give him exactly what he asked for.' },
+    { id: 'screen-smasher', level: 99, name: 'Screen Smasher', trigger: null, line: '', clue: 'Computers respect aggression, apparently. Click the frozen window six times.' },
+    { id: 'cookie-avalanche', level: 101, name: 'Cookie Avalanche', trigger: null, line: '', clue: 'That cookie banner has a very tempting button. Accept ALL of it.' },
+    { id: 'overfueled', level: 105, name: 'Overfueled', trigger: null, line: '', clue: 'Skip the maths. Drag the pump hose straight onto the rocket.' },
+    { id: 'hard-docking', level: 110, name: 'Hard Docking', trigger: null, line: '', clue: 'Codes are for cowards. Hit THRUST three times.' },
+    { id: 'bossworth-bunny', level: 114, name: 'Bunny Bossworth', trigger: null, line: '', clue: 'The wand box lists everything it works on. Read the last word. Then point.' },
+    { id: 'pursued-by-a-bear', level: 118, name: 'Pursued by a Bear', trigger: null, line: '', clue: 'Not every line in the prompter\'s box is dialogue. Some of them are bears.' },
+    { id: 'hostile-takeover', level: 121, name: 'Hostile Takeover', trigger: null, line: '', clue: 'There are two buzzers. Only one of them says HOST ONLY. That\'s practically an invitation.' },
+    { id: 'stuck-at-the-top', level: 128, name: 'Stuck at the Top', trigger: null, line: '', clue: 'He said don\'t touch the emergency stop. He didn\'t say what happens to HIM if you do.' },
+    { id: 'banned-for-life', level: 132, name: 'Banned for Life', trigger: null, line: '', clue: 'A suspicious new player with a moustache. There\'s a red button next to his name that isn\'t Make host.' },
+    { id: 'terms-agreer', level: 133, name: 'Agrees to Everything', trigger: { type: 'fails', count: 4 },
       line: 'You agreed four times without reading. Legal says you now technically own this level. Take it.',
       clue: 'What happens if you agree to the terms… again and again?' },
-    { id: 'label-peeler', level: 101, name: 'Label Peeler', trigger: null, line: '', clue: 'Keep switching between the two coloured buttons. Labels don\'t stick forever.' },
-    { id: 'ninety-nine', level: 102, name: 'Ninety-Nine', trigger: null, line: '', clue: 'Unplug the phone at 99%. Bossworth will hate it.' },
-    { id: 'tower-toppler', level: 103, name: 'Tower Toppler', trigger: null, line: '', clue: 'Try to put a big disc on a small one. Three times. Gravity is watching.' },
-    { id: 'tip-top', level: 104, name: 'Tip Top', trigger: null, line: '', clue: 'Put the tree on the stand pointy end DOWN.' }
+    { id: 'label-peeler', level: OBEY.BONUS_BASE + 1, name: 'Label Peeler', trigger: null, line: '', clue: 'Keep switching between the two coloured buttons. Labels don\'t stick forever.' },
+    { id: 'ninety-nine', level: OBEY.BONUS_BASE + 2, name: 'Ninety-Nine', trigger: null, line: '', clue: 'Unplug the phone at 99%. Bossworth will hate it.' },
+    { id: 'tower-toppler', level: OBEY.BONUS_BASE + 3, name: 'Tower Toppler', trigger: null, line: '', clue: 'Try to put a big disc on a small one. Three times. Gravity is watching.' },
+    { id: 'tip-top', level: OBEY.BONUS_BASE + 4, name: 'Tip Top', trigger: null, line: '', clue: 'Put the tree on the stand pointy end DOWN.' }
   ];
   X.RUIN_IDS = X.RUINS.map(function (r) { return r.id; });
+  X.trickFor = function (n) { var d = OBEY.getLevel(n); return X.TRICKS[n] || (d && d.trick) || ''; };
   X.ruinsFor = function (n) { return X.RUINS.filter(function (r) { return r.level === n; }); };
   X.getRuin = function (id) { return X.RUINS.filter(function (r) { return r.id === id; })[0] || null; };
 
@@ -108,14 +134,14 @@
     30: 'The password was literally "NOT PASSWORD".',
     31: 'Wait for the shuffle to finish — the joker never lies about being a joker.',
     32: 'All lights on is a trap. Two bulbs were enough.',
-    33: 'Reading the terms revealed Clause 9: the cat flap.',
-    34: 'A rehearsal is just practice. The answers were in the questions.',
-    35: 'Collect the gears, then ask Bossworth before answering.',
-    36: 'You chose how to fix the machine. Bossworth just held the wrench.',
-    101: 'Neither button was RED. The word RED was.',
-    102: 'Optimised charging stopped it at 99%. Switching it off let it reach 100.',
-    103: 'You can solve the tower in seven moves — or move the "C" sign.',
-    104: 'Pointy end up means turning the tree before placing it.'
+    133: 'Reading the terms revealed Clause 9: the cat flap.',
+    134: 'A rehearsal is just practice. The answers were in the questions.',
+    135: 'Collect the gears, then ask Bossworth before answering.',
+    136: 'You chose how to fix the machine. Bossworth just held the wrench.',
+    1001: 'Neither button was RED. The word RED was.',
+    1002: 'Optimised charging stopped it at 99%. Switching it off let it reach 100.',
+    1003: 'You can solve the tower in seven moves — or move the "C" sign.',
+    1004: 'Pointy end up means turning the tree before placing it.'
   };
 
   /* ---------------------------------------------------------- jigsaw pieces */
@@ -130,7 +156,7 @@
     { id: 'jig-6', level: 22, x: 3, y: 90 },
     { id: 'jig-7', level: 25, x: 20, y: 40 },
     { id: 'jig-8', level: 29, x: 2, y: 90 },
-    { id: 'jig-9', level: 34, x: 90, y: 90 }
+    { id: 'jig-9', level: 134, x: 90, y: 90 }
   ];
   X.JIGSAW_IDS = X.JIGSAW.map(function (j) { return j.id; });
   X.jigsawFor = function (n) { return X.JIGSAW.filter(function (j) { return j.level === n; })[0] || null; };

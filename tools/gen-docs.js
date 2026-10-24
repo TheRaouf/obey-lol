@@ -21,7 +21,7 @@ md += 'Restart (button) = fresh attempt: state, timers, actions and hints reset.
 for (const d of OBEY.levels.concat(OBEY.bonusLevels)) {
   const rt = new OBEY.LevelRuntime(d, { clock: OBEY.createFakeClock(), ctx: { replay: true, allSecrets: true, choices: {} } }).start();
   const objs = rt.objects().filter((o) => o.kind !== 'static' || o.label);
-  if (d.num === 101) md += '# Sabotage Studio (bonus pack, unlocked after Level 12)\n\n';
+  if (d.num === OBEY.BONUS_BASE + 1) md += '# Sabotage Studio (bonus pack, unlocked after Level 12)\n\n';
   md += `## ${OBEY.isBonus(d.num) ? OBEY.levelLabel(d.num) + ':' : d.num + '.'} ${d.title}\n\n`;
   md += `| Field | Value |\n|---|---|\n`;
   md += `| Stable ID | \`${d.id}\` |\n`;
@@ -38,7 +38,7 @@ for (const d of OBEY.levels.concat(OBEY.bonusLevels)) {
   md += `| Secrets | ${d.secrets.length ? d.secrets.map((id) => `\`${id}\` — ${OBEY.getSecret(id).how} (path: ${fmtPath(d.secretPaths[id])})`).join('<br>') : 'none'} |\n`;
   const ruins = OBEY.extras.ruinsFor(d.num);
   md += `| Ruins (deliberately terrible finishes) | ${ruins.length ? ruins.map((r) => `\`${r.id}\` ${r.name} — ${r.trigger ? (r.trigger.type === 'taps' ? 'tap `' + r.trigger.target + '` ' + r.trigger.count + '× in one attempt' : r.trigger.count + ' ' + (r.trigger.type === 'fails' ? 'traps' : 'harmless wrong moves') + ' in one attempt') : 'path: ' + fmtPath(d.ruinPaths[r.id])}`).join('<br>') : 'none'} |\n`;
-  md += `| The trick (shown after solving) | ${OBEY.extras.TRICKS[d.num]} |\n`;
+  md += `| The trick (shown after solving) | ${OBEY.extras.trickFor(d.num)} |\n`;
   const jig = OBEY.extras.jigsawFor(d.num);
   if (jig) md += `| Jigsaw piece | \`${jig.id}\` at ${jig.x}%, ${jig.y}% — replays only |\n`;
   md += `| Ending consequences | ${d.endingNote} |\n\n`;
@@ -56,9 +56,9 @@ g += '\n## Achievements (' + OBEY.ACHIEVEMENTS.length + ')\n\n| ID | Name | Exac
 OBEY.ACHIEVEMENTS.forEach((a) => { g += `| \`${a.id}\` | ${a.name} | ${a.desc} |\n`; });
 g += '\n## Endings (3)\n\n| ID | Name | Condition |\n|---|---|---|\n';
 OBEY.ENDINGS.forEach((e) => { g += `| \`${e.id}\` | ${e.name} | ${e.condition} |\n`; });
-g += '\nThe Secret Master ending is enforced twice: the golden quill only exists in Level 36 when all 15 secrets are in the save, and `progress.recordEnding` rejects `secret` unless 15 secrets are found and Level 36 is completed.\n';
+g += '\nThe Secret Master ending is enforced twice: the golden quill only exists in Level 136 when all 15 secrets are in the save, and `progress.recordEnding` rejects `secret` unless 15 secrets are found and Level 136 is completed.\n';
 g += '\n## Campaign choices\n\n| Key | Level | Hero-leaning value | Chaos-leaning value |\n|---|---|---|---|\n';
-const where = { gift: 9, rule: 10, sign: 14, trust: 35 };
+const where = { gift: 9, rule: 10, sign: 14, trust: 135 };
 for (const [k, vals] of Object.entries(OBEY.CHOICES)) {
   const hero = Object.keys(vals).find((v) => vals[v] === 'hero'), chaos = Object.keys(vals).find((v) => vals[v] === 'chaos');
   g += `| \`${k}\` | ${where[k]} | \`${hero}\` | \`${chaos}\` |\n`;
@@ -68,6 +68,6 @@ OBEY.TROPHIES.forEach((t) => { g += `| \`${t.id}\` | ${t.name} | ${t.desc} |\n`;
 g += '\n## Ruins (' + OBEY.extras.RUINS.length + ')\n\n| ID | Name | Level | U.N.D.O. tip |\n|---|---|---|---|\n';
 OBEY.extras.RUINS.forEach((r) => { g += `| \`${r.id}\` | ${r.name} | ${OBEY.levelLabel(r.level)} | ${r.clue} |\n`; });
 g += '\nTrap-based ruins all need 4 traps in one attempt, so on Hard "Show me how" (unlocked after 3 traps) always comes first. Ruins never trigger during a guided run.\n';
-g += '\nChoices only change dialogue (Level 35 intro, ending lines). They never block completion or decide the ending; the ending is decided by the player\'s action in Level 36.\n';
+g += '\nChoices only change dialogue (Level 135 intro, ending lines). They never block completion or decide the ending; the ending is decided by the player\'s action in Level 136.\n';
 fs.writeFileSync(path.join(ROOT, 'docs', 'GAME-DATA.md'), g);
 console.log('Wrote docs/LEVEL-SPEC.md and docs/GAME-DATA.md');

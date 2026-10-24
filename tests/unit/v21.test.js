@@ -8,11 +8,11 @@ const { loadGame, play, makeRuntime } = require('./load');
 const OBEY = loadGame();
 const S = OBEY.save, P = OBEY.progress, X = OBEY.extras;
 const fresh = () => S.validate(S.defaults());
-const BONUS = [101, 102, 103, 104];
+const BONUS = [1, 2, 3, 4].map((b) => OBEY.BONUS_BASE + b); // 1001–1004 since 2.2
 function completeUpTo(s, n) { for (let i = 1; i <= n; i++) P.completeLevel(s, i, { stars: 3, actions: 1, hints: 0, fails: 0, difficulty: 'medium' }); return s; }
 
 /* --------------------------------------------------------------- bonus levels */
-test('Sabotage Studio: 4 bonus levels registered as 101–104 with full specs', () => {
+test('Sabotage Studio: 4 bonus levels registered as 1001–1004 with full specs', () => {
   assert.equal(OBEY.bonusLevels.length, 4);
   BONUS.forEach((n) => {
     const d = OBEY.getLevel(n);
@@ -22,7 +22,7 @@ test('Sabotage Studio: 4 bonus levels registered as 101–104 with full specs', 
     assert.match(OBEY.levelLabel(n), /^Bonus [1-4]$/);
   });
   assert.equal(OBEY.levelLabel(7), 'Level 7');
-  assert.ok(!OBEY.isBonus(36) && !OBEY.isBonus(105));
+  assert.ok(!OBEY.isBonus(136) && !OBEY.isBonus(101) && !OBEY.isBonus(1005), '101 is a campaign level since 2.2');
 });
 
 test('every bonus level is solvable with 3 stars on every difficulty, and its alternatives complete', () => {
@@ -59,7 +59,7 @@ test('every bonus ruin path finishes the level with that ruin id', () => {
 });
 
 test('B2 Ninety-Nine: optimised charging stops at 99; unplugging early is a nope', () => {
-  const { rt, clock, log } = makeRuntime(OBEY, 102);
+  const { rt, clock, log } = makeRuntime(OBEY, 1002);
   rt.dispatch({ type: 'tap', target: 'unplug' });
   assert.equal(rt.nopes, 1);
   assert.equal(log.completed, null);
@@ -68,7 +68,7 @@ test('B2 Ninety-Nine: optimised charging stops at 99; unplugging early is a nope
 });
 
 test('B3 The Tower: big-on-small is refused (nope) twice, then the ruin on the third', () => {
-  const { rt, log } = makeRuntime(OBEY, 103);
+  const { rt, log } = makeRuntime(OBEY, 1003);
   const t = (id) => rt.dispatch({ type: 'tap', target: id });
   t('pegA'); t('pegB'); // 1 -> B
   t('pegA'); t('pegB'); // 2 onto 1: refused
@@ -87,7 +87,7 @@ const WRONG = {
   16: [{ tap: 'no' }, { tap: 'yes' }],
   17: [{ tap: 'd1' }, { tap: 'd2' }, { tap: 'd3' }],
   30: [{ tap: 't-please' }, { tap: 'enter' }],
-  33: [{ tap: 'agree' }]
+  133: [{ tap: 'agree' }]
 };
 
 test('generic ruin triggers fire exactly at their count and never before', () => {
@@ -121,9 +121,9 @@ test('generic ruin triggers fire exactly at their count and never before', () =>
   });
 });
 
-test('ruins: 16 in total, unique ids, each with a name, clue and (for generic ones) a meltdown line', () => {
-  assert.equal(X.RUINS.length, 16);
-  assert.equal(new Set(X.RUIN_IDS).size, 16);
+test('ruins: 41 in total (16 from 2.1 + 25 in the 2.2 levels), unique ids, each with a name, clue and (for generic ones) a meltdown line', () => {
+  assert.equal(X.RUINS.length, 41);
+  assert.equal(new Set(X.RUIN_IDS).size, 41);
   X.RUINS.forEach((r) => { assert.ok(r.name && r.clue); if (r.trigger) assert.ok(r.line.length > 20); });
 });
 
@@ -152,9 +152,9 @@ test('skip ("Let it be"): unlocks the next level, at most 3 open skips, never th
   assert.equal(P.skipLevel(s, 6), null);
   assert.match(P.skipBlocker(s, 2), /already finished/);
   assert.match(P.skipBlocker(s, 30), /locked/);
-  const all = completeUpTo(fresh(), 35);
-  assert.match(P.skipBlocker(all, 36), /final level/);
-  assert.match(P.skipBlocker(s, 101), /Bonus/);
+  const all = completeUpTo(fresh(), 135);
+  assert.match(P.skipBlocker(all, 136), /final level/);
+  assert.match(P.skipBlocker(s, 1001), /Bonus/);
   // Finishing a skipped level frees the skip.
   P.completeLevel(s, 4, { stars: 2, actions: 3 });
   assert.deepEqual(s.skipped, [3, 5]);
@@ -164,12 +164,12 @@ test('skip ("Let it be"): unlocks the next level, at most 3 open skips, never th
 test('only skipped levels left: Continue points at the first skipped one', () => {
   const s = completeUpTo(fresh(), 2);
   P.skipLevel(s, 3);
-  for (let n = 4; n <= 36; n++) P.completeLevel(s, n, { stars: 3 });
+  for (let n = 4; n <= 136; n++) P.completeLevel(s, n, { stars: 3 });
   assert.equal(P.nextLevel(s), 3);
 });
 
 test('save validation keeps skips consistent: no completed, finale or out-of-range skips; unlock follows them', () => {
-  const v = S.validate({ completed: [1, 2], skipped: [3, 3, 2, 36, 99, 'x'], highestUnlocked: 1 });
+  const v = S.validate({ completed: [1, 2], skipped: [3, 3, 2, 136, 999, 'x'], highestUnlocked: 1 });
   assert.deepEqual(v.skipped, [3]);
   assert.equal(v.highestUnlocked, 4);
 });
@@ -180,7 +180,7 @@ test('save v4: defaults validate to themselves; new fields are repaired field by
   const v = S.validate({
     intern: 500, profileName: '  Raouf\u0007 the Great Saboteur  ', ruins: ['tip-top', 'nope', 'tip-top'], jigsaw: ['jig-1', 'jig-99'],
     completed: [1], bestActions: { 1: 3, 2: 5, x: 1 }, bestTime: { 1: -4 }, daily: { last: '2026-13-99', streak: 'x', done: ['2026-10-24', 7], badges: [3, 4] },
-    counters: { pokes: -1, tuesday: 'yes', chats: ['mind-maze', 'nope'] }, bonus: { completed: [101, 101, 105], bestStars: { 101: 9 } }, seenVersion: 'v2',
+    counters: { pokes: -1, tuesday: 'yes', chats: ['mind-maze', 'nope'] }, bonus: { completed: [1001, 1001, 1005], bestStars: { 1001: 9 } }, seenVersion: 'v2',
     settings: { textSize: 'xl', contrast: 'max', sfxVol: 150, voiceVol: '30', music: 1, hand: 'left' }
   });
   assert.equal(v.intern, 0);
@@ -193,7 +193,7 @@ test('save v4: defaults validate to themselves; new fields are repaired field by
   assert.equal(v.counters.pokes, 0);
   assert.equal(v.counters.tuesday, false);
   assert.deepEqual(v.counters.chats, ['mind-maze']);
-  assert.deepEqual(v.bonus, { completed: [101], bestStars: { 101: 3 } });
+  assert.deepEqual(v.bonus, { completed: [1001], bestStars: { 1001: 3 } });
   assert.equal(v.seenVersion, '');
   assert.equal(v.settings.textSize, 'xl');
   assert.equal(v.settings.contrast, 'normal');
@@ -203,13 +203,13 @@ test('save v4: defaults validate to themselves; new fields are repaired field by
   assert.equal(v.settings.hand, 'left');
 });
 
-test('v3 (2.0) saves migrate to v4 keeping everything', () => {
+test('v3 (2.0) saves migrate to the current schema keeping everything', () => {
   const v3 = S.defaults();
   delete v3.ruins; delete v3.daily; delete v3.counters; delete v3.bonus;
   v3.version = 3; v3.completed = [1, 2, 3]; v3.bestStars = { 1: 3, 2: 2, 3: 1 }; v3.difficulty = 'hard'; v3.trophies = { 'cup-button-bay': 2 };
   const res = S.parse(JSON.stringify(v3));
   assert.equal(res.status, 'migrated');
-  assert.equal(res.data.version, 4);
+  assert.equal(res.data.version, S.SCHEMA);
   assert.deepEqual(res.data.completed, [1, 2, 3]);
   assert.equal(res.data.difficulty, 'hard');
   assert.deepEqual(res.data.ruins, []);
@@ -249,17 +249,17 @@ test('New Game keeps collections and records; Reset All keeps name and settings 
 /* --------------------------------------------------------------- bonus pack */
 test('bonus pack unlocks after Level 12; bonus results are kept separately', () => {
   const s = completeUpTo(fresh(), 11);
-  assert.ok(!P.canPlay(s, 101));
-  assert.equal(P.completeLevel(s, 101, { stars: 3 }), null);
+  assert.ok(!P.canPlay(s, 1001));
+  assert.equal(P.completeLevel(s, 1001, { stars: 3 }), null);
   P.completeLevel(s, 12, { stars: 3 });
-  assert.ok(P.canPlay(s, 104));
-  const ev = P.completeLevel(s, 101, { stars: 2, actions: 1, timeMs: 4000, ruin: null });
+  assert.ok(P.canPlay(s, 1004));
+  const ev = P.completeLevel(s, 1001, { stars: 2, actions: 1, timeMs: 4000, ruin: null });
   assert.ok(ev[0].bonus && ev[0].firstTime);
-  assert.deepEqual(s.bonus.completed, [101]);
-  assert.equal(s.bonus.bestStars[101], 2);
-  assert.ok(!P.isCompleted(s, 101), 'not part of the campaign');
-  assert.equal(s.bestActions[101], 1);
-  [102, 103, 104].forEach((n) => P.completeLevel(s, n, { stars: 3 }));
+  assert.deepEqual(s.bonus.completed, [1001]);
+  assert.equal(s.bonus.bestStars[1001], 2);
+  assert.ok(!P.isCompleted(s, 1001), 'not part of the campaign');
+  assert.equal(s.bestActions[1001], 1);
+  [1002, 1003, 1004].forEach((n) => P.completeLevel(s, n, { stars: 3 }));
   assert.ok(s.achievements['studio-graduate']);
 });
 
@@ -356,7 +356,7 @@ test('save codes round-trip through export/import and reject damaged codes', () 
 test('next goal names the nearest cosmetic unlock', () => {
   const s = fresh();
   assert.equal(X.nextGoal(s), 'Finish Level 4 to unlock the Royal costume.');
-  completeUpTo(s, 36);
+  completeUpTo(s, 136);
   s.costumes.unlocked = OBEY.COSTUMES.map((c) => c.id).filter((id) => id !== 'alien' && id !== 'dino');
   s.themes.unlocked = OBEY.THEMES.map((t) => t.id);
   s.secrets = OBEY.SECRET_IDS.slice(0, 2);
@@ -385,7 +385,7 @@ test('opening asides: replay lines on replays, post-game lines after the finale,
   const always = () => 0; // rand() = 0 → take the first branch each time
   assert.ok(X.REPLAY.includes(X.openingAside(s, 5, { replay: true }, always)));
   assert.equal(X.openingAside(s, 5, { replay: false }, () => 0.99), null);
-  const done = completeUpTo(fresh(), 36);
+  const done = completeUpTo(fresh(), 136);
   assert.ok(X.POSTGAME.includes(X.openingAside(done, 5, {}, always)));
   s.ruins = ['button-masher']; s.intern = 42;
   assert.match(X.callback(s, 3), /Intern #42.*Level 1/);
@@ -410,16 +410,16 @@ test('U.N.D.O.: appears from Level 9 and in the bonus pack; intro once, each cha
   assert.ok(first.some((m) => m.leak && m.who === 'CLIVE'));
   s.counters.undoMet = true;
   assert.deepEqual(X.undoMessages(s, 10, ['trick-tower']), []);
-  assert.ok(X.undoActive(101));
+  assert.ok(X.undoActive(1001));
   assert.equal(X.undoTip(s, 12), X.getRuin('pie-connoisseur').clue);
   s.ruins = ['pie-connoisseur'];
   assert.equal(X.undoTip(s, 12), null);
   assert.equal(X.undoTip(s, 4), null);
 });
 
-test('trick recaps exist for all 40 levels', () => {
-  for (let n = 1; n <= 36; n++) assert.ok(X.TRICKS[n] && X.TRICKS[n].length > 15, 'L' + n);
-  BONUS.forEach((n) => assert.ok(X.TRICKS[n]));
+test('trick recaps exist for all 140 levels', () => {
+  for (let n = 1; n <= OBEY.LEVEL_COUNT; n++) assert.ok(X.trickFor(n).length > 15, 'L' + n);
+  BONUS.forEach((n) => assert.ok(X.trickFor(n)));
 });
 
 /* ----------------------------------------------------------- achievements */
@@ -445,8 +445,8 @@ test('share texts are spoiler-free and carry the game link', () => {
   assert.ok(t.includes(OBEY.SHARE_URL));
   assert.match(X.shareLevel(Object.assign({}, r, { ruin: 'pie-connoisseur' }), OBEY.getLevel(12)), /RUINED IT/);
   assert.match(X.shareDare('2026-10-24', 5, 3), /Daily Dare 2026-10-24 .* streak 3/);
-  const s = completeUpTo(fresh(), 36);
-  assert.match(X.shareEnding(s, 'hero'), /Hero ending\. No spoilers\. 108\/108 stars/);
+  const s = completeUpTo(fresh(), 136);
+  assert.match(X.shareEnding(s, 'hero'), /Hero ending\. No spoilers\. 408\/408 stars/);
 });
 
 test('captions exist for every sound the 2.1 features play', () => {
@@ -489,7 +489,7 @@ test('QA3-D1: with storage blocked, switching profiles keeps every profile in me
 
 test('QA3-D7: the Daily Dare is the same level for everyone, with a practice dare if it is locked', () => {
   const key = '2026-10-24', g = X.dareGlobal(key);
-  const all = completeUpTo(fresh(), 36);
+  const all = completeUpTo(fresh(), 136);
   assert.equal(X.dareFor(all, key).n, g);
   assert.equal(X.dareFor(all, key).practice, false);
   const newbie = fresh();
@@ -502,9 +502,9 @@ test('QA3-D7: the Daily Dare is the same level for everyone, with a practice dar
 });
 
 test('QA3-D8/D11: no ruins during guided runs; ruins never set personal bests; New Game keeps bests', () => {
-  const { rt, clock, log } = makeRuntime(OBEY, 104);
+  const { rt, clock, log } = makeRuntime(OBEY, 1004);
   rt.restart({ guided: true });
-  play(rt, clock, OBEY.getLevel(104).ruinPaths['tip-top']);
+  play(rt, clock, OBEY.getLevel(1004).ruinPaths['tip-top']);
   assert.ok(log.completed && log.completed.ruin === null && log.completed.guided);
   const s = completeUpTo(fresh(), 2);
   assert.ok(P.completeLevel(s, 3, { stars: 1, actions: 4, timeMs: 1800, ruin: 'countdown-crasher' }));

@@ -144,7 +144,7 @@
       case 'flawless': return [Math.min(s.stats.flawless.length, 10), 10];
       case 'hard-boiled': return [Math.min(hardCount, 12), 12];
       case 'good-sport': return [Math.min(s.stats.fails, 25), 25];
-      case 'platinum-bossworth': return [OBEY.CHAPTERS.filter(function (c) { return P.chapterTier(s, c.id) === 3; }).length, 9];
+      case 'platinum-bossworth': return [OBEY.CHAPTERS.filter(function (c) { return P.chapterTier(s, c.id) === 3; }).length, OBEY.CHAPTERS.length];
       case 'jigsaw': return [(s.jigsaw || []).length, 9];
       default: return [0, 1];
     }

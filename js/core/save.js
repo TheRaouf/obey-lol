@@ -1,6 +1,8 @@
 /* OBEY? LOL. — versioned save schema, validation, migration and storage adapter.
  *
- * Schema v4 (current, game 2.1) = v3 plus: intern, profileName, skipped, ruins, jigsaw, bestActions,
+ * Schema v5 (current, game 2.2) = v4 with 136 levels: the old Levels 33–36 (Final Factory) become
+ *   133–136 and the bonus levels 101–104 become 1001–1004, in every field that holds a level number.
+ * Schema v4 (game 2.1) = v3 plus: intern, profileName, skipped, ruins, jigsaw, bestActions,
  *   bestTime, daily {last, streak, best, done, badges}, counters {...}, bonus {completed, bestStars},
  *   seenVersion, and more settings (haptics, contrast, font, holdAssist, captions, hand, volumes,
  *   music, timer and two joke settings). v3 saves gain the defaults.
@@ -37,7 +39,7 @@
   var SAVE = {};
   SAVE.KEY = 'obeylol.save';
   SAVE.BACKUP_KEY = 'obeylol.save.corrupt';
-  SAVE.SCHEMA = 4;
+  SAVE.SCHEMA = 5;
   /** Profile slots: slot 1 keeps the original key so older saves stay where they were. */
   SAVE.PROFILES = 3;
   SAVE.keyFor = function (slot) { return slot > 1 ? SAVE.KEY + '.p' + slot : SAVE.KEY; };
@@ -106,6 +108,35 @@
   /** v1/v2 (16-level campaign) level number -> v3 (36-level campaign) level number. */
   SAVE.renumberV2 = function (n) { n = Number(n); return n === 15 ? 35 : (n === 16 ? 36 : n); };
 
+  /** v4 (2.1, 36 levels + bonus 101–104) level number -> v5 (2.2, 136 levels + bonus 1001–1004).
+   *  The Final Factory (33–36) moves to 133–136 so the 100 new levels sit before the finale. */
+  SAVE.renumberV4 = function (n) {
+    n = Number(n);
+    if (n >= 33 && n <= 36) return n + 100;
+    if (n >= 101 && n <= 104) return n + 900;
+    return n;
+  };
+  SAVE.migrateV4 = function (obj) {
+    var o = U.clone(obj), R = SAVE.renumberV4;
+    function list(a) { return Array.isArray(a) ? a.map(R) : a; }
+    function keys(m) { if (!U.isObj(m)) return m; var out = {}; Object.keys(m).forEach(function (k) { out[R(k)] = m[k]; }); return out; }
+    o.completed = list(o.completed);
+    o.skipped = list(o.skipped);
+    o.clean = list(o.clean);
+    o.bestStars = keys(o.bestStars);
+    o.bestDifficulty = keys(o.bestDifficulty);
+    o.bestActions = keys(o.bestActions);
+    o.bestTime = keys(o.bestTime);
+    if (U.isObj(o.stats)) { o.stats.noHint = list(o.stats.noHint); o.stats.flawless = list(o.stats.flawless); }
+    if (U.isObj(o.bonus)) { o.bonus.completed = list(o.bonus.completed); o.bonus.bestStars = keys(o.bonus.bestStars); }
+    if (U.isObj(o.daily) && U.isObj(o.daily.practice)) o.daily.practice.n = R(o.daily.practice.n);
+    // Anyone who had reached the old finale now continues with the new Level 33.
+    var h = Number(o.highestUnlocked) || 1;
+    o.highestUnlocked = h >= 33 ? 33 : h;
+    o.version = 5;
+    return o;
+  };
+
   /** Converts an older schema object into the current schema shape (not yet validated). */
   SAVE.migrate = function (obj) {
     if (!U.isObj(obj)) return SAVE.defaults();
@@ -140,9 +171,10 @@
       o.difficulty = 'medium';
       o.trophies = {};
       o.version = 3;
-      obj = o;
+      obj = o; v = 3;
     }
     if (v === 3) { obj = U.clone(obj); obj.version = 4; v = 4; }
+    if (v === 4) { obj = SAVE.migrateV4(obj); v = 5; }
     if (from < SAVE.SCHEMA) obj.migratedFrom = from;
     return obj;
   };

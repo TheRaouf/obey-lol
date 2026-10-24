@@ -3,6 +3,15 @@
     {
       "name": "Magic Matinee",
       "levels": [
+        113,
+        114,
+        115,
+        116
+      ]
+    },
+    {
+      "name": "Curtain Call",
+      "levels": [
         117,
         118,
         119,
@@ -10,7 +19,7 @@
       ]
     },
     {
-      "name": "Curtain Call",
+      "name": "Buzzer Bonanza",
       "levels": [
         121,
         122,
@@ -19,7 +28,7 @@
       ]
     },
     {
-      "name": "Buzzer Bonanza",
+      "name": "Museum Midway",
       "levels": [
         125,
         126,
@@ -28,52 +37,43 @@
       ]
     },
     {
-      "name": "Museum Midway",
+      "name": "Pixel Palace",
       "levels": [
         129,
         130,
         131,
         132
       ]
-    },
-    {
-      "name": "Pixel Palace",
-      "levels": [
-        133,
-        134,
-        135,
-        136
-      ]
     }
   ],
   "ruins": [
     {
       "id": "bossworth-bunny",
-      "level": 118,
+      "level": 114,
       "name": "Bunny Bossworth",
       "clue": "The wand box lists everything it works on. Read the last word. Then point."
     },
     {
       "id": "pursued-by-a-bear",
-      "level": 122,
+      "level": 118,
       "name": "Pursued by a Bear",
       "clue": "Not every line in the prompter's box is dialogue. Some of them are bears."
     },
     {
       "id": "hostile-takeover",
-      "level": 125,
+      "level": 121,
       "name": "Hostile Takeover",
       "clue": "There are two buzzers. Only one of them says HOST ONLY. That's practically an invitation."
     },
     {
       "id": "stuck-at-the-top",
-      "level": 132,
+      "level": 128,
       "name": "Stuck at the Top",
       "clue": "He said don't touch the emergency stop. He didn't say what happens to HIM if you do."
     },
     {
       "id": "banned-for-life",
-      "level": 136,
+      "level": 132,
       "name": "Banned for Life",
       "clue": "A suspicious new player with a moustache. There's a red button next to his name that isn't Make host."
     }

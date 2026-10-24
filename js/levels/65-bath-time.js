@@ -29,10 +29,10 @@
     done: 'A bath at exactly the line. The duck has never been happier.',
     trick: 'Bossworth said to skip the plug, but an open drain never fills — plug first, then patience.',
 
-    init: function () { return { plug: false, on: false, level: 0, tick: null }; },
+    init: function () { return { plug: false, on: false, level: 0 }; },
 
     onStart: function (s, api) {
-      s.tick = api.every(STEP, function () {
+      api.every(STEP, function () {
         if (!s.on || !s.plug || s.level >= 1) return;
         s.level = Math.min(1, Math.round((s.level + 0.1) * 10) / 10);
         if (s.level >= 1) api.say('It\'s reached the line and the overflow is gurgling. A bath! An actual bath! I\'ll allow it.', 'surprised');

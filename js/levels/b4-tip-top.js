@@ -10,7 +10,7 @@
 
   OBEY.registerLevel({
     id: 'tip-top',
-    num: 104,
+    num: OBEY.BONUS_BASE + 4,
     title: 'Tip Top',
     objective: 'Put the tree on the stand, pointy end up.',
     intro: 'Last test. Put the tree on the stand. Pointy end UP. Even you can\'t ruin a tree. …Can you?',

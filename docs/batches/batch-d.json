@@ -21,6 +21,15 @@
     {
       "name": "Pixel Plateau",
       "levels": [
+        101,
+        102,
+        103,
+        104
+      ]
+    },
+    {
+      "name": "Rocket Ridge",
+      "levels": [
         105,
         106,
         107,
@@ -28,21 +37,12 @@
       ]
     },
     {
-      "name": "Rocket Ridge",
+      "name": "Orbit Outpost",
       "levels": [
         109,
         110,
         111,
         112
-      ]
-    },
-    {
-      "name": "Orbit Outpost",
-      "levels": [
-        113,
-        114,
-        115,
-        116
       ]
     }
   ],
@@ -61,19 +61,19 @@
     },
     {
       "id": "cookie-avalanche",
-      "level": 105,
+      "level": 101,
       "name": "Cookie Avalanche",
       "clue": "That cookie banner has a very tempting button. Accept ALL of it."
     },
     {
       "id": "overfueled",
-      "level": 109,
+      "level": 105,
       "name": "Overfueled",
       "clue": "Skip the maths. Drag the pump hose straight onto the rocket."
     },
     {
       "id": "hard-docking",
-      "level": 114,
+      "level": 110,
       "name": "Hard Docking",
       "clue": "Codes are for cowards. Hit THRUST three times."
     }

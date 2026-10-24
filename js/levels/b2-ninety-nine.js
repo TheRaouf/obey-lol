@@ -10,7 +10,7 @@
 
   OBEY.registerLevel({
     id: 'ninety-nine',
-    num: 102,
+    num: OBEY.BONUS_BASE + 2,
     title: 'Ninety-Nine',
     objective: 'Unplug the phone at exactly 100%.',
     intro: 'Charge the phone to exactly 100%, then unplug it. Never at 99%. NEVER 99. I can\'t explain why. It\'s personal.',
