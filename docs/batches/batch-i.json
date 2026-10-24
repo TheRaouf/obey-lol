@@ -1,0 +1,24 @@
+{
+  "chapters": [
+    { "name": "Periscope Pier", "levels": [193, 194, 195, 196] },
+    { "name": "Lighthouse Lookout", "levels": [197, 198, 199, 200] },
+    { "name": "Mackerel Market", "levels": [201, 202, 203, 204] },
+    { "name": "Coral Caverns", "levels": [205, 206, 207, 208] },
+    { "name": "Shipwreck Shoals", "levels": [209, 210, 211, 212] }
+  ],
+  "ruins": [
+    { "id": "flying-submarine", "level": 194, "name": "Flying Submarine", "clue": "Every submarine has one button marked EMERGENCY. Nobody said whose emergency." },
+    { "id": "ship-beside-a-bottle", "level": 198, "name": "Ship Beside a Bottle", "clue": "The keeper keeps a hammer on the floor. Bottles are mostly a suggestion." },
+    { "id": "sold-the-sub", "level": 201, "name": "Sold the Sub", "clue": "One stall at the auction buys something you happen to be sitting in. Then bid." },
+    { "id": "inked-captain", "level": 206, "name": "Inked Captain", "clue": "Octopuses are very ticklish. Octopuses are also full of ink." },
+    { "id": "submarine-weathervane", "level": 212, "name": "Submarine Weathervane", "clue": "Whales can sneeze. Lighthouses have very pointy tops." }
+  ],
+  "art": [
+    "i-sea", "i-deep", "i-surface", "i-whalebelly", "i-rock", "i-slab", "i-deck", "i-coral", "i-weed",
+    "i-sub", "i-sonar", "i-periscope", "i-buoy", "i-pier", "i-lighthouse", "i-shipmodel", "i-bottle",
+    "i-hammer", "i-lifering", "i-swimmer", "i-rowboat", "i-seal", "i-worms", "i-island", "i-stall",
+    "i-trawler", "i-coin", "i-sardine", "i-tin", "i-tinlabel", "i-anchor", "i-diver", "i-jelly",
+    "i-octopus", "i-tentacle", "i-shell", "i-chest", "i-hermit", "i-conch", "i-shipbell", "i-glow",
+    "i-plankton", "i-blowhole", "i-baleen"
+  ]
+}
