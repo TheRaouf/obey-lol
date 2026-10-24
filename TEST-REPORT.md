@@ -1,7 +1,12 @@
 # Test report — OBEY? LOL. 2.2.0
 
 Date: 2026-10-24. Counts come from logged runs: `tests/logs/unit-22.tap`, `tests/logs/e2e-22.tap`
-(Node v22.23.4, Playwright Chromium). CI results are added below once the release commit's run finishes.
+(Node v22.23.4, Playwright Chromium).
+
+**CI (GitHub Actions run 40107528446, commit f414b65 — same game code as the release):** Chromium job (static,
+unit, all 120 browser tests) **passed**; WebKit job (Safari's engine: iPad, campaign, 2.0 and 2.1 suites) **passed**.
+The two runs before it failed on real defects (see #5 below and a ResizeObserver loop error in WebKit introduced
+and fixed during this release); CI failures are now reported as readable annotations (`tools/tap-annotate.js`).
 
 ## Summary
 
