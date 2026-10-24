@@ -13,13 +13,13 @@
       case 'hanky': peek = '<path d="M86 78 Q100 30 116 78 Z" fill="#ff6f91" ' + SW3 + '/><path d="M96 70 Q100 50 106 70" fill="none" stroke="#fff" stroke-width="4"/>'; break;
       case 'dove': peek = '<path d="M74 80 Q78 44 104 46 Q122 30 140 44 Q124 50 126 80 Z" fill="#fff" ' + SW3 + '/><circle cx="112" cy="54" r="3" fill="' + INK + '"/>'; break;
       case 'rabbit': peek = '<path d="M84 80 Q72 18 90 16 Q102 20 98 80 Z" fill="#fff" ' + SW3 + '/><path d="M104 80 Q104 14 120 16 Q134 24 116 80 Z" fill="#fff" ' + SW3 + '/><path d="M88 70 Q86 36 91 28" fill="none" stroke="#ff9fb8" stroke-width="5"/><path d="M110 70 Q112 36 119 28" fill="none" stroke="#ff9fb8" stroke-width="5"/>'; break;
-      case 'badger': peek = '<path d="M66 80 Q70 34 100 34 Q130 34 134 80 Z" fill="#3a3a48" ' + SW3 + '/><path d="M92 36 L96 80 L104 80 L108 36 Z" fill="#fff"/><circle cx="84" cy="60" r="5" fill="#ff4d4d"/><circle cx="116" cy="60" r="5" fill="#ff4d4d"/><path d="M78 46 L92 52 M122 46 L108 52" ' + SW3 + '/>'; break;
+      case 'badger': peek = '<path d="M66 80 Q70 34 100 34 Q130 34 134 80 Z" fill="#2d2850" ' + SW3 + '/><path d="M92 36 L96 80 L104 80 L108 36 Z" fill="#fff"/><circle cx="84" cy="60" r="5" fill="#e5243b"/><circle cx="116" cy="60" r="5" fill="#e5243b"/><path d="M78 46 L92 52 M122 46 L108 52" ' + SW3 + '/>'; break;
     }
     return svg('0 0 200 200', peek +
       '<rect x="56" y="78" width="88" height="96" rx="6" fill="#2d2850" ' + SW + '/>' +
       '<rect x="56" y="140" width="88" height="16" fill="#e5243b" ' + SW3 + '/>' +
       '<ellipse cx="100" cy="176" rx="72" ry="14" fill="#2d2850" ' + SW + '/>' +
-      '<ellipse cx="100" cy="80" rx="44" ry="10" fill="#14102a" ' + SW3 + '/>' +
+      '<ellipse cx="100" cy="80" rx="44" ry="10" fill="#1c1640" ' + SW3 + '/>' +
       '<path d="M66 96 L66 130" stroke="#6c63a8" stroke-width="6" stroke-linecap="round"/>');
   });
 
@@ -37,7 +37,7 @@
       '<rect x="16" y="30" width="168" height="26" rx="6" fill="#2d2850" ' + SW + '/>' +
       '<path d="M60 92 l6 12 13 2 -10 9 3 13 -12 -7 -12 7 3 -13 -10 -9 13 -2z" fill="#ffd23f" ' + SW3 + '/>' +
       '<path d="M140 120 l4 8 9 1 -7 6 2 9 -8 -5 -8 5 2 -9 -7 -6 9 -1z" fill="#fff" ' + SW3 + '/>' +
-      (o.peephole ? '<circle cx="100" cy="150" r="13" fill="#14102a" ' + SW3 + '/>' : '') +
+      (o.peephole ? '<circle cx="100" cy="150" r="13" fill="#1c1640" ' + SW3 + '/>' : '') +
       '<path d="M36 64 L36 168" stroke="#fff" stroke-width="5" opacity=".4" stroke-linecap="round"/>');
   });
 
@@ -50,11 +50,11 @@
   A.addObject('e-watch', function (o) {
     var tilt = o.tilt || 0;
     return svg('0 0 200 200', '<g transform="rotate(' + tilt + ' 100 6)">' +
-      '<path d="M100 6 L100 104" stroke="#c9a227" stroke-width="5" stroke-dasharray="8 5"/>' +
+      '<path d="M100 6 L100 104" stroke="#f5b400" stroke-width="5" stroke-dasharray="8 5"/>' +
       '<circle cx="100" cy="140" r="46" fill="#ffd23f" ' + SW + '/><circle cx="100" cy="140" r="34" fill="#fffbe6" ' + SW3 + '/>' +
       '<path d="M100 140 L100 116 M100 140 L118 148" ' + SW + '/>' +
       '<path d="M76 118 Q86 108 98 108" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>' +
-      '<path d="M86 162 Q100 172 114 162" fill="none" stroke="#c9a227" stroke-width="4" opacity=".6"/></g>');
+      '<path d="M86 162 Q100 172 114 162" fill="none" stroke="#f5b400" stroke-width="4" opacity=".6"/></g>');
   });
 
   A.addObject('e-tray', function (o) {
@@ -80,13 +80,14 @@
 
   A.addObject('e-bowler', function () {
     return svg('0 0 200 200',
-      '<path d="M50 130 Q50 54 100 54 Q150 54 150 130 Z" fill="#3a3a48" ' + SWB + '/>' +
+      '<path d="M50 130 Q50 54 100 54 Q150 54 150 130 Z" fill="#2d2850" ' + SWB + '/>' +
       '<path d="M54 116 L146 116" stroke="#e5243b" stroke-width="12"/>' +
-      '<ellipse cx="100" cy="134" rx="78" ry="16" fill="#3a3a48" ' + SWB + '/>' +
+      '<ellipse cx="100" cy="134" rx="78" ry="16" fill="#2d2850" ' + SWB + '/>' +
       '<path d="M74 80 Q80 68 94 64" fill="none" stroke="#6c6c80" stroke-width="7" stroke-linecap="round"/>');
   });
 
-  A.addObject('e-chair', function () {
+  A.addObject('e-chair', function (o) {
+    if (A.hasObject('a-chair')) return A.object('a-chair', o);
     return svg('0 0 200 200',
       '<rect x="56" y="26" width="88" height="70" rx="6" fill="#c9a86a" ' + SWB + '/>' +
       '<rect x="44" y="98" width="112" height="22" rx="5" fill="#9a6b3f" ' + SWB + '/>' +
@@ -104,9 +105,9 @@
 
   A.addObject('e-camera', function () {
     return svg('0 0 200 200',
-      '<circle cx="70" cy="44" r="26" fill="#3a3a48" ' + SW + '/><circle cx="126" cy="44" r="26" fill="#3a3a48" ' + SW + '/>' +
+      '<circle cx="70" cy="44" r="26" fill="#2d2850" ' + SW + '/><circle cx="126" cy="44" r="26" fill="#2d2850" ' + SW + '/>' +
       '<rect x="40" y="70" width="110" height="64" rx="8" fill="#58607e" ' + SW + '/>' +
-      '<path d="M150 88 L184 72 L184 132 L150 116 Z" fill="#3a3a48" ' + SW + '/>' +
+      '<path d="M150 88 L184 72 L184 132 L150 116 Z" fill="#2d2850" ' + SW + '/>' +
       '<circle cx="64" cy="102" r="7" fill="#e5243b"/><path d="M96 134 L76 194 M96 134 L116 194 M96 134 L96 194" ' + SW + '/>');
   });
 
@@ -128,9 +129,9 @@
 
   A.addObject('e-guitar', function () {
     return svg('0 0 200 200', '<g transform="rotate(30 100 100)">' +
-      '<rect x="92" y="6" width="16" height="96" rx="4" fill="#9a6b3f" ' + SW3 + '/><rect x="86" y="0" width="28" height="18" rx="5" fill="#3a3a48" ' + SW3 + '/>' +
+      '<rect x="92" y="6" width="16" height="96" rx="4" fill="#9a6b3f" ' + SW3 + '/><rect x="86" y="0" width="28" height="18" rx="5" fill="#2d2850" ' + SW3 + '/>' +
       '<path d="M100 92 C60 92 56 128 72 140 C52 156 58 196 100 196 C142 196 148 156 128 140 C144 128 140 92 100 92 Z" fill="#ff8c1a" ' + SW + '/>' +
-      '<circle cx="100" cy="150" r="12" fill="#3a3a48"/><path d="M96 20 L96 180 M104 20 L104 180" stroke="#fff" stroke-width="2"/></g>');
+      '<circle cx="100" cy="150" r="12" fill="#2d2850"/><path d="M96 20 L96 180 M104 20 L104 180" stroke="#fff" stroke-width="2"/></g>');
   });
 
   A.addObject('e-buzzer', function (o) {
@@ -229,13 +230,13 @@
   });
 
   A.addObject('e-statue', function (o) {
-    var arm = o.nodding ? '<path d="M128 96 L178 70" ' + SW + '/><circle cx="182" cy="68" r="10" fill="#e8e6e0" ' + SW3 + '/>'
-      : '<path d="M128 96 L176 112" ' + SW + '/><circle cx="182" cy="114" r="10" fill="#e8e6e0" ' + SW3 + '/>';
+    var arm = o.nodding ? '<path d="M128 96 L178 70" ' + SW + '/><circle cx="182" cy="68" r="10" fill="#fff8dd" ' + SW3 + '/>'
+      : '<path d="M128 96 L176 112" ' + SW + '/><circle cx="182" cy="114" r="10" fill="#fff8dd" ' + SW3 + '/>';
     return svg('0 0 200 200',
       '<rect x="40" y="160" width="120" height="34" rx="4" fill="#c3ccd8" ' + SW + '/>' +
-      '<path d="M70 160 L74 90 Q100 76 126 90 L130 160 Z" fill="#e8e6e0" ' + SW + '/>' + arm +
-      '<path d="M128 96 L176 112" stroke="#e8e6e0" stroke-width="10" stroke-linecap="round" opacity="0"/>' +
-      '<circle cx="100" cy="56" r="26" fill="#e8e6e0" ' + SW + '/>' +
+      '<path d="M70 160 L74 90 Q100 76 126 90 L130 160 Z" fill="#fff8dd" ' + SW + '/>' + arm +
+      '<path d="M128 96 L176 112" stroke="#fff8dd" stroke-width="10" stroke-linecap="round" opacity="0"/>' +
+      '<circle cx="100" cy="56" r="26" fill="#fff8dd" ' + SW + '/>' +
       (o.nodding ? '<path d="M88 52 Q92 46 96 52 M104 52 Q108 46 112 52" fill="none" ' + SW3 + '/><path d="M90 66 Q100 74 110 66" fill="none" ' + SW3 + '/>'
         : '<path d="M88 54 L96 54 M104 54 L112 54" ' + SW3 + '/><path d="M92 68 L108 68" ' + SW3 + '/>'));
   });
@@ -244,7 +245,7 @@
   A.addObject('e-portrait', function (o) {
     var d = LOOK[o.look] || [0, 0];
     return svg('0 0 200 240',
-      '<rect x="8" y="8" width="184" height="224" rx="6" fill="#c9a227" ' + SW + '/>' +
+      '<rect x="8" y="8" width="184" height="224" rx="6" fill="#f5b400" ' + SW + '/>' +
       '<rect x="28" y="28" width="144" height="184" fill="#7a5c99" ' + SW3 + '/>' +
       '<path d="M40 212 Q40 150 100 150 Q160 150 160 212 Z" fill="#2d2850" ' + SW3 + '/>' +
       '<ellipse cx="100" cy="104" rx="44" ry="52" fill="#ffcf9e" ' + SW + '/>' +
@@ -266,7 +267,7 @@
 
   A.addObject('e-velvet', function () {
     return svg('0 0 400 100',
-      '<rect x="10" y="20" width="16" height="76" rx="5" fill="#c9a227" ' + SW3 + '/><rect x="374" y="20" width="16" height="76" rx="5" fill="#c9a227" ' + SW3 + '/>' +
+      '<rect x="10" y="20" width="16" height="76" rx="5" fill="#f5b400" ' + SW3 + '/><rect x="374" y="20" width="16" height="76" rx="5" fill="#f5b400" ' + SW3 + '/>' +
       '<path d="M18 30 Q200 90 382 30" fill="none" stroke="#b3123a" stroke-width="12" stroke-linecap="round"/>', 'art fill-art');
   });
 
@@ -311,12 +312,13 @@
     // so "your car" never depends on telling yellow from orange.
     var col = o.mine ? '#ffd23f' : (o.boss ? '#ffb347' : '#3ec1ff');
     var W8 = 'stroke="' + INK + '" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"';
-    var who = o.mine ? 'YOU' : (o.boss ? 'B' : '');
+    var who = o.mine ? 'YOU' : (o.boss ? 'BOSS' : '');
     return svg('0 0 200 200',
       '<path d="M100 10 L100 48" ' + W8 + '/>' +
       '<path d="M30 60 Q100 40 170 60 L160 170 Q100 190 40 170 Z" fill="' + col + '" ' + W8 + '/>' +
       '<rect x="50" y="72" width="100" height="56" rx="8" fill="#e6f7ff" ' + W8 + '/>' +
-      (who ? '<text x="100" y="114" text-anchor="middle" font-size="' + (o.mine ? 36 : 42) + '" font-weight="700" fill="' + INK + '">' + who + '</text>' : '') +
+      (who ? '<text x="100" y="114" text-anchor="middle" font-size="' + (o.mine ? 36 : 30) + '" font-weight="700" fill="' + INK + '">' + who + '</text>' : '') +
+      (o.boss ? '<path d="M92 136 L108 136 L104 144 L110 162 L100 172 L90 162 L96 144Z" fill="#e5243b" stroke="' + INK + '" stroke-width="5" stroke-linejoin="round"/>' : '') +
       (o.open ? '<path d="M44 130 L156 130" stroke="#2bc46f" stroke-width="8"/>' : ''));
   });
 
@@ -344,17 +346,18 @@
     var col = o.color || '#3ec1ff';
     return svg('0 0 200 200',
       '<rect x="14" y="14" width="172" height="172" rx="30" fill="' + col + '" ' + SW + '/>' +
-      '<circle cx="76" cy="90" r="10" fill="' + INK + '"/><circle cx="124" cy="90" r="10" fill="' + INK + '"/>' +
+      (o.asleep ? '<path d="M62 88 Q76 102 90 88 M110 88 Q124 102 138 88" fill="none" ' + SW + '/>'
+        : '<circle cx="76" cy="90" r="10" fill="' + INK + '"/><circle cx="124" cy="90" r="10" fill="' + INK + '"/>') +
       (o.moustache ? '<path d="M60 128 Q80 108 100 124 Q120 108 140 128 Q120 120 100 132 Q80 120 60 128 Z" fill="#3a2a1a" ' + SW3 + '/>' : '<path d="M76 128 Q100 144 124 128" fill="none" ' + SW + '/>') +
       (o.ears ? '<circle cx="46" cy="40" r="20" fill="' + col + '" ' + SW + '/><circle cx="154" cy="40" r="20" fill="' + col + '" ' + SW + '/>' : '') +
-      (o.asleep ? '<text x="140" y="60" font-size="30" fill="' + INK + '">z</text>' : ''));
+      (o.asleep ? '<text x="100" y="62" text-anchor="middle" font-size="40" font-weight="700" fill="' + INK + '">z z</text>' : ''));
   });
 
   A.addObject('e-curtain', function (o) {
     var folds = '';
     for (var i = 0; i < 5; i++) folds += '<path d="M' + (14 + i * 16) + ' 20 Q' + (8 + i * 16) + ' 110 ' + (18 + i * 16) + ' 196" fill="none" stroke="#7a0f26" stroke-width="5"/>';
     var g = '<path d="M0 0 L100 0 L100 20 Q60 120 92 200 L0 200 Z" fill="#b3123a" ' + SW + '/>' + folds +
-      '<rect x="0" y="0" width="100" height="22" fill="#c9a227" ' + SW3 + '/>';
+      '<rect x="0" y="0" width="100" height="22" fill="#f5b400" ' + SW3 + '/>';
     return svg('0 0 100 200', o.flip ? '<g transform="translate(100 0) scale(-1 1)">' + g + '</g>' : g, 'art fill-art');
   });
 })(typeof window !== 'undefined' ? window : globalThis);
