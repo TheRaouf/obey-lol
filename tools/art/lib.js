@@ -39,7 +39,11 @@ function viewport(spec, def) {
 }
 
 function pack(n) {
-  return n > 1000 ? 'Bonus' : n <= 32 ? 'Core' : n <= 52 ? 'A' : n <= 72 ? 'B' : n <= 92 ? 'C' : n <= 112 ? 'D' : n <= 132 ? 'E' : 'Final';
+  // Core 1–32, then 20-level packs A…J from Level 33, and the Final Factory as the last four levels.
+  if (n > 1000) return 'Bonus';
+  if (n <= 32) return 'Core';
+  if (n > LEVEL_COUNT - 4) return 'Final';
+  return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor((n - 33) / 20)] || 'Final';
 }
 
 /** Starts the static server and a browser page with every level completed (so replay props show).

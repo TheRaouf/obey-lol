@@ -8,6 +8,15 @@
   var SW = 'stroke="' + INK + '" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"';
   var SW3 = 'stroke="' + INK + '" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
 
+  /** 2.4.1 follow-up sleep z's as ink paths (the `h-dragon` construction): zs = [[x, y, size, stroke attrs], …], top-left
+   * corners in viewBox units. `pulse` = each z gets the `zzz` keyframes, 300 ms apart (the narrator's overlay). */
+  function sleepZ(zs, pulse) {
+    return zs.map(function (z, i) {
+      var x = z[0], y = z[1], s = z[2];
+      return '<path d="M' + x + ' ' + y + ' L' + (x + s) + ' ' + y + ' L' + x + ' ' + (y + s) + ' L' + (x + s) + ' ' + (y + s) + '" fill="none" ' + (z[3] || SW) +
+        (pulse ? ' style="animation:zzz 2s ease-in-out ' + (i * 0.3).toFixed(1) + 's infinite"' : '') + '/>';
+    }).join('');
+  }
   function svg(vb, inner, cls) {
     var stretch = cls && /fill-art|water-art/.test(cls);
     return '<svg class="' + (cls || 'art') + '" viewBox="' + vb + '" preserveAspectRatio="' + (stretch ? 'none' : 'xMidYMid meet') + '" aria-hidden="true" focusable="false">' + inner + '</svg>';
@@ -123,7 +132,9 @@
     var mask = costume === 'ninja' && overlay !== 'potato' ? '<rect x="26" y="78" width="148" height="40" rx="12" fill="#1f2033" ' + SW3 + '/>' : '';
     var faceMood = overlay === 'sleep' ? 'sleep' : mood;
     var face = eyes(faceMood, costume === 'ninja') + (overlay === 'gag' ? '' : '<g class="mouth">' + mouth(faceMood) + '</g>');
-    if (overlay === 'sleep') face += '<g class="zzz"><text x="150" y="60" font-size="26" fill="' + INK + '">z</text><text x="166" y="40" font-size="20" fill="' + INK + '">z</text><text x="178" y="24" font-size="14" fill="' + INK + '">z</text></g>';
+    // 2.4.1 follow-up: the z's are ink paths (bible §3.3), not Bagel <text>; each pulses with the `zzz` keyframes, 300 ms apart
+    // (inline, so the old `.zzz text` rule is not needed; `.reduce-motion` still stops them at full opacity).
+    if (overlay === 'sleep') face += '<g class="zzz">' + sleepZ([[148, 44, 16, SW], [168, 25, 12, SW3], [183, 10, 9, SW3]], true) + '</g>';
     var gag = overlay === 'gag' ? '<g transform="rotate(-8 100 140)"><rect x="70" y="128" width="60" height="20" rx="4" fill="#d9d4c7" ' + SW3 + '/></g><g transform="rotate(10 100 140)"><rect x="72" y="130" width="56" height="18" rx="4" fill="#ebe6da" ' + SW3 + '/></g>' : '';
     var tilt = mood === 'laughing' ? ' class="laugh-shake"' : mood === 'defeated' ? ' transform="rotate(-7 100 110) translate(0 6)"' : (mood === 'surprised' ? ' transform="translate(0 -4)"' : '');
     var acc = overlay === 'potato' ? '' : accessoryFront(costume);
@@ -242,16 +253,50 @@
       return svg('0 0 120 70', '<path d="M8 10 L112 4 L114 62 L10 66Z" fill="#ff8fd1" ' + SW3 + '/><path d="M20 22 L46 20 M20 34 L40 33 M20 46 L44 45" ' + SW3 + '/>' +
         '<circle cx="80" cy="35" r="24" fill="#fff" ' + SW3 + '/><text x="80" y="47" text-anchor="middle" font-size="34" fill="' + INK + '">10</text>');
     },
-    crate: function () {
-      return svg('0 0 120 150', '<rect x="6" y="6" width="108" height="138" rx="6" fill="#c98b4a" ' + SW + '/><path d="M6 6 L114 144 M114 6 L6 144" ' + SW3 + '/><rect x="6" y="6" width="108" height="138" rx="6" fill="none" ' + SW + '/><rect x="18" y="60" width="84" height="26" rx="4" fill="#fffdf6" ' + SW3 + '/><text x="60" y="79" text-anchor="middle" font-size="14" fill="' + INK + '">NOTHING</text>');
+    /* Wooden crate. Default: the portrait 120×150 "NOTHING" crate (L8). 2.4.1 follow-up canonical (bible §15): `stamp` = the
+     * word on its plate (default "NOTHING"); `wide` = the landscape 200×170 shipping crate with a faint plank cross and
+     * a 176 × 62 plate, 34-unit type, words over 6 letters held to 160 units (`j-crate` redirects here, L213). */
+    crate: function (o) {
+      if (o.wide) {
+        var w = o.stamp == null ? '' : String(o.stamp);
+        return svg('0 0 200 170', '<rect x="8" y="8" width="184" height="154" rx="8" fill="#c98b4a" ' + SW + '/>' +
+          '<path d="M8 8 L192 162 M192 8 L8 162" stroke="' + INK + '" stroke-opacity=".35" stroke-width="3"/>' +
+          (w ? '<rect x="12" y="54" width="176" height="62" rx="6" fill="#fffdf6" ' + SW3 + '/><text x="100" y="97" text-anchor="middle" font-size="34" fill="' + INK + '"' +
+            (w.length > 6 ? ' textLength="160" lengthAdjust="spacingAndGlyphs"' : '') + '>' + esc(w) + '</text>' : '') +
+          '<path d="M20 20 L20 50" fill="none" stroke="#fff" stroke-linecap="round" opacity=".5" stroke-width="6"/>');
+      }
+      var t = o.stamp == null ? 'NOTHING' : String(o.stamp);
+      return svg('0 0 120 150', '<rect x="6" y="6" width="108" height="138" rx="6" fill="#c98b4a" ' + SW + '/><path d="M6 6 L114 144 M114 6 L6 144" ' + SW3 + '/><rect x="6" y="6" width="108" height="138" rx="6" fill="none" ' + SW + '/>' +
+        (t ? '<rect x="18" y="60" width="84" height="26" rx="4" fill="#fffdf6" ' + SW3 + '/><text x="60" y="79" text-anchor="middle" font-size="14" fill="' + INK + '"' + (t.length > 7 ? ' textLength="76" lengthAdjust="spacingAndGlyphs"' : '') + '>' + esc(t) + '</text>' : ''));
     },
-    bin: function () {
+    /* Bin. Default: the green 100×150 recycling bin with the white arrow (L8, L42, L76). 2.4.1 follow-up canonical (bible §15):
+     * `plain` = a grey `#8a86a8` waste-paper bin with a `#4b4466` rim and faint slats, no arrow, in the 120×160 box
+     * `h-bin` used (L190), so its level box keeps its aspect. */
+    bin: function (o) {
+      if (o.plain) {
+        return svg('0 0 120 160', '<path d="M14 30 L106 30 L96 152 L24 152 Z" fill="#8a86a8" ' + SW + '/><rect x="8" y="18" width="104" height="16" rx="5" fill="#4b4466" ' + SW3 + '/>' +
+          '<path d="M40 46 L44 140 M60 46 L60 140 M80 46 L76 140" fill="none" stroke="' + INK + '" stroke-opacity=".35" stroke-width="2"/>' +
+          '<path d="M28 44 L33 104" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>');
+      }
       return svg('0 0 100 150', '<path d="M10 24 L90 24 L80 144 L20 144Z" fill="#2bc46f" ' + SW + '/><rect x="4" y="12" width="92" height="16" rx="6" fill="#1fa35b" ' + SW + '/><path d="M36 70 l14 -16 14 16 M50 54 L50 104" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>');
     },
-    shelf: function () {
+    /* Wall shelf, `#a0784d`. Default: a 200×40 board with short brackets. 2.4.1 follow-up canonical (bible §15): `deep` = a
+     * thicker board (18 units, `SW`) on longer `SW` brackets in a 200×60 box (`h-shelf` redirects here, L181). */
+    shelf: function (o) {
+      if (o.deep) return svg('0 0 200 60', '<rect x="4" y="10" width="192" height="18" rx="5" fill="#a0784d" ' + SW + '/><path d="M30 28 L44 52 M170 28 L156 52" ' + SW + '/>');
       return svg('0 0 200 40', '<rect x="4" y="6" width="192" height="14" rx="4" fill="#a0784d" ' + SW3 + '/><path d="M30 20 L44 36 M170 20 L156 36" ' + SW3 + '/>');
     },
-    table: function () {
+    /* `tall` (2.4.1, bible §3.1): a bench-height table whose top is mid-wall. The top is drawn at the top
+     * of the box at the normal 200-unit scale (xMidYMin) and the wooden legs run on past the viewBox and
+     * are clipped at the bottom of the box, so they always reach the floor: set the box from the table top
+     * down to the floor line (y + h ≈ 75). */
+    table: function (o) {
+      if (o.tall) {
+        return svg('0 0 200 40', '<rect x="18" y="12" width="12" height="2000" fill="#9a6b3f" ' + SW3 + '/><rect x="170" y="12" width="12" height="2000" fill="#9a6b3f" ' + SW3 + '/>' +
+          '<rect x="14" y="16" width="172" height="10" fill="#9a6b3f" ' + SW3 + '/>' +
+          '<rect x="4" y="4" width="192" height="14" rx="4" fill="#a0784d" ' + SW3 + '/><path d="M14 9 L60 9" stroke="#fff" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/>')
+          .replace('xMidYMid meet', 'xMidYMin meet').replace('<svg class="art"', '<svg class="art table-tall" style="overflow:hidden"');
+      }
       return svg('0 0 200 40', '<rect x="4" y="4" width="192" height="14" rx="4" fill="#a0784d" ' + SW3 + '/><path d="M24 18 L24 40 M176 18 L176 40" ' + SW + '/>');
     },
     gift: function (o) {
@@ -384,7 +429,7 @@
     },
     shybutton: function (o) {
       return svg('0 0 120 120', '<circle cx="60" cy="68" r="48" fill="#4b4466" ' + SW + '/><circle cx="60" cy="58" r="42" fill="#ff77b4" ' + SW + '/>' +
-        (o.asleep ? '<path d="M38 54 L52 54 M68 54 L82 54" ' + SW3 + '/><text x="88" y="24" font-size="22" fill="' + INK + '">z</text>' : '<circle cx="45" cy="52" r="6" fill="' + INK + '"/><circle cx="75" cy="52" r="6" fill="' + INK + '"/><ellipse cx="38" cy="66" rx="7" ry="4" fill="#e5243b" opacity=".5"/><ellipse cx="82" cy="66" rx="7" ry="4" fill="#e5243b" opacity=".5"/>') +
+        (o.asleep ? '<path d="M38 54 L52 54 M68 54 L82 54" ' + SW3 + '/>' + sleepZ([[86, 12, 14, SW], [104, 3, 8, SW3]]) : '<circle cx="45" cy="52" r="6" fill="' + INK + '"/><circle cx="75" cy="52" r="6" fill="' + INK + '"/><ellipse cx="38" cy="66" rx="7" ry="4" fill="#e5243b" opacity=".5"/><ellipse cx="82" cy="66" rx="7" ry="4" fill="#e5243b" opacity=".5"/>') +
         '<path d="M50 74 Q60 80 70 74" fill="none" ' + SW3 + '/>');
     },
     /* E20: the pans hang from the ends of the tilted beam (arm 104), each on two hangers. */
@@ -418,8 +463,11 @@
     mug: function () {
       return svg('0 0 100 80', '<rect x="14" y="10" width="56" height="60" rx="8" fill="#ff77b4" ' + SW + '/><path d="M70 24 Q94 24 92 44 Q90 60 70 58" fill="none" ' + SW + '/>');
     },
-    water: function () {
-      return svg('0 0 100 20', '<rect width="100" height="20" fill="#3ec1ff" opacity=".55"/><path d="M0 2 Q12 -2 25 2 T50 2 T75 2 T100 2" fill="none" stroke="#fff" stroke-width="1.5" opacity=".8"/>', 'art water-art');
+    /* `edge` (2.4.1, 2.4 POLISH 7): a 3 px ink outline (non-scaling, the art is stretched) so a moat or pool
+     * next to outlined scenery reads as a body of water, not a tint. The glare line is at the .55 cap. */
+    water: function (o) {
+      return svg('0 0 100 20', '<rect width="100" height="20" fill="#3ec1ff" opacity=".55"/><path d="M0 2 Q12 -2 25 2 T50 2 T75 2 T100 2" fill="none" stroke="#fff" stroke-width="1.5" opacity=".55"/>' +
+        (o.edge ? '<rect x="0" y="0" width="100" height="20" rx="1" fill="none" stroke="' + INK + '" stroke-width="3" vector-effect="non-scaling-stroke"/>' : ''), 'art water-art');
     },
     pipe: function (o) {
       return svg('0 0 200 90', '<rect x="0" y="16" width="200" height="34" fill="#8a86a8" ' + SW + '/><rect x="84" y="10" width="32" height="46" rx="6" fill="#c3ccd8" ' + SW3 + '/>' + (o.leaking ? '<path d="M100 56 L96 70 M106 56 L112 72" stroke="#3ec1ff" stroke-width="5" stroke-linecap="round"/>' : ''));
@@ -544,6 +592,8 @@
     /** Extension points used by art-extra.js (2.1). */
     addObject: function (k, f) { OBJECTS[k] = f; },
     addIcon: function (k, d) { ICONS[k] = d; },
-    svg: svg, INK: INK, SW: SW, SW3: SW3
+    svg: svg, INK: INK, SW: SW, SW3: SW3,
+    /** 2.4.1 follow-up: sleep z's as ink paths (see sleepZ). */
+    sleepZ: sleepZ
   };
 })(typeof window !== 'undefined' ? window : globalThis);

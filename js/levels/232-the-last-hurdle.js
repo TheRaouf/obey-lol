@@ -37,7 +37,7 @@
         O('grass', 0, 74, 100, 26, { kind: 'static', art: 'j-grass' }),
         O('rules', 4, 3, 56, 24, { kind: 'static', text: 'HURDLES RULE\nKnocking a hurdle over: allowed.\nGoing round it: disqualified.', label: 'Hurdles rule: knocking a hurdle over is allowed. Going round it means disqualification.', cls: 'book-card' }),
         O('factory', 64, 3, 32, 14, { kind: 'static', text: 'FINAL FACTORY ►', label: 'Sign: this way to the Final Factory', cls: 'sign-card' }),
-        O('you', 6, 52, 14, 22, { kind: 'static', art: 'hero', label: 'You, at the start of the last straight' }),
+        O('you', 7.5, 58.5, 11, 16, { kind: 'static', art: 'hero', label: 'You, at the start of the last straight' }),
         O('hurdle', 30, 30, 44, 44, { kind: 'static', art: 'j-hurdle', artOpts: { fallen: s.fallen }, label: s.fallen ? 'The last hurdle, lying flat on the track' : 'The last hurdle, four metres tall' }),
         O('size', 77, 50, 19, 10, { kind: 'static', text: '4 metres!', label: '', cls: 'tag-card' }),
         O('jump', 4, 79, 30, 16, { text: 'JUMP it!', label: 'Jump the hurdle', cls: 'btn-card accent big' }),

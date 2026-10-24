@@ -39,7 +39,8 @@
     view: function (s) {
       var out = [
         O('grass', 0, 0, 100, 100, { kind: 'static', art: 'j-grass', artOpts: { full: true } }),
-        O('rules', 4, 3, 92, 15, { kind: 'static', text: 'LONG JUMP: measure to the mark NEAREST the board.', label: 'Long jump rule: measure to the mark nearest the board.', cls: 'sign-card' })
+        O('rulesign', 4, 2, 30, 15.5, { kind: 'static', text: 'LONG JUMP', label: 'Long jump rule sign', cls: 'sign-card' }),
+        O('rules', 37, 3, 59, 13, { kind: 'static', text: 'Measure to the mark NEAREST the board.', label: 'Long jump rule: measure to the mark nearest the board.', cls: 'honest-card' })
       ];
       for (var m = 1; m <= 7; m++) out.push(O('m' + m, mx(m) - 4, 18, 8, 7, { kind: 'static', text: m + 'm', label: m + ' metres', cls: 'tag-card' }));
       out.push(O('pit', 4, 27, 92, 44, { kind: 'static', art: 'j-sandpit', label: 'Sand pit. The take-off board is at the left edge.' }));

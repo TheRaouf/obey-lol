@@ -37,8 +37,8 @@
         O('oven', 58, 36, 38, 38, { kind: 'static', art: 'f-oven', artOpts: { full: !s.fresh }, label: s.fresh ? 'Bakery oven, now empty' : 'Bakery oven. Through its window: a whole tray of croissants baking.' }),
         O('lady', 4, 59, 10, 15, { kind: 'static', art: 'f-shopper', artOpts: { color: '#9b5de5', carry: 'basket' }, label: s.fresh ? 'A lady, happily munching the last croissant' : 'A lady with an umbrella, eyeing the last croissant' }),
         O('case', 15, 60, 40, 14.7, { kind: 'static', art: 'f-glasscase', label: '' }),
-        O('last', 25, 49.5, 18, 11.3, { art: 'f-croissant', label: 'The last croissant on the counter', hidden: s.fresh }),
-        O('tray', 17, 49.5, 36, 12, { art: 'f-tray', label: 'A fresh tray of warm croissants (take one)', hidden: !s.fresh }),
+        O('last', 25, 51.3, 18, 11.3, { art: 'f-croissant', label: 'The last croissant on the counter', hidden: s.fresh }),
+        O('tray', 17, 51, 36, 12, { art: 'f-tray', label: 'A fresh tray of warm croissants (take one)', hidden: !s.fresh }),
         O('hide', 4, 84, 44, 12, { text: 'Hide it behind the bread', label: 'Hide the last croissant behind the bread', cls: 'btn-card accent' }),
         O('bell', 52, 84, 44, 12, { text: 'Ring the bell', label: 'Ring the bell for the baker', cls: 'btn-card big' })
       ];

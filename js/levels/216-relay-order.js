@@ -10,7 +10,7 @@
   var OBEY = root.OBEY, O = OBEY.obj;
   var RIGHT = ['kevin', 'mimic', 'boss', 'you'];
   var R = {
-    you: { name: 'You', box: [7, 55, 14, 21], art: 'hero' },
+    you: { name: 'You', box: [8.5, 59, 11, 16], art: 'hero' },
     kevin: { name: 'Kevin', box: [29, 56, 20, 20], art: 'twin' },
     mimic: { name: 'Mimic', box: [53, 58.5, 20, 17.5], art: 'cat' },
     boss: { name: 'Bossworth', box: [76, 56, 20, 20], art: 'j-boss' }
@@ -50,7 +50,7 @@
         out.push(O(k, b[0], b[1], b[2], b[3], { art: r.art, label: r.name + (leg ? ', running leg ' + leg : ', no leg yet') }));
         out.push(O('name-' + k, SLOT[k] + 1, 78, 18, 8, { kind: 'static', text: r.name, label: '', cls: 'tag-card' }));
       });
-      out.push(O('clear', 30, 89, 40, 9, { text: 'Clear the legs', label: 'Clear all legs and start again', cls: 'btn-card small', free: true, hidden: !s.order.length }));
+      out.push(O('clear', 30, 89, 40, 9, { text: 'Clear the legs', label: 'Clear all legs and start again', cls: 'btn-card', free: true, hidden: !s.order.length }));
       return out;
     },
 

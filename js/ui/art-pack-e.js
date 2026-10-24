@@ -331,7 +331,7 @@
       '<ellipse cx="100" cy="146" rx="38" ry="26" fill="#e0a96d" ' + SW + '/>' +
       '<circle cx="76" cy="124" r="10" fill="#e0a96d" ' + SW3 + '/><circle cx="124" cy="124" r="10" fill="#e0a96d" ' + SW3 + '/>' +
       (run ? '<circle cx="88" cy="142" r="5" fill="' + INK + '"/><circle cx="112" cy="142" r="5" fill="' + INK + '"/><path d="M40 120 L20 120 M44 140 L16 140" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>'
-        : '<path d="M82 142 L94 142 M106 142 L118 142" ' + SW3 + '/><text x="140" y="96" font-size="26" fill="' + INK + '">z</text><text x="156" y="72" font-size="20" fill="' + INK + '">z</text>') +
+        : '<path d="M82 142 L94 142 M106 142 L118 142" ' + SW3 + '/>' + A.sleepZ([[138, 78, 16, A.SW], [158, 56, 12, A.SW3]])) +
       '<ellipse cx="100" cy="154" rx="6" ry="4" fill="#ff9fb8"/>');
   });
 
@@ -350,7 +350,7 @@
         : '<circle cx="76" cy="90" r="10" fill="' + INK + '"/><circle cx="124" cy="90" r="10" fill="' + INK + '"/>') +
       (o.moustache ? '<path d="M60 128 Q80 108 100 124 Q120 108 140 128 Q120 120 100 132 Q80 120 60 128 Z" fill="#3a2a1a" ' + SW3 + '/>' : '<path d="M76 128 Q100 144 124 128" fill="none" ' + SW + '/>') +
       (o.ears ? '<circle cx="46" cy="40" r="20" fill="' + col + '" ' + SW + '/><circle cx="154" cy="40" r="20" fill="' + col + '" ' + SW + '/>' : '') +
-      (o.asleep ? '<text x="100" y="62" text-anchor="middle" font-size="40" font-weight="700" fill="' + INK + '">z z</text>' : ''));
+      (o.asleep ? A.sleepZ([[72, 46, 20, A.SW], [100, 26, 13, A.SW3]]) : ''));
   });
 
   A.addObject('e-curtain', function (o) {

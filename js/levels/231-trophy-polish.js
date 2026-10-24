@@ -32,7 +32,8 @@
 
     view: function (s) {
       return [
-        O('sign', 4, 3, 58, 14, { kind: 'static', text: 'SPORTS DAY CUP: engraved with the winner\'s name.', label: 'Sign: the sports day cup is engraved with the winner\'s name.', cls: 'sign-card' }),
+        O('signhead', 4, 2, 40, 17, { kind: 'static', text: 'SPORTS DAY CUP', label: 'Sign: the sports day cup', cls: 'sign-card' }),
+        O('sign', 47, 3, 49, 16, { kind: 'static', text: 'Engraved with the winner\'s name.', label: 'Sign: the sports day cup is engraved with the winner\'s name.', cls: 'honest-card' }),
         O('trophy', 22, 22, 40, 44, { kind: 'static', art: 'j-trophy', artOpts: { clean: s.clean }, label: s.clean ? 'The cup, gleaming' : 'The cup, covered in grime' }),
         O('table', 18, 66, 48, 9.6, { kind: 'static', art: 'table' }),
         O('plaque', 66, 26, 30, 30, { kind: 'static', text: s.clean ? 'Plaque:\nWINNER: YOU' : 'Plaque:\n(too grimy to read)', label: s.clean ? 'The plaque reads: winner, you.' : 'The plaque is too grimy to read.', cls: s.clean ? 'plaque-card' : 'tag-card' }),

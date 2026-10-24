@@ -47,7 +47,7 @@
         O('sticker', 4, 2, 34, 19, { kind: 'static', text: 'Smoke alarm: "Low battery? I chirp till you notice."', label: 'Sticker: the smoke alarm chirps until you notice its battery is low', cls: 'tag-card' }),
         O('alarm', 38, 2, 24, 13, { art: 'b-smoke', artOpts: { beeping: s.flash }, zone: true, label: 'Smoke alarm on the ceiling' + (s.flash ? ', light flashing' : '') + ' (tap to pull its battery out)' }),
         O('chirp', 64, 3, 18, 9, { kind: 'static', text: 'CHIRP!', label: 'Chirp from the smoke alarm', cls: 'speech-card', hidden: !s.flash }),
-        O('stand', 4, 56, 30, 8, { kind: 'static', art: 'table' }),
+        O('stand', 4, 56, 30, 19, { kind: 'static', art: 'table', artOpts: { tall: true } }),
         O('cage', 4, 24, 30, 40, { art: 'b-budgie', artOpts: { covered: s.covered }, zone: true, free: true, label: s.covered ? 'Budgie cage under a towel' : 'Budgie cage. The budgie is fast asleep.' }),
         O('zzz', 24, 22, 12, 8, { kind: 'static', text: 'zzz', label: '', cls: 'tag-card', hidden: s.covered }),
         O('under', 38, 58, 26, 32, { kind: 'zone', zone: true, hidden: s.stool, label: 'Floor right under the smoke alarm' }),

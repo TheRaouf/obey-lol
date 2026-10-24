@@ -36,8 +36,9 @@
         O('window', 6, 6, 38, 38, { kind: 'static', art: 'c-window', artOpts: { rain: true }, label: 'Window: dark clouds and pouring rain outside' }),
         O('paper', 50, 5, 46, 21, { kind: 'static', text: 'Tourist Times: "SUNSHINE ALL DAY!"', label: 'Newspaper headline: sunshine all day', cls: 'sign-card' }),
         O('date', 54, 28, 40, 9, { kind: 'static', text: 'Edition: last Tuesday', label: 'Newspaper date: last Tuesday', cls: 'tag-card' }),
-        O('stand', 8, 72, 12, 18, { kind: 'static', art: 'bin', label: 'Umbrella stand' }),
-        O('brolly', 8, 58, 16, 30, { art: 'c-umbrella', artOpts: { open: false }, label: s.brolly ? 'Your umbrella (carried, closed)' : 'Closed umbrella in a stand', cls: s.brolly ? 'subtle' : '' }),
+        O('brolly', 6, 48, 20, 26, { art: 'c-umbrella', artOpts: { open: false, stand: !s.brolly }, label: s.brolly ? 'Your umbrella (carried, closed)' : 'Closed umbrella in a stand', cls: s.brolly ? 'subtle' : '' }),
+        // 2.4.1: a real umbrella stand, after the brolly so its front hides the stored umbrella's lower half (static, no taps).
+        O('stand', 8, 66, 16, 24, { kind: 'static', art: 'c-umbrellastand', label: 'Umbrella stand' }),
         O('bench', 26, 72, 24, 8, { kind: 'static', art: 'table' }),
         O('shades', 28, 65, 20, 12, { art: 'c-sunglasses', label: s.shades ? 'Sunglasses (wearing them)' : 'Sunglasses', cls: s.shades ? 'subtle' : '' }),
         O('door', 62, 38, 30, 48, { art: 'door', artOpts: { sign: 'PROMENADE' }, label: 'Door to the promenade' }),

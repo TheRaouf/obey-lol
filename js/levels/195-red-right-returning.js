@@ -35,7 +35,8 @@
     view: function (s) {
       var out = [
         O('sea', 0, 0, 100, 100, { kind: 'static', art: 'i-sea', artOpts: { nobed: true }, cls: 'backdrop' }),
-        O('rule', 4, 2, 92, 15, { kind: 'static', text: 'HARBOUR RULE · coming in: RED cans on your RIGHT, GREEN cones on your LEFT', label: 'Harbour rule: coming in, keep red cans on your right and green cones on your left', cls: 'sign-card' })
+        O('rulesign', 4, 2, 30, 17, { kind: 'static', text: 'HARBOUR RULE', label: 'Harbour rule sign', cls: 'sign-card' }),
+        O('rule', 37, 2, 59, 17, { kind: 'static', text: 'Coming in: RED cans on your RIGHT, GREEN cones on your LEFT.', label: 'Harbour rule: coming in, keep red cans on your right and green cones on your left', cls: 'honest-card' })
       ];
       BUOYS.forEach(function (b, i) {
         var y = ROW_Y[i] + (i === 2 ? 2 : 0);

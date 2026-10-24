@@ -48,7 +48,7 @@
         out.push(O('r-' + k, 4, y, 33, 6.5, { kind: 'static', text: t.name.replace('Team ', ''), label: t.name + ': ' + t.medals[0] + ' gold, ' + t.medals[1] + ' silver, ' + t.medals[2] + ' bronze', cls: 'tag-card' }));
         [38, 57, 77].forEach(function (x, c) { out.push(O('m-' + k + c, x, y, c ? 19 : 18, 6.5, { kind: 'static', text: t.medals[c], label: '', cls: 'tag-card' })); });
       });
-      out.push(O('rule', 4, 32, 92, 8, { kind: 'static', text: 'Ranked by GOLDS first, then silvers, then bronzes.', label: 'Rule: ranked by golds first, then silvers, then bronzes.', cls: 'sign-card' }));
+      out.push(O('rule', 4, 31, 92, 10.5, { kind: 'static', text: 'Ranked by GOLDS first, then silvers, then bronzes.', label: 'Rule: ranked by golds first, then silvers, then bronzes.', cls: 'honest-card' }));
       out.push(O('podium', 22, 50, 56, 24, { kind: 'static', art: 'j-podium', label: 'Podium with steps 1, 2 and 3' }));
       s.placed.forEach(function (k, i) {
         out.push(O('on-' + k, SPOT[i][0], SPOT[i][1], 10, 12, { kind: 'static', art: T[k].art, label: T[k].name + ' on step ' + (i + 1) }));

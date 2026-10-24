@@ -32,8 +32,8 @@
 
     view: function (s) {
       var objs = [
-        O('chest', 4, 5, 40, 60, { kind: 'static', text: ' ', cls: 'tag-card', label: '' }),
-        O('legs', 4, 63, 40, 9, { kind: 'static', art: 'table' })
+        O('chest', 4, 5, 40, 60, { kind: 'static', text: '', cls: 'tag-card', label: '' }),
+        O('legs', 4, 63, 40, 12, { kind: 'static', art: 'table', artOpts: { tall: true } })
       ];
       for (var i = 0; i < 3; i++) {
         objs.push(O('d' + (i + 1), 6, 8 + i * 19, 36, 17, { art: 'drawer', artOpts: { n: i + 1, open: s.open[i] }, label: 'Drawer ' + (i + 1) + (s.open[i] ? ', contains ' + ITEMS[i] : '') }));
@@ -74,7 +74,12 @@
       return false;
     },
 
+    trick: 'The cat was sitting on the sock. Wake the cat, not the drawers.',
     solution: [{ tap: 'cat' }, { drop: ['sock', 'basket'] }],
+    checks: [
+      { name: 'drawer 3, as told', steps: [{ tap: 'd3' }], expect: 'nope' },
+      { name: 'sock handed to Bossworth', steps: [{ tap: 'cat' }, { drop: ['sock', 'narrator'] }], expect: 'nope' }
+    ],
     secretPaths: {}
   });
 })(typeof window !== 'undefined' ? window : globalThis);

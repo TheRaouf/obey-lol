@@ -49,8 +49,8 @@
         O('rope', 10, 22, 10, 50, { art: 'h-bellrope', artOpts: { swing: s.changed }, label: 'Bell rope (pull it)' }),
         O('tower', 74, 6, 22, 12, { kind: 'static', text: s.changed ? 'Tower bell: rang!' : 'Tower bell in ' + s.left + ' s', label: s.changed ? 'Tower bell has rung' : 'Tower bell rings in ' + s.left + ' seconds', cls: 'tag-card' }),
         O('gate', 36, 32, 34, 44, { art: 'h-gatehouse', artOpts: { open: true }, label: s.changed ? 'Inner gate, nobody guarding it' : 'Inner gate, blocked by two crossed pikes' }),
-        O('g1', 24, 46, 24, 30, { kind: 'static', art: 'h-guard', artOpts: { side: 'left', pose: s.changed ? 'march' : '' }, hidden: s.changed, label: 'Guard with his pike across the gate' }),
-        O('g2', 58, 46, 24, 30, { kind: 'static', art: 'h-guard', artOpts: { side: 'right', pose: s.changed ? 'march' : '' }, hidden: s.changed, label: 'Guard with his pike across the gate' }),
+        O('g1', 24, 49, 24, 30, { kind: 'static', art: 'h-guard', artOpts: { side: 'left', pose: s.changed ? 'march' : '' }, hidden: s.changed, label: 'Guard with his pike across the gate' }),
+        O('g2', 58, 49, 24, 30, { kind: 'static', art: 'h-guard', artOpts: { side: 'right', pose: s.changed ? 'march' : '' }, hidden: s.changed, label: 'Guard with his pike across the gate' }),
         O('late', 72, 22, 24, 13, { kind: 'static', text: 'New guards: running late', label: 'Note: the new guards are running late', cls: 'tag-card', hidden: !s.changed }),
         O('coins', 80, 82, 15, 13, { art: 'h-coins', label: 'Bag of Bossworth\'s gold (offer it to the guards)' })
       ];

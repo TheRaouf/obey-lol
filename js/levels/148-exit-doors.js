@@ -37,8 +37,8 @@
         O('beam', 40, 36, 20, 16, { kind: 'zone', zone: true, label: 'The door sensor\'s beam, high above your head' }),
         O('hero', 45.5, 74, 9.3, 14, { kind: 'static', art: 'hero', label: 'You, the intern, standing in front of the doors, well below the beam' }),
         O('bag', 6, 58, 15, 17.8, { kind: 'static', art: 'f-carrier', artOpts: { full: true }, label: 'Your shopping bag' }),
-        O('alarm', 74, 25, 24, 13, { kind: 'static', text: 'ALARM WILL SOUND', label: 'Sign: fire exit, alarm will sound', cls: 'tag-card' }),
-        O('fire', 76, 41, 20, 33.3, { art: 'door', artOpts: { sign: 'FIRE EXIT' }, label: 'Fire exit door. Alarm will sound.' }),
+        O('alarm', 74, 25, 24, 13, { kind: 'static', text: 'Fire exit: alarm will sound', label: 'Sign: fire exit, alarm will sound', cls: 'tag-card' }),
+        O('fire', 76, 41, 20, 33.3, { art: 'door', artOpts: { sign: 'ALARM' }, label: 'Fire exit door. Alarm will sound.' }),
         O('baguette', 4, 88, 32, 9.5, { art: 'f-baguette', label: 'A long baguette from your shopping (drag it)', drag: true, hidden: s.open }),
         O('knock', 58, 88, 18, 10, { text: 'Knock', label: 'Knock on the glass', cls: 'btn-card' }),
         O('dance', 78, 88, 18, 10, { text: 'Dance', label: 'Do a little dance', cls: 'btn-card accent' })

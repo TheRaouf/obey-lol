@@ -39,7 +39,7 @@
       var out = [
         O('note', 4, 3, 56, 32, { kind: 'static', text: 'Stagehand\'s note: Bossworth wrote these labels. EVERY label is wrong. Each box holds a key, a rabbit, or both.', label: 'Stagehand note: every label is wrong. Each box holds a key, a rabbit, or both.', cls: 'book-card' }),
         O('peek', 62, 6, 34, 16, { text: s.peeked ? 'Peephole: one rabbit. Just a rabbit.' : 'Look through the peephole', label: s.peeked ? 'Peephole on the KEY + RABBIT box: you see only a rabbit' : 'Peephole on the KEY + RABBIT box (look through it)', cls: 'btn-card' + (s.peeked ? ' ghost' : ''), free: true }),
-        O('table', 4, 62, 92, 18, { kind: 'static', art: 'table' })
+        O('table', 4, 62, 92, 18.5, { kind: 'static', art: 'table', artOpts: { tall: true } })
       ];
       BOXES.forEach(function (b, i) {
         var x = 4 + i * 32;

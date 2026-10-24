@@ -1200,3 +1200,19 @@ follow-ups).
 - A map region label can sit on a chapter's first node (e.g. node 37).
 - The 13 pre-existing level-lab notes on L133–L136 (no `trick` / declared wrong move; L136
   alternative secret path) are level-lab format gaps, not art.
+
+### Done in 2.4.1
+
+The three items left deviated or partial here are finished on branch `v2.4.1` (reports in
+`docs/ART-REVIEW-2.4.1.md`):
+- **E46 (L65 taps):** `b-bathtub` and `b-taps` trimmed to their drawings; L65 `tub` (4, 41, 62, 34)
+  and `taps` (22, 22.4, 30, 20.6) listed after the tub, so the tap plate sits on the rim and the water
+  falls into the bath. L68 re-boxed to match.
+- **E51 (L119 curtains):** `curtainL`/`curtainR` moved to the front of the object list, so every card
+  draws above them.
+- **E98 (duplicates):** one canonical drawing per object (frame → `a-photo`, portrait →
+  `a-portrait`, plus coin, hammer, oven, jar, tin, chair, plug, duck, sofa, torch). Desk, tray,
+  magnet, balloon and stamp were reviewed and kept separate on purpose; the reasons are in bible §15.
+
+The follow-ups above (tall table, L65 taps, umbrella stand, map labels, the Final Factory level-lab
+notes, now L233–L236) are all closed; see bible §18.

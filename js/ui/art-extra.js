@@ -35,6 +35,39 @@
     return svg('0 0 200 120', '<path d="M30 110 L60 40 L140 40 L170 110 Z" fill="#e5243b" ' + SW + '/><rect x="70" y="20" width="60" height="24" rx="6" fill="#4b4466" ' + SW + '/>');
   });
 
+  /* 2.4.1 canonical cross-pack drawings (bible §15): `f-coin`/`i-coin` and `h-hammer`/`i-hammer`
+   * redirect here, so every coin and hammer in the game is the same drawing. */
+  /** Coin: `v` = the value on its face (default "1"); `cap` = a crinkly bottle cap instead (L203 tell). */
+  A.addObject('coin', function (o) {
+    if (o.cap) {
+      var d = '';
+      for (var i = 0; i < 16; i++) { var t = i * Math.PI / 8, r = i % 2 ? 40 : 46; d += (i ? 'L' : 'M') + (50 + r * Math.cos(t)).toFixed(1) + ' ' + (50 + r * Math.sin(t)).toFixed(1) + ' '; }
+      return svg('0 0 100 100', '<path d="' + d + 'Z" fill="#c3ccd8" ' + SW + '/><circle cx="50" cy="50" r="26" fill="#e5243b" ' + SW3 + '/><path d="M36 40 Q44 30 56 32" fill="none" stroke="#fff" stroke-width="5" opacity=".5" stroke-linecap="round"/>');
+    }
+    var v = String(o.v == null ? '1' : o.v), fs = v.length > 2 ? 28 : 36;
+    return svg('0 0 100 100', '<circle cx="50" cy="50" r="44" fill="#ffd23f" ' + SW + '/><circle cx="50" cy="50" r="34" fill="none" stroke="#f5b400" stroke-width="5"/>' +
+      '<text x="50" y="' + (50 + fs * 0.36).toFixed(1) + '" text-anchor="middle" font-size="' + fs + '" fill="' + INK + '">' + OBEY.util.escape(v) + '</text>' +
+      '<path d="M24 34 Q32 20 48 18" fill="none" stroke="#fff" stroke-width="5" opacity=".5" stroke-linecap="round"/>');
+  });
+
+  /** Hammer: grey head, wooden handle. Default: diagonal, 200×200. `lying` = flat on the floor, 160×120.
+   * `hook` = hanging head-down from a drawn wall hook (a hand prop on a wall never floats, 2.4 SHOULD 4). */
+  A.addObject('hammer', function (o) {
+    var HEAD = '#8a86a8', WOOD = '#a0784d', HI = 'fill="none" stroke="#fff" stroke-width="5" opacity=".5" stroke-linecap="round"';
+    if (o.lying) {
+      return svg('0 0 160 120', '<rect x="62" y="44" width="90" height="18" rx="8" fill="' + WOOD + '" ' + SW + '/><rect x="16" y="20" width="52" height="66" rx="8" fill="' + HEAD + '" ' + SW + '/><path d="M24 30 L24 60" ' + HI + '/>');
+    }
+    if (o.hook) {
+      return svg('0 0 200 200',
+        '<rect x="80" y="6" width="40" height="16" rx="5" fill="#c3ccd8" ' + SW3 + '/><path d="M100 22 L100 34 Q100 44 110 42" fill="none" ' + SW + '/>' +
+        '<circle cx="100" cy="44" r="9" fill="none" ' + SW3 + '/>' +
+        '<rect x="90" y="50" width="20" height="100" rx="8" fill="' + WOOD + '" ' + SW + '/>' +
+        '<rect x="52" y="140" width="96" height="48" rx="8" fill="' + HEAD + '" ' + SW + '/><path d="M64 152 L104 152" ' + HI + '/>');
+    }
+    return svg('0 0 200 200', '<g transform="rotate(33 100 100)"><rect x="91" y="64" width="18" height="128" rx="8" fill="' + WOOD + '" ' + SW + '/>' +
+      '<rect x="52" y="22" width="96" height="46" rx="8" fill="' + HEAD + '" ' + SW + '/><path d="M64 34 L104 34" ' + HI + '/></g>');
+  });
+
   /** Jigsaw piece n (1–9) in a distinctive colour. */
   var PIECE = ['#ff8c1a', '#3ec1ff', '#9b5de5', '#2bc46f', '#e5243b', '#ffd23f', '#ff6f91', '#7be37b', '#58607e'];
   A.addObject('jigsaw', function (o) {
@@ -102,18 +135,34 @@
   A.addIcon('rocket', '<path d="M12 2.6 C15.6 5.2 16.6 10.2 14.8 16 H9.2 C7.4 10.2 8.4 5.2 12 2.6 Z M9.4 12.4 L6.2 16.6 L9.2 16 M14.6 12.4 L17.8 16.6 L14.8 16 M10.8 19 L12 21.6 L13.2 19" ' + ST + '/><circle cx="12" cy="9" r="1.8" fill="currentColor"/>');
   A.addIcon('curtain', '<path d="M3 3.8 H21 M4.5 3.8 V19.5 C6.8 20.2 8.6 18.8 9.6 16.6 C8.6 12.4 8.6 8 10 3.8 M19.5 3.8 V19.5 C17.2 20.2 15.4 18.8 14.4 16.6 C15.4 12.4 15.4 8 14 3.8" ' + ST + '/>');
 
-  /** Landmark icon for a chapter (0-based index or chapter id): 0–7 core, 8–12 office, 13–17 home,
-   * 18–22 outdoors, 23–25 science, 26–27 space, 28–32 show, 33 final. */
+  /* 2.4.1 follow-up: landmarks for the 2.4 packs (F supermarket, G school, H castle, I sea, J sports day). Same house
+   * style: 24-unit viewBox, currentColor, stroke 2.2, round caps and joins, one or two filled accents. */
+  A.addIcon('cart', '<path d="M2.6 4.2 H5.2 L7.6 15.2 H18.2 L20.6 7.4 H6.1 M8.4 11.3 H19.4" ' + ST + '/><circle cx="9.2" cy="19.2" r="1.7" fill="currentColor"/><circle cx="16.6" cy="19.2" r="1.7" fill="currentColor"/>');
+  A.addIcon('pencil', '<path d="M15.4 4.4 A1.6 1.6 0 0 1 17.7 4.4 L19.6 6.3 A1.6 1.6 0 0 1 19.6 8.6 L8.6 19.6 L3.9 20.1 L4.4 15.4 Z M13.4 6.4 L17.6 10.6 M4.4 15.4 L8.6 19.6" ' + ST + '/><path d="M3.9 20.1 L4.1 18.2 L5.8 19.9 Z" fill="currentColor"/>');
+  A.addIcon('tower', '<path d="M6 21 V5.6 H8.6 V8.2 H10.8 V5.6 H13.2 V8.2 H15.4 V5.6 H18 V21 Z M10 21 V17.4 A2 2 0 0 1 14 17.4 V21 M12 11.4 V13.4" ' + ST + '/><path d="M3.5 21 H20.5" ' + ST + '/>');
+  A.addIcon('anchor', '<circle cx="12" cy="4.8" r="2.1" ' + ST + '/><path d="M12 6.9 V20.8 M8.4 10.2 H15.6 M4.5 13.4 A7.5 7.5 0 0 0 19.5 13.4 M4.5 13.4 L3.3 15.9 M4.5 13.4 L7.1 14.2 M19.5 13.4 L20.7 15.9 M19.5 13.4 L16.9 14.2" ' + ST + '/>');
+  A.addIcon('whistle', '<path d="M9 8.5 H20.5 V12.5 H14.3 A5.5 5.5 0 1 1 9 8.5 Z M15.8 8.5 V6.4 H18.6 V8.5" ' + ST + '/><circle cx="9" cy="14" r="1.7" fill="currentColor"/><path d="M5.2 10 Q2.6 7.4 4.6 4" ' + ST + '/>');
+
+  /** Landmark icon for a chapter (0-based index or chapter id). 2.4.1 follow-up: mapped by pack, anchored on each pack's
+   * first chapter id, and the Final Factory is found by its id (else the last chapter), so adding chapters can
+   * never push a pack onto the finale's `gear` again (the 2.4 bug: every index >= 33 drew the gear). */
+  var LANDMARKS = [['button-bay', 'button'], ['stapler-steppes', 'stapler'], ['kitchen-kerfuffle', 'sock'], ['brolly-beach', 'palm'],
+    ['beaker-basin', 'flask'], ['rocket-ridge', 'rocket'], ['magic-matinee', 'curtain'], ['aisle-antics', 'cart'],
+    ['chalkboard-chasm', 'pencil'], ['moat-mayhem', 'tower'], ['periscope-pier', 'anchor'], ['hurdle-hollow', 'whistle']];
+  /** Shared by art and audio: the entry of `table` ([firstChapterId, value] pairs) whose pack holds chapter k,
+   * or `fin` for the Final Factory. Returns null for an unknown chapter. */
+  A.packOf = function (table, c, fin) {
+    var ids = (OBEY.CHAPTERS || []).map(function (x) { return x.id; });
+    var k = typeof c === 'number' ? c : ids.indexOf(c);
+    if (k < 0 || k >= ids.length) return null;
+    var f = ids.indexOf('final-factory');
+    if (f < 0) f = ids.length - 1;
+    if (k === f) return fin;
+    var best = null, at = -1;
+    table.forEach(function (e) { var s = ids.indexOf(e[0]); if (s >= 0 && s <= k && s > at) { at = s; best = e[1]; } });
+    return best;
+  };
   A.chapterIcon = function (c) {
-    var k = typeof c === 'number' ? c : OBEY.CHAPTERS.map(function (x) { return x.id; }).indexOf(c);
-    if (k < 0) return 'button';
-    if (k <= 7) return 'button';
-    if (k <= 12) return 'stapler';
-    if (k <= 17) return 'sock';
-    if (k <= 22) return 'palm';
-    if (k <= 25) return 'flask';
-    if (k <= 27) return 'rocket';
-    if (k <= 32) return 'curtain';
-    return 'gear';
+    return A.packOf(LANDMARKS, c, 'gear') || 'button';
   };
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -35,13 +35,15 @@
       return [
         O('sign', 4, 3, 44, 10, { kind: 'static', text: 'PUMP 4', label: 'Sign: pump number four', cls: 'sign-card' }),
         O('cap', 50, 3, 46, 13, { kind: 'static', text: 'Fuel cap: DIESEL ONLY', label: 'The car\'s fuel cap reads: diesel only', cls: 'ticket-card' }),
-        O('pump', 4, 31, 26, 42.7, { kind: 'static', art: 'f-pump', label: 'Fuel pump' }),
-        O('nU', 33, 22, 16, 20.4, { art: 'f-nozzle', artOpts: { color: '#2bc46f', letter: 'U' }, label: 'Green nozzle marked U, unleaded petrol' + (s.hand === 'U' ? ' (in the car)' : ''), hidden: s.hand === 'U' && !s.hung }),
-        O('tU', 50, 26, 20, 9, { kind: 'static', text: 'U: Unleaded', label: '', cls: 'tag-card' }),
-        O('nD', 33, 46, 16, 20.4, { art: 'f-nozzle', artOpts: { color: '#4b4466', letter: 'D' }, label: 'Dark grey nozzle marked D, diesel' + (s.hand === 'D' ? ' (in the car)' : ''), hidden: s.hand === 'D' && !s.hung }),
-        O('tD', 50, 50, 20, 9, { kind: 'static', text: 'D: Diesel', label: '', cls: 'tag-card' }),
+        O('nU', 27.4, 26.4, 16, 20.4, { art: 'f-nozzle', artOpts: { color: '#2bc46f', letter: 'U' }, label: 'Green nozzle marked U, unleaded petrol' + (s.hand === 'U' ? ' (in the car)' : ''), hidden: s.hand === 'U' && !s.hung }),
+        O('tU', 45, 28, 20, 9, { kind: 'static', text: 'U: Unleaded', label: '', cls: 'tag-card' }),
+        O('nD', 27.4, 47.1, 16, 20.4, { art: 'f-nozzle', artOpts: { color: '#4b4466', letter: 'D' }, label: 'Dark grey nozzle marked D, diesel' + (s.hand === 'D' ? ' (in the car)' : ''), hidden: s.hand === 'D' && !s.hung }),
+        O('tD', 45, 49, 20, 9, { kind: 'static', text: 'D: Diesel', label: '', cls: 'tag-card' }),
+        // 2.4.1: the nozzles sit in the pump's holster cups. The pump comes after them so the cups draw over
+        // the grips (static art takes no taps). On a 59.5 % pump the cups are 20.7 % apart, so the hit boxes never overlap.
+        O('pump', 2, 15.8, 36.2, 59.5, { kind: 'static', art: 'f-pump', artOpts: { holsters: true }, label: 'Fuel pump' }),
         O('car', 56, 60, 40, 23.3, { kind: 'static', art: 'f-car', artOpts: { color: '#3a86ff', flap: true, nozzle: s.hand && !s.hung ? (s.hand === 'U' ? '#2bc46f' : '#4b4466') : null }, label: 'Bossworth\'s car, fuel flap open' + (s.hand && !s.hung ? ', ' + NOZ[s.hand] + ' nozzle in the tank' : '') }),
-        O('hand', 32, 70, 22, 10, { kind: 'static', text: s.full ? (s.hung ? 'Tank full ✓' : 'Full! Nozzle in') : (s.hand ? 'Nozzle: ' + s.hand : 'Nozzle: none'), label: s.full ? 'Tank full' : (s.hand ? NOZ[s.hand] + ' nozzle in the car' : 'No nozzle in the car'), cls: 'tag-card' }),
+        O('hand', 68, 49, 26, 9, { kind: 'static', text: s.full ? (s.hung ? 'Tank full ✓' : 'Full! Nozzle in') : (s.hand ? 'Nozzle: ' + s.hand : 'Nozzle: none'), label: s.full ? 'Tank full' : (s.hand ? NOZ[s.hand] + ' nozzle in the car' : 'No nozzle in the car'), cls: 'tag-card' }),
         O('trigger', 4, 84, 40, 12, { text: s.full ? 'Tank full' : 'Squeeze (hold)', label: 'Squeeze the pump trigger (press and hold)', cls: 'hold-btn' + (s.filling ? ' charging' : '') + (s.full ? ' done' : ''), hold: true }),
         O('hang', 46, 86, 24, 10, { text: 'Hang it up', label: 'Hang the nozzle back on the pump', cls: 'btn-card' }),
         O('drive', 72, 86, 24, 10, { text: 'Drive home', label: 'Drive home', cls: 'btn-card big' })

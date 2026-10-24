@@ -38,7 +38,7 @@
         O('horn', 66, 6, 26, 15, { art: 'h-horn', label: 'Wake-up horn on a hook' }),
         O('steps', 66, 24, 30, 10, { kind: 'static', text: 'Steps: ' + s.pos + ' of 3', label: 'Quiet steps taken: ' + s.pos + ' of 3', cls: 'tag-card' }),
         O('dragon', 22, 32, 48, 44, { kind: 'static', art: 'h-dragon', artOpts: { mood: 'asleep' }, label: 'A big dragon, fast asleep across the room' }),
-        O('door', 82, 50, 16, 26, { kind: 'static', art: 'door', artOpts: { sign: 'OUT', open: s.pos >= 3 }, label: 'Door on the far side' }),
+        O('door', 80, 44, 18, 32, { kind: 'static', art: 'door', artOpts: { sign: 'OUT', open: s.pos >= 3 }, label: 'Door on the far side' }),
         O('you', XS[s.pos], 60, 11, 16, { kind: 'static', art: 'hero', label: 'You, step ' + s.pos + ' of 3' }),
         O('stroll', 6, 84, 38, 12, { text: 'Stroll past', label: 'Stroll past normally', cls: 'btn-card accent' }),
         O('tiptoe', 52, 84, 42, 12, { text: 'TIPTOE (hold)', hold: true, label: 'Tiptoe one quiet step (press and hold)', cls: 'hold-btn' + (s.tip ? ' charging' : '') })

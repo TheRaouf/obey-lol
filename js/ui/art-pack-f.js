@@ -47,17 +47,22 @@
     return svg('0 0 400 162', out);
   });
   add('f-coin', function () {
+    // 2.4.1 SHOULD 7 (bible §15): redirect to the canonical drawing; the code below is the fallback.
+    if (A.hasObject('coin')) return A.object('coin', { v: '£1' });
     return svg('0 0 100 100', '<circle cx="50" cy="50" r="44" fill="#ffd23f" ' + SW + '/><circle cx="50" cy="50" r="33" fill="none" stroke="#f5b400" stroke-width="5"/>' +
       txt(50, 63, 36, '£1') + hi('M22 36 Q28 22 42 16'));
   });
 
   /* ---------------------------------------------------------------- aisles */
   add('f-tin', function (o) {
+    // 2.4.1 SHOULD 7 (bible §15): redirect to the canonical drawing; the code below is the fallback.
+    if (A.hasObject('b-tin')) return A.object('b-tin', { word: o.word || 'BEANS', color: o.color });
     var col = o.color || '#e5243b', w = String(o.word || 'BEANS');
-    var fs = Math.min(28, Math.floor(130 / Math.max(3, w.length)));
-    return svg('0 0 120 140', '<rect x="10" y="12" width="100" height="120" rx="10" fill="' + col + '" ' + SW + '/>' +
-      '<path d="M10 24 L110 24 M10 120 L110 120" ' + SW3 + '/>' +
-      '<rect x="10" y="46" width="100" height="48" fill="#fffdf6" ' + SW3 + '/>' + txt(60, 70 + fs * 0.36, fs, w) + hi('M22 32 L22 40'));
+    // 2.4.1: body x6–114 and type up to 30 units, so a 5-letter word renders >= 12 px on a 14 % tin at 366 px.
+    var fs = Math.min(30, Math.floor(150 / Math.max(3, w.length)));
+    return svg('0 0 120 140', '<rect x="6" y="12" width="108" height="120" rx="10" fill="' + col + '" ' + SW + '/>' +
+      '<path d="M6 24 L114 24 M6 120 L114 120" ' + SW3 + '/>' +
+      '<rect x="6" y="44" width="108" height="52" fill="#fffdf6" ' + SW3 + '/>' + txt(60, 70 + fs * 0.36, fs, w) + hi('M18 32 L18 38'));
   });
   add('f-carton', function (o) {
     var d = o.date === undefined ? '' : String(o.date);
@@ -75,7 +80,7 @@
   add('f-cereal', function (o) {
     var col = o.color || '#ffd23f';
     return svg('0 0 120 170', '<rect x="12" y="10" width="96" height="152" rx="6" fill="' + col + '" ' + SW + '/>' +
-      '<rect x="24" y="22" width="72" height="44" rx="8" fill="#fffdf6" ' + SW3 + '/>' + txt(60, 58, 34, o.letter || 'A') +
+      '<rect x="22" y="18" width="76" height="52" rx="8" fill="#fffdf6" ' + SW3 + '/>' + txt(60, 59, 42, o.letter || 'A') +
       '<path d="M28 110 Q60 148 92 110 Z" fill="#fffdf6" ' + SW3 + '/><circle cx="48" cy="104" r="6" fill="#c98b4a" ' + SW3 + '/><circle cx="62" cy="100" r="6" fill="#c98b4a" ' + SW3 + '/><circle cx="76" cy="105" r="6" fill="#c98b4a" ' + SW3 + '/>' +
       '<path d="M84 72 l6 10 11 2 -8 7 2 11 -11 -5 -10 5 2 -11 -8 -7 11 -2z" fill="#ff77b4" ' + SW3 + '/>' + hi('M20 24 L20 60'));
   });
@@ -153,6 +158,8 @@
     return svg('0 0 200 50', c + '<rect x="4" y="32" width="192" height="14" rx="5" fill="#c3ccd8" ' + SW + '/>');
   });
   add('f-oven', function (o) {
+    // 2.4.1 SHOULD 7 (bible §15): redirect to the canonical drawing; the code below is the fallback.
+    if (A.hasObject('b-oven')) return A.object('b-oven', { on: true, croissants: o.full !== false });
     var c = '';
     if (o.full !== false) for (var i = 0; i < 3; i++) c += croissant(48 + i * 36, 96, 0.45);
     return svg('0 0 200 200', '<rect x="10" y="8" width="180" height="186" rx="14" fill="#c3ccd8" ' + SW + '/><rect x="10" y="8" width="180" height="34" rx="14" fill="#4b4466" ' + SW + '/>' +
@@ -168,7 +175,7 @@
     if (o.carry === 'trolley') carry = '<path d="M64 112 L118 112 L112 156 L70 156 Z" fill="#c3ccd8" ' + SW3 + '/><path d="M70 112 Q70 84 84 92 Q90 72 100 90 Q110 78 114 112" fill="#ffd23f" ' + SW3 + '/><circle cx="74" cy="168" r="7" fill="#4b4466" ' + SW3 + '/><circle cx="108" cy="168" r="7" fill="#4b4466" ' + SW3 + '/>';
     else if (o.carry === 'basket') carry = '<path d="M70 124 L108 124 L104 148 L74 148 Z" fill="#e5243b" ' + SW3 + '/><path d="M76 124 Q89 104 102 124" fill="none" ' + SW3 + '/>';
     return svg('0 0 120 180', '<path d="M22 176 L22 96 Q22 66 52 66 Q82 66 82 96 L82 176 Z" fill="' + col + '" ' + SW + '/>' +
-      '<circle cx="52" cy="40" r="26" fill="#ffd9b0" ' + SW + '/><circle cx="44" cy="38" r="4" fill="' + INK + '"/><circle cx="60" cy="38" r="4" fill="' + INK + '"/><path d="M44 50 Q52 56 60 50" fill="none" ' + SW3 + '/>' + carry);
+      '<circle cx="52" cy="40" r="26" fill="#ffe066" ' + SW + '/><circle cx="44" cy="38" r="4" fill="' + INK + '"/><circle cx="60" cy="38" r="4" fill="' + INK + '"/><path d="M44 50 Q52 56 60 50" fill="none" ' + SW3 + '/>' + carry);
   });
   add('f-belt', function () {
     var r = '';
@@ -223,7 +230,7 @@
   });
   add('f-lunchbox', function () {
     return svg('0 0 140 110', '<path d="M50 30 Q50 8 70 8 Q90 8 90 30" fill="none" ' + SW + '/><rect x="12" y="28" width="116" height="74" rx="12" fill="#9b5de5" ' + SW + '/>' +
-      '<rect x="12" y="28" width="116" height="20" rx="10" fill="#7fb2ff" ' + SW3 + '/>' + txt(70, 92, 36, 'B', '#fffdf6', ' stroke="' + INK + '" stroke-width="3" paint-order="stroke"') + hi('M24 58 L24 80'));
+      '<rect x="12" y="28" width="116" height="20" rx="10" fill="#7fb2ff" ' + SW3 + '/>' + txt(70, 97, 48, 'B', '#fffdf6', ' stroke="' + INK + '" stroke-width="3" paint-order="stroke"') + hi('M24 58 L24 80'));
   });
   add('f-boxed', function (o) {
     var tag = o.tagged ? '<rect x="96" y="96" width="44" height="40" rx="10" fill="#8a86a8" ' + SW + '/><circle cx="118" cy="116" r="9" fill="#4b4466" ' + SW3 + '/>' : '';
@@ -278,8 +285,11 @@
       lit + flap + '<circle cx="62" cy="104" r="20" fill="#2d2850" ' + SW + '/><circle cx="62" cy="104" r="8" fill="#c3ccd8"/><circle cx="182" cy="104" r="20" fill="#2d2850" ' + SW + '/><circle cx="182" cy="104" r="8" fill="#c3ccd8"/>' +
       hi('M100 32 L106 32'));
   });
-  add('f-fob', function () {
-    return svg('0 0 120 170', '<circle cx="60" cy="22" r="14" fill="none" stroke="#c3ccd8" stroke-width="7"/><circle cx="60" cy="22" r="14" fill="none" ' + SW3 + '/>' +
+  // o.hook (default on): the fob hangs by its ring on a wall peg, so it does not float mid-wall.
+  add('f-fob', function (o) {
+    var peg = o.hook === false ? '' : '<rect x="36" y="-10" width="48" height="16" rx="6" fill="#a0784d" ' + SW3 + '/>';
+    var pin = o.hook === false ? '' : '<circle cx="60" cy="11" r="5" fill="#4b4466" ' + SW3 + '/>';
+    return svg(o.hook === false ? '0 0 120 170' : '0 -12 120 182', peg + '<circle cx="60" cy="22" r="14" fill="none" stroke="#c3ccd8" stroke-width="7"/><circle cx="60" cy="22" r="14" fill="none" ' + SW3 + '/>' + pin +
       '<rect x="22" y="36" width="76" height="126" rx="30" fill="#2d2850" ' + SW + '/>' +
       '<circle cx="60" cy="78" r="18" fill="#c3ccd8" ' + SW3 + '/><path d="M52 80 L52 72 Q52 64 60 64 Q68 64 68 72" fill="none" ' + SW3 + '/><rect x="50" y="78" width="20" height="14" rx="3" fill="' + INK + '"/>' +
       '<circle cx="60" cy="126" r="18" fill="#ffd23f" ' + SW3 + '/><path d="M50 126 L56 120 L62 126 L68 120 M50 132 L70 132" fill="none" ' + SW3 + '/>');
@@ -290,17 +300,19 @@
   add('f-lamppost', function () {
     return svg('0 0 80 300', '<rect x="34" y="40" width="12" height="250" fill="#8a86a8" ' + SW3 + '/><path d="M40 40 Q40 14 66 14" fill="none" stroke="#8a86a8" stroke-width="10"/><rect x="56" y="12" width="20" height="12" rx="4" fill="#ffe066" ' + SW3 + '/><rect x="22" y="282" width="36" height="12" rx="4" fill="#4b4466" ' + SW3 + '/>');
   });
-  add('f-pump', function () {
-    return svg('0 0 140 230', '<rect x="20" y="10" width="100" height="210" rx="12" fill="#fffdf6" ' + SW + '/><rect x="20" y="10" width="100" height="36" rx="12" fill="#2bc46f" ' + SW + '/>' +
+  // o.holsters: two nozzle cups on the pump's right side (viewBox y 80–106 and 160–186); the hose moves below them.
+  add('f-pump', function (o) {
+    var hol = o.holsters ? '<path d="M116 80 L138 80 L134 106 L116 106 Z M116 160 L138 160 L134 186 L116 186 Z" fill="#8a86a8" ' + SW3 + '/>' : '';
+    return svg('0 0 140 230', hol + '<rect x="20" y="10" width="100" height="210" rx="12" fill="#fffdf6" ' + SW + '/><rect x="20" y="10" width="100" height="36" rx="12" fill="#2bc46f" ' + SW + '/>' +
       '<rect x="34" y="58" width="72" height="40" rx="6" fill="#1c1640" ' + SW3 + '/><path d="M44 78 L96 78" stroke="#7dffb2" stroke-width="5" stroke-dasharray="8 6"/>' +
-      '<path d="M120 120 Q140 150 128 200" fill="none" stroke="' + INK + '" stroke-width="6"/><rect x="10" y="214" width="120" height="12" rx="4" fill="#4b4466"/>');
+      '<path d="' + (o.holsters ? 'M120 190 Q138 198 130 212' : 'M120 120 Q140 150 128 200') + '" fill="none" stroke="' + INK + '" stroke-width="6"/><rect x="10" y="214" width="120" height="12" rx="4" fill="#4b4466"/>');
   });
   add('f-nozzle', function (o) {
     var col = o.color || '#2bc46f';
     return svg('0 0 110 140', '<path d="M20 30 Q4 60 30 90" fill="none" stroke="' + INK + '" stroke-width="7"/>' +
       '<path d="M30 20 L80 20 Q96 20 96 36 L96 60 L70 60 L70 100 Q70 112 58 112 L44 112 Q32 112 32 100 L32 60 Z" fill="' + col + '" ' + SW + '/>' +
       '<path d="M96 30 L108 42 L104 48 L92 40" fill="#c3ccd8" ' + SW3 + '/><path d="M44 72 L58 72 L58 96" fill="none" ' + SW3 + '/>' +
-      '<circle cx="62" cy="40" r="16" fill="#fffdf6" ' + SW3 + '/>' + txt(62, 48, 22, o.letter || 'U'));
+      '<circle cx="62" cy="40" r="19" fill="#fffdf6" ' + SW3 + '/>' + txt(62, 50, 28, o.letter || 'U'));
   });
 
   /* ---------------------------------------------------------- returns desk */
@@ -319,6 +331,8 @@
       (o.on ? '<rect x="100" y="34" width="22" height="22" rx="4" fill="#e5243b" ' + SW3 + '/>' : '<rect x="100" y="54" width="22" height="22" rx="4" fill="#4b4466" ' + SW3 + '/>'));
   });
   add('f-plug', function () {
+    // 2.4.1 SHOULD 7 (bible §15): redirect to the canonical drawing; the code below is the fallback.
+    if (A.hasObject('a-plug')) return A.object('a-plug', { lying: true });
     return svg('0 0 140 80', '<path d="M60 40 Q100 40 134 60" fill="none" stroke="' + INK + '" stroke-width="7"/>' +
       '<rect x="8" y="14" width="56" height="52" rx="8" fill="#fffdf6" ' + SW + '/><rect x="0" y="22" width="12" height="8" rx="2" fill="#c3ccd8" ' + SW3 + '/><rect x="0" y="50" width="12" height="8" rx="2" fill="#c3ccd8" ' + SW3 + '/><rect x="24" y="2" width="8" height="14" rx="2" fill="#c3ccd8" ' + SW3 + '/>');
   });

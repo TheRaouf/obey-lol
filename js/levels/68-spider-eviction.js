@@ -36,8 +36,9 @@
       var trapped = s.glass && s.card;
       return [
         O('rule', 4, 3, 60, 14, { kind: 'static', text: 'House rule: we don\'t squash. We relocate.', label: 'House rule: we don\'t squash, we relocate', cls: 'honest-card' }),
-        O('taps', 4, 44, 20, 14, { art: 'b-taps', artOpts: { on: false }, label: 'Bath taps (tap to run them full blast)' }),
-        O('tub', 4, 40, 62, 42, { kind: 'static', art: 'b-bathtub', artOpts: { level: 0, plug: false }, label: 'Bathtub' }),
+        O('tub', 7, 51.5, 56, 30, { kind: 'static', art: 'b-bathtub', artOpts: { level: 0, plug: false }, label: 'Bathtub' }),
+        // 2.4.1: taps after the tub, so the tightened bath drawing never hides them.
+        O('taps', 6, 41.5, 16, 11, { art: 'b-taps', artOpts: { on: false }, label: 'Bath taps (tap to run them full blast)' }),
         O('spider', 24, 54, 22, 20, { art: 'b-spider', artOpts: { glass: s.glass, card: s.card }, zone: !trapped, drag: trapped,
           label: trapped ? 'Spider safely trapped under a glass with a postcard lid (drag it)' : (s.glass ? 'Spider under an upside-down glass' : 'Large spider in the bath') }),
         O('shelf', 68, 26, 28, 4, { kind: 'static', art: 'shelf', label: '' }),

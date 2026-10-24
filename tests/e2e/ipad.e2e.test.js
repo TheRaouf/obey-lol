@@ -31,7 +31,7 @@ test.after(async () => {
 const LEVELS = [];
 for (let n = 1; n <= 236; n++) LEVELS.push(n);
 LEVELS.push(1001, 1002, 1003, 1004);
-const seed = H.saveWith(236, (d) => { d.seenVersion = '2.4.0'; return d; });
+const seed = H.saveWith(236, (d) => { d.seenVersion = '2.4.1'; return d; });
 
 // WebKit (Safari) ignores hash navigations after ~200 in quick succession on one page — a browser
 // anti-abuse limit no player reaches. With 240 levels per iPad size, reload the page every 150 visits.

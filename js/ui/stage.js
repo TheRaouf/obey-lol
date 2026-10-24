@@ -77,7 +77,7 @@
       var over = function () { var r = node.getBoundingClientRect(); range.selectNodeContents(t); var q = range.getBoundingClientRect(); var b = t.getBoundingClientRect(); return Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top, b.bottom - r.bottom, r.top - b.top); };
       var fs = parseFloat(root.getComputedStyle(node).fontSize);
       for (var i = 0; i < 40 && fs > floor; i++) {
-        if (over() <= 1) break;
+        if (over() <= -1) break; // keep 1 px of air: display fonts have a tall ascent (2.4 review SHOULD 10)
         fs = Math.max(floor, fs - 0.5);
         node.style.fontSize = fs + 'px';
       }

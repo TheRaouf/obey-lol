@@ -199,7 +199,7 @@ test('save v4: defaults validate to themselves; new fields are repaired field by
   assert.equal(v.settings.contrast, 'normal');
   assert.equal(v.settings.sfxVol, 80);
   assert.equal(v.settings.voiceVol, 30);
-  assert.equal(v.settings.music, false);
+  assert.equal(v.settings.music, true, 'invalid value repaired to the default (on since 2.4.1)');
   assert.equal(v.settings.hand, 'left');
 });
 

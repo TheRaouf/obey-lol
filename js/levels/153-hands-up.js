@@ -36,7 +36,9 @@
       var out = [
         O('board', 6, 5, 56, 20, { kind: 'static', text: '3 + 4 = ?', label: 'Board: 3 plus 4 equals what?', cls: 'display-card' }),
         O('tray', 6, 25, 56, 3, { kind: 'static', art: 'g-chalktray' }),
-        O('rule', 66, 4, 30, 22, { kind: 'static', text: 'CLASS RULE:\nHands up.\nNo shouting out.', label: 'Class rule: hands up, no shouting out', cls: 'sign-card' }),
+        // 2.4.1: two display words on the sign; the rule itself is body text (bible §6, ≤ 6 display words).
+        O('rule', 66, 4, 30, 9, { kind: 'static', text: 'CLASS RULE', label: 'Class rule: hands up, no shouting out', cls: 'sign-card' }),
+        O('ruleText', 66, 14.5, 30, 13, { kind: 'static', text: 'Hands up.\nNo shouting out.', label: '', cls: 'honest-card' }),
         O('kidL', 8, 46, 14, 26, { kind: 'static', art: 'g-kid', artOpts: { color: '#ff77b4', hair: '#9a6b3f', seated: true }, label: '' }),
         O('deskL', 2, 60, 26, 15, { kind: 'static', art: 'g-desk' }),
         O('you', 42, 43, 16, 30, { art: 'g-kid', artOpts: { color: '#ffd23f', seated: true, hand: s.hand ? 'up' : '' }, label: s.hand ? 'You, hand raised (tap to lower it)' : 'You at your desk (tap to raise your hand)' }),

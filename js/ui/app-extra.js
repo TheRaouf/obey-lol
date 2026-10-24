@@ -102,16 +102,8 @@
 
   /* 2.3 E54/E66: each pack family has a landmark icon (drawn by art-extra.js). Chapter indexes are 0-based. */
   App.landmarkIcon = function (chIndex) {
-    if (A.chapterIcon) { var k = A.chapterIcon(chIndex); if (k) return k; }
-    if (chIndex < 0) return null;
-    if (chIndex <= 7) return 'button';
-    if (chIndex <= 12) return 'stapler';
-    if (chIndex <= 17) return 'sock';
-    if (chIndex <= 22) return 'palm';
-    if (chIndex === 26 || chIndex === 27) return 'rocket';
-    if (chIndex <= 27) return 'flask';
-    if (chIndex <= 32) return 'curtain';
-    return 'gear';
+    // One source of truth: art-extra.js maps chapters to pack landmarks (the finale by its id).
+    return chIndex >= 0 && A.chapterIcon ? A.chapterIcon(chIndex) || null : null;
   };
   /** The icon's SVG, or '' when that icon has not been drawn (an empty <svg> is not shown). */
   App.landmarkSvg = function (chIndex, cls) {

@@ -339,10 +339,11 @@
   });
 
   /* A big rubber band. */
+  // 2.4.1: a red-filled ring with the house outline (was a bespoke 16-unit ink stroke, 13 px at 634 px).
   A.addObject('g-band', function () {
     return svg('0 0 100 70',
-      '<ellipse cx="50" cy="35" rx="40" ry="24" fill="none" stroke="' + INK + '" stroke-width="16"/>' +
-      '<ellipse cx="50" cy="35" rx="40" ry="24" fill="none" stroke="#e5243b" stroke-width="8"/>');
+      '<path d="M6 35 A44 28 0 1 0 94 35 A44 28 0 1 0 6 35 Z M17 35 A33 17 0 1 0 83 35 A33 17 0 1 0 17 35 Z" fill="#e5243b" fill-rule="evenodd" ' + SW + '/>' +
+      '<path d="M16 26 Q24 14 40 10" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="4" stroke-linecap="round"/>');
   });
 
   /* Lined paper with o.n lines written on it (up to 20). */

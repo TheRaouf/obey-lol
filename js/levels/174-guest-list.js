@@ -50,7 +50,7 @@
       var out = [
         O('list', 4, 4, 58, 34, { kind: 'static', text: 'TONIGHT\'S GUESTS\n• Royal Baker: chef\'s hat + rolling pin\n• Royal Plumber: blue cap + wrench\n• Chimney Sweep: top hat + brush\nNO KINGS (we have one)', label: 'Guest list: Royal Baker, chef\'s hat and rolling pin. Royal Plumber, blue cap and wrench. Chimney Sweep, top hat and brush. No kings, we have one.', cls: 'book-card' }),
         O('gate', 64, 32, 34, 44, { kind: 'static', art: 'h-gatehouse', artOpts: { portcullis: true }, label: 'Castle gate with the portcullis down' }),
-        O('you', 6, 48, 28, 28, { art: 'h-visitor', artOpts: { hat: s.hat, tool: s.tool }, zone: true, free: true, label: 'You, wearing ' + outfit(s) + ' (drop things here to wear them)' }),
+        O('you', 11, 57, 18, 18, { art: 'h-visitor', artOpts: { hat: s.hat, tool: s.tool }, zone: true, free: true, label: 'You, wearing ' + outfit(s) + ' (drop things here to wear them)' }),
         O('guard', 38, 46, 30, 30, { art: 'h-guard', artOpts: { side: 'right' }, label: 'Gate guard holding the guest list (tap to present yourself)' }),
         O('floor', 28, 78, 68, 6, { kind: 'static', text: 'Dressing-up pile', label: '', cls: 'tag-card' })
       ];

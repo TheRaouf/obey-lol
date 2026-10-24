@@ -49,6 +49,7 @@
     ],
     wrong: ['Answering is impossible until all gears are collected.'],
     secrets: [],
+    trick: 'Collect the gears, then ask Bossworth before answering.',
     endingNote: 'Choice: trusting him leans Hero; asking why leans Chaos. Dialogue reflects earlier choices.',
     done: 'The machine is assembled. One level left.',
 
@@ -78,7 +79,7 @@
         case 'gearB': s.b = true; api.say('Two gears. The third is… safe. Very safe. Nowhere near my hat.', 'suspicious'); break;
         case 'narrator':
           if (!s.c) { s.c = true; api.say('Hey! That gear was holding my hat on! …Fine. Take it. Hatless, I am vulnerable.', 'annoyed'); }
-          else api.say('No more gears on me. Check my pockets? I don\'t HAVE pockets.', 'annoyed');
+          else { api.nope(); api.say('No more gears on me. Check my pockets? I don\'t HAVE pockets.', 'annoyed'); }
           break;
         case 'yes':
           api.choice('trust', 'yes');
@@ -96,6 +97,10 @@
 
     solution: [{ tap: 'gearA' }, { tap: 'rug' }, { tap: 'gearB' }, { tap: 'narrator' }, { tap: 'yes' }],
     alternatives: { why: [{ tap: 'gearA' }, { tap: 'rug' }, { tap: 'gearB' }, { tap: 'narrator' }, { tap: 'why' }] },
+    checks: [
+      { name: 'answer before the gears are in', steps: [{ tap: 'yes' }], expect: 'playing' },
+      { name: 'search Bossworth twice', steps: [{ tap: 'narrator' }, { tap: 'narrator' }], expect: 'nope' }
+    ],
     secretPaths: {}
   });
 })(typeof window !== 'undefined' ? window : globalThis);

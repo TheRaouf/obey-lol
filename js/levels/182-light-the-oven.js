@@ -33,11 +33,11 @@
 
     view: function (s) {
       return [
-        O('warn', 4, 4, 46, 14, { kind: 'static', text: 'FIRE-SNEEZER: NO PEPPER!', label: 'Sign: fire-sneezer, no pepper!', cls: 'sign-card' }),
+        O('warn', 4, 3, 46, 16, { kind: 'static', text: 'FIRE-SNEEZER: NO PEPPER!', label: 'Sign: fire-sneezer, no pepper!', cls: 'sign-card' }),
         O('portrait', 66, 4, 26, 28, { kind: 'static', art: 'h-bossportrait', label: 'Portrait of King Bossworth above the oven' }),
         O('ftag', 28, 38, 34, 10, { kind: 'static', text: 'Dragon faces: ' + (s.face === 'cake' ? 'the cake' : 'the oven'), label: 'The dragon is facing ' + (s.face === 'cake' ? 'the cake' : 'the oven'), cls: 'tag-card' }),
         O('table', 2, 68, 28, 10, { kind: 'static', art: 'table', label: '' }),
-        O('cake', 6, 50, 20, 19, { kind: 'static', art: 'h-cake', label: 'The king\'s feast cake, on a table' }),
+        O('cake', 6, 53, 20, 19, { kind: 'static', art: 'h-cake', label: 'The king\'s feast cake, on a table' }),
         O('dragon', 34, 50, 26, 26, { art: 'h-dragon', artOpts: { mood: 'awake', face: s.face === 'cake' ? 'left' : 'right' }, label: 'Baby dragon facing ' + (s.face === 'cake' ? 'the cake' : 'the oven') + ' (tap to turn it round)' }),
         O('oven', 62, 40, 36, 36, { art: 'h-oven', artOpts: { open: s.open }, label: s.open ? 'Bread oven, door open, cold inside' : 'Bread oven, door shut (tap to open)' }),
         O('pepper', 46, 80, 9, 18, { art: 'h-pepper', label: 'Pepper mill' }),

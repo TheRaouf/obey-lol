@@ -82,9 +82,10 @@
     return `<section class="whats-new panel" aria-labelledby="wn-title">
       <h2 id="wn-title">New in ${E(OBEY.VERSION)}</h2>
       <ul>
-        <li><b>100 new levels</b> (133–232) in 25 new chapters: the supermarket, school, a castle, under the sea and sports day.</li>
-        <li><b>25 new ways to ruin things</b> — U.N.D.O. keeps the clues in your Sabotage file.</li>
-        <li>The <b>Final Factory</b> is now Levels 233–236. Your progress moved with it; if you had finished, you carry on at Level 133.</li>
+        <li><b>Art polish:</b> every open item from our art director — props hang on hooks or stand on tables, long rule signs are easier to read, and the dark undersea rooms have a seabed so their buttons look pressable.</li>
+        <li>Shared drawings for objects that appear in several chapters, bigger labels on tins and crates, and map labels that no longer sit on a level.</li>
+        <li><b>Music is now on by default</b>, with every sound effect — switch it off in Settings any time.</li>
+        <li>Still 236 levels (133–232 arrived in 2.4) — nothing about your progress changes.</li>
       </ul>
       <button class="btn small-btn" data-act="dismiss-whatsnew">Got it</button>
     </section>`;
@@ -102,7 +103,47 @@
     return d;
   }
 
+  /** Where a chapter's region label goes (2.4.1). Returns { right, y (baseline), fs (font units), lines }.
+   * The label sits 24 units above a node's centre, level with the node disc, so it must clear the disc
+   * sideways: the side's room runs from the label margin (36 / 364) to NODE_R from the node centre.
+   * Bagel Fat One averages 0.5 em a glyph; 0.55 keeps slack. */
+  var NODE_R = 44;
+  function regionLabel(k, c, cup, pts) {
+    var name = (k + 1) + '. ' + c.name, tier = cup ? '★ ' + OBEY.TROPHY_TIERS[cup] : '';
+    var wid = function (t, fs) { return t.length * fs * 0.55; };
+    var rows = Math.min(4, c.levels.length), best = null;
+    for (var j = 0; j < rows; j++) {
+      var q = pts[c.levels[j] - 1];
+      if (!q) continue;
+      var sides = [{ right: q.x < MAP_W / 2, room: 0 }, { right: q.x >= MAP_W / 2, room: 0 }];
+      for (var i = 0; i < 2; i++) {
+        var sd = sides[i], room = sd.right ? 364 - (q.x + NODE_R) : (q.x - NODE_R) - 36;
+        var y = j === 0 && k === 0 ? 26 : q.y - 24;
+        if (wid(tier ? name + ' ' + tier : name, 17) <= room) return { right: sd.right, y: y, fs: 17, lines: [tier ? name + ' ' + tier : name] };
+        if (wid(name, 17) <= room) return { right: sd.right, y: y, fs: 17, lines: tier ? [name, tier] : [name] };
+        if (!best || room > best.room) best = { right: sd.right, y: y, room: room };
+      }
+    }
+    var fs = Math.max(14, Math.floor(17 * best.room / wid(name, 17)));
+    return { right: best.right, y: best.y, fs: fs, lines: tier ? [name, tier] : [name] };
+  }
+
+  /** Row spacing in map units. The map is 400 units wide, so on phones a 100-unit row is under 90 px and
+   *  neighbouring nodes (disc + title + stars) overlap; keep rows at least ~100 px apart there. */
+  function mapRow() {
+    var w = root.innerWidth || 1024;
+    return w < 560 ? Math.max(100, Math.round(100 * 400 / Math.max(240, w - 32))) : 100;
+  }
+  var mapCtx = null;
+  root.addEventListener && root.addEventListener('resize', function () {
+    if (!mapCtx || mapCtx.el.closest('[hidden]') || mapRow() === ROW) return;
+    var y = root.scrollY;
+    map(mapCtx.app, mapCtx.el);
+    root.scrollTo(0, y);
+  });
   function map(app, el) {
+    mapCtx = { app: app, el: el };
+    ROW = mapRow();
     var s = app.save, L = OBEY.LEVEL_COUNT;
     var H = TOP * 2 + (L - 1) * ROW;
     var pts = [];
@@ -114,7 +155,11 @@
       var cup = s.trophies['cup-' + c.id] || 0;
       // E54: each chapter family has a landmark icon: a small one on the label's outer edge and a
       // faint large watermark (12 %) in the region's emptiest corner.
-      var ic = A.chapterIcon(k), right = k % 2 === 1;
+      // 2.4.1 (bible §18): the label goes beside one of the chapter's own nodes, on the side with room, so it
+      // never covers a node. Rows are tried top-down; the far side of each node first. A node disc with its
+      // badges is at most NODE_R units wide each side at a 320 px phone (48 px disc on a 0.74 scale map).
+      var lab = regionLabel(k, c, cup, pts), right = lab.right;
+      var ic = A.chapterIcon(k);
       var mark = function (cls, x, y, size, op) {
         return `<svg class="${cls} region-icon-${ic}" x="${x}" y="${y}" width="${size}" height="${size}" viewBox="0 0 24 24" style="color:var(--ink)" opacity="${op}">${A.iconPaths(ic)}</svg>`;
       };
@@ -127,8 +172,9 @@
       });
       return `<rect x="0" y="${y0}" width="${MAP_W}" height="${h}" fill="var(--region-${(k % 4) + 1})" />` +
         (wm > 24 ? mark('region-watermark', best[0], best[1], wm, '.12') : '') +
-        mark('region-icon', right ? 370 : 12, y0 + 12, 18, '.7') +
-        `<text class="region-label" x="${right ? 364 : 36}" y="${y0 + 26}" text-anchor="${right ? 'end' : 'start'}">${k + 1}. ${E(c.name)}${cup ? ' ★ ' + OBEY.TROPHY_TIERS[cup] : ''}</text>`;
+        mark('region-icon', right ? 370 : 12, lab.y - 14, 18, '.7') +
+        `<text class="region-label" x="${right ? 364 : 36}" y="${lab.y}" text-anchor="${right ? 'end' : 'start'}"${lab.fs !== 17 ? ` style="font-size:${lab.fs}px"` : ''}>` +
+        lab.lines.map(function (t, i) { return i ? `<tspan x="${right ? 364 : 36}" dy="${Math.round(lab.fs * 1.05)}">${E(t)}</tspan>` : E(t); }).join('') + '</text>';
     }).join('');
     var deco = '';
     for (i = 0; i < L; i++) {

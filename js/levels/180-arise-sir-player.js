@@ -38,7 +38,7 @@
         O('card', 4, 4, 56, 30, { kind: 'static', text: 'KNIGHTING CEREMONY\n1. Kneel on the cushion.\n2. Sword taps RIGHT, then LEFT shoulder.\n3. Rise, Sir!', label: 'Knighting ceremony: 1, kneel on the cushion. 2, the sword taps the right shoulder, then the left. 3, rise, Sir!', cls: 'book-card' }),
         O('count', 64, 6, 32, 12, { kind: 'static', text: s.knighted ? 'KNIGHTED ✓' : 'Taps: ' + s.taps + ' of 2', label: s.knighted ? 'You are knighted' : 'Shoulder taps: ' + s.taps + ' of 2', cls: 'tag-card' }),
         O('armour', 36, 40, 30, 36, { kind: 'static', art: 'h-armour', artOpts: { sword: sword }, label: 'A suit of armour holding a knighting sword' }),
-        O('you', 6, 48, 28, 28, { art: 'h-visitor', artOpts: { kneel: s.kneel, knighted: s.knighted, cushion: true }, hold: true, cls: s.kneel ? 'charging' : '', label: s.knighted ? 'You, Sir Player, standing proud' : (s.kneel ? 'You, kneeling on the cushion' : 'You, by the cushion (press and hold to kneel)') }),
+        O('you', 9, 56, 20, 20, { art: 'h-visitor', artOpts: { kneel: s.kneel, knighted: s.knighted, cushion: true }, hold: true, cls: s.kneel ? 'charging' : '', label: s.knighted ? 'You, Sir Player, standing proud' : (s.kneel ? 'You, kneeling on the cushion' : 'You, by the cushion (press and hold to kneel)') }),
         O('door', 74, 39, 22, 37, { art: 'door', artOpts: { sign: 'KNIGHTS', open: s.knighted && !s.kneel }, label: s.knighted && !s.kneel ? 'KNIGHTS ONLY door, swinging open for you' : 'Door marked KNIGHTS ONLY' }),
         O('bow', 40, 84, 30, 11, { text: 'Bow to Bossworth', label: 'Bow to Bossworth instead', cls: 'btn-card accent' })
       ];

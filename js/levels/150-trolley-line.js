@@ -33,10 +33,12 @@
     view: function (s) {
       var left = BAGS - s.carried;
       return [
-        O('sign', 16, 17, 44, 22, { kind: 'static', text: 'Trolley wheels lock past the yellow line', label: 'Sign on the lamp post: trolley wheels lock past the yellow line', cls: 'sign-card' }),
         O('post', 58, 22, 14, 52.5, { kind: 'static', art: 'f-lamppost', label: '' }),
-        O('line', 60, 74, 9, 13, { kind: 'static', art: 'f-floorline', label: 'Yellow line painted across the car park', cls: 'backdrop' }),
-        O('trolley', 6, 63, 26, 21, { kind: 'static', art: 'f-trolley', artOpts: { bags: left > 0 }, label: 'Trolley with ' + left + ' bags of shopping, on your side of the yellow line' }),
+        // 2.4.1: a short display sign on the post; the rule sentence is body text (bible §6, ≤ 6 display words).
+        O('sign', 44, 31, 36, 11, { kind: 'static', text: 'TROLLEY LINE', label: 'Sign on the lamp post: trolley wheels lock past the yellow line', cls: 'sign-card' }),
+        O('rule', 38, 44, 48, 11, { kind: 'static', text: 'Trolley wheels lock past the yellow line.', label: '', cls: 'honest-card' }),
+        O('line', 54, 78, 22, 5, { kind: 'static', art: 'f-floorline', label: 'Yellow line painted across the car park', cls: 'backdrop' }),
+        O('trolley', 10, 71, 16, 13, { kind: 'static', art: 'f-trolley', artOpts: { bags: left > 0 }, label: 'Trolley with ' + left + ' bags of shopping, on your side of the yellow line' }),
         O('car', s.near ? 32 : 70, 67, 28, 16.3, { kind: 'static', art: 'f-car', artOpts: { color: '#3a86ff' }, label: 'Bossworth\'s blue car, ' + (s.near ? 'now parked inside the yellow line' : 'parked beyond the yellow line') }),
         O('push', 4, 88, 30, 10, { text: 'Push trolley', label: 'Push the trolley to the car', cls: 'btn-card accent' }),
         O('carry', 36, 88, 28, 10, { text: 'Carry a bag', label: 'Carry one bag to the car (' + left + ' left)', cls: 'btn-card', disabled: left === 0 }),

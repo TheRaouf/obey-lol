@@ -34,7 +34,7 @@
       var out = [
         O('sign', 4, 3, 50, 10, { kind: 'static', text: 'CAR PARK · LEVEL 2', label: 'Sign: car park, level 2', cls: 'sign-card' }),
         O('fobTag', 58, 7, 20, 10, { kind: 'static', text: 'Key fob', label: '', cls: 'tag-card' }),
-        O('fob', 80, 3, 14, 19.8, { art: 'f-fob', label: 'Bossworth\'s key fob (press the unlock button)' }),
+        O('fob', 80, 5, 14, 19.8, { art: 'f-fob', label: 'Bossworth\'s key fob (press the unlock button)' }),
         O('tryall', 4, 18, 44, 11, { text: 'Try every door', label: 'Try the doors of every red car', cls: 'btn-card accent' }),
         O('pSign', 40, 36, 20, 16, { kind: 'static', text: 'P', label: 'Parking sign', cls: 'sign-card' })
       ];

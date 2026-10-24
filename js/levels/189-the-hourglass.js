@@ -46,6 +46,7 @@
         O('plaque', 4, 4, 52, 14, { kind: 'static', text: 'Door sealed until the sand runs out', label: 'Plaque: door sealed until the sand runs out', cls: 'plaque-card' }),
         O('sand', 4, 21, 46, 13, { kind: 'static', text: s.broken ? 'Sand: everywhere' : 'Top: ' + s.top + ' s · Bottom: ' + s.bottom + ' s', label: s.broken ? 'Sand is everywhere' : 'Top bulb: ' + s.top + ' seconds of sand. Bottom bulb: ' + s.bottom + ' seconds.', cls: 'tag-card' }),
         O('hammer', 64, 6, 16, 16, { art: 'h-hammer', label: 'The wizard\'s hammer on a hook' }),
+        O('owlperch', 82, 17, 16, 6, { kind: 'static', art: 'shelf' }),
         O('owl', 84, 4, 12, 16, { kind: 'static', art: 'h-owl', artOpts: { asleep: true }, label: 'A sleeping owl on a perch' }),
         O('table', 18, 66, 42, 12, { kind: 'static', art: 'table', label: '' }),
         O('glass', 30, 44, 18, 26, { art: 'h-hourglass', artOpts: { top: s.top / TOTAL, bottom: s.bottom / TOTAL, broken: s.broken }, disabled: s.broken, label: s.broken ? 'The hourglass, smashed' : 'Hourglass: ' + s.top + ' seconds of sand on top, ' + s.bottom + ' at the bottom (tap to turn it over)' }),

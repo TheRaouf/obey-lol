@@ -66,8 +66,8 @@
         O('table', 4, 56, 92, 18, { kind: 'static', art: 'table' }),
         O('move', 4, 77, 44, 10, { text: s.moved ? 'Pawn moved ✓' : 'Move your pawn', label: s.moved ? 'Your pawn has moved' : 'Move your pawn one square', cls: 'btn-card' }),
         O('press', 52, 77, 44, 10, { text: 'Press your clock', label: 'Press your side of the chess clock', cls: 'btn-card big' }),
-        O('resign', 4, 89, 44, 9, { text: 'Resign', label: 'Resign the game', cls: 'btn-card small' }),
-        O('flip', 52, 89, 44, 9, { text: 'Flip the board', label: 'Flip the whole chessboard over', cls: 'btn-card small' })
+        O('resign', 4, 89, 44, 9, { text: 'Resign', label: 'Resign the game', cls: 'btn-card' }),
+        O('flip', 52, 89, 44, 9, { text: 'Flip the board', label: 'Flip the whole chessboard over', cls: 'btn-card' })
       ];
     },
 

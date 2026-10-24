@@ -318,3 +318,37 @@ Verification:
 - §2.4: record the L229 dress-up close-up as an exception to the intern size.
 - §17: `tools/art/lib.js` seeds levels 1–136 only; raise it to `OBEY.LEVEL_COUNT`, or strokes and sheets
   time out on 137+.
+
+## Applied in 2.4.1
+
+All open SHOULD and POLISH items were applied on branch `v2.4.1` by three art groups and two level
+groups; their reports are in `docs/ART-REVIEW-2.4.1.md`. The bible follow-ups above are recorded in
+`docs/ART-BIBLE.md` (§2.1, §2.4, §3.1–§3.3, §4, §6, §14–§18).
+
+| Item | Status | What changed | Files |
+|---|---|---|---|
+| S1 dark sea rooms | done | `i-deep` seabed band `#8a86a8` from 74 % (`bed`, `nobed`); ink on it 4.08–6.06:1. L193 `bed: 57`, L197 `nobed`. A CSS `#ffc145` shadow was tried and dropped (≈ 1.9:1 on the band) | `js/ui/art-pack-i.js`; `js/levels/193-sonar-silence.js`, `197-flash-count.js` |
+| S2 long display signs | done | Short `sign-card` + body `honest-card`, full sentence in `label`: L150, L153, L195, L200, L213, L215, L219, L221, L223, L231. L230: one full-width body card (exception) | `js/levels/150-…`, `153-…`, `195-…`, `200-…`, `213-…`, `215-…`, `219-…`, `221-…`, `223-…`, `230-…`, `231-…` |
+| S3 `btn-card small` | done | `small` dropped on L216 `clear`, L218 `ask`, L225 `resign`/`flip` | `js/levels/216-relay-order.js`, `218-whistle-blower.js`, `225-chess-clock.js` |
+| S4 floating hand props | done | Hooks drawn: `h-horn`, `f-fob`, `h-decree` (`hung`), `hammer {hook}`; `h-seal {cased}`; `f-pump {holsters}` with L151 nozzles in the cups; L218 `red`/`whistle` on the bench; `j-refcard` lowered. Coordinator: L189 owl on a static `shelf` (`owlperch`) | `js/ui/art-extra.js`, `art-pack-f.js`, `art-pack-h.js`, `art-pack-j.js`; `js/levels/149-key-fob.js`, `151-fuel-cap.js`, `178-seal-of-approval.js`, `185-tiptoe.js`, `189-the-hourglass.js`, `218-whistle-blower.js` |
+| S5 intern scale | done | 15–16 % tall, feet 74–75 %: L174, L177, L180, L216, L232. L229 close-up recorded as the exception (bible §2.4) | `js/levels/174-…`, `177-…`, `180-…`, `216-…`, `232-…` |
+| S6 L150 scale | done | `trolley` 26 × 21 → 16 × 13 at (10, 71) | `js/levels/150-trolley-line.js` |
+| S7 cross-pack duplicates | done | Canonical `coin`, `hammer` (new) and redirects `f-coin`, `i-coin`, `h-hammer`, `i-hammer`, `f-oven`, `h-jar`, `f-tin`, `j-chair`, `f-plug`, `h-bossportrait`, `b-frame`, `d-duck`, `d-sofa`, `c-torch`. Rock, sink, soap, podium, fridge and the bath plug kept separate with reasons (bible §15) | `js/ui/art-extra.js`, `art-pack-a.js` … `art-pack-d.js`, `art-pack-f.js`, `art-pack-h.js`, `art-pack-i.js`, `art-pack-j.js` |
+| S8 small in-art labels | done | `b-tin {word}` BEANS ≈ 12.8 px; `f-cereal` 13.8 px; `f-lunchbox` 13.6 px; `f-nozzle` 14.7 px; `j-crate` OSTRICH 13.0 px; L148 door sign "ALARM" 13.4 px; L185 OUT door enlarged (≈ 13.4 px) | `js/ui/art-pack-b.js`, `art-pack-f.js`, `art-pack-j.js`; `js/levels/148-exit-doors.js`, `185-tiptoe.js` |
+| S9 sea decor in the control row | done | `i-sea` sand dashes removed; glints only at y ≤ 34 | `js/ui/art-pack-i.js` |
+| S10 text at 320 px | partial | The `Range` measurement landed in 2.4 (`Stage._fitText`, `level-lab --fit`). The fitter's 1 px tolerance is unchanged (2 px slack still open); the 320 px baseline spills remain | `js/ui/stage.js`, `tools/level-lab.js` (2.4) |
+| P1 L134 | done | Back row on the shelf line (y 25.5), front row y 47, `XS` 16/40/64; `b2` inside the liner | `js/levels/134-use-by.js` |
+| P2 small floats | done | L138 `last`/`tray`, L142 per-item `dy` and `bar`, L147 `table {tall}`, L172 desk group, L175 `g1`/`g2`, L182 `cake`, L204 `tin` and `f1–f4`, L200 `keeper` and passengers | `js/levels/138-…`, `142-…`, `147-…`, `172-…`, `175-…`, `182-…`, `200-…`, `204-…` |
+| P3 `f-shopper` face | done | `#ffd9b0` → `#ffe066` | `js/ui/art-pack-f.js` |
+| P4 bespoke ink strokes | done | `g-band` even-odd ring; `i-coral`/`i-weed` filled `tube()` shapes. F–J: nothing outside 2.5–7 px | `js/ui/art-pack-g.js`, `art-pack-i.js` |
+| P5 dragon z | done | Two Z paths after the face flip. The narrator's `sleep` overlay and a few props still use `<text>` (bible §18) | `js/ui/art-pack-h.js` |
+| P6 white water lines | done | `i-buoy`, `i-trawler`, `i-blowhole` at .55; base `water` glare .55 | `js/ui/art-pack-i.js`, `js/ui/art.js` |
+| P7 L173 moat | done | `water {edge}`; L173 `moat` uses it | `js/ui/art.js`; `js/levels/173-the-drawbridge.js` |
+| P8 L150 yellow line | done | `line` → a flat tile on the floor band at (54, 78, 22, 5) | `js/levels/150-trolley-line.js` |
+| P9 L212 whale | done | Wall `#ff77b4` at .45 over `var(--stage)`, ribs `#ff6f91` | `js/ui/art-pack-i.js` |
+| Bible follow-ups | done | §3.2 packs F–J; §3.1 backdrop families and the dark-room rule; §3.2/§6 `btn-card small`; §2.4 L229; §17 `lib.js` reads `OBEY.LEVEL_COUNT` (already since 2.4) | `docs/ART-BIBLE.md` |
+
+Counts: SHOULD 9 done, 1 partial (S10); POLISH 9 done. Verification as reported by each group:
+level lab with packs A–J and `--fit` 0 problems on every touched range; `npm test` 1265 pass;
+`tools/art/strokes.js` over all 240 levels at the 2.4.1 head: 96.2 % of 977 objects in 3–6 px,
+only the four 2.3 bespoke exceptions outside 2.5–7 px.

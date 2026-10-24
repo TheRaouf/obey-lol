@@ -35,7 +35,7 @@
         O('machine', 4, 24, 40, 52, { kind: 'static', art: 'f-selfcheck', label: 'Self-checkout machine' }),
         O('screen', 11, 29, 26, 13.5, { kind: 'static', text: s.scanned ? 'Cake £1.00' : 'Scan an item', label: 'Screen: ' + (s.scanned ? 'cake, one pound' : 'scan an item'), cls: 'display-card' + (s.scanned ? ' ready' : '') }),
         O('box', 48, 28, 48, 32.7, { kind: 'static', art: 'f-cakebox', label: 'Boxed cake with two barcodes on the front' }),
-        O('stand', 46, 60, 52, 10.4, { kind: 'static', art: 'table', label: '' }),
+        O('stand', 46, 60, 52, 15, { kind: 'static', art: 'table', artOpts: { tall: true }, label: '' }),
         O('big', 51, 45, 22, 12, { art: 'f-barcode', label: 'Big white barcode, the original price, four pounds' }),
         O('yellow', 75, 45, 19, 12, { art: 'f-barcode', artOpts: { yellow: true }, label: 'Small yellow reduced sticker barcode, one pound', hidden: false }),
         O('peel', 4, 84, 28, 12, { text: 'Peel sticker', label: 'Peel the yellow sticker off', cls: 'btn-card accent' }),

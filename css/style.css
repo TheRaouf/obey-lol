@@ -516,8 +516,6 @@ button.obj:active > svg { transform: scale(.97); }
 @keyframes talk { from { transform: scaleY(.35) scaleX(1.05); } to { transform: scaleY(1.15); } }
 .laugh-shake { animation: laugh .18s ease-in-out infinite alternate; transform-box: view-box; transform-origin: 50% 80%; }
 @keyframes laugh { from { transform: rotate(-3deg) translateY(0); } to { transform: rotate(3deg) translateY(-3px); } }
-.zzz text { animation: zzz 2s ease-in-out infinite; }
-.zzz text:nth-child(2) { animation-delay: .3s; } .zzz text:nth-child(3) { animation-delay: .6s; }
 @keyframes zzz { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
 
 /* Gags over the stage */
@@ -1103,3 +1101,8 @@ html[data-contrast="high"] .map-svg rect[fill^="var(--region"] { stroke: var(--i
 .reduce-motion .ending-machine .machine-note, .reduce-motion .ending-chaos .machine-debris { animation: none !important; }
 /* Region labels stay readable where a path or node edge runs under them. */
 .region-label { paint-order: stroke fill; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+
+/* 2.4.1: the completion card can grow (achievements, chapter review, unlocks). Keep it inside the screen
+   and its buttons always visible: the card scrolls and the button row sticks to its bottom edge. */
+.complete-card { max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior: contain; }
+.complete-card > .btn-row:last-child { position: sticky; bottom: -14px; margin-bottom: -14px; padding: 10px 0 14px; background: var(--paper); border-top: 2px dashed var(--line-soft, rgba(28, 22, 64, .2)); z-index: 2; }
