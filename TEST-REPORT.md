@@ -1,4 +1,26 @@
-# Test report — OBEY? LOL. 2.4.1
+# Test report — OBEY? LOL. 2.5.0
+
+Date: 2026-10-25. Logs: `tests/logs/unit-25.tap`, `tests/logs/e2e-25.tap` (Node v22.23.4, Playwright Chromium).
+
+**CI (GitHub Actions run 40130611461, commit 577b305):** Chromium job **passed**; WebKit (Safari's engine) job **passed**.
+
+| Suite | Where | Run | Passed | Failed |
+|---|---|---|---|---|
+| Static checks | local | 3,342 checks | 3,342 | 0 |
+| Unit tests | local | 1,266 | 1,266 | 0 |
+| Browser tests, Chromium (10 files) | local | 123 | 123 | 0 |
+
+New in 2.5.0: `tests/e2e/v25.e2e.test.js` (3 tests) — the speaker button on the level bar and six other
+screens and the menu entry; switching music and sound effects off/on live (audio engine state, saved
+settings, chip label); effects volume and voice saved; Escape/Done close the panel and un-inert the page;
+the S shortcut; music on the map and silent in an ending. The 2.1 music test now expects music to keep
+playing on the settings screen.
+
+Not verified: sound by ear, physical devices, Firefox.
+
+---
+
+# Test report — OBEY? LOL. 2.4.1 (previous release)
 
 Date: 2026-10-25. Logs: `tests/logs/unit-241.tap`, `tests/logs/e2e-241.tap` (Node v22.23.4, Playwright Chromium).
 

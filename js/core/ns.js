@@ -6,7 +6,7 @@
   'use strict';
   var OBEY = root.OBEY || (root.OBEY = {});
 
-  OBEY.VERSION = '2.4.1';
+  OBEY.VERSION = '2.5.0';
   OBEY.LEVEL_COUNT = 236;
   /** The Final Factory is always the last four campaign levels; the finale is the very last one. */
   OBEY.FINAL = OBEY.LEVEL_COUNT;

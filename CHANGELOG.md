@@ -2,6 +2,18 @@
 
 All notable changes to this project. Versions follow semantic versioning.
 
+## [2.5.0] — 2026-10-25
+
+### Added
+- Sound & music controls in the game interface: a speaker button on the level bar and every screen's top
+  bar, a "Sound & music" entry on the menu, and the **S** shortcut open a panel with sound-effects and music
+  switches, effects / voice / music volumes, Bossworth's voice (babble, real speech, off), a test sound and
+  what's playing. Changes apply live and are saved; the speaker icon shows the current state.
+
+### Changed
+- Music plays on the menu, map and other screens as well as in levels (the tune of the chapter you are up
+  to); endings stay quiet.
+
 ## [2.4.1] — 2026-10-24
 
 All open items from the art director's reviews (docs/ART-REVIEW-2.4.1.md): the 2.4 review's 10 SHOULD and

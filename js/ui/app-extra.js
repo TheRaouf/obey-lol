@@ -414,10 +414,14 @@
   App.syncMusic = function () {
     var st = App.save && App.save.settings;
     if (!st) return;
-    var want = st.music && st.sound && App.screen === 'level' && !doc.hidden && App.levelNum;
+    // 2.5: music plays on every screen except the endings (they have their own moment). In a level it is that
+    // chapter's tune; elsewhere it is the tune of the chapter you are up to, so the map sounds like where you are.
+    var inLevel = App.screen === 'level' && App.levelNum;
+    var want = st.music && st.sound && !doc.hidden && App.screen && App.screen !== 'ending';
     if (want) {
+      var n = inLevel ? App.levelNum : (P.nextLevel(App.save) || OBEY.LEVEL_COUNT);
       // 2.3 E76: the bonus pack has its own "studio" loop (-1) instead of borrowing chapter 9's.
-      var ch = OBEY.isBonus(App.levelNum) ? -1 : Math.max(0, OBEY.CHAPTERS.indexOf(OBEY.chapterOf(App.levelNum)));
+      var ch = OBEY.isBonus(n) ? -1 : Math.max(0, OBEY.CHAPTERS.indexOf(OBEY.chapterOf(n)));
       if (OBEY.audio.musicOn() && OBEY.audio.musicChapter() !== ch) OBEY.audio.stopMusic();
       if (!OBEY.audio.musicOn()) OBEY.audio.startMusic(ch);
     } else OBEY.audio.stopMusic();
@@ -488,7 +492,7 @@
   };
 
   /* ------------------------------------------------------ keyboard shortcuts */
-  var KEYS = [['H', 'Hint'], ['R', 'Restart the level'], ['G', 'Show me how (when unlocked)'], ['M', 'Map'], ['N', 'Next level (on the completion card)'], ['Esc', 'Put down a held item / close a dialog'], ['Arrow keys', 'Move between levels on the map'], ['?', 'This list']];
+  var KEYS = [['S', 'Sound & music controls'], ['H', 'Hint'], ['R', 'Restart the level'], ['G', 'Show me how (when unlocked)'], ['M', 'Map'], ['N', 'Next level (on the completion card)'], ['Esc', 'Put down a held item / close a dialog'], ['Arrow keys', 'Move between levels on the map'], ['?', 'This list']];
   App.shortcut = function (e) {
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     var t = e.target, tag = t && t.tagName;
@@ -496,6 +500,7 @@
     if (doc.querySelector('.modal-backdrop')) return;
     var k = e.key;
     if (k === '?') { e.preventDefault(); return App.keysHelp(); }
+    if ((k === 's' || k === 'S') && App.screen !== 'ending') { e.preventDefault(); return App.soundPanel(); }
     if (App.screen === 'map' && /^Arrow/.test(k) && t && t.classList && t.classList.contains('map-node')) {
       var nodes = Array.prototype.slice.call(doc.querySelectorAll('#screen-map .map-node'));
       var i = nodes.indexOf(t), d = (k === 'ArrowDown' || k === 'ArrowRight') ? 1 : -1;
@@ -627,6 +632,121 @@
         App.go('menu');
       });
   };
+
+
+  /* ------------------------------------------------------- 2.5 sound & music */
+  // A speaker chip on every screen's top bar (and a slip on the menu) opens a small panel with the sound
+  // effects, Bossworth's voice and the music: switches, volumes and a test sound. Changes apply live and save.
+  function soundState() {
+    var st = App.save.settings;
+    return !st.sound ? { icon: 'soundOff', text: 'Sound off' } : (st.music ? { icon: 'music', text: 'Sound and music on' } : { icon: 'sound', text: 'Sound on, music off' });
+  }
+  App.soundChip = function () {
+    if (!App.save) return '';
+    var st = soundState();
+    return '<button class="chip-btn icon-only sound-chip" data-act="sound-panel" aria-haspopup="dialog" aria-keyshortcuts="S" aria-label="Sound and music (' + E(st.text.toLowerCase()) + ')" title="Sound & music (S)">' + A.icon(st.icon) + '</button>';
+  };
+  App.refreshSoundChips = function () {
+    var st = soundState();
+    Array.prototype.forEach.call(doc.querySelectorAll('.sound-chip'), function (b) {
+      b.innerHTML = A.icon(st.icon);
+      b.setAttribute('aria-label', 'Sound and music (' + st.text.toLowerCase() + ')');
+    });
+  };
+  var VOICES = [['babble', 'Babble'], ['speech', 'Real speech'], ['off', 'Off']];
+  App.soundPanel = function () {
+    if (doc.querySelector('.sound-panel')) return;
+    var rootEl = doc.getElementById('modal-root'), prev = doc.activeElement;
+    OBEY.audio.unlock();
+    var wrap = doc.createElement('div');
+    wrap.className = 'modal-backdrop';
+    function sw(key, label) {
+      var on = !!App.save.settings[key];
+      return '<button class="switch" role="switch" aria-checked="' + on + '" data-sp-toggle="' + key + '" aria-label="' + E(label) + '"><span class="knob"></span><span class="switch-text">' + (on ? 'On' : 'Off') + '</span></button>';
+    }
+    function slider(key, label) {
+      var v = App.save.settings[key];
+      return '<label class="slider"><span>' + E(label) + '</span><input type="range" min="0" max="100" step="5" value="' + v + '" data-sp-range="' + key + '" aria-label="' + E(label) + '"><output>' + v + '%</output></label>';
+    }
+    var st = App.save.settings;
+    wrap.innerHTML = '<div class="modal panel sound-panel" role="dialog" aria-modal="true" aria-labelledby="sp-title">' +
+      '<h2 id="sp-title">' + A.icon('music') + ' Sound &amp; music</h2>' +
+      '<section class="sp-row"><div class="sp-head"><h3>Sound effects</h3>' + sw('sound', 'Sound effects') + '</div>' + slider('sfxVol', 'Effects volume') +
+      '<button class="btn small-btn" data-sp-test="sfx">' + A.icon('play') + ' Test</button></section>' +
+      '<section class="sp-row"><div class="sp-head"><h3>Bossworth\'s voice</h3></div><div class="sp-voices" role="radiogroup" aria-label="Voice">' +
+      VOICES.map(function (v) { return '<label class="radio"><input type="radio" name="sp-voice" value="' + v[0] + '"' + (st.voice === v[0] ? ' checked' : '') + ' data-sp-voice><span>' + v[1] + '</span></label>'; }).join('') + '</div>' +
+      slider('voiceVol', 'Voice volume') + '</section>' +
+      '<section class="sp-row"><div class="sp-head"><h3>Music</h3>' + sw('music', 'Music') + '</div>' + slider('musicVol', 'Music volume') +
+      '<p class="small sp-now" aria-live="polite"></p></section>' +
+      '<p class="small">Every puzzle can be solved with sound off. More options (captions, vibration) are in Settings.</p>' +
+      '<div class="btn-row"><button class="btn primary" data-sp-close>Done</button></div></div>';
+    rootEl.appendChild(wrap);
+    App.inertApp(true);
+    var panel = wrap.querySelector('.sound-panel');
+    function nowPlaying() {
+      var el = panel.querySelector('.sp-now'), s2 = App.save.settings;
+      if (!s2.sound) el.textContent = 'Sound effects are off, so the music is off too.';
+      else if (!s2.music) el.textContent = 'Music is off.';
+      else if (OBEY.audio.musicOn()) {
+        var ch = OBEY.audio.musicChapter();
+        var name = ch === -1 ? 'Sabotage Studio' : (OBEY.CHAPTERS[ch] ? OBEY.CHAPTERS[ch].name : '');
+        el.textContent = 'Now playing: ' + (name ? name + ' theme' : 'the chapter theme') + '.';
+      } else el.textContent = 'Music starts after your first tap and plays everywhere except the endings.';
+    }
+    function sync() {
+      Array.prototype.forEach.call(panel.querySelectorAll('[data-sp-toggle]'), function (b) {
+        var on = !!App.save.settings[b.getAttribute('data-sp-toggle')];
+        b.setAttribute('aria-checked', String(on));
+        b.querySelector('.switch-text').textContent = on ? 'On' : 'Off';
+      });
+      panel.querySelector('[data-sp-range="musicVol"]').disabled = !App.save.settings.sound || !App.save.settings.music;
+      panel.querySelector('[data-sp-range="sfxVol"]').disabled = !App.save.settings.sound;
+      App.refreshSoundChips();
+      nowPlaying();
+    }
+    function save() { App.persist(); App.applySettings(); sync(); }
+    panel.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-sp-toggle]');
+      if (t) {
+        var k = t.getAttribute('data-sp-toggle');
+        App.save.settings[k] = !App.save.settings[k];
+        save();
+        OBEY.audio.play('toggle', { off: !App.save.settings[k] });
+        return;
+      }
+      if (e.target.closest('[data-sp-test]')) { OBEY.audio.play('success'); return; }
+      if (e.target.closest('[data-sp-close]')) close();
+    });
+    panel.addEventListener('input', function (e) {
+      var r = e.target.getAttribute && e.target.getAttribute('data-sp-range');
+      if (!r) return;
+      var v = Math.max(0, Math.min(100, Math.round(Number(e.target.value) || 0)));
+      App.save.settings[r] = v;
+      e.target.parentNode.querySelector('output').textContent = v + '%';
+      OBEY.audio.setVolume(r === 'sfxVol' ? 'sfx' : r === 'voiceVol' ? 'voice' : 'music', v);
+    });
+    panel.addEventListener('change', function (e) {
+      var t = e.target;
+      if (t.getAttribute('data-sp-range')) { save(); if (t.getAttribute('data-sp-range') === 'sfxVol') OBEY.audio.play('tap'); return; }
+      if (t.hasAttribute('data-sp-voice')) {
+        App.save.settings.voice = t.value; save();
+        App.speakLine(t.value === 'off' ? '' : 'Testing, testing. This is my voice. Magnificent, isn\'t it?', 'pleased');
+      }
+    });
+    function close() {
+      App.removeOverlayCloser(close); wrap.remove(); App.inertApp(false);
+      doc.removeEventListener('keydown', key, true);
+      if (App.screen === 'menu' && App.refresh) App.refresh();
+      if (prev && prev.focus && doc.contains(prev)) prev.focus();
+    }
+    function key(e) { if (App.isTopModal(wrap) && e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); } }
+    App.addOverlayCloser(close);
+    doc.addEventListener('keydown', key, true);
+    wrap.addEventListener('click', function (e) { if (e.target === wrap) close(); });
+    sync();
+    panel.querySelector('[data-sp-toggle="sound"]').focus();
+  };
+  ACT['sound-panel'] = function () { App.soundPanel(); };
 
   /* ------------------------------------------------------------------- boot */
   if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', App.boot); else App.boot();
