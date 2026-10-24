@@ -7,7 +7,7 @@
   var OBEY = root.OBEY || (root.OBEY = {});
 
   OBEY.VERSION = '2.1.0';
-  OBEY.LEVEL_COUNT = 36;
+  OBEY.LEVEL_COUNT = 136;
   /** Bonus levels (the Sabotage Studio pack) use numbers 101..100+BONUS_COUNT. */
   OBEY.BONUS_BASE = 100;
   OBEY.BONUS_COUNT = 4;
