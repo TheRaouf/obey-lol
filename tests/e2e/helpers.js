@@ -56,7 +56,7 @@ async function seed(page, s) {
 function saveWith(n, extra) {
   return (d) => {
     for (let i = 1; i <= n; i++) { d.completed.push(i); d.bestStars[i] = 3; }
-    d.highestUnlocked = Math.min(136, n + 1);
+    d.highestUnlocked = Math.min(236, n + 1);
     d.tutorialDone = true;
     return extra ? extra(d) : d;
   };
@@ -143,4 +143,4 @@ async function chooseDifficulty(page, id) {
   await page.waitForSelector('.difficulty-modal', { state: 'detached' });
 }
 
-module.exports = { ENGINE, chooseDifficulty, FINAL: 136, startServer, openGame, seed, saveWith, playSteps, drag, hold, levelDefs, shot, noHorizontalOverflow, launch, sel, ROOT, SHOTS };
+module.exports = { ENGINE, chooseDifficulty, FINAL: 236, startServer, openGame, seed, saveWith, playSteps, drag, hold, levelDefs, shot, noHorizontalOverflow, launch, sel, ROOT, SHOTS };

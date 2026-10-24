@@ -403,7 +403,7 @@ test('one full campaign run can earn Professional Disobeyer', () => {
 });
 
 /* ------------------------------------------------------------------ 2.0 */
-test('v2 (16-level) saves migrate: finale 15/16 → 135/136 (via 35/36 in 2.0), unlock stops at the first new level', () => {
+test('v2 (16-level) saves migrate: finale 15/16 → the last two levels (via 35/36 in 2.0), unlock stops at the first new level', () => {
   const mem = memStorage();
   const v2 = { version: 2, highestUnlocked: 16, completed: [...Array(16).keys()].map((i) => i + 1), bestStars: {}, secrets: ['polly'],
     costumes: { unlocked: ['classic', 'royal'], selected: 'royal', worn: ['classic', 'royal'] }, themes: { unlocked: ['classic'], selected: 'classic' },
@@ -415,14 +415,14 @@ test('v2 (16-level) saves migrate: finale 15/16 → 135/136 (via 35/36 in 2.0), 
   assert.equal(r.status, 'migrated');
   const d = r.data;
   assert.equal(d.version, S.SCHEMA);
-  assert.deepEqual(d.completed, [...Array(14).keys()].map((i) => i + 1).concat([135, 136]));
-  assert.equal(d.bestStars[136], 2);
+  assert.deepEqual(d.completed, [...Array(14).keys()].map((i) => i + 1).concat([OBEY.fromEnd(1), OBEY.FINAL]));
+  assert.equal(d.bestStars[OBEY.FINAL], 2);
   assert.equal(d.bestStars[16], undefined);
   assert.equal(d.highestUnlocked, 15);
   assert.equal(P.nextLevel(d), 15);
-  assert.ok(P.canPlay(d, 136), 'finished finale stays replayable');
+  assert.ok(P.canPlay(d, OBEY.FINAL), 'finished finale stays replayable');
   assert.ok(!P.canPlay(d, 20));
-  assert.equal(d.bestDifficulty[136], 'medium');
+  assert.equal(d.bestDifficulty[OBEY.FINAL], 'medium');
   assert.equal(d.difficulty, 'medium');
   assert.deepEqual(d.endings.seen, ['hero']);
   assert.equal(d.costumes.selected, 'royal');
@@ -496,7 +496,8 @@ test('special trophies: clean sweep, flawless, hard boiled, good sport, platinum
   assert.ok(!u.trophies['platinum-bossworth']);
   P.completeLevel(u, L, { stars: 3, difficulty: 'hard' });
   assert.equal(u.trophies['platinum-bossworth'], 4);
-  assert.equal(OBEY.TROPHIES.length, 40, '34 chapter cups + 5 specials + jigsaw');
+  assert.equal(OBEY.TROPHIES.length, OBEY.CHAPTERS.length + 6, 'a cup per chapter + 5 specials + jigsaw');
+  assert.equal(OBEY.TROPHIES.length, 65);
 });
 
 test('New Game keeps trophies and takes the new difficulty', () => {
@@ -522,14 +523,14 @@ test('validation repairs difficulty, trophies, stats lists and voice', () => {
 });
 
 /* -------------------------------------------- 2.0 QA regressions (unlocks) */
-test('QA2-D3: migrated save with old L15 (now 135) done unlocks 136 after finishing 134', () => {
+test('QA2-D3: migrated save with old L15 (now the second-to-last level) done unlocks the finale after finishing the rest', () => {
   const s = fresh();
   for (let n = 1; n <= 14; n++) P.completeLevel(s, n, { stars: 3 });
-  s.completed.push(135); s.bestStars[135] = 3; s.highestUnlocked = 15;
-  for (let n = 15; n <= 134; n++) P.completeLevel(s, n, { stars: 3 });
-  assert.equal(s.highestUnlocked, 136);
-  assert.equal(P.nextLevel(s), 136, 'Continue goes to the final level, not "all done"');
-  assert.ok(P.canPlay(s, 136));
+  s.completed.push(OBEY.fromEnd(1)); s.bestStars[OBEY.fromEnd(1)] = 3; s.highestUnlocked = 15;
+  for (let n = 15; n <= OBEY.fromEnd(2); n++) P.completeLevel(s, n, { stars: 3 });
+  assert.equal(s.highestUnlocked, OBEY.FINAL);
+  assert.equal(P.nextLevel(s), OBEY.FINAL, 'Continue goes to the final level, not "all done"');
+  assert.ok(P.canPlay(s, OBEY.FINAL));
 });
 
 test('QA2-D4: replaying a migrated finale does not unlock the new levels', () => {
