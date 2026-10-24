@@ -21,6 +21,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Bossworth isn't always telling the truth. 2) Pressing the red button changes what is in the room. 3) Press the red button, then press the button he warns you about. |
 | Completion text | Level 1 complete. Don't let it go to your head. |
 | Secrets | `plant-whisperer` — Level 1: tap the potted plant. (path: tap `plant`)<br>`deja-vu` — Replay Level 1 after completing it and tap the folded note. (path: tap `note`) |
+| Ruins (deliberately terrible finishes) | `button-masher` Button Masher — tap `red` 8× in one attempt |
+| The trick (shown after solving) | He told you to press red. The real trick was pressing the one he begged you not to. |
 | Ending consequences | None. |
 
 ## 2. The Wrong Door
@@ -38,6 +40,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Doors labelled by Bossworth may not be honest about what they are. 2) The doormat looks suspiciously lumpy. 3) Lift the mat, take the key, then try the small door. |
 | Completion text | Fine. The "not an exit" was an exit. Words mean nothing anymore. |
 | Secrets | `empty-corner` — Level 2: inspect the empty top-right corner. (path: tap `corner`) |
+| Ruins (deliberately terrible finishes) | `through-the-wall` Through the Wall — tap `exit` 5× in one attempt |
+| The trick (shown after solving) | The labels lied: EXIT was a wall, the closet was the exit. |
 | Ending consequences | None. |
 
 ## 3. Hands Off
@@ -55,6 +59,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Not every instruction is a request. Look at the sign. 2) What happens if you do nothing at all? 3) Don't touch the button. Just wait for the timer to reach zero. |
 | Completion text | Doing nothing: officially a strategy. |
 | Secrets | `personal-space` — Level 3: poke Bossworth while he counts down. (path: tap `narrator`) |
+| Ruins (deliberately terrible finishes) | `countdown-crasher` Countdown Crasher — 4 traps in one attempt |
+| The trick (shown after solving) | "Press it!" was a test of restraint — the sign was the real instruction. |
 | Ending consequences | None. |
 
 ## 4. The Missing Button
@@ -72,6 +78,9 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Look around the whole room, not just at the door. 2) Some things only show up in the dark. 3) Turn off the lamp, press the painting, then open the door. |
 | Completion text | The button was art all along. |
 | Secrets | `glow-code` — Level 4: turn the lamp off and tap the glowing numbers. (path: tap `lamp`, tap `code`) |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The missing button only exists in the dark. Turning off the light was the move. |
+| Jigsaw piece | `jig-1` at 90%, 90% — replays only |
 | Ending consequences | None. (The glowing code matters later.) |
 
 ## 5. Reverse Psychology
@@ -89,6 +98,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Statements ① and ③ contradict each other, so exactly one of them is true. 2) That means the one true statement is ① or ③ — so statement ② must be false. 3) If "B is NOT the exit" is false, then B is the exit. |
 | Completion text | Logic: my one weakness. My other weakness is you. |
 | Secrets | `countdown` — Level 5: tap statements 3, 2, 1 in that order. (path: tap `st3`, tap `st2`, tap `st1`) |
+| Ruins (deliberately terrible finishes) | `switch-saboteur` Switch Saboteur — 4 traps in one attempt |
+| The trick (shown after solving) | All three statements were reverse psychology. Only switch B was honest. |
 | Ending consequences | None. |
 
 ## 6. The Waiting Room
@@ -106,6 +117,9 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Watch the NOW SERVING display. 2) Ringing early actually slows the queue down. 3) Wait until NOW SERVING shows #17, then ring the bell once. |
 | Completion text | Patience: unlocked. |
 | Secrets | `extremely-patient` — Level 6: after #17 is called, wait 30 more seconds before ringing. (path: wait 38500 ms) |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | Waiting your turn was the whole puzzle. Ringing early sent you backwards. |
+| Jigsaw piece | `jig-2` at 90%, 90% — replays only |
 | Ending consequences | None. |
 
 ## 7. The Fake Tutorial
@@ -124,6 +138,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Tutorials can be closed… can't they? 2) The tip box has more than one button on it. 3) Close the tip box with × and use what is behind it. |
 | Completion text | Tutorial skipped. Lesson learned anyway. |
 | Secrets | `tutorial-dropout` — Level 7: finish without ever pressing NEXT. (path: tap `close`, tap `exit`) |
+| Ruins (deliberately terrible finishes) | `next-addict` Next Addict — tap `next` 15× in one attempt |
+| The trick (shown after solving) | NEXT never ends. Closing the tutorial is how tutorials end. |
 | Ending consequences | None. |
 
 ## 8. Object Permanence
@@ -141,6 +157,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) That crate is hiding something. 2) Drag the crate away (or tap it, then tap an empty spot), then deal with the key. 3) Move the crate off the door, then drag the key onto the door. |
 | Completion text | Things exist even when you can't see them. Terrifying. |
 | Secrets | `tidy-up` — Level 8: drag the crate into the bin. (path: drag `crate` → `bin`) |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The key needed an uncovered door. Moving the crate first made it real. |
 | Ending consequences | None. |
 
 ## 9. The Suspicious Gift
@@ -159,6 +177,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Read before you open. 2) The tag says who the gift is really for. 3) Drag the gift to Bossworth — or into the mailbox. Don't open it yourself. |
 | Completion text | Gift handled. Nobody got bonked who didn't deserve it. |
 | Secrets | `shaken` — Level 9: press and hold the gift for 2 seconds. (path: hold `gift` 2200 ms) |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The tag said "return to sender". Posting it back beat opening it. |
 | Ending consequences | Choice: giving it to Bossworth leans Chaos; returning it by mail leans Hero. |
 
 ## 10. The Rulebook
@@ -177,6 +197,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Read Rule 1 and Rule 2 carefully. 2) If everything written in the book is true, what would you write in Rule 4? 3) Take the pen and write "The door is open." Then use the door. |
 | Completion text | Rules: bent. Narrator: possibly mashed. |
 | Secrets | `snack-rule` — Level 10: write the sandwich rule, then eat the sandwich. (path: tap `pen`, tap `w-snack`, tap `sandwich`) |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The rulebook makes anything true — so you wrote a rule that opens the door. |
 | Ending consequences | Choice: the door rule leans Hero; the potato rule leans Chaos. |
 
 ## 11. The Silent Level
@@ -194,6 +216,9 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Follow the footsteps. 2) Each footprint matches one panel button by colour and shape. 3) Press ■ blue, ▲ red, ● yellow, ▲ red — then the door. |
 | Completion text | Solved in silence. Bossworth is speechless (literally). |
 | Secrets | `silent-partner` — Level 11: tap the mouse hole. (path: tap `mousehole`) |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | No narrator, so the footprints were the instructions. |
+| Jigsaw piece | `jig-3` at 90%, 2% — replays only |
 | Ending consequences | None. |
 
 ## 12. The Double Bluff
@@ -211,6 +236,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Bossworth can tell the truth when he expects you to disobey. 2) Ask the parrot — it only repeats true things. 3) Pull the lever. Really. |
 | Completion text | The deepest bluff is the truth. |
 | Secrets | `polly` — Level 12: drag the cracker onto the parrot. (path: drag `cracker` → `parrot`) |
+| Ruins (deliberately terrible finishes) | `pie-connoisseur` Pie Connoisseur — 4 traps in one attempt |
+| The trick (shown after solving) | Both doors were bluffs. The lever was never mentioned, so it was honest. |
 | Ending consequences | None. |
 
 ## 13. The Broken Room
@@ -228,6 +255,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) The room is broken: try each button once and watch what really happens. 2) ◀ moves you right, and DUCK makes you jump over one tile. 3) Press ◀, then DUCK over the gap, then ◀ again. |
 | Completion text | You adapted to a broken world. Bossworth is filing a repair ticket. |
 | Secrets | `long-memory` — Level 13: open the wall panel and enter 4-2-7. (path: tap `panel`, tap `k4`, tap `k2`, tap `k7`) |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The arrows were swapped. Walking "away" walked you home. |
 | Ending consequences | None. |
 
 ## 14. The Final Warning
@@ -246,6 +275,9 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) This level uses everything you've learned: dragging, holding and waiting. 2) Plug the battery into the socket, then press and hold CHARGE until the meter fills. 3) After charging, wait for the light to turn green, then decide what to do with the sign. |
 | Completion text | Warnings: thoroughly ignored. Gate: open. |
 | Secrets | `fine-print` — Level 14: tap the fine print on the warning sign. (path: tap `fine`) |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The warning was a dare. Power, patience, then fix it. |
+| Jigsaw piece | `jig-4` at 90%, 2% — replays only |
 | Ending consequences | Choice: straightening the sign leans Hero; doodling on it leans Chaos. |
 
 ## 15. The Volume Knob
@@ -263,6 +295,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Sometimes the best instruction is the one you can barely hear. 2) Turn the volume all the way down and read what appears. 3) Press Quieter three times, then knock on the door twice. |
 | Completion text | Silence: golden. Bossworth: muted. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | `speaker-blower` Speaker Blower — 4 traps in one attempt |
+| The trick (shown after solving) | Louder broke things. Quiet let you hear the whisper. |
 | Ending consequences | None. |
 
 ## 16. Opposite Day
@@ -280,6 +314,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Work out the true answer first, then flip it. 2) The sky isn't green, so on Opposite Day you answer YES. 3) Answer YES, then NO, then NO. |
 | Completion text | You said the opposite of everything. Bossworth feels seen. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | `honest-abe` Honest to a Fault — 4 traps in one attempt |
+| The trick (shown after solving) | On Opposite Day the honest answer is the opposite one. |
 | Ending consequences | None. |
 
 ## 17. The Lost Sock
@@ -297,6 +333,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Bossworth was very keen that you leave the cat alone. 2) Look under the cat. 3) Tap the cat, then drag the sock into the laundry basket. |
 | Completion text | The sock is found. The cat is unimpressed. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | `drawer-diver` Drawer Diver — 8 harmless wrong moves in one attempt |
+| The trick (shown after solving) | The cat was sitting on the sock. Wake the cat, not the drawers. |
 | Ending consequences | None. |
 
 ## 18. Bossworth Says
@@ -314,6 +352,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) This is a very old playground game. 2) Only commands that begin with "Bossworth says" count. Commands 2 and 4 are traps. 3) Tap the drum, then the horn, then the drum. |
 | Completion text | You only obeyed when Bossworth said so. He is weirdly proud. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | Only orders that start with "Bossworth says" count. |
 | Ending consequences | None. |
 
 ## 19. The Shy Button
@@ -331,6 +371,9 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Chasing never works on shy things. 2) Shy things come out when nobody is looking. 3) Tap "Cover your eyes", wait a few seconds, then press the sleeping button. |
 | Completion text | Patience beat panic. Bossworth is taking notes. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The shy button only works when nobody is watching. Close the eyes. |
+| Jigsaw piece | `jig-5` at 90%, 90% — replays only |
 | Ending consequences | None. |
 
 ## 20. Weight of Words
@@ -348,6 +391,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Read the sign: weight depends on the letters, not the meaning. 2) HEAVY weighs 5. MASSIVE and NOTHING weigh 7 each. You need exactly 5 on the right. 3) Drag TINY (4) and A (1) onto the right pan. |
 | Completion text | Balanced. Words have weight. Bossworth's have more. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | "TINY" and "A" are light words. MASSIVE and NOTHING weigh what they say. |
 | Ending consequences | None. |
 
 ## 21. Nap Time
@@ -365,6 +410,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Read the poster on the wall. 2) What happens to a guard at nap time? 3) Press "Hour forward" three times to reach 3:00, then open the door. |
 | Completion text | You waited for the guard to nap. Classic heist. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | You couldn't sneak past an awake Bossworth, so you moved the clock to nap time. |
 | Ending consequences | None. |
 
 ## 22. Wet Paint
@@ -383,6 +430,9 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Paint dries. Some things make it dry faster. 2) The fan can be pressed and held. 3) Hold the fan for two seconds (or wait 30 seconds), then open the door. |
 | Completion text | Dry paint, clean hands, smug player. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | Wet paint was real. Drying it first beat touching it. |
+| Jigsaw piece | `jig-6` at 3%, 90% — replays only |
 | Ending consequences | None. |
 
 ## 23. Zero Gravity
@@ -400,6 +450,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Floating things are hard to catch. 2) What would happen if gravity came back? 3) Pull the gravity lever, pick up the key from the floor, then open the door. |
 | Completion text | Gravity: restored. Dignity: Bossworth's, not so much. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | `key-chaser` Key Chaser — tap `key` 6× in one attempt |
+| The trick (shown after solving) | Gravity was the "forbidden" lever — and the only way to catch the key. |
 | Ending consequences | None. |
 
 ## 24. The Copycat
@@ -417,6 +469,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Watch what Mimic does every time you touch a lamp. 2) A busy cat can't copy anybody. 3) Drag the fish to Mimic, then switch on the right lamp. |
 | Completion text | Two lamps, one fed cat, zero copying. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The copycat copied every switch. Distract it, then flip one. |
 | Ending consequences | None. |
 
 ## 25. Mirror, Mirror
@@ -434,6 +488,9 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) The mirror has writing on it. Try reading it backwards. 2) The mirror says the sign is lying. 3) Press the purple square. |
 | Completion text | The mirror told the truth. Bossworth needs a new mirror. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The mirror told the truth. Backwards writing beat the sign. |
+| Jigsaw piece | `jig-7` at 20%, 40% — replays only |
 | Ending consequences | None. |
 
 ## 26. Two of a Kind
@@ -451,6 +508,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) A direct question only tells you what one twin says — not whether he's honest. 2) Ask one twin what the OTHER twin would say. Either way, that answer is a lie. 3) Ask Kevin what Bossworth would say (LEFT), then take the other door: RIGHT. |
 | Completion text | Logic beat the twins. Kevin sends his regards (they are lies). |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | Asking the meta question made the twins point to the same door. |
 | Ending consequences | None. |
 
 ## 27. The Drip
@@ -468,6 +527,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) The water level is rising. Catch the drip first. 2) The bucket can go under the drip. Then the valve is reachable. 3) Drag the bucket under the drip, then press and hold the valve for two seconds. |
 | Completion text | Leak fixed. The hat collection will have to wait. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | Catch the drip first, then the valve is reachable. |
 | Ending consequences | None. |
 
 ## 28. Swamp Stones
@@ -485,6 +546,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Bubbles in a swamp usually mean something is sinking. 2) Step only on stones without bubbles, one column at a time. 3) Tap: bottom stone, top stone, top stone, bottom stone. |
 | Completion text | Dry feet. Damp narrator. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | Bubbles mean sinking stones. Hop on the calm ones only. |
 | Ending consequences | None. |
 
 ## 29. Channel Surfing
@@ -502,6 +565,9 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) There might be more on TV than static. 2) Flip through the channels and read each one. 3) Press CH+ twice to reach channel 7, then open the battery hatch. |
 | Completion text | You found the secret channel. Bossworth is cancelling it. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | The remote's battery hatch was the real control. |
+| Jigsaw piece | `jig-8` at 2%, 90% — replays only |
 | Ending consequences | None. |
 
 ## 30. The Password
@@ -519,6 +585,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Take Bossworth's sentence very, very literally. 2) He said the password is: NOT password. 3) Tap NOT, then password, then ENTER. |
 | Completion text | Literally correct. The best kind of correct. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | `alarm-enthusiast` Alarm Enthusiast — 4 traps in one attempt |
+| The trick (shown after solving) | The password was literally "NOT PASSWORD". |
 | Ending consequences | None. |
 
 ## 31. Pick a Card
@@ -536,6 +604,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Bossworth really doesn't want you to find the joker. Why? 2) Follow the joker through the swaps — the log lists them all. 3) The joker ends up in the middle. Pick the middle card. |
 | Completion text | You followed the joker. The joker had the exit key all along. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | Wait for the shuffle to finish — the joker never lies about being a joker. |
 | Ending consequences | None. |
 
 ## 32. Lights Out
@@ -553,6 +623,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Read the sign on the door. 2) Each bulb flips itself and its neighbours. You want them all OFF. 3) Press bulb 1, then bulb 5. |
 | Completion text | Darkness achieved. Bossworth is afraid of the dark (he says he isn't). |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | All lights on is a trap. Two bulbs were enough. |
 | Ending consequences | None. |
 
 ## 33. Terms and Conditions
@@ -570,6 +642,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Bossworth really doesn't want you to read it. 2) There are three pages. The last clause matters. 3) Press "Read more" twice, then use the cat flap. |
 | Completion text | You read the fine print. Lawyers everywhere weep with joy. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | `terms-agreer` Agrees to Everything — 4 traps in one attempt |
+| The trick (shown after solving) | Reading the terms revealed Clause 9: the cat flap. |
 | Ending consequences | None. |
 
 ## 34. The Rehearsal
@@ -587,6 +661,9 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Think back to Levels 1, 4 and 12. 2) The red button was a dud; the glowing code was also used in the Broken Room. 3) Answer: absolutely nothing, then 4 · 2 · 7, then the lever. |
 | Completion text | Memory: excellent. Bossworth: slightly moved. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | A rehearsal is just practice. The answers were in the questions. |
+| Jigsaw piece | `jig-9` at 90%, 90% — replays only |
 | Ending consequences | None. |
 
 ## 35. The Last Instruction
@@ -605,6 +682,8 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) Three gears: one obvious, one hidden, and one… worn by someone. 2) Look under the rug, and check Bossworth himself. 3) Collect all three gears, then answer his question. |
 | Completion text | The machine is assembled. One level left. |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | Collect the gears, then ask Bossworth before answering. |
 | Ending consequences | Choice: trusting him leans Hero; asking why leans Chaos. Dialogue reflects earlier choices. |
 
 ## 36. The Final Decision
@@ -624,5 +703,86 @@ Restart (button) = fresh attempt: state, timers, actions and hints reset. A trap
 | Hints | 1) There is more than one way to end this. 2) You can repair the machine or overload it — both finish the game. 3) Hold the wrench to repair, or drag the fuse into the machine. All 15 secrets reveal a third way. |
 | Completion text | The end. Or is it? (It is. Mostly.) |
 | Secrets | none |
+| Ruins (deliberately terrible finishes) | none |
+| The trick (shown after solving) | You chose how to fix the machine. Bossworth just held the wrench. |
 | Ending consequences | Hero: repair (hold wrench). Chaos: overload (drag fuse). Secret Master: all 15 secrets + golden quill. |
+
+# Sabotage Studio (bonus pack, unlocked after Level 12)
+
+## Bonus 1: Red Means Blue
+
+| Field | Value |
+|---|---|
+| Stable ID | `red-means-blue` |
+| Objective | Press RED. |
+| Intro dialogue | Sabotage Studio, test one. Simple: press RED. Not blue. RED. You know what red is. I hope. |
+| Player actions | tap |
+| Interactive objects | `sign` (info), `red-word`, `btnA`, `btnB`, `note` (info) |
+| Success path (automated) | tap `red-word` |
+| Plausible wrong actions | The red button is labelled BLUE, the blue one is labelled RED: both get a "nope". |
+| Par (3★) | 1 |
+| Hints | 1) Each button argues about what colour it is. 2) Bossworth said "press RED" — and RED is right there in what he said. 3) Press the word RED in the instruction sign. |
+| Completion text | Colours are a social construct. So are instructions. |
+| Secrets | none |
+| Ruins (deliberately terrible finishes) | `label-peeler` Label Peeler — path: tap `btnA`, tap `btnB`, tap `btnA`, tap `btnB`, tap `btnA`, tap `btnB` |
+| The trick (shown after solving) | Neither button was RED. The word RED was. |
+| Ending consequences | None. |
+
+## Bonus 2: Ninety-Nine
+
+| Field | Value |
+|---|---|
+| Stable ID | `ninety-nine` |
+| Objective | Unplug the phone at exactly 100%. |
+| Intro dialogue | Charge the phone to exactly 100%, then unplug it. Never at 99%. NEVER 99. I can't explain why. It's personal. |
+| Player actions | wait, tap |
+| Interactive objects | `phone` (info), `toggle`, `unplug`, `pct` (info) |
+| Success path (automated) | tap `toggle`, wait 5000 ms, tap `unplug` |
+| Plausible wrong actions | Unplugging below 99% does nothing (nope). |
+| Par (3★) | 2 |
+| Hints | 1) Watch the battery. Does it ever reach 100? 2) Something in the phone's settings is holding it back. 3) Switch optimised charging off, wait for 100%, then unplug. |
+| Completion text | A fully charged phone. Bossworth can finally sleep. |
+| Secrets | none |
+| Ruins (deliberately terrible finishes) | `ninety-nine` Ninety-Nine — path: wait 5000 ms, tap `unplug` |
+| The trick (shown after solving) | Optimised charging stopped it at 99%. Switching it off let it reach 100. |
+| Ending consequences | None. |
+
+## Bonus 3: The Tower
+
+| Field | Value |
+|---|---|
+| Stable ID | `tower-toppler` |
+| Objective | Get all three discs onto peg C. |
+| Intro dialogue | Move the tower to peg C. One disc at a time. Never a big disc on a small one. The PROPER way. Seven moves. I'll be counting. |
+| Player actions | tap, drag |
+| Interactive objects | `pegA` (drop zone), `pegB` (drop zone), `pegC` (drop zone), `csign` (drag) |
+| Success path (automated) | drag `csign` → `pegA` |
+| Alternative `honest` | tap `pegA`, tap `pegC`, tap `pegA`, tap `pegB`, tap `pegC`, tap `pegB`, tap `pegA`, tap `pegC`, tap `pegB`, tap `pegA`, tap `pegB`, tap `pegC`, tap `pegA`, tap `pegC` |
+| Plausible wrong actions | A bigger disc on a smaller one is refused (nope). |
+| Par (3★) | 14 |
+| Hints | 1) The puzzle says "peg C". It never says which peg is C. 2) The signs above the pegs can be moved. 3) Drag the C sign onto the peg that already holds the tower — or do the seven moves: A→C, A→B, C→B, A→C, B→A, B→C, A→C. |
+| Completion text | The tower stands. Somewhere, a monk nods. |
+| Secrets | none |
+| Ruins (deliberately terrible finishes) | `tower-toppler` Tower Toppler — path: tap `pegA`, tap `pegB`, tap `pegA`, tap `pegB`, tap `pegA`, tap `pegC`, tap `pegA`, tap `pegC`, tap `pegA`, tap `pegC` |
+| The trick (shown after solving) | You can solve the tower in seven moves — or move the "C" sign. |
+| Ending consequences | None. |
+
+## Bonus 4: Tip Top
+
+| Field | Value |
+|---|---|
+| Stable ID | `tip-top` |
+| Objective | Put the tree on the stand, pointy end up. |
+| Intro dialogue | Last test. Put the tree on the stand. Pointy end UP. Even you can't ruin a tree. …Can you? |
+| Player actions | tap, drag |
+| Interactive objects | `tree` (drag), `stand` (drop zone), `rotate`, `label` (info) |
+| Success path (automated) | tap `rotate`, drag `tree` → `stand` |
+| Plausible wrong actions | A tree lying on its side won't stand (nope). |
+| Par (3★) | 2 |
+| Hints | 1) The tree is lying down. Trees don't nap. 2) The Rotate button turns the tree. 3) Rotate once so the pointy end is up, then drag the tree onto the stand. |
+| Completion text | A tree, standing. The Sabotage Studio is closed for the season. |
+| Secrets | none |
+| Ruins (deliberately terrible finishes) | `tip-top` Tip Top — path: tap `rotate`, tap `rotate`, drag `tree` → `stand` |
+| The trick (shown after solving) | Pointy end up means turning the tree before placing it. |
+| Ending consequences | None. |
 
