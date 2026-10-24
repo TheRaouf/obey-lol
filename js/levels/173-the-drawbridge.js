@@ -42,7 +42,7 @@
         O('wtag', 50, 4, 30, 13, { kind: 'static', text: 'Bridge weighs 3 rocks', label: 'Bridge weighs 3 rocks', cls: 'tag-card' }),
         O('gate', 64, 32, 34, 44, { kind: 'static', art: 'h-gatehouse', artOpts: { open: st === 'down' }, label: st === 'down' ? 'Castle gatehouse, doors open' : 'Castle gatehouse' }),
         O('bridge', 40, 42, 34, 34, { art: 'h-bridge', artOpts: { state: st }, label: st === 'down' ? 'Drawbridge, down across the moat (tap to cross)' : (st === 'half' ? 'Drawbridge, hovering halfway' : 'Drawbridge, raised') }),
-        O('moat', 40, 77, 34, 17, { art: 'water', label: 'The moat (swim across?)' }),
+        O('moat', 40, 77, 34, 17, { art: 'water', artOpts: { edge: true }, label: 'The moat (swim across?)' }),
         O('pile', 10, 82, 16, 13, { art: 'h-rock', drag: true, label: 'A spare rock (drag it somewhere)' }),
         O('you', 24, 60, 10, 16, { kind: 'static', art: 'hero', label: 'You, on the near bank' })
       ];

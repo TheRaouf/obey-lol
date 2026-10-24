@@ -38,7 +38,7 @@
         O('circus', 64, 28, 32, 10, { kind: 'static', text: 'Duke: "Gone to the circus"', label: 'Note pinned up: the duke has gone to the circus', cls: 'tag-card' }),
         O('throne', 40, 46, 26, 30, { art: 'h-throne', artOpts: { crayon: true }, zone: true, label: 'Throne with "KING BOSSWORTH" written on it in crayon' }),
         O('cat', 70, 58, 24, 18, { art: 'cat', zone: true, free: true, label: 'Lady Pudding, the castle cat, on a cushion' }),
-        O('you', 6, 52, 14, 24, { art: 'hero', zone: true, free: true, label: 'You' }),
+        O('you', 7.5, 59, 11, 16, { art: 'hero', zone: true, free: true, label: 'You' }),
         O('crown', 24, 84, 16, 12, { art: 'h-crown', drag: true, hidden: !!s.crowned, label: 'The royal crown (drag it onto the rightful ruler)' })
       ];
     },

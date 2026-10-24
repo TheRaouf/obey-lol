@@ -37,7 +37,7 @@
     view: function (s) {
       var on = LIT.indexOf(s.t) >= 0;
       return [
-        O('sky', 0, 0, 100, 62, { kind: 'static', art: 'i-deep', cls: 'backdrop' }),
+        O('sky', 0, 0, 100, 62, { kind: 'static', art: 'i-deep', artOpts: { nobed: true }, cls: 'backdrop' }),
         O('sea', 0, 56, 100, 44, { kind: 'static', art: 'i-sea', artOpts: { nobed: true } }),
         O('chart', 4, 4, 50, 32, { kind: 'static', text: 'CHART · flashes, then dark\nGull Rock: 2\nHome Point: 3\nShark Reef: 4', label: 'Chart of lights. Each flashes a group, then goes dark. Gull Rock flashes 2, Home Point 3, Shark Reef 4.', cls: 'honest-card' }),
         O('rock', 64, 50, 28, 10, { kind: 'static', art: 'i-rock', label: '' }),

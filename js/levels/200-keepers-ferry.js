@@ -45,17 +45,18 @@
       var boatX = s.side === 'L' ? 28 : 52;
       var out = [
         O('sea', 0, 0, 100, 100, { kind: 'static', art: 'i-sea', cls: 'backdrop' }),
-        O('rule', 4, 3, 92, 17, { kind: 'static', text: 'Left alone: SEAL eats FISH, FISH eats WORMS. Boat: you + 1.', label: 'Rules: left alone together, the seal eats the fish and the fish eats the worms. The boat holds you and one passenger.', cls: 'sign-card' }),
+        O('rulesign', 4, 2, 29, 19, { kind: 'static', text: 'FERRY RULES', label: 'Ferry rules sign', cls: 'sign-card' }),
+        O('rule', 35, 2, 61, 19, { kind: 'static', text: 'Left alone: SEAL eats FISH, FISH eats WORMS. Boat: you + 1.', label: 'Rules: left alone together, the seal eats the fish and the fish eats the worms. The boat holds you and one passenger.', cls: 'honest-card' }),
         O('bankL', 0, 24, 26, 52, { kind: 'static', art: 'i-island', label: 'The quay' }),
         O('bankR', 74, 24, 26, 52, { kind: 'static', art: 'i-island', label: 'The lighthouse island' }),
         O('tagL', 2, 78, 22, 9, { kind: 'static', text: 'QUAY', label: '', cls: 'tag-card' }),
         O('tagR', 76, 78, 22, 9, { kind: 'static', text: 'ISLAND', label: '', cls: 'tag-card' }),
         O('boat', boatX, 60, 20, 11, { kind: 'static', art: 'i-rowboat', label: 'Rowing boat, at the ' + (s.side === 'L' ? 'quay' : 'island') }),
-        O('keeper', boatX + 1, 48, 8, 13, { kind: 'static', art: 'hero', label: 'You, the keeper, in the boat' })
+        O('keeper', boatX + 1, 50.5, 8, 13, { kind: 'static', art: 'hero', label: 'You, the keeper, in the boat' })
       ];
       ITEMS.forEach(function (it, i) {
         var where = s.at[it.id];
-        var x = where === 'L' ? 2 : (where === 'R' ? 76 : boatX + 9), y = where === 'B' ? 46 : 26 + i * 16, w = where === 'B' ? 12 : 22;
+        var x = where === 'L' ? 2 : (where === 'R' ? 76 : boatX + 9), y = where === 'B' ? 49.5 : 26 + i * 16, w = where === 'B' ? 12 : 22;
         out.push(O(it.id, x, y, w, 14, { art: it.art, label: it.name.charAt(0).toUpperCase() + it.name.slice(1) + (where === 'B' ? ', in the boat' : (where === 'L' ? ', on the quay' : ', on the island')) }));
       });
       out.push(O('row', 30, 80, 40, 13, { text: 'Row across', label: 'Row across to the ' + (s.side === 'L' ? 'island' : 'quay'), cls: 'btn-card big' }));

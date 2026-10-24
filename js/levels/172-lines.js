@@ -37,11 +37,11 @@
         O('slip', 4, 3, 50, 25, { kind: 'static', text: 'DETENTION\nWrite 20 lines:\n"I will not argue with the substitute."', label: 'Detention slip: write 20 lines, I will not argue with the substitute', cls: 'book-card' }),
         O('count', 58, 4, 38, 13, { kind: 'static', text: 'Lines: ' + Math.min(s.lines, NEED) + ' / ' + NEED, label: 'Lines written: ' + Math.min(s.lines, NEED) + ' of ' + NEED, cls: 'display-card' + (done ? ' ready' : '') }),
         O('door', 76, 24, 20, 72, { art: 'door', artOpts: { sign: 'EXIT' }, label: done ? 'Exit door (you may go)' : 'Exit door' }),
-        O('desk', 2, 70, 70, 26, { kind: 'static', art: 'g-desk' }),
-        O('tip', 8, 79, 58, 10, { kind: 'static', text: 'Scratched in the desk: 4 pencils + band = 4 lines at once', label: 'Scratched into the desk: four pencils and a band write four lines at once', cls: 'tag-card' }),
-        O('paper', 46, 45, 22, 28, { kind: 'static', art: 'g-lines', artOpts: { n: s.lines }, label: 'Lined paper, ' + Math.min(s.lines, NEED) + ' lines written' }),
-        O('pencils', 6, 46, 24, 26, { art: 'g-pencils', artOpts: { banded: s.banded }, label: s.banded ? 'Four pencils strapped together (tap to write four lines)' : 'Four pencils (tap to write a line)', zone: !s.banded }),
-        O('band', 31, 60, 13, 11, { art: 'g-band', label: 'Rubber band (drag it)', drag: true, hidden: s.banded })
+        O('desk', 10, 69.5, 50, 27.5, { kind: 'static', art: 'g-desk' }),
+        O('tip', 10, 78, 50, 13, { kind: 'static', text: 'Scratched in the desk: 4 pencils + band = 4 lines at once', label: 'Scratched into the desk: four pencils and a band write four lines at once', cls: 'tag-card' }),
+        O('paper', 40, 47.5, 20, 25.5, { kind: 'static', art: 'g-lines', artOpts: { n: s.lines }, label: 'Lined paper, ' + Math.min(s.lines, NEED) + ' lines written' }),
+        O('pencils', 11, 56.6, 18, 15.75, { art: 'g-pencils', artOpts: { banded: s.banded }, label: s.banded ? 'Four pencils strapped together (tap to write four lines)' : 'Four pencils (tap to write a line)', zone: !s.banded }),
+        O('band', 29.5, 63.8, 11.5, 9.7, { art: 'g-band', label: 'Rubber band (drag it)', drag: true, hidden: s.banded })
       ];
     },
 

@@ -38,7 +38,7 @@
 
     view: function (s) {
       var out = [
-        O('oldseal', 4, 4, 18, 22, { kind: 'static', art: 'h-seal', artOpts: { letter: 'K', mirror: true }, label: 'The old king\'s seal in a glass case: its K is carved backwards' }),
+        O('oldseal', 4, 4, 18, 22, { kind: 'static', art: 'h-seal', artOpts: { letter: 'K', mirror: true, cased: true }, label: 'The old king\'s seal in a glass case: its K is carved backwards' }),
         O('oldletter', 24, 4, 18, 22, { kind: 'static', art: 'h-decree', artOpts: { mark: 'K' }, label: 'A letter the old king sealed: the wax shows a normal K' }),
         O('oldtag', 4, 27, 40, 13, { kind: 'static', text: 'Old king\'s seal → his letter', label: 'Plaque: the old king\'s seal and a letter he sealed with it', cls: 'tag-card' }),
         O('decree', 50, 4, 22, 30, { kind: 'static', art: 'h-decree', artOpts: { mark: s.mark ? 'B' : null, mirror: false }, label: s.mark ? 'Decree: let the visitor out. Sealed with a proper B.' : 'Decree: let the visitor out. Needs a proper B seal.' }),

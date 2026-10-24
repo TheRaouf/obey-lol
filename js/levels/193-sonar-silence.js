@@ -39,7 +39,7 @@
       DIRS.forEach(function (d) { e[d] = s.echo[d] === 'pong' ? 'pong' : (s.echo[d] === 'none' ? 'none' : undefined); });
       function read(d) { var v = s.echo[d]; return v === 'pong' ? 'PONG!' : (v === 'none' ? 'no echo' : (v === 'wait' ? 'listening…' : '—')); }
       var out = [
-        O('sea', 0, 0, 100, 100, { kind: 'static', art: 'i-deep', cls: 'backdrop' }),
+        O('sea', 0, 0, 100, 100, { kind: 'static', art: 'i-deep', artOpts: { bed: 57 }, cls: 'backdrop' }),
         O('card', 4, 4, 28, 30, { kind: 'static', text: 'SONAR GUIDE\nPONG = something solid is there', label: 'Sonar guide: a PONG means something solid is there', cls: 'honest-card' }),
         O('scope', 36, 4, 36, 36, { kind: 'static', art: 'i-sonar', artOpts: { echo: e }, label: 'Sonar screen' }),
         O('periscope', 80, 0, 14, 38, { art: 'i-periscope', label: 'Periscope' }),

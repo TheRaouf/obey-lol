@@ -207,3 +207,33 @@ Files: `js/ui/art.js`, `js/ui/art-extra.js`, `js/ui/art-pack-a.js` … `art-pack
   `c-torch`). Add the rule that a redirect whose canonical has a different aspect either keeps the old
   viewBox in an option mode or is bottom-anchored (`xMidYMax meet`).
 - §18: the four art items are closed. A new item: at 320 px the map nodes overlap each other.
+
+## L2 (levels 173–232)
+
+Layout and text only. No puzzle logic, solution, check, level id, number, object id or interactivity
+changed. New objects are static display signs (`rulesign`, `signhead`); every rule keeps its full
+sentence in `label`, and the existing ids now hold the body-text card.
+
+| Item | Status | Change |
+|---|---|---|
+| S2 long display signs | done | A short `sign-card` plus an `honest-card` with the sentence. L195 "HARBOUR RULE" + `rule` card; L200 "FERRY RULES" + `rule`; L213 "RACE RULE" + `rules`; L215 "LONG JUMP" + `rules`; L219 "OWN GOALS" + `sign`; L221 "HOUSE RULE" + `rule`; L223 "DOMINO RALLY" + `sign`; L231 "SPORTS DAY CUP" + `sign`. L230: no room for a second sign under the medal table, so `rule` is one full-width `honest-card` (4, 31, 92, 10.5). Body text shortened only where the sign now carries the lead-in (L213 "The egg must stay on a spoon.", L215 "Measure to the mark NEAREST the board.", L221 "All scores go on the official card.", L223 "Ring the bell! Each domino knocks over the next.", L231 "Engraved with the winner's name.", L195 "Coming in: RED cans on your RIGHT, GREEN cones on your LEFT."). |
+| S3 `btn-card small` | done | `small` dropped: L216 `clear`, L218 `ask`, L225 `resign`, `flip`. |
+| S4 floating props | done | L185 `horn` and L189 `hammer`: hooks now drawn by group 2, positions unchanged. L178 `oldseal` → `cased: true` (glass case on a shelf, group 2); `oldletter` hangs from its drawn nail. L218 `red` y 48 → 50.5 and `whistle` y 52 → 55: both rest on the bench top (drawn bottom 65.7 / 65.5 vs bench 65.8). |
+| S5 intern scale | done | 15–16 % drawn, feet 74–75 %: L174 `you` (h-visitor) 6,48,28,28 → 11,57,18,18; L177 14×24 → 7.5,59,11,16; L180 → 9,56,20,20 (17 % including the cushion); L216 `you` box → 8.5,59,11,16; L232 → 7.5,58.5,11,16. |
+| S8 L185 OUT sign | done | `door` 82,50,16,26 → 80,44,18,32 (sign type ×1.3, about 13.4 px at a 366 px stage). L213 crate: type enlarged in `j-crate` by group 3; object unchanged. |
+| S1 / S9 follow-ups | done | L193 `sea` `artOpts: { bed: 57 }`; L197 `sky` `artOpts: { nobed: true }`. |
+| P2 small floats | done | L175 `g1`/`g2` y 46 → 49 (feet 75.3); L182 `cake` y 50 → 53 (on the table top); L204 `tin` and `f1–f4` y 34 → 36.5 (on the table); L200 `keeper` y 48 → 50.5 and boat passengers y 46 → 49.5 (stand in the boat). |
+| P7 L173 moat | done | `moat` `artOpts: { edge: true }` (group 1's ink edge). |
+| Extra | done | L182 `warn` 4,4,46,14 → 4,3,46,16: the sign touched its edge at 390 px. |
+
+Verification:
+- `node tools/level-lab.js <24 touched files> 189 --art <packs a–j> --fit`: 25 levels, 1169 checks,
+  0 problems; fit 0 problems.
+- `npm test`: 1265 pass. `tools/check.js`: only `sw.js is out of date` (run `node tools/gen-sw.js`).
+- Range spill probe (2 px slack): clean at 390×844, 820×1180 and 1180×900. At 320×700 the new short signs
+  sit on the fitter's 1 px tolerance (−0.8 px vertical at the 19.2 px cap), and the rest are
+  pre-existing 2.3-baseline cards (L174 `list`, L218 `rules`, L230 header row, L215 plaques at 11.6 px).
+- Before/after stage shots of every touched level, plus mid states for L173, L200, L216 and L230.
+
+Left open: L189 `owl` perch still hangs on the wall with no bracket (not in the review list). L230
+`h3` "Bronze" is 0.5 px from its edge at 320 px (baseline).
