@@ -26,7 +26,7 @@
     this.assist = null;    // hold assist: id of the object being held by tap-to-start / tap-to-stop
     this._bind();
     var self = this;
-    root.addEventListener('resize', function () { self._fitSize(); self._fitText(); });
+    root.addEventListener('resize', function () { self._fitSize(); self._fitText(); self._fitStrokes(); });
     if (root.MutationObserver) {
       // Text above the stage (narrator line, asides, goal) can grow and push it down. Re-fit when the level
       // screen's text changes outside the stage. (A ResizeObserver here would loop: fitting resizes the stage.)
@@ -52,10 +52,11 @@
     var scrollY = root.scrollY || 0;
     var over = (r.bottom + scrollY) - root.innerHeight + 6;
     if (over > 0) wrap.style.maxWidth = Math.max(240, Math.floor(r.width - over)) + 'px';
-    if (wrap.style.maxWidth !== before) this._fitText();
+    if (wrap.style.maxWidth !== before) { this._fitText(); this._fitStrokes(); }
   };
 
-  /** Text cards shrink their font (never below 10px, 9px for fine print) until the text fits the card.
+  /** Text cards shrink their font (never below 11px, fine print included; bible §11 asks for 12px and
+   *  the CSS starts there) until the text fits the card.
    *  Cards are sized in % of the stage while text has a readable minimum, so on small stages long text
    *  would otherwise spill out of its card. */
   Stage.prototype._fitText = function () {
@@ -65,7 +66,7 @@
       if (!t) return;
       node.style.fontSize = '';
       if (!node.offsetWidth) return;
-      var floor = node.classList.contains('fine-print') ? 9 : 10;
+      var floor = 11;
       var fs = parseFloat(root.getComputedStyle(node).fontSize);
       for (var i = 0; i < 40 && fs > floor; i++) {
         var r = node.getBoundingClientRect(), q = t.getBoundingClientRect();
@@ -74,6 +75,72 @@
         node.style.fontSize = fs + 'px';
       }
     });
+  };
+
+  /* 2.3 E97: one outline weight at every size. The house outline is 4 units on the art's viewBox, so
+   * its rendered width is 4·k px (k = px per unit). Each non-stretch art svg gets --ow, the factor that
+   * brings it to the target (4.6 px on a 640 px stage, 2.5 px minimum), within 0.6–1.8. */
+  var STROKE_MIN = 2.5, STROKE_PER_PX = 0.0072, OW_MIN = 0.6, OW_MAX = 1.8;
+  function artSvg(node) {
+    var sv = node.firstElementChild;
+    return sv && sv.tagName && sv.tagName.toLowerCase() === 'svg' && sv.classList.contains('art') ? sv : null;
+  }
+  function viewBox(sv) {
+    var vb = sv.viewBox && sv.viewBox.baseVal;
+    return vb && vb.width > 0 && vb.height > 0 ? vb : null;
+  }
+  Stage.prototype._fitStrokes = function () {
+    var W = this.el.clientWidth, H = this.el.clientHeight;
+    if (!W || !H) return;
+    var target = Math.max(STROKE_MIN, W * STROKE_PER_PX);
+    var self = this;
+    this.objs.forEach(function (o) {
+      var node = self.nodes.get(o.id);
+      if (!node || !o.art) return;
+      var sv = artSvg(node), vb = sv && viewBox(sv);
+      var par = sv ? sv.getAttribute('preserveAspectRatio') || '' : 'none';
+      var ow = '';
+      if (vb && par !== 'none') {
+        var sx = o.w / 100 * W / vb.width, sy = o.h / 100 * H / vb.height;
+        var k = par.indexOf('slice') >= 0 ? Math.max(sx, sy) : Math.min(sx, sy);
+        if (k > 0) ow = String(Math.round(Math.min(OW_MAX, Math.max(OW_MIN, target / (4 * k))) * 1000) / 1000);
+      }
+      if (node._ow === ow) return;
+      node._ow = ow;
+      if (ow) node.style.setProperty('--ow', ow); else node.style.removeProperty('--ow');
+    });
+  };
+
+  /* 2.3 E73: objects whose drawing ends on the floor band (74–99.5 % of the stage) get a flat contact
+   * shadow. The shadow sits under the drawn content, not the box, so letterboxed art still touches it.
+   * Stretch and slice art (terrain, windows), backdrops, floating and flat floor things are left out. */
+  var GROUND_TOP = 74, GROUND_BOTTOM = 99.5;
+  var FLAT = {};
+  ('rug b-rug mat footprint c-footprints c-tracks c-grass c-hill c-meadow c-pond c-icepond c-rockpool c-road c-sand c-sea c-seaweed ' +
+   'c-snow c-dig c-jetty c-panorama c-town d-crater d-drain d-tile d-wire d-wire-h darkness e-mud water swamp stone drip mousehole ' +
+   'b-dust b-ants b-smoke cobweb light').split(' ').forEach(function (k) { FLAT[k] = true; });
+  Stage.prototype._ground = function (node, o) {
+    if (!o.art || o.kind === 'zone' || o.hidden || FLAT[o.art] || /\b(backdrop|floaty|jigsaw-piece)\b/.test(o.cls || '') || o.w >= 90) return null;
+    var sv = artSvg(node), vb = sv && viewBox(sv);
+    if (!vb || (sv.getAttribute('preserveAspectRatio') || 'xMidYMid meet') !== 'xMidYMid meet') return null;
+    if (node._bboxFor !== node._html) {
+      var bb = null;
+      try { var b = sv.getBBox(); if (b && b.width > 0 && b.height > 0) bb = { x: b.x, y: b.y, w: b.width, h: b.height }; } catch (e) { bb = null; }
+      if (!bb && node.offsetParent === null) return node._groundLast || null; // not laid out yet: keep the last answer
+      node._bbox = bb || { x: vb.x, y: vb.y, w: vb.width, h: vb.height };
+      node._bboxFor = node._html;
+    }
+    var c = node._bbox;
+    // The stage is square, so % of the stage works for both axes.
+    var k = Math.min(o.w / vb.width, o.h / vb.height);
+    var ox = (o.w - vb.width * k) / 2, oy = (o.h - vb.height * k) / 2;
+    var left = ox + (c.x - vb.x) * k, right = ox + (c.x + c.w - vb.x) * k;
+    var bottom = Math.min(o.h, oy + (c.y + c.h - vb.y) * k);
+    var foot = o.y + bottom;
+    if (foot < GROUND_TOP || foot > GROUND_BOTTOM || right - left <= 0) return null;
+    var inset = (right - left) * 0.14;
+    var pc = function (v, of) { return (Math.round(v / of * 1000) / 10) + '%'; };
+    return { gl: pc(left + inset, o.w), gr: pc(o.w - right + inset, o.w), gb: pc(o.h - bottom, o.h) };
   };
 
   Stage.prototype._bind = function () {
@@ -193,6 +260,7 @@
     if (focusedId) this._restoreFocus(focusedId);
     this._syncNarratorZone();
     this._fitText();
+    this._fitStrokes();
     this._fitSize();
   };
 
@@ -220,13 +288,23 @@
     if (o.cls) cls.push(o.cls);
     if (this.fx[o.id]) cls.push(this.fx[o.id]);
     if (this.guideIds.indexOf(o.id) >= 0) cls.push('guide-target');
-    var className = cls.join(' ');
-    if (node.className !== className) node.className = className;
 
     var html = '';
     if (o.art) html += OBEY.art.object(o.art, o.artOpts);
     if (o.text) html += '<span class="obj-text">' + OBEY.util.escape(o.text) + '</span>';
-    if (node._html !== html) { node.innerHTML = html; node._html = html; }
+    if (node._html !== html) { node.innerHTML = html; node._html = html; node._ow = null; }
+
+    var g = hidden ? (node._groundLast || null) : this._ground(node, o);
+    node._groundLast = g;
+    var gKey = g ? g.gl + ' ' + g.gr + ' ' + g.gb : '';
+    if (node._gKey !== gKey) {
+      node._gKey = gKey;
+      if (g) { st.setProperty('--gl', g.gl); st.setProperty('--gr', g.gr); st.setProperty('--gb', g.gb); }
+      else { st.removeProperty('--gl'); st.removeProperty('--gr'); st.removeProperty('--gb'); }
+    }
+    if (g) cls.push('grounded');
+    var className = cls.join(' ');
+    if (node.className !== className) node.className = className;
 
     if (isInteractive(o)) {
       var label = o.label || o.text || o.id;
