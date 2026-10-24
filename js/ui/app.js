@@ -23,7 +23,7 @@
   function diffName(id) { var d = OBEY.DIFFICULTIES.filter(function (x) { return x.id === id; })[0]; return d ? d.name : 'Medium'; }
   App.diffName = diffName;
 
-  var SCREENS = ['menu', 'map', 'level', 'secrets', 'costumes', 'themes', 'achievements', 'trophies', 'settings', 'credits', 'ending'];
+  var SCREENS = ['menu', 'map', 'level', 'secrets', 'costumes', 'themes', 'achievements', 'trophies', 'settings', 'credits', 'stats', 'daily', 'sabotage', 'ending'];
 
   /* ------------------------------------------------------------ persistence */
   App.persist = function () { App.store.save(App.save); };
@@ -36,8 +36,17 @@
     var reduce = st.motion === 'reduce' || (st.motion === 'system' && mq && mq.matches);
     html.classList.toggle('reduce-motion', !!reduce);
     html.setAttribute('data-text', st.textSize);
+    html.setAttribute('data-contrast', st.contrast);
+    html.setAttribute('data-font', st.font);
+    html.setAttribute('data-hand', st.hand);
     OBEY.audio.setEnabled(st.sound);
     OBEY.audio.setVoice(st.voice);
+    OBEY.audio.setVolume('sfx', st.sfxVol);
+    OBEY.audio.setVolume('voice', st.voiceVol);
+    OBEY.audio.setVolume('music', st.musicVol);
+    if (App.syncMusic) App.syncMusic();
+    var cap = doc.getElementById('captions');
+    if (cap && !st.captions) { cap.hidden = true; cap.textContent = ''; }
   };
   App.reducedMotion = function () { return doc.documentElement.classList.contains('reduce-motion'); };
 
@@ -74,6 +83,14 @@
       } else if (ev.type === 'theme') {
         App.toast('New theme: ' + OBEY.THEMES.filter(function (c) { return c.id === ev.id; })[0].name, 'unlock');
         OBEY.audio.play('unlock');
+      } else if (ev.type === 'ruin') {
+        App.toast('Level ruined: ' + OBEY.extras.getRuin(ev.id).name + ' (' + ev.count + '/' + OBEY.extras.RUINS.length + ')', 'secret');
+      } else if (ev.type === 'jigsaw') {
+        App.toast('Jigsaw piece found! (' + ev.count + '/9)', 'secret');
+        OBEY.audio.play('secret');
+      } else if (ev.type === 'badge') {
+        App.toast('Daily Dare badge: ' + ev.days + '-day streak!', 'achievement');
+        OBEY.audio.play('achievement');
       }
     });
   };
@@ -87,7 +104,9 @@
       wrap.className = 'modal-backdrop';
       wrap.innerHTML = '<div class="modal panel" role="alertdialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-body">' +
         '<h2 id="modal-title">' + E(opts.title) + '</h2><p id="modal-body">' + E(opts.body) + '</p>' +
+        (opts.extra ? '<p class="small">' + E(opts.extra.note || '') + '</p>' : '') +
         '<div class="btn-row"><button class="btn" data-m="no">' + E(opts.cancel || 'Cancel') + '</button>' +
+        (opts.extra ? '<button class="btn" data-m="extra">' + E(opts.extra.label) + '</button>' : '') +
         '<button class="btn ' + (opts.danger ? 'danger' : 'primary') + '" data-m="yes">' + E(opts.ok || 'OK') + '</button></div></div>';
       rootEl.appendChild(wrap);
       App.inertApp(true);
@@ -114,6 +133,7 @@
       doc.addEventListener('keydown', key, true);
       wrap.addEventListener('click', function (e) {
         var b = e.target.closest('[data-m]');
+        if (b && b.getAttribute('data-m') === 'extra') { OBEY.audio.play('ui'); opts.extra.onClick(b); return; }
         if (b) { OBEY.audio.play('ui'); done(b.getAttribute('data-m') === 'yes'); } else if (e.target === wrap) done(false);
       });
     });
@@ -145,7 +165,7 @@
     if (name === 'level') {
       var n = Number(parts[1]);
       if (!P.canPlay(App.save, n)) {
-        App.toast(Number.isInteger(n) && n >= 1 && n <= OBEY.LEVEL_COUNT ? 'Level ' + n + ' is locked. Finish Level ' + (n - 1) + ' first.' : 'That level does not exist.', 'warn');
+        App.toast(OBEY.isBonus(n) ? 'The Sabotage Studio opens after Level ' + P.BONUS_UNLOCK_LEVEL + '.' : (Number.isInteger(n) && n >= 1 && n <= OBEY.LEVEL_COUNT ? 'Level ' + n + ' is locked. Finish Level ' + (n - 1) + ' first.' : 'That level does not exist.'), 'warn');
         root.location.replace('#map');
         return;
       }
@@ -170,6 +190,7 @@
     });
     App.screen = name;
     doc.getElementById('app').setAttribute('data-screen', name);
+    if (App.onScreen) App.onScreen(name);
     var el = doc.getElementById('screen-' + name);
     if (name === 'level') App.enterLevel(arg);
     else if (name === 'ending') { App.endingCleanup = OBEY.endings.render(App, el, arg); }
@@ -179,7 +200,7 @@
       var h = el.querySelector('h1');
       if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
     }
-    doc.title = name === 'level' ? 'Level ' + arg + ': ' + OBEY.getLevel(arg).title + ' — OBEY? LOL.' : 'OBEY? LOL.' + (name === 'menu' ? '' : ' — ' + name[0].toUpperCase() + name.slice(1));
+    doc.title = name === 'level' ? OBEY.levelLabel(arg) + ': ' + OBEY.getLevel(arg).title + ' — OBEY? LOL.' : 'OBEY? LOL.' + (name === 'menu' ? '' : ' — ' + name[0].toUpperCase() + name.slice(1));
   };
 
   App.refresh = function () { if (App.screen && App.screen !== 'level' && App.screen !== 'ending') OBEY.screens[App.screen](App, doc.getElementById('screen-' + App.screen)); };
@@ -195,18 +216,23 @@
     el.innerHTML = `
       <header class="topbar level-bar">
         <button class="chip-btn" data-act="nav" data-to="map">${A.icon('map')}<span>Map</span></button>
-        <h1 class="level-title"><span class="lvl-num">Level ${n} <span class="diff-badge diff-${s.difficulty}">${E(diffName(s.difficulty))}</span></span><span class="lvl-name">${E(def.title)}</span></h1>
+        <h1 class="level-title"><span class="lvl-num">${OBEY.levelLabel(n)} <span class="diff-badge diff-${s.difficulty}">${E(diffName(s.difficulty))}</span>${s.settings.timer ? ' <span class="run-timer" id="run-timer" role="timer" aria-label="Time on this attempt">0:00.0</span>' : ''}</span><span class="lvl-name">${E(def.title)}</span></h1>
         <div class="topbar-end tools">
-          <button class="chip-btn" data-act="hint" id="hint-btn">${A.icon('hint')}<span>Hint</span></button>
-          <button class="chip-btn" data-act="guide" id="guide-btn">${A.icon('eye')}<span>Show me how</span></button>
-          <button class="chip-btn" data-act="restart" aria-label="Restart level">${A.icon('restart')}<span>Restart</span></button>
+          <button class="chip-btn" data-act="hint" id="hint-btn" aria-keyshortcuts="H">${A.icon('hint')}<span>Hint</span></button>
+          <button class="chip-btn" data-act="guide" id="guide-btn" aria-keyshortcuts="G">${A.icon('eye')}<span>Show me how</span></button>
+          <button class="chip-btn" data-act="restart" aria-label="Restart level" aria-keyshortcuts="R">${A.icon('restart')}<span>Restart</span></button>
+          ${P.skipBlocker(s, n) ? '' : `<button class="chip-btn" data-act="skip" id="skip-btn">${A.icon('skip')}<span>Skip</span></button>`}
           <button class="chip-btn icon-only" data-act="nav" data-to="settings" aria-label="Settings">${A.icon('gear')}</button>
         </div>
       </header>
       <div class="level-body">
         <aside class="narrator-panel" aria-label="Narrator">
           <button class="narrator-btn" id="narrator" type="button" aria-label="Bossworth, the narrator (poke him)"></button>
-          <div class="bubble bubble-narrator" id="bubble"><span class="speaker">Bossworth</span><p id="line" aria-live="polite"></p></div>
+          <div class="narrator-text">
+            <div class="bubble bubble-narrator" id="bubble"><span class="speaker">Bossworth</span><p id="line" aria-live="polite"></p></div>
+            <p class="aside" id="aside" aria-live="polite" hidden></p>
+            <div class="composure" id="composure"></div>
+          </div>
         </aside>
         <div class="stage-col">
           <p class="objective"><b>Goal:</b> ${E(def.objective)}</p>
@@ -220,8 +246,10 @@
           <div class="hint-box" id="hint-box" hidden></div>
           <p class="score-rule small">Stars on ${E(diffName(s.difficulty))}: ${E(OBEY.scoring.describe(def.par, s.difficulty).join('; '))}.${def.hardNote && s.difficulty === 'hard' ? ' ' + E(def.hardNote) : ''}</p>
         </div>
+        ${OBEY.extras.undoActive(n) ? '<section class="undo-chat" id="undo-chat" aria-label="U.N.D.O. chat"></section>' : ''}
       </div>
       <p id="hold-help" class="visually-hidden">Press and hold. With a keyboard, hold Space or Enter.</p>
+      <p id="hold-help-assist" class="visually-hidden">Hold assist is on: press once to start holding, press again to let go.</p>
       <div class="complete-backdrop" id="complete" hidden></div>`;
 
     App.renderCache = {};
@@ -236,7 +264,8 @@
         costume: s.costumes.selected,
         costumeAside: costume ? costume.aside : '',
         allSecrets: s.secrets.length === OBEY.SECRETS.length,
-        difficulty: s.difficulty
+        difficulty: s.difficulty,
+        intern: s.intern
       },
       hooks: {
         onChange: function () { App.renderLevel(); },
@@ -253,6 +282,7 @@
       narratorZone: function () { return !!def.narratorZone; },
       dispatch: function (a) {
         if (!App.runtime || App.runtime.status !== 'playing') return;
+        if (App.handleExtraTap && App.handleExtraTap(a)) return;
         var rtNow = App.runtime;
         var failsBefore = rtNow.stats.fails;
         var stateBefore = App.guide ? JSON.stringify(rtNow.state) : null;
@@ -263,18 +293,22 @@
         if (accepted && a.type === 'drop') OBEY.audio.play('drop');
         if (accepted && a.type === 'holdstart') OBEY.audio.play('hold');
         App.afterAction(a, accepted);
+        if (App.afterDispatch) App.afterDispatch(a, accepted);
       },
       onPick: function (o) {
         var ps = doc.getElementById('pick-status');
         if (ps) ps.textContent = o ? 'Holding: ' + o.label.split(' (')[0] + '. Choose where to put it, or select it again to put it back.' : '';
       },
-      onFeedback: function (k) { OBEY.audio.play(k); }
+      onFeedback: function (k) { OBEY.audio.play(k); },
+      holdAssist: function () { return !!App.save.settings.holdAssist; }
     });
     App.guide = null;
+    App.newAttempt();
     rt.start();
     App.renderCache.fails = 0;
     App.renderCache.nopes = 0;
     App.armIdleHelp();
+    if (App.levelStarted) App.levelStarted(n);
     App.updateGuideButton();
     var tapFirst = !App.firstLevelFocusDone;
     App.firstLevelFocusDone = true;
@@ -319,12 +353,13 @@
       c.lineId = rt.lineId;
       var line = doc.getElementById('line');
       line.textContent = rt.line;
+      App.lineStartedAt = Date.now();
       var b = doc.getElementById('bubble');
       b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
       b.setAttribute('data-mood', rt.mood);
       App.speakLine(rt.line, rt.mood);
     }
-    App.stage.render(rt.objects());
+    App.stage.render(App.extraObjects ? rt.objects().concat(App.extraObjects()) : rt.objects());
     // Traps and harmless wrong moves can also come from timers, so check after every change
     // (after rendering, so effects attach to the final DOM).
     if (rt.stats.fails !== c.fails) { if (c.fails !== undefined && rt.stats.fails > c.fails) App.onFail(); c.fails = rt.stats.fails; }
@@ -351,11 +386,16 @@
   var GAGS = ['pie', 'chicken', 'trombone', 'zap', 'splash'];
   App.pickGag = function (text, count) {
     var t = String(text || '').toLowerCase();
-    if (/pie|splat|splodge|custard|cream/.test(t)) return 'pie';
-    if (/chicken|honk/.test(t)) return 'chicken';
-    if (/bzz|zap|alarm|wee-oo|electric/.test(t)) return 'zap';
-    if (/sploosh|splash|glug|swamp|pool|gap/.test(t)) return 'splash';
-    return GAGS[(App.levelNum * 3 + count) % GAGS.length];
+    var g = null;
+    if (/pie|splat|splodge|custard|cream/.test(t)) g = 'pie';
+    else if (/chicken|honk/.test(t)) g = 'chicken';
+    else if (/bzz|zap|alarm|wee-oo|electric/.test(t)) g = 'zap';
+    else if (/sploosh|splash|glug|swamp|pool|gap/.test(t)) g = 'splash';
+    else g = GAGS[(App.levelNum * 3 + count) % GAGS.length];
+    // Never the same generic gag twice in a row (themed gags stay themed).
+    if (g === App.lastGag && !/pie|splat|chicken|honk|bzz|zap|alarm|sploosh|splash|glug|swamp|pool|gap|custard|cream|electric|wee-oo|splodge/.test(t)) g = GAGS[(GAGS.indexOf(g) + 1) % GAGS.length];
+    App.lastGag = g;
+    return g;
   };
 
   /** A trap was triggered: slapstick gag over the stage, then a "how to do it right" card. */
@@ -372,6 +412,8 @@
     App.gagTimer = setTimeout(function () { layer.innerHTML = ''; }, 1900);
     App.flashStage();
     App.stage.reset();
+    if (App.buzz) App.buzz([60, 40, 90]);
+    if (App.afterFail) App.afterFail();
     if (App.guide) { App.guide.i = 0; App.guide.holdAt = 0; App.guide.waiting = false; App.guideShownStep = null; App.guide.note = 'That was a trap. The walkthrough starts again from step 1.'; App.renderGuide(); }
     App.showWrongCard();
   };
@@ -379,6 +421,8 @@
   App.onNope = function (target) {
     OBEY.audio.play('nope');
     if (App.stage) App.stage.nope(target);
+    if (App.buzz) App.buzz(25);
+    if (App.afterNope) App.afterNope();
   };
 
   App.showWrongCard = function () {
@@ -448,6 +492,7 @@
     App.stage.reset();
     clearTimeout(App.gagTimer);
     doc.getElementById('gag-layer').innerHTML = '';
+    App.newAttempt();
     rt.restart({ guided: true });
     App.renderCache.fails = 0; App.renderCache.nopes = 0;
     App.guide = { steps: App.guideSteps(), i: 0, holdAt: 0 };
@@ -467,6 +512,7 @@
     if (App.runtime && App.runtime.status === 'playing') {
       App.stage.reset();
       App.renderCache.fails = 0; App.renderCache.nopes = 0;
+      App.newAttempt();
       App.runtime.restart();
       App.toast('Walkthrough stopped. Fresh attempt: stars count normally again.', 'info');
     }
@@ -560,6 +606,7 @@
   /* ------------------------------------------ Easy: Bossworth's helper */
   App.armIdleHelp = function () {
     clearTimeout(App.idleTimer);
+    if (App.armIdleAsides) App.armIdleAsides();
     if (App.save.difficulty !== 'easy') return;
     App.idleTimer = setTimeout(function () {
       var rt = App.runtime;
@@ -573,7 +620,8 @@
   App.leaveLevel = function () {
     App.setLevelInert(false);
     App.stopGuide();
-    clearTimeout(App.idleTimer); clearTimeout(App.talkTimer); clearTimeout(App.gagTimer);
+    clearTimeout(App.idleTimer); clearTimeout(App.talkTimer); clearTimeout(App.gagTimer); clearTimeout(App.pointTimer);
+    if (App.levelLeft) App.levelLeft();
     OBEY.audio.stopVoice();
     if (App.runtime) App.runtime.destroy();
     if (App.stage) App.stage.destroy();
@@ -595,14 +643,32 @@
     box.hidden = false;
     var d = App.save.difficulty;
     var cost = d === 'easy' ? 'Hints are free on Easy.' : (d === 'hard' ? 'On Hard, a hint caps this attempt at 1 star.' : (rt.stats.hints === 1 ? 'Using a hint caps this attempt at 2 stars.' : 'Two or more hints cap this attempt at 1 star.'));
-    box.innerHTML = '<p><b>' + (fromHelper ? 'Bossworth\'s helper (you seemed stuck) — hint ' : 'Hint ') + h.tier + ' of ' + h.total + ':</b> ' + E(h.text) + '</p><p class="small">' + cost + '</p>';
+    var point = h.tier === 3 && h.total === 3 && !App.guide;
+    box.innerHTML = '<p><b>' + (fromHelper ? 'Bossworth\'s helper (you seemed stuck) — hint ' : 'Hint ') + h.tier + ' of ' + h.total + ':</b> ' + E(h.text) + '</p><p class="small">' + cost + (point ? ' The first thing to use is highlighted for a few seconds.' : '') + '</p>';
     box.setAttribute('role', 'status');
     App.updateGuideButton();
+    if (point) App.pointMe();
+  };
+
+  /** Highlights the first object of the solution for a few seconds ("Point me"). */
+  App.pointMe = function () {
+    var steps = App.guideSteps();
+    var ids = App.stepTargets(steps[0]);
+    if (!ids.length || !App.stage) return;
+    App.stage.setGuide(ids);
+    clearTimeout(App.pointTimer);
+    App.pointTimer = setTimeout(function () { if (App.stage && !App.guide) App.stage.setGuide([]); }, 3500);
+  };
+
+  /** Per-attempt counters for ruins, nudges, timing and asides. */
+  App.newAttempt = function () {
+    App.att = { taps: {}, start: Date.now(), nudged: false, finished: false, tipShown: false };
   };
 
   App.restartLevel = function () {
     if (!App.runtime) return;
     OBEY.audio.play('ui');
+    App.newAttempt();
     App.stage.reset();
     App.stopGuide();
     App.hideWrongCard();
@@ -617,7 +683,10 @@
 
   App.onLevelComplete = function (result) {
     var n = result.level;
+    result.timeMs = App.att ? Date.now() - App.att.start : 0;
+    result.hour = new Date().getHours();
     var events = P.completeLevel(App.save, n, result) || [];
+    if (App.afterComplete) events = events.concat(App.afterComplete(result, events) || []);
     var endingEv = null;
     if (result.ending) {
       endingEv = P.recordEnding(App.save, result.ending);
@@ -631,7 +700,7 @@
     setTimeout(function () { OBEY.audio.play('stamp'); }, 250);
     App.renderLevel();
     App.showComplete(result, events);
-    App.announce(events.filter(function (e) { return e.type !== 'level' && e.type !== 'ending'; }));
+    App.announce(events.filter(function (e) { return e.type !== 'level' && e.type !== 'ending' && e.type !== 'ruin' && e.type !== 'best' && e.type !== 'dare' && e.type !== 'roast'; }));
   };
 
   App.showComplete = function (r, events) {
@@ -652,19 +721,26 @@
       return '<li class="unlock-' + e.type + '">' + A.icon(e.type === 'achievement' || e.type === 'trophy' ? 'star' : 'check') + pre + E(item.name) + (e.type === 'trophy' ? ' (' + OBEY.TROPHY_TIERS[e.tier] + ')' : '') + '</li>';
     }).join('');
     var isFinal = r.level === OBEY.LEVEL_COUNT && r.ending;
+    var isBonus = OBEY.isBonus(r.level);
+    var nextN = isBonus ? (r.level < OBEY.BONUS_BASE + OBEY.BONUS_COUNT ? r.level + 1 : null) : (r.level < OBEY.LEVEL_COUNT ? r.level + 1 : null);
     var nextBtn = isFinal
       ? '<button class="btn primary" data-act="see-ending" data-id="' + r.ending + '">See your ending</button>'
-      : (r.level < OBEY.LEVEL_COUNT ? '<button class="btn primary" data-act="open-level" data-level="' + (r.level + 1) + '">Next level</button>' : '');
+      : (nextN ? '<button class="btn primary" data-act="open-level" data-level="' + nextN + '" aria-keyshortcuts="N">Next level</button>' : (isBonus ? '<button class="btn primary" data-act="nav" data-to="sabotage">Sabotage file</button>' : ''));
+    if (isBonus) best = App.save.bonus.bestStars[r.level];
+    var extra = App.completeExtras ? App.completeExtras(r, events) : { top: '', bottom: '', buttons: '' };
     box.innerHTML = '<div class="complete-card panel" role="dialog" aria-modal="true" aria-labelledby="complete-title">' +
-      '<p class="stamp" aria-hidden="true">' + (r.defies ? 'DISOBEYED' : 'SOLVED') + '</p>' +
-      '<h2 id="complete-title" tabindex="-1">Level ' + r.level + ' complete</h2>' +
+      '<p class="stamp' + (r.ruin ? ' stamp-ruined' : '') + '" aria-hidden="true">' + (r.ruin ? 'RUINED' : (r.defies ? 'DISOBEYED' : 'SOLVED')) + '</p>' +
+      '<h2 id="complete-title" tabindex="-1">' + OBEY.levelLabel(r.level) + (r.ruin ? ' ruined' : ' complete') + '</h2>' +
       '<div class="big-stars" role="img" aria-label="' + r.stars + ' of 3 stars this time">' + A.stars(r.stars) + '</div>' +
       '<p class="score-why">' + E(reasons.join(', ')) + '.' + (lev.improved ? ' New best!' : (best > r.stars ? ' Your best is still ' + best + ' stars.' : '')) + '</p>' +
-      '<p class="closing">“' + E(def.done) + '”</p>' +
+      extra.top +
+      '<p class="closing">“' + E(r.ruin ? OBEY.extras.getRuin(r.ruin).name + ': ' + (r.line || def.done) : def.done) + '”</p>' +
       (unlocks ? '<ul class="unlock-list">' + unlocks + '</ul>' : '') +
+      extra.bottom +
       '<div class="btn-row center">' + nextBtn +
       '<button class="btn" data-act="replay-level">Replay</button>' +
-      '<button class="btn" data-act="nav" data-to="map">Map</button></div></div>';
+      extra.buttons +
+      '<button class="btn" data-act="nav" data-to="' + (isBonus ? 'sabotage' : 'map') + '">' + (isBonus ? 'Studio' : 'Map') + '</button></div></div>';
     box.hidden = false;
     App.setLevelInert(true);
     var t = box.querySelector('.btn.primary') || box.querySelector('.btn');
@@ -845,6 +921,8 @@
     }
   };
 
+  App.actions = ACTIONS;
+
   function onClick(e) {
     var b = e.target.closest('[data-act]');
     if (!b || b.tagName === 'INPUT') return;
@@ -863,10 +941,15 @@
       if (k === 'difficulty') {
         P.setDifficulty(App.save, t.value);
         App.toast('Difficulty: ' + diffName(t.value) + '. It applies from your next attempt.', 'info');
+      } else if (t.type === 'range' || t.type === 'number') {
+        App.save.settings[k] = Math.max(0, Math.min(100, Math.round(Number(t.value) || 0)));
+      } else if (t.type === 'checkbox') {
+        App.save.settings[k] = !!t.checked;
       } else {
         App.save.settings[k] = t.value;
       }
       App.persist(); App.applySettings();
+      if (App.onSettingChanged) App.onSettingChanged(k, t);
       if (k === 'voice') { OBEY.audio.unlock(); App.speakLine(t.value === 'off' ? '' : 'Testing, testing. This is my voice. Magnificent, isn\'t it?', 'pleased'); }
     }
   }
@@ -875,26 +958,33 @@
     if (e.key === 'Escape' && App.screen === 'level' && App.stage && !doc.querySelector('.modal-backdrop')) {
       if (App.stage.held) App.stage.cancelPick();
     }
+    if (App.shortcut) App.shortcut(e);
   }
 
   /* ------------------------------------------------------------------- boot */
   function boot() {
     var storage = null;
     try { storage = root.localStorage; } catch (e) { storage = null; }
-    App.store = OBEY.save.createStore(storage);
+    App.storage = storage;
+    App.slot = App.activeSlot ? App.activeSlot() : 1;
+    App.store = OBEY.save.createStore(storage, OBEY.save.keyFor(App.slot));
     var res = App.store.load();
     App.save = res.data;
     App.loadStatus = res.status;
     // Re-grant anything earned under rules that changed between versions.
     var ev = P.evaluate(App.save);
     if (ev.length || res.status === 'new') App.persist();
+    if (App.beforeFirstRender) App.beforeFirstRender(res);
     App.applySettings();
     if (mq && mq.addEventListener) mq.addEventListener('change', App.applySettings);
 
     // Browsers only allow audio after a gesture.
-    var unlock = function () { OBEY.audio.unlock(); doc.removeEventListener('pointerdown', unlock, true); doc.removeEventListener('keydown', unlock, true); };
-    doc.addEventListener('pointerdown', unlock, true);
-    doc.addEventListener('keydown', unlock, true);
+    // iOS/iPadOS need the audio context created and resumed inside a touchend/click.
+    var unlock = function () {
+      OBEY.audio.prime();
+      ['pointerdown', 'keydown', 'touchend', 'click'].forEach(function (t) { doc.removeEventListener(t, unlock, true); });
+    };
+    ['pointerdown', 'keydown', 'touchend', 'click'].forEach(function (t) { doc.addEventListener(t, unlock, true); });
 
     doc.addEventListener('click', onClick);
     doc.addEventListener('change', onChange);
@@ -906,7 +996,9 @@
     if (!App.store.persistent) setTimeout(function () { App.toast('Storage is blocked here: progress lasts only until you close this tab.', 'warn'); }, 600);
     App.route();
     installTestHook();
+    if (App.afterBoot) App.afterBoot(res);
   }
+  App.boot = boot;
 
   /* -------------------------------------------- test hook (only with ?test=1) */
   function installTestHook() {
@@ -922,6 +1014,8 @@
       screen: function () { return App.screen; },
       persistent: function () { return App.store.persistent; },
       guide: function () { return App.guide ? { i: App.guide.i, steps: App.guide.steps.length } : null; },
+      attempt: function () { return App.att ? U.clone(App.att) : null; },
+      slot: function () { return App.slot; },
       sounds: sounds,
       spoken: spoken
     };
@@ -935,5 +1029,5 @@
   }
 
   OBEY.app = App;
-  if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', boot); else boot();
+  // Booting happens in app-extra.js (loaded last), so every feature is in place first.
 })(window);

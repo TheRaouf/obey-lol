@@ -1,0 +1,47 @@
+# Runs the game's tests on every push and pull request:
+#   - Chromium: static checks, unit tests and the full browser suite
+#   - WebKit (Safari's engine): the iPad suite plus the campaign and 2.x feature suites
+name: tests
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Static checks
+        run: node tools/check.js
+      - name: Unit tests
+        run: node --test tests/unit/*.test.js
+      - name: Browser tests (Chromium)
+        run: node --test --test-concurrency=1 tests/e2e/*.e2e.test.js
+
+  webkit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps webkit
+      - name: Browser tests (WebKit — Safari's engine)
+        env:
+          BROWSER: webkit
+        run: node --test --test-concurrency=1 tests/e2e/ipad.e2e.test.js tests/e2e/campaign.e2e.test.js tests/e2e/v2.e2e.test.js tests/e2e/v21.e2e.test.js
+      - name: Keep the WebKit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webkit-results
+          path: tests/e2e/results/

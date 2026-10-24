@@ -187,6 +187,7 @@
           defies: rt.defies,
           choices: Object.assign({}, rt.choices),
           ending: result.ending || null,
+          ruin: result.ruin || null,
           difficulty: rt.ctx.difficulty || 'medium',
           guided: !!rt.guided,
           line: rt.line

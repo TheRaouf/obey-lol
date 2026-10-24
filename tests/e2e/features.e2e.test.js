@@ -379,11 +379,11 @@ test('malformed save data does not crash; the game starts fresh and keeps a back
 test('obsolete v1 save is migrated', async () => {
   const { page, errors, ctx } = await H.openGame(browser, base, { initScript: () => { if (!sessionStorage.getItem('y')) { sessionStorage.setItem('y', '1'); localStorage.setItem('obeylol.save', JSON.stringify({ version: 1, level: 3, stars: { 1: 2, 2: 3 }, secretsFound: ['polly'], sound: false })); } } });
   const s = await page.evaluate(() => OBEY_TEST.save());
-  assert.equal(s.version, 3);
+  assert.equal(s.version, 4);
   assert.deepEqual(s.completed, [1, 2]);
   assert.equal(s.highestUnlocked, 3);
   assert.equal(s.settings.sound, false);
-  assert.equal(JSON.parse(await page.evaluate(() => localStorage.getItem('obeylol.save'))).version, 3);
+  assert.equal(JSON.parse(await page.evaluate(() => localStorage.getItem('obeylol.save'))).version, 4);
   assert.deepEqual(errors, []);
   await ctx.close();
 });
@@ -448,13 +448,13 @@ test('sound toggle, reduced motion (system and manual), text size', async () => 
   assert.equal(await page.evaluate(() => document.documentElement.classList.contains('reduce-motion')), true);
   const dur = await page.evaluate(() => getComputedStyle(document.querySelector('.slip, .btn')).transitionDuration);
   assert.ok(parseFloat(dur) < 0.01, 'transitions disabled: ' + dur);
-  await page.getByLabel('Large').check();
+  await page.getByLabel('Large', { exact: true }).check();
   const fs1 = await page.evaluate(() => parseFloat(getComputedStyle(document.body).fontSize));
   assert.equal(fs1, 20);
   await page.reload();
   await page.waitForSelector('.screen:not([hidden])');
   const s = await page.evaluate(() => OBEY_TEST.save().settings);
-  assert.deepEqual(s, { sound: false, voice: 'babble', motion: 'reduce', textSize: 'large' });
+  assert.deepEqual({ sound: s.sound, voice: s.voice, motion: s.motion, textSize: s.textSize }, { sound: false, voice: 'babble', motion: 'reduce', textSize: 'large' });
   assert.deepEqual(errors, []);
   await ctx.close();
 });

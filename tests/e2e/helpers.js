@@ -3,7 +3,9 @@
 'use strict';
 const path = require('path');
 const fs = require('fs');
-const { chromium } = require('playwright');
+const playwright = require('playwright');
+/** BROWSER=webkit runs the suite in WebKit (Safari's engine); the default is Chromium. */
+const ENGINE = process.env.BROWSER === 'webkit' ? 'webkit' : (process.env.BROWSER === 'firefox' ? 'firefox' : 'chromium');
 const { create } = require('../../tools/serve.js');
 
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -24,7 +26,8 @@ async function openGame(browser, base, opts = {}) {
   const ctx = await browser.newContext({
     viewport: opts.viewport || { width: 1365, height: 900 },
     hasTouch: !!opts.hasTouch,
-    isMobile: !!opts.isMobile,
+    isMobile: !!opts.isMobile && ENGINE !== 'firefox',
+    permissions: opts.permissions || [],
     reducedMotion: opts.reducedMotion || 'no-preference'
   });
   const page = await ctx.newPage();
@@ -131,7 +134,7 @@ async function noHorizontalOverflow(page) {
   });
 }
 
-async function launch() { return chromium.launch(); }
+async function launch() { return playwright[ENGINE].launch(); }
 
 /** The 2.0 first-play flow asks for a difficulty before the tutorial. */
 async function chooseDifficulty(page, id) {
@@ -140,4 +143,4 @@ async function chooseDifficulty(page, id) {
   await page.waitForSelector('.difficulty-modal', { state: 'detached' });
 }
 
-module.exports = { chooseDifficulty, FINAL: 36, startServer, openGame, seed, saveWith, playSteps, drag, hold, levelDefs, shot, noHorizontalOverflow, launch, sel, ROOT, SHOTS };
+module.exports = { ENGINE, chooseDifficulty, FINAL: 36, startServer, openGame, seed, saveWith, playSteps, drag, hold, levelDefs, shot, noHorizontalOverflow, launch, sel, ROOT, SHOTS };

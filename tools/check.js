@@ -56,7 +56,8 @@ ok(depth === 0, 'style.css: unbalanced braces');
 const shipped = walk('js', ['.js']).concat(['index.html', 'css/style.css']);
 for (const f of shipped) {
   const src = read(f);
-  const urls = [...src.matchAll(/https?:\/\/[^\s'"`)]+/g)].map((m) => m[0]).filter((u) => !u.startsWith('http://www.w3.org/'));
+  // The share link is plain text in share messages, never requested by the game.
+  const urls = [...src.matchAll(/https?:\/\/[^\s'"`)]+/g)].map((m) => m[0]).filter((u) => !u.startsWith('http://www.w3.org/') && u !== 'https://theraouf.github.io/obey-lol/');
   ok(urls.length === 0, `${f}: external URL(s) ${urls.join(', ')}`);
   ok(!/\bfetch\(|XMLHttpRequest|WebSocket|navigator\.sendBeacon/.test(src), `${f}: network API usage`);
   ok(!/\b(TODO|FIXME|XXX|lorem ipsum)\b/i.test(src), `${f}: leftover TODO/placeholder`);
@@ -65,20 +66,25 @@ for (const f of shipped) {
 // 5. Every data-act used in the UI has a handler
 const uiSrc = walk('js/ui', ['.js']).map(read).join('\n');
 const acts = new Set([...uiSrc.matchAll(/data-act="([a-z-]+)"/g)].map((m) => m[1]));
-const appSrc = read('js/ui/app.js');
+const appSrc = read('js/ui/app.js') + '\n' + read('js/ui/app-extra.js');
 for (const a of acts) {
   if (a === 'setting') { ok(/data-act'\) === 'setting'/.test(appSrc), 'setting handler missing'); continue; }
-  ok(new RegExp(`(^|[\\s{,])'?${a}'?\\s*:\\s*function`, 'm').test(appSrc), `data-act="${a}" has no handler in app.js`);
+  const esc = a.replace(/-/g, '\\-');
+  ok(new RegExp(`(^|[\\s{,])'?${esc}'?\\s*:\\s*function`, 'm').test(appSrc) || new RegExp(`ACT(\\.${esc}|\\['${esc}'\\])\\s*=\\s*function`).test(appSrc), `data-act="${a}" has no handler in app.js / app-extra.js`);
 }
 
 // 6. Load the core + levels and validate art keys / object definitions
 global.window = undefined;
-for (const f of jsInHtml.filter((r) => r.startsWith('js/core/') || r.startsWith('js/levels/') || r === 'js/ui/art.js')) {
+for (const f of jsInHtml.filter((r) => r.startsWith('js/core/') || r.startsWith('js/levels/') || r === 'js/ui/art.js' || r === 'js/ui/art-extra.js')) {
   vm.runInThisContext(read(f), { filename: f });
 }
 const OBEY = globalThis.OBEY;
 ok(OBEY.levels.length === OBEY.LEVEL_COUNT && OBEY.LEVEL_COUNT === 36, 'expected 36 levels');
-for (const d of OBEY.levels) {
+ok(OBEY.bonusLevels.length === OBEY.BONUS_COUNT && OBEY.bonusLevels.every(Boolean), 'expected ' + OBEY.BONUS_COUNT + ' bonus levels');
+for (const r of OBEY.extras.RUINS) ok(OBEY.getLevel(r.level), `ruin ${r.id}: level ${r.level} missing`);
+for (const j of OBEY.extras.JIGSAW) ok(OBEY.getLevel(j.level) && !OBEY.isBonus(j.level), `jigsaw ${j.id}: bad level`);
+for (const d of OBEY.levels.concat(OBEY.bonusLevels)) {
+  ok(typeof OBEY.extras.TRICKS[d.num] === 'string', `L${d.num}: missing trick recap`);
   const rt = new OBEY.LevelRuntime(d, { clock: OBEY.createFakeClock(), ctx: { replay: true, allSecrets: true } }).start();
   for (const o of rt.objects()) {
     if (o.art) ok(OBEY.art.hasObject(o.art), `L${d.num}/${o.id}: unknown art "${o.art}"`);
@@ -86,6 +92,14 @@ for (const d of OBEY.levels) {
 }
 
 // 7. Required project files
+// 8. Installable / offline app: manifest, icons and an up-to-date service worker
+const manifest = JSON.parse(read('manifest.webmanifest'));
+for (const ic of manifest.icons) ok(fs.existsSync(path.join(ROOT, ic.src)), `manifest icon missing: ${ic.src}`);
+ok(fs.existsSync(path.join(ROOT, 'assets/icons/apple-touch-icon.png')), 'missing apple-touch-icon');
+const sw = require('./gen-sw.js');
+ok(fs.existsSync(path.join(ROOT, 'sw.js')) && read('sw.js') === sw.build(), 'sw.js is out of date: run node tools/gen-sw.js');
+for (const f of sw.files()) ok(fs.existsSync(path.join(ROOT, f)), `service worker precaches a missing file: ${f}`);
+
 for (const f of ['README.md', 'CHANGELOG.md', 'RELEASE-NOTES.md', 'TEST-REPORT.md', 'FEATURE-ROADMAP.md', 'LICENSE', 'ASSETS.md', 'package.json', 'assets/icon.svg', 'assets/fonts/OFL-BagelFatOne.txt', 'assets/fonts/OFL-AtkinsonHyperlegible.txt']) {
   ok(fs.existsSync(path.join(ROOT, f)), `missing required file ${f}`);
 }

@@ -12,12 +12,45 @@
   P.isCompleted = function (s, n) { return s.completed.indexOf(n) >= 0; };
   P.totalStars = function (s) { return OBEY.save.sumStars(s.bestStars); };
   /** A level is playable once reached in order, or if it was already finished (e.g. migrated saves). */
-  P.canPlay = function (s, n) { return Number.isInteger(n) && n >= 1 && n <= L && (n <= s.highestUnlocked || P.isCompleted(s, n)); };
+  P.canPlay = function (s, n) {
+    if (OBEY.isBonus(n)) return P.bonusUnlocked(s);
+    return Number.isInteger(n) && n >= 1 && n <= L && (n <= s.highestUnlocked || P.isCompleted(s, n));
+  };
+  /** The Sabotage Studio bonus pack opens after Level 12. */
+  P.BONUS_UNLOCK_LEVEL = 12;
+  P.bonusUnlocked = function (s) { return P.isCompleted(s, P.BONUS_UNLOCK_LEVEL); };
+  P.isSkipped = function (s, n) { return (s.skipped || []).indexOf(n) >= 0; };
+  P.MAX_SKIPS = 3;
+  /** Can level n be skipped right now? Returns null if yes, otherwise the reason. */
+  P.skipBlocker = function (s, n) {
+    if (OBEY.isBonus(n)) return 'Bonus levels can\'t be skipped.';
+    if (n >= L) return 'The final level can\'t be skipped.';
+    if (P.isCompleted(s, n)) return 'You already finished this level.';
+    if (P.isSkipped(s, n)) return 'This level is already skipped.';
+    if (!P.canPlay(s, n)) return 'This level is locked.';
+    if ((s.skipped || []).length >= P.MAX_SKIPS) return 'You can have at most ' + P.MAX_SKIPS + ' skipped levels at once. Finish one of them to free a skip.';
+    return null;
+  };
+  /** "Let it be": marks a level as skipped, which unlocks the next one. */
+  P.skipLevel = function (s, n) {
+    if (P.skipBlocker(s, n)) return null;
+    s.skipped.push(n);
+    s.skipped.sort(function (a, b) { return a - b; });
+    P.recomputeUnlock(s);
+    return [{ type: 'skip', n: n }];
+  };
+  /** Unlocks the level after the unbroken run of finished or skipped levels (never skips ahead on replays). */
+  P.recomputeUnlock = function (s) {
+    var run = 0;
+    while (P.isCompleted(s, run + 1) || P.isSkipped(s, run + 1)) run++;
+    s.highestUnlocked = Math.max(s.highestUnlocked, Math.min(L, run + 1));
+  };
   P.hasProgress = function (s) { return s.completed.length > 0 || s.secrets.length > 0; };
 
   /** The level "Continue" should open: the first unlocked, uncompleted level, or null if all done. */
   P.nextLevel = function (s) {
-    for (var n = 1; n <= s.highestUnlocked; n++) if (!P.isCompleted(s, n)) return n;
+    for (var n = 1; n <= s.highestUnlocked; n++) if (!P.isCompleted(s, n) && !P.isSkipped(s, n)) return n;
+    for (n = 1; n <= s.highestUnlocked; n++) if (!P.isCompleted(s, n)) return n; // only skipped ones left
     return null;
   };
 
@@ -93,6 +126,7 @@
       case 'good-sport': return s.stats.fails >= 25 ? t.tier : 0;
       case 'platinum-bossworth':
         return OBEY.CHAPTERS.every(function (c) { return P.chapterTier(s, c.id) === 3; }) ? t.tier : 0;
+      case 'jigsaw': return (s.jigsaw || []).length >= 9 ? t.tier : 0;
       default: return 0;
     }
   };
@@ -111,6 +145,7 @@
       case 'hard-boiled': return [Math.min(hardCount, 12), 12];
       case 'good-sport': return [Math.min(s.stats.fails, 25), 25];
       case 'platinum-bossworth': return [OBEY.CHAPTERS.filter(function (c) { return P.chapterTier(s, c.id) === 3; }).length, 9];
+      case 'jigsaw': return [(s.jigsaw || []).length, 9];
       default: return [0, 1];
     }
   };
@@ -128,16 +163,17 @@
   P.completeLevel = function (s, n, result) {
     if (!P.canPlay(s, n)) return null;
     result = result || {};
+    if (OBEY.isBonus(n)) return P.completeBonus(s, n, result);
     var stars = U.clamp(Math.floor(Number(result.stars) || 1), 1, 3);
     var firstTime = !P.isCompleted(s, n);
     var prev = s.bestStars[n] || 0;
     if (firstTime) { s.completed.push(n); s.completed.sort(function (a, b) { return a - b; }); }
     s.bestStars[n] = Math.max(prev, stars);
     s.totalStars = P.totalStars(s);
-    // Unlock the level after the unbroken run of finished levels (never skip ahead on replays).
-    var run = 0;
-    while (P.isCompleted(s, run + 1)) run++;
-    s.highestUnlocked = Math.max(s.highestUnlocked, Math.min(L, run + 1));
+    var wasSkipped = P.isSkipped(s, n);
+    if (wasSkipped) s.skipped = s.skipped.filter(function (x) { return x !== n; });
+    // Unlock the level after the unbroken run of finished (or skipped) levels.
+    P.recomputeUnlock(s);
     if (U.isObj(result.choices)) {
       Object.keys(result.choices).forEach(function (k) {
         var v = result.choices[k];
@@ -154,8 +190,51 @@
       if (!result.hints && s.stats.noHint.indexOf(n) < 0) s.stats.noHint.push(n);
       if (!result.fails && s.stats.flawless.indexOf(n) < 0) s.stats.flawless.push(n);
     }
-    var ev = [{ type: 'level', n: n, stars: stars, best: s.bestStars[n], improved: stars > prev && !firstTime, firstTime: firstTime }];
+    var ev = [{ type: 'level', n: n, stars: stars, best: s.bestStars[n], improved: stars > prev && !firstTime, firstTime: firstTime, wasSkipped: wasSkipped }];
+    ev = ev.concat(P.recordExtras(s, n, result));
     return ev.concat(P.evaluate(s));
+  };
+
+  /** Personal bests, ruins and time-of-day flags shared by campaign and bonus levels. */
+  P.recordExtras = function (s, n, result) {
+    var ev = [];
+    var acts = Math.max(0, Math.floor(Number(result.actions)));
+    if (Number.isFinite(acts) && !result.guided) {
+      var pa = s.bestActions[n];
+      if (pa === undefined || acts < pa) { s.bestActions[n] = acts; if (pa !== undefined) ev.push({ type: 'best', what: 'actions', n: n, value: acts }); }
+    }
+    var ms = Math.floor(Number(result.timeMs));
+    if (Number.isFinite(ms) && ms > 0 && !result.guided) {
+      var pt = s.bestTime[n];
+      if (pt === undefined || ms < pt) { s.bestTime[n] = ms; if (pt !== undefined) ev.push({ type: 'best', what: 'time', n: n, value: ms }); }
+    }
+    if (result.ruin && OBEY.extras && OBEY.extras.RUIN_IDS.indexOf(result.ruin) >= 0 && s.ruins.indexOf(result.ruin) < 0) {
+      s.ruins.push(result.ruin);
+      ev.push({ type: 'ruin', id: result.ruin, count: s.ruins.length });
+    }
+    var hour = Number.isFinite(result.hour) ? result.hour : null;
+    if (hour !== null && hour >= 0 && hour < 5) s.counters.nightOwl = true;
+    return ev;
+  };
+
+  P.completeBonus = function (s, n, result) {
+    var stars = U.clamp(Math.floor(Number(result.stars) || 1), 1, 3);
+    var firstTime = s.bonus.completed.indexOf(n) < 0;
+    var prev = s.bonus.bestStars[n] || 0;
+    if (firstTime) { s.bonus.completed.push(n); s.bonus.completed.sort(function (a, b) { return a - b; }); }
+    s.bonus.bestStars[n] = Math.max(prev, stars);
+    s.stats.defiance += Math.max(0, Math.floor(Number(result.defies) || 0));
+    s.stats.hintsUsed += Math.max(0, Math.floor(Number(result.hints) || 0));
+    s.stats.fails += Math.max(0, Math.floor(Number(result.fails) || 0));
+    var ev = [{ type: 'level', n: n, stars: stars, best: s.bonus.bestStars[n], improved: stars > prev && !firstTime, firstTime: firstTime, bonus: true }];
+    return ev.concat(P.recordExtras(s, n, result)).concat(P.evaluate(s));
+  };
+
+  /** Records a hidden jigsaw piece exactly once. */
+  P.discoverJigsaw = function (s, id) {
+    if (!OBEY.extras || OBEY.extras.JIGSAW_IDS.indexOf(id) < 0 || s.jigsaw.indexOf(id) >= 0) return [];
+    s.jigsaw.push(id);
+    return [{ type: 'jigsaw', id: id, count: s.jigsaw.length }].concat(P.evaluate(s));
   };
 
   /** Records a secret exactly once. Unknown ids are ignored. */
@@ -221,6 +300,8 @@
     fresh.tutorialDone = s.tutorialDone;
     fresh.settings = U.clone(s.settings);
     fresh.stats.hintsUsed = s.stats.hintsUsed;
+    // Collections and personal records survive a New Game; the campaign itself starts over.
+    ['intern', 'profileName', 'ruins', 'jigsaw', 'daily', 'counters', 'bonus', 'seenVersion'].forEach(function (k) { fresh[k] = U.clone(s[k]); });
     return fresh;
   };
 
@@ -228,6 +309,9 @@
   P.resetAll = function (s) {
     var fresh = OBEY.save.defaults();
     fresh.settings = U.clone(s.settings);
+    fresh.profileName = s.profileName;
+    fresh.intern = s.intern;
+    fresh.seenVersion = s.seenVersion;
     return fresh;
   };
 

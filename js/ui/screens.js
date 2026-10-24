@@ -6,13 +6,15 @@
   var OBEY = root.OBEY;
   var A = OBEY.art, E = OBEY.util.escape, P = OBEY.progress;
 
-  function backBar(title, id, extra) {
+  function backBar(title, id, extra, quipKey) {
+    var q = quipKey && OBEY.extras.SCREEN_QUIPS[quipKey];
     return `<header class="topbar">
       <button class="chip-btn" data-act="nav" data-to="menu">${A.icon('back')}<span>Menu</span></button>
       <h1 class="screen-title" id="${id}">${E(title)}</h1>
       <div class="topbar-end">${extra || ''}</div>
-    </header>`;
+    </header>` + (q ? `<p class="screen-quip"><span class="speaker">Bossworth:</span> ${E(q[Math.floor(Math.random() * q.length)])}</p>` : '');
   }
+  OBEY.backBar = backBar;
 
   function statRow(s) {
     return `<ul class="stat-row" aria-label="Overall progress">
@@ -49,20 +51,45 @@
           </div>
           ${statRow(s)}
           <p class="diff-line">Difficulty: <b>${E(app.diffName(s.difficulty))}</b> <button class="btn small-btn" data-act="difficulty">Change</button></p>
+          ${goalLine(s)}
+          ${whatsNew(s)}
+          <p class="trust-line small">No ads · no tracking · works offline${s.profileName ? ' · playing as <b>' + E(s.profileName) + '</b>' : ''}</p>
         </div>
         <nav class="menu-nav" aria-label="Main menu">
           <button class="slip slip-primary" data-act="play">${A.icon('play')}<span>${E(playLabel)}</span></button>
           <button class="slip" data-act="new-game"><span>New game</span></button>
           <button class="slip" data-act="nav" data-to="map">${A.icon('map')}<span>Adventure map</span></button>
+          <button class="slip" data-act="nav" data-to="daily">${A.icon('calendar')}<span>Daily Dare</span><em>${s.daily.done.indexOf(OBEY.extras.dateKey()) >= 0 ? 'done today' : 'streak ' + OBEY.extras.currentStreak(s, OBEY.extras.dateKey())}</em></button>
+          <button class="slip" data-act="nav" data-to="sabotage">${A.icon('hammer')}<span>Sabotage file</span><em>${s.ruins.length}/${OBEY.extras.RUINS.length}</em></button>
           <button class="slip" data-act="nav" data-to="secrets">${A.icon('eye')}<span>Secret field notes</span><em>${s.secrets.length}/15</em></button>
           <button class="slip" data-act="nav" data-to="costumes"><span>Narrator costumes</span><em>${s.costumes.unlocked.length}/8</em></button>
           <button class="slip" data-act="nav" data-to="themes"><span>Themes</span><em>${s.themes.unlocked.length}/4</em></button>
           <button class="slip" data-act="nav" data-to="achievements">${A.icon('star')}<span>Achievements</span><em>${Object.keys(s.achievements).length}/${OBEY.ACHIEVEMENTS.length}</em></button>
           <button class="slip" data-act="nav" data-to="trophies">${A.icon('star')}<span>Trophy room</span><em>${Object.keys(s.trophies).length}/${OBEY.TROPHIES.length}</em></button>
+          <button class="slip" data-act="nav" data-to="stats">${A.icon('chart')}<span>Bossworth's file on you</span></button>
           <button class="slip" data-act="nav" data-to="settings">${A.icon('gear')}<span>Settings</span></button>
           <button class="slip" data-act="nav" data-to="credits"><span>Credits</span></button>
         </nav>
       </div>`;
+  }
+
+  function goalLine(s) {
+    var g = OBEY.extras.nextGoal(s);
+    return g ? `<p class="goal-line small"><b>Next goal:</b> ${E(g)}</p>` : '';
+  }
+  function whatsNew(s) {
+    if (s.seenVersion === OBEY.VERSION) return '';
+    return `<section class="whats-new panel" aria-labelledby="wn-title">
+      <h2 id="wn-title">New in ${E(OBEY.VERSION)}</h2>
+      <ul>
+        <li><b>Ruin it:</b> deliberately terrible ways to finish levels, and a Sabotage file to collect them.</li>
+        <li><b>U.N.D.O.</b>, a glitchy sidekick who leaks Bossworth's chats. And a fake game over. Probably fake.</li>
+        <li><b>Sabotage Studio:</b> 4 bonus microgame levels after Level 12.</li>
+        <li><b>Daily Dare</b> with streaks, <b>Skip</b> for stuck levels, personal bests, share cards.</li>
+        <li>Made for iPad: install to the home screen, play offline, keyboard shortcuts, hold assist, high contrast and more.</li>
+      </ul>
+      <button class="btn small-btn" data-act="dismiss-whatsnew">Got it</button>
+    </section>`;
   }
 
   /* -------------------------------------------------------------------- map */
@@ -98,25 +125,31 @@
     var current = P.nextLevel(s);
     var nodes = pts.map(function (p, idx) {
       var n = idx + 1, def = OBEY.getLevel(n);
-      var completed = P.isCompleted(s, n), unlocked = P.canPlay(s, n);
-      var state = completed ? 'done' : (unlocked ? 'open' : 'locked');
+      var completed = P.isCompleted(s, n), unlocked = P.canPlay(s, n), skipped = P.isSkipped(s, n);
+      var state = completed ? 'done' : (skipped ? 'skipped' : (unlocked ? 'open' : 'locked'));
+      var ruined = OBEY.extras.ruinsFor(n).some(function (r) { return s.ruins.indexOf(r.id) >= 0; });
+      var secretsLeft = unlocked && OBEY.SECRETS.some(function (x) { return x.level === n && s.secrets.indexOf(x.id) < 0; });
       var isCur = n === current;
       var bd = s.bestDifficulty[n];
-      var label = 'Level ' + n + ': ' + def.title + ' — ' + (completed ? 'completed, ' + s.bestStars[n] + ' of 3 stars, best on ' + app.diffName(bd) : (unlocked ? (isCur ? 'next up' : 'unlocked') : 'locked, finish level ' + (n - 1) + ' first'));
+      var label = 'Level ' + n + ': ' + def.title + ' — ' + (completed ? 'completed, ' + s.bestStars[n] + ' of 3 stars, best on ' + app.diffName(bd) : (skipped ? 'skipped, still to solve' : (unlocked ? (isCur ? 'next up' : 'unlocked') : 'locked, finish level ' + (n - 1) + ' first'))) +
+        (ruined ? ', ruined' : '') + (secretsLeft ? ', secrets still hidden here' : '') + (s.bestActions[n] !== undefined ? ', best ' + s.bestActions[n] + ' actions' : '');
       return `<button class="map-node node-${state}${isCur ? ' is-current' : ''}" style="left:${(p.x / MAP_W * 100).toFixed(2)}%;top:${(p.y / H * 100).toFixed(3)}%"
           data-act="open-level" data-level="${n}" aria-label="${E(label)}" ${unlocked ? '' : 'aria-disabled="true"'}>
-          <span class="node-disc">${state === 'locked' ? A.icon('lock') : n}${completed ? `<span class="node-medal medal-${bd}" aria-hidden="true">${bd[0].toUpperCase()}</span>` : ''}</span>
+          <span class="node-disc">${state === 'locked' ? A.icon('lock') : n}${completed ? `<span class="node-medal medal-${bd}" aria-hidden="true">${bd[0].toUpperCase()}</span>` : ''}${secretsLeft ? `<span class="node-secret" aria-hidden="true">${A.icon('eye')}</span>` : ''}${ruined ? '<span class="node-ruined" aria-hidden="true">RUINED</span>' : ''}</span>
           <span class="node-title">${E(def.title)}</span>
-          <span class="node-stars">${completed ? A.stars(s.bestStars[n]) : (isCur ? '<span class="node-flag">Next</span>' : '')}</span>
+          <span class="node-stars">${completed ? A.stars(s.bestStars[n]) : (skipped ? '<span class="node-flag skip-flag">Skipped</span>' : (isCur ? '<span class="node-flag">Next</span>' : ''))}</span>
         </button>`;
     }).join('');
-    el.innerHTML = backBar('Adventure map', 'map-title', `<span class="pill">${P.totalStars(s)}/${L * 3} ${A.icon('star')}</span>`) + `
+    el.innerHTML = backBar('Adventure map', 'map-title', `<span class="pill">${P.totalStars(s)}/${L * 3} ${A.icon('star')}</span>`, 'map') + `
       <div class="map-layout">
         <aside class="map-side panel">
           ${statRow(s)}
           <p class="map-help">Difficulty: <b>${E(app.diffName(s.difficulty))}</b> <button class="btn small-btn" data-act="difficulty">Change</button></p>
           <p class="map-help">Tap any unlocked level to play or replay it. Replays can only improve your best stars. The letter on a finished level shows the hardest difficulty you beat it on.</p>
           ${current ? `<button class="slip slip-primary" data-act="open-level" data-level="${current}">${A.icon('play')}<span>Play Level ${current}</span></button>` : `<p class="map-help strong">All ${L} levels complete.</p>`}
+          ${s.skipped.length ? `<p class="map-help">Skipped (still to solve): ${s.skipped.map(function (k) { return `<button class="btn small-btn" data-act="open-level" data-level="${k}">Level ${k}</button>`; }).join(' ')}</p>` : ''}
+          <p class="map-help">${P.bonusUnlocked(s) ? `<button class="btn small-btn" data-act="nav" data-to="sabotage">${A.icon('hammer')} Sabotage Studio</button>` : 'The Sabotage Studio bonus pack opens after Level ' + P.BONUS_UNLOCK_LEVEL + '.'}</p>
+          <p class="map-help small">Tip: use the arrow keys to move between levels. An eye marks levels with secrets left to find.</p>
         </aside>
         <div class="map-scroll">
           <div class="map-world" style="aspect-ratio:${MAP_W}/${H}">
@@ -150,7 +183,7 @@
         <p class="small">${pr[0]} / ${pr[1]}</p>
       </li>`;
     };
-    el.innerHTML = backBar('Trophy room', 'trophies-title', `<span class="pill">${won}/${OBEY.TROPHIES.length}</span>`) + `
+    el.innerHTML = backBar('Trophy room', 'trophies-title', `<span class="pill">${won}/${OBEY.TROPHIES.length}</span>`, 'trophies') + `
       <div class="page">
         <p class="page-intro panel">Chapter cups come in Bronze (Easy), Silver (Medium) and Gold (Hard) — the lowest difficulty you used in that chapter decides the metal. Replay a level on a harder difficulty to upgrade its cup.</p>
         <h2 class="section-title">Chapter cups</h2>
@@ -243,7 +276,7 @@
       </li>`;
     }).join('');
     var got = Object.keys(s.achievements).length;
-    el.innerHTML = backBar('Achievements', 'achievements-title', `<span class="pill">${got}/${OBEY.ACHIEVEMENTS.length}</span>`) + `
+    el.innerHTML = backBar('Achievements', 'achievements-title', `<span class="pill">${got}/${OBEY.ACHIEVEMENTS.length}</span>`, 'achievements') + `
       <div class="page">
         <ul class="ach-list">${list}</ul>
         <h2 class="section-title">Endings gallery</h2>
@@ -255,15 +288,29 @@
   function radio(name, value, current, label) {
     return `<label class="radio"><input type="radio" name="${name}" value="${value}" ${current === value ? 'checked' : ''} data-act="setting" data-key="${name}"><span>${E(label)}</span></label>`;
   }
+  function sw(key, on, label, desc) {
+    return `<div class="switch-row"><button class="switch" role="switch" aria-checked="${!!on}" data-act="toggle-setting" data-key="${key}" aria-label="${E(label)}"><span class="knob"></span><span class="switch-text">${E(label)}: ${on ? 'On' : 'Off'}</span></button>${desc ? `<p class="small">${E(desc)}</p>` : ''}</div>`;
+  }
+  function slider(key, value, label) {
+    return `<label class="slider"><span>${E(label)}</span><input type="range" min="0" max="100" step="5" value="${value}" data-act="setting" data-key="${key}" aria-label="${E(label)}"><output>${value}%</output></label>`;
+  }
   function settings(app, el) {
     var st = app.save.settings;
     var inLevel = app.lastLevel && P.canPlay(app.save, app.lastLevel);
-    el.innerHTML = backBar('Settings', 'settings-title') + `
+    var profiles = [];
+    for (var i = 1; i <= OBEY.save.PROFILES; i++) profiles.push(app.profileSummary(i));
+    el.innerHTML = backBar('Settings', 'settings-title', '', 'settings') + `
       <div class="page settings">
         <section class="panel setting">
           <h2>Sound effects</h2>
           <button class="switch" role="switch" aria-checked="${st.sound}" data-act="toggle-sound" aria-label="Sound effects"><span class="knob"></span><span class="switch-text">${st.sound ? 'On' : 'Off'}</span></button>
-          <p class="small">Every puzzle can be solved with sound off. There is no music.</p>
+          <p class="small">Every puzzle can be solved with sound off.</p>
+          ${slider('sfxVol', st.sfxVol, 'Effects volume')}
+          ${slider('voiceVol', st.voiceVol, 'Voice volume')}
+          ${sw('music', st.music, 'Chapter music', 'A gentle tune per chapter while you play. Needs sound effects on.')}
+          ${slider('musicVol', st.musicVol, 'Music volume')}
+          ${sw('captions', st.captions, 'Sound captions', 'Shows every sound effect as text, e.g. [sad trombone].')}
+          ${sw('haptics', st.haptics, 'Vibration', 'Short buzzes on traps and wrong moves, on devices that support it (not iPhone or iPad).')}
         </section>
         <fieldset class="panel setting">
           <legend><h2>Bossworth's voice</h2></legend>
@@ -281,8 +328,40 @@
         </fieldset>
         <fieldset class="panel setting">
           <legend><h2>Text size</h2></legend>
-          ${radio('textSize', 'normal', st.textSize, 'Normal')}${radio('textSize', 'large', st.textSize, 'Large')}
+          ${radio('textSize', 'normal', st.textSize, 'Normal')}${radio('textSize', 'large', st.textSize, 'Large')}${radio('textSize', 'xl', st.textSize, 'Extra large')}
         </fieldset>
+        <fieldset class="panel setting">
+          <legend><h2>Easier to see and use</h2></legend>
+          ${radio('contrast', 'normal', st.contrast, 'Normal colours')}${radio('contrast', 'high', st.contrast, 'High contrast (colour-blind-safe accents, thicker outlines)')}
+          ${radio('font', 'fun', st.font, 'Bubbly headings font')}${radio('font', 'plain', st.font, 'Plain font everywhere')}
+          ${radio('hand', 'right', st.hand, 'Right-handed layout')}${radio('hand', 'left', st.hand, 'Left-handed layout (tools and narrator on the other side)')}
+          ${sw('holdAssist', st.holdAssist, 'Hold assist', 'Press once to start a press-and-hold, press again to let go. No need to keep your finger down.')}
+          ${sw('timer', st.timer, 'Speedrun timer', 'Shows a timer while you play. Personal best times are always recorded.')}
+          <p><button class="btn" data-act="keys-help">${A.icon('keyboard')} Keyboard shortcuts</button></p>
+        </fieldset>
+        <section class="panel setting">
+          <h2>Players on this device</h2>
+          <p class="small">Up to ${OBEY.save.PROFILES} players, each with their own progress. Handy for a shared iPad.</p>
+          <ul class="profile-list">${profiles.map(function (p) {
+            var cur = p.slot === app.slot;
+            return `<li class="profile${cur ? ' current' : ''}"><span><b>${E(p.name)}</b> <span class="small">${p.empty ? 'new player' : p.done + ' levels · ' + p.stars + ' stars'}</span></span>` +
+              (cur ? '<span class="status">' + A.icon('check') + ' Playing now</span>' : `<button class="btn small-btn" data-act="switch-profile" data-slot="${p.slot}">Play as ${E(p.name)}</button>`) + '</li>';
+          }).join('')}</ul>
+          <label class="field">Your name <input id="profile-name" type="text" maxlength="20" value="${E(app.save.profileName)}" placeholder="Player ${app.slot}" autocomplete="nickname"></label>
+        </section>
+        <section class="panel setting">
+          <h2>Move your save</h2>
+          <p class="small">Copy a save code to move your progress to another browser or device, then paste it there.</p>
+          <div class="btn-row"><button class="btn" data-act="copy-code">Copy my save code</button></div>
+          <label class="field">Paste a save code <textarea id="import-code" rows="3" placeholder="OBEYLOL1.…" spellcheck="false" autocapitalize="off"></textarea></label>
+          <div class="btn-row"><button class="btn" data-act="load-code">Load save code</button></div>
+        </section>
+        <section class="panel setting">
+          <h2>Advanced Bossworth settings</h2>
+          ${slider('honesty', st.honesty, 'Bossworth honesty')}
+          ${sw('facade', st.facade, 'Cheerful façade', '')}
+          <p class="small">Neither setting does anything. Bossworth insisted they exist.</p>
+        </section>
         <section class="panel setting">
           <h2>Your save</h2>
           <p class="small">${app.store.persistent ? 'Progress saves automatically in this browser.' : 'This browser is blocking storage, so progress only lasts until you close this tab.'}${app.loadStatus === 'recovered' ? ' An unreadable save was found and replaced with a fresh one.' : ''}${app.loadStatus === 'migrated' ? ' Your save was upgraded to the latest format.' : ''}</p>
@@ -304,6 +383,7 @@
           <p>Game design, writing, puzzles, code-drawn art and synthesised sound effects were created from scratch for this project. Bossworth is an original character.</p>
           <p>Fonts: <b>Bagel Fat One</b> (The Bagel Fat Project Authors) and <b>Atkinson Hyperlegible</b> (Braille Institute of America), both under the SIL Open Font License 1.1 and bundled locally.</p>
           <p>No accounts, ads, trackers or network requests. Your progress stays in this browser.</p>
+          <p>Version 2.1 was shaped by reviews of narrator and trick-puzzle games, and by <i>Dude, Stop</i> (Team HalfBeard), whose idea of rewarding deliberate failure inspired the ruins, U.N.D.O. and the Sabotage Studio. All characters, jokes and art here are original.</p>
           <p class="small">Thanks for playing. Bossworth would like you to know he does not want you to rate this game five stars. (He does.)</p>
         </section>
       </div>`;

@@ -1,6 +1,10 @@
 /* OBEY? LOL. — versioned save schema, validation, migration and storage adapter.
  *
- * Schema v3 (current, game 2.x — 36 levels):
+ * Schema v4 (current, game 2.1) = v3 plus: intern, profileName, skipped, ruins, jigsaw, bestActions,
+ *   bestTime, daily {last, streak, best, done, badges}, counters {...}, bonus {completed, bestStars},
+ *   seenVersion, and more settings (haptics, contrast, font, holdAssist, captions, hand, volumes,
+ *   music, timer and two joke settings). v3 saves gain the defaults.
+ * Schema v3 (game 2.0 — 36 levels):
  * {
  *   version: 3,
  *   highestUnlocked: 1..36,                // furthest level reached by playing in order
@@ -33,10 +37,24 @@
   var SAVE = {};
   SAVE.KEY = 'obeylol.save';
   SAVE.BACKUP_KEY = 'obeylol.save.corrupt';
-  SAVE.SCHEMA = 3;
+  SAVE.SCHEMA = 4;
+  /** Profile slots: slot 1 keeps the original key so older saves stay where they were. */
+  SAVE.PROFILES = 3;
+  SAVE.keyFor = function (slot) { return slot > 1 ? SAVE.KEY + '.p' + slot : SAVE.KEY; };
+  SAVE.ACTIVE_KEY = 'obeylol.activeProfile';
 
   SAVE.defaultSettings = function () {
-    return { sound: true, voice: 'babble', motion: 'system', textSize: 'normal' };
+    return {
+      sound: true, voice: 'babble', motion: 'system', textSize: 'normal',
+      haptics: true, contrast: 'normal', font: 'fun', holdAssist: false, captions: false, hand: 'right',
+      sfxVol: 80, voiceVol: 80, music: false, musicVol: 40, timer: false, honesty: 50, facade: true
+    };
+  };
+
+  SAVE.defaultDaily = function () { return { last: '', streak: 0, best: 0, done: [], badges: [] }; };
+  SAVE.defaultCounters = function () {
+    return { pokes: 0, settingsOpens: 0, creditsViews: 0, awayDays: 0, lastSeen: 0, tuesday: false, nightOwl: false,
+      playMs: 0, undoMet: false, chats: [], roasted: [], cards: [], fakeOver: false, phoneCalls: 0 };
   };
 
   SAVE.defaults = function () {
@@ -57,6 +75,17 @@
       bestDifficulty: {},
       trophies: {},
       stats: { defiance: 0, hintsUsed: 0, levelsFinished: 0, fails: 0, noHint: [], flawless: [] },
+      intern: 0,
+      profileName: '',
+      skipped: [],
+      ruins: [],
+      jigsaw: [],
+      bestActions: {},
+      bestTime: {},
+      daily: SAVE.defaultDaily(),
+      counters: SAVE.defaultCounters(),
+      bonus: { completed: [], bestStars: {} },
+      seenVersion: '',
       settings: SAVE.defaultSettings()
     };
   };
@@ -112,6 +141,7 @@
       o.version = 3;
       obj = o;
     }
+    if (v === 3) { obj = U.clone(obj); obj.version = 4; v = 4; }
     if (from < SAVE.SCHEMA) obj.migratedFrom = from;
     return obj;
   };
@@ -130,8 +160,12 @@
     out.highestUnlocked = intIn(raw.highestUnlocked, 1, L, 1);
     // Unlocks must be consistent with completions: you can always play the level after the
     // unbroken run of finished levels starting at Level 1.
+    // Skipped levels (2.1) count as passed for unlocking, but never as completed.
+    out.skipped = Array.isArray(raw.skipped)
+      ? U.uniq(raw.skipped.map(Number).filter(function (n) { return Number.isInteger(n) && n >= 1 && n < L && out.completed.indexOf(n) < 0; })).sort(function (a, b) { return a - b; })
+      : [];
     var run = 0;
-    while (out.completed.indexOf(run + 1) >= 0) run++;
+    while (out.completed.indexOf(run + 1) >= 0 || out.skipped.indexOf(run + 1) >= 0) run++;
     out.highestUnlocked = Math.max(out.highestUnlocked, Math.min(L, run + 1));
     void maxDone;
 
@@ -201,12 +235,81 @@
       flawless: lvList(st.flawless)
     };
 
+    out.intern = intIn(raw.intern, 10, 99, 0);
+    out.profileName = typeof raw.profileName === 'string' ? raw.profileName.replace(/[\u0000-\u001f]/g, '').trim().slice(0, 20) : '';
+    var ruinIds = OBEY.extras ? OBEY.extras.RUIN_IDS : [];
+    out.ruins = idList(raw.ruins, ruinIds);
+    out.jigsaw = idList(raw.jigsaw, OBEY.extras ? OBEY.extras.JIGSAW_IDS : []);
+    var numMap = function (v, lo, hi, keys) {
+      var o = {};
+      if (!U.isObj(v)) return o;
+      keys.forEach(function (n) { var x = intIn(v[n], lo, hi, -1); if (x >= 0) o[n] = x; });
+      return o;
+    };
+    var bonusNums = [];
+    for (var b = 1; b <= OBEY.BONUS_COUNT; b++) bonusNums.push(OBEY.BONUS_BASE + b);
+    var bon = U.isObj(raw.bonus) ? raw.bonus : {};
+    out.bonus = { completed: Array.isArray(bon.completed) ? U.uniq(bon.completed.map(Number).filter(function (n) { return bonusNums.indexOf(n) >= 0; })).sort(function (a, c) { return a - c; }) : [], bestStars: {} };
+    out.bonus.completed.forEach(function (n) { var v = Number(U.isObj(bon.bestStars) ? bon.bestStars[n] : NaN); out.bonus.bestStars[n] = Number.isFinite(v) ? U.clamp(Math.floor(v), 1, 3) : 1; });
+    var doneNums = out.completed.concat(out.bonus.completed);
+    out.bestActions = numMap(raw.bestActions, 0, 100000, doneNums);
+    out.bestTime = numMap(raw.bestTime, 0, 86400000, doneNums);
+    var dy = U.isObj(raw.daily) ? raw.daily : {};
+    var keyRe = { test: function (k) {
+      var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(k);
+      if (!m) return false;
+      var d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+      return d.getUTCFullYear() === +m[1] && d.getUTCMonth() === +m[2] - 1 && d.getUTCDate() === +m[3];
+    } };
+    out.daily = {
+      last: typeof dy.last === 'string' && keyRe.test(dy.last) ? dy.last : '',
+      streak: intIn(dy.streak, 0, 100000, 0),
+      best: intIn(dy.best, 0, 100000, 0),
+      done: Array.isArray(dy.done) ? U.uniq(dy.done.filter(function (k) { return typeof k === 'string' && keyRe.test(k); })).slice(-400) : [],
+      badges: Array.isArray(dy.badges) ? U.uniq(dy.badges.map(Number).filter(function (n) { return [3, 7, 30].indexOf(n) >= 0; })) : []
+    };
+    out.daily.best = Math.max(out.daily.best, out.daily.streak);
+    var ct = U.isObj(raw.counters) ? raw.counters : {};
+    var chIds = OBEY.CHAPTERS.map(function (c) { return c.id; });
+    out.counters = {
+      pokes: intIn(ct.pokes, 0, 1e7, 0),
+      settingsOpens: intIn(ct.settingsOpens, 0, 1e7, 0),
+      creditsViews: intIn(ct.creditsViews, 0, 1e7, 0),
+      awayDays: intIn(ct.awayDays, 0, 1e5, 0),
+      lastSeen: intIn(ct.lastSeen, 0, 9e15, 0),
+      tuesday: ct.tuesday === true,
+      nightOwl: ct.nightOwl === true,
+      playMs: intIn(ct.playMs, 0, 9e15, 0),
+      undoMet: ct.undoMet === true,
+      chats: idList(ct.chats, chIds),
+      roasted: idList(ct.roasted, chIds),
+      cards: idList(ct.cards, chIds),
+      fakeOver: ct.fakeOver === true,
+      phoneCalls: intIn(ct.phoneCalls, 0, 1e7, 0)
+    };
+    out.seenVersion = typeof raw.seenVersion === 'string' && /^\d+\.\d+\.\d+$/.test(raw.seenVersion) ? raw.seenVersion : '';
+
     var se = U.isObj(raw.settings) ? raw.settings : {};
+    var one = function (v, list, d) { return list.indexOf(v) >= 0 ? v : d; };
+    var bool = function (v, d) { return typeof v === 'boolean' ? v : d; };
     out.settings = {
-      sound: typeof se.sound === 'boolean' ? se.sound : true,
-      voice: ['babble', 'speech', 'off'].indexOf(se.voice) >= 0 ? se.voice : 'babble',
-      motion: ['system', 'reduce', 'full'].indexOf(se.motion) >= 0 ? se.motion : 'system',
-      textSize: ['normal', 'large'].indexOf(se.textSize) >= 0 ? se.textSize : 'normal'
+      sound: bool(se.sound, true),
+      voice: one(se.voice, ['babble', 'speech', 'off'], 'babble'),
+      motion: one(se.motion, ['system', 'reduce', 'full'], 'system'),
+      textSize: one(se.textSize, ['normal', 'large', 'xl'], 'normal'),
+      haptics: bool(se.haptics, true),
+      contrast: one(se.contrast, ['normal', 'high'], 'normal'),
+      font: one(se.font, ['fun', 'plain'], 'fun'),
+      holdAssist: bool(se.holdAssist, false),
+      captions: bool(se.captions, false),
+      hand: one(se.hand, ['right', 'left'], 'right'),
+      sfxVol: intIn(se.sfxVol, 0, 100, 80),
+      voiceVol: intIn(se.voiceVol, 0, 100, 80),
+      music: bool(se.music, false),
+      musicVol: intIn(se.musicVol, 0, 100, 40),
+      timer: bool(se.timer, false),
+      honesty: intIn(se.honesty, 0, 100, 50),
+      facade: bool(se.facade, true)
     };
     return out;
   };
@@ -232,7 +335,8 @@
    * Storage adapter. Uses the given Web Storage object if it actually works, otherwise an
    * in-memory map (progress then lasts only for this page session). Never throws.
    */
-  SAVE.createStore = function (storage) {
+  SAVE.createStore = function (storage, key) {
+    key = key || SAVE.KEY;
     var memory = {};
     var persistent = false;
     if (storage) {
@@ -244,7 +348,10 @@
       } catch (e) { persistent = false; }
     }
     var store = {
+      key: key,
       persistent: persistent,
+      /** Reads another key without changing this store (used for profile summaries). */
+      peek: function (k) { var raw = store.read(k); return raw ? SAVE.parse(raw).data : null; },
       lastError: null,
       read: function (key) {
         if (persistent) {
@@ -263,9 +370,9 @@
         try { storage.removeItem(key); } catch (e) { store.lastError = String(e); }
       },
       load: function () {
-        var raw = store.read(SAVE.KEY);
+        var raw = store.read(key);
         var res = SAVE.parse(raw);
-        if (res.status === 'recovered') store.write(SAVE.BACKUP_KEY, String(raw));
+        if (res.status === 'recovered') store.write(key === SAVE.KEY ? SAVE.BACKUP_KEY : key + '.corrupt', String(raw));
         if (res.status === 'migrated') store.save(res.data);
         return res;
       },
@@ -274,7 +381,7 @@
         data.version = SAVE.SCHEMA;
         var copy = U.clone(data);
         delete copy.migratedFrom;
-        return store.write(SAVE.KEY, JSON.stringify(copy));
+        return store.write(key, JSON.stringify(copy));
       }
     };
     return store;

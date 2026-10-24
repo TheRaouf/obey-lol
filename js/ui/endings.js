@@ -77,7 +77,10 @@
             <h2 tabindex="-1" id="ending-final-title">${E(sc.title)}</h2>
             <p>${E(sc.finale)}</p>
             ${chosen !== null ? `<p class="quote">The last instruction: “${E(sc.choices[chosen][0])}”</p>` : ''}
+            ${(function () { var rv = OBEY.extras.review(app.save); return `<div class="review-card"><p><b>Bossworth's review of you:</b> <span class="review-stars" aria-label="${rv.stars} out of 5 stars">${'★'.repeat(rv.stars)}${'☆'.repeat(5 - rv.stars)}</span></p><p>“${E(rv.text)}”</p>` +
+              `<p class="small">P.S. from U.N.D.O.: Bossworth lost his bet with Clive${app.save.ruins.length >= 6 ? ' (you ruined ' + app.save.ruins.length + ' levels — that was the bet)' : ''}. He owes Clive a cake. A humble one.</p></div>`; })()}
             <div class="btn-row center">
+              <button class="btn" data-act="share-ending" data-id="${id}">Share (no spoilers)</button>
               <button class="btn primary" data-act="nav" data-to="achievements">Endings gallery</button>
               <button class="btn" data-act="nav" data-to="map">Adventure map</button>
               <button class="btn" data-act="nav" data-to="menu">Main menu</button>

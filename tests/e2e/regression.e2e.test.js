@@ -145,7 +145,7 @@ test('D7: Replay from the completion card counts as a replay (Déjà Vu note app
   assert.equal(await page.locator(H.sel('note')).isHidden(), true);
   await H.playSteps(page, [{ tap: 'red' }, { tap: 'blue' }]);
   await page.waitForSelector('#complete:not([hidden])');
-  await page.getByRole('button', { name: 'Replay' }).click();
+  await page.getByRole('button', { name: 'Replay', exact: true }).click();
   await page.waitForFunction(() => OBEY_TEST.runtime().status === 'playing');
   assert.equal(await page.locator('#complete').isHidden(), true);
   await page.locator(H.sel('note')).click();

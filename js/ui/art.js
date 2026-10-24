@@ -489,5 +489,12 @@
     return out;
   }
 
-  OBEY.art = { narrator: narrator, object: object, icon: icon, stars: stars, hasObject: function (k) { return !!OBJECTS[k]; } };
+  OBEY.art = {
+    narrator: narrator, object: object, icon: icon, stars: stars,
+    hasObject: function (k) { return !!OBJECTS[k]; },
+    /** Extension points used by art-extra.js (2.1). */
+    addObject: function (k, f) { OBJECTS[k] = f; },
+    addIcon: function (k, d) { ICONS[k] = d; },
+    svg: svg, INK: INK, SW: SW, SW3: SW3
+  };
 })(typeof window !== 'undefined' ? window : globalThis);

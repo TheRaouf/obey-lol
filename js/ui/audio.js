@@ -9,9 +9,12 @@
 (function (root) {
   'use strict';
   var OBEY = root.OBEY;
-  var ctx = null, master = null, noiseBuf = null;
+  var ctx = null, master = null, noiseBuf = null, sfxBus = null, voiceBus = null, musicBus = null;
   var enabled = true, unlocked = false, voiceMode = 'babble';
+  var vols = { sfx: 0.8, voice: 0.8, music: 0.4 };
   var voiceNodes = [];
+  var onPlay = null;
+  var routeTo = null; // which bus tone()/noise() connect to while a sound is being built
 
   function ensure() {
     if (!enabled || !unlocked) return null;
@@ -25,6 +28,9 @@
         master = ctx.createGain();
         master.gain.value = 0.9;
         master.connect(comp); comp.connect(ctx.destination);
+        sfxBus = ctx.createGain(); voiceBus = ctx.createGain(); musicBus = ctx.createGain();
+        sfxBus.gain.value = vols.sfx; voiceBus.gain.value = vols.voice; musicBus.gain.value = vols.music;
+        sfxBus.connect(master); voiceBus.connect(master); musicBus.connect(master);
         noiseBuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
         var d = noiseBuf.getChannelData(0);
         for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
@@ -57,7 +63,7 @@
     g.gain.setValueAtTime(0.0001, t0);
     g.gain.exponentialRampToValueAtTime(vol, t0 + (opts.attack || 0.012));
     g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    out.connect(master);
+    out.connect(opts.track ? voiceBus : (routeTo || sfxBus));
     o.start(t0); o.stop(t0 + dur + 0.05);
     if (opts.track) voiceNodes.push(o);
   }
@@ -77,7 +83,7 @@
     g.gain.setValueAtTime(0.0001, t0);
     g.gain.exponentialRampToValueAtTime(opts.vol || 0.12, t0 + (opts.attack || 0.01));
     g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    src.connect(f); f.connect(g); g.connect(master);
+    src.connect(f); f.connect(g); g.connect(routeTo || sfxBus);
     src.start(t0); src.stop(t0 + dur + 0.05);
   }
 
@@ -105,6 +111,13 @@
     achievement: function () { [523, 784, 1046, 1568].forEach(function (f, i) { tone(f, i * 0.08, 0.24, { type: 'triangle', vol: 0.06 }); }); },
     trophy: function () { chord([523, 659, 784], 0, 0.3, 'square', 0.03); chord([587, 740, 880], 0.3, 0.3, 'square', 0.03); chord([659, 831, 988, 1318], 0.6, 0.9, 'triangle', 0.045); noise(0.6, 0.9, { from: 7000, vol: 0.04, filterType: 'highpass' }); },
     narrator: function () { /* replaced by the voice */ },
+    // 2.1
+    glitch: function () { [0, 0.05, 0.1, 0.18].forEach(function (t, i) { tone(200 + i * 330, t, 0.04, { type: 'square', vol: 0.04, filter: 3000 }); }); noise(0, 0.25, { from: 5000, vol: 0.06, q: 6 }); },
+    phone: function () { [0, 0.25, 0.9, 1.15].forEach(function (t) { tone(1320, t, 0.18, { type: 'sine', vol: 0.04, vib: 30, vibRate: 22 }); }); },
+    ruin: function () { [523, 440, 349, 262, 196].forEach(function (f, i) { tone(f, i * 0.09, 0.2, { type: 'sawtooth', vol: 0.05, filter: 1600 }); }); noise(0.4, 0.9, { from: 900, to: 80, vol: 0.25, filterType: 'lowpass' }); },
+    gameover: function () { [392, 330, 262, 196].forEach(function (f, i) { tone(f, i * 0.28, 0.32, { type: 'square', vol: 0.05, filter: 1200 }); }); },
+    chapter: function () { [392, 523, 659, 784, 1046].forEach(function (f, i) { tone(f, i * 0.07, 0.2, { type: 'triangle', vol: 0.05 }); }); chord([523, 659, 784], 0.4, 0.7, 'triangle', 0.04); },
+    warmer: function () { tone(1568, 0, 0.09, { type: 'sine', vol: 0.03 }); tone(2093, 0.06, 0.12, { type: 'sine', vol: 0.025 }); },
     stamp: function () { tone(110, 0, 0.18, { type: 'square', vol: 0.09, slide: 55 }); noise(0, 0.12, { from: 300, vol: 0.12, filterType: 'lowpass' }); },
     ending: function () { [262, 330, 392, 523, 659, 784].forEach(function (f, i) { tone(f, i * 0.12, 0.34, { type: 'triangle', vol: 0.06 }); }); chord([523, 659, 784, 1046], 0.75, 1.2, 'sine', 0.04); },
     boom: function () { noise(0, 1.2, { from: 800, to: 60, vol: 0.3, filterType: 'lowpass' }); tone(90, 0, 0.9, { type: 'sawtooth', vol: 0.08, slide: 25 }); }
@@ -174,7 +187,7 @@
         var v = VOICES[costume] || VOICES.classic;
         u.pitch = Math.max(0.1, Math.min(2, (v.base / 190) * (MOOD_PITCH[mood] || 1)));
         u.rate = Math.max(0.6, Math.min(1.6, v.speed * (mood === 'panicked' ? 1.25 : 1)));
-        u.volume = 0.9;
+        u.volume = Math.max(0, Math.min(1, vols.voice));
         root.speechSynthesis.speak(u);
         return Math.max(ms, line.length * 60);
       } catch (e) { /* fall back to babble */ }
@@ -182,6 +195,30 @@
     babble(text, costume, mood);
     return ms;
   }
+
+  /* ------------------------------------------------------------------ music */
+  // A gentle generative loop per chapter: a pentatonic arpeggio over a soft bass note.
+  var SCALES = [[0, 2, 4, 7, 9], [0, 3, 5, 7, 10], [0, 2, 5, 7, 9], [0, 2, 4, 7, 11], [0, 3, 5, 8, 10], [0, 2, 3, 7, 9], [0, 4, 5, 7, 11], [0, 2, 4, 6, 9], [0, 3, 7, 8, 10]];
+  var ROOTS = [262, 247, 277, 233, 294, 220, 262, 247, 196];
+  var music = { on: false, chapter: 0, timer: null, step: 0 };
+  function musicTick() {
+    var c = ensure();
+    if (!c || !music.on) return;
+    var sc = SCALES[music.chapter % SCALES.length], base = ROOTS[music.chapter % ROOTS.length];
+    var prev = routeTo; routeTo = musicBus;
+    var deg = sc[(music.step * 2 + Math.floor(music.step / 4)) % sc.length];
+    tone(base * Math.pow(2, deg / 12) * (music.step % 8 < 4 ? 1 : 2), 0, 0.5, { type: 'triangle', vol: 0.05, filter: 1800 });
+    if (music.step % 8 === 0) tone(base / 2, 0, 1.6, { type: 'sine', vol: 0.06 });
+    routeTo = prev;
+    music.step++;
+  }
+  function startMusic(chapter) {
+    music.chapter = chapter || 0;
+    if (music.on) return;
+    music.on = true; music.step = 0;
+    music.timer = root.setInterval(musicTick, 420);
+  }
+  function stopMusic() { music.on = false; if (music.timer) root.clearInterval(music.timer); music.timer = null; }
 
   OBEY.audio = {
     setEnabled: function (on) {
@@ -195,9 +232,32 @@
     /** Must be called from a user gesture handler (browser autoplay rules). */
     unlock: function () { unlocked = true; },
     play: function (name) {
+      if (onPlay) { try { onPlay(name); } catch (e) { /* captions are optional */ } }
       if (!enabled || !unlocked || !SFX[name]) return;
       try { SFX[name](); } catch (e) { /* audio is optional */ }
     },
+    /** Called for every requested sound, even when sound is off (used for captions). */
+    setOnPlay: function (f) { onPlay = f; },
+    /** Volumes 0–100 for 'sfx', 'voice' and 'music'. */
+    setVolume: function (kind, v) {
+      vols[kind] = Math.max(0, Math.min(1, (Number(v) || 0) / 100));
+      var bus = { sfx: sfxBus, voice: voiceBus, music: musicBus }[kind];
+      if (bus) bus.gain.value = vols[kind];
+    },
+    volume: function (kind) { return Math.round(vols[kind] * 100); },
+    /** iOS/iPadOS only allow audio that starts inside a touch/click: create and resume the context there. */
+    prime: function () {
+      unlocked = true;
+      var c = ensure();
+      if (c) {
+        try { var b = c.createBuffer(1, 1, 22050), src = c.createBufferSource(); src.buffer = b; src.connect(c.destination); src.start(0); } catch (e) { /* ignore */ }
+      }
+    },
+    resume: function () { if (ctx && ctx.state !== 'running' && enabled) { try { ctx.resume(); } catch (e) { /* ignore */ } } },
+    suspend: function () { if (ctx && ctx.state === 'running') { try { ctx.suspend(); } catch (e) { /* ignore */ } } },
+    startMusic: startMusic,
+    stopMusic: stopMusic,
+    musicOn: function () { return music.on; },
     speak: speak,
     stopVoice: stopVoice,
     talkTime: talkTime,
