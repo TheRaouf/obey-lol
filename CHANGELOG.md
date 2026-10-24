@@ -36,6 +36,14 @@ Built from a review of 25 comparable games and their reviews (see FEATURE-ROADMA
 - Save schema v4 (2.0 saves migrate automatically). "What's new" panel shown once to returning players.
 - Gags never repeat the same generic gag twice in a row.
 
+### Fixed (third independent QA pass before release)
+- 19 defects (1 × P1, 6 × P2, 12 × P3), all with regression tests — see TEST-REPORT.md. Highlights:
+  progress kept when switching profiles with storage blocked; levels pause behind dialogs; Easy sparkle
+  and "Point me" follow the real solution; Split View / short-window layouts; one shared Daily Dare per
+  day; no ruins during "Show me how"; bests only from fair runs and kept on New Game; contrast fixes.
+- Art director must-fixes: no button shadows on static cards, accent/good colours ≥ 4.5:1 in every
+  theme, readable Level 3 button, chapter card visible with reduced motion.
+
 ## [2.0.0] — 2026-10-24
 
 ### Added

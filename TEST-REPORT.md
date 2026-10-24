@@ -11,8 +11,8 @@ for the release commit. Re-run locally with `bash tools/run-all-tests.sh`; CI ru
 | Static checks (`tools/check.js`) | local | 681 checks | 681 | 0 |
 | Unit tests (`tests/unit`) | local + CI | 255 | 255 | 0 |
 | Browser tests, Chromium (all 9 e2e files) | local | 120 | 120 | 0 |
-| Browser tests, Chromium | GitHub Actions | see "CI" below | | |
-| Browser tests, **WebKit (Safari's engine)**: iPad, campaign, 2.0 and 2.1 suites | GitHub Actions | see "CI" below | | |
+| Browser tests, Chromium | GitHub Actions | full suite | job passed | 0 |
+| Browser tests, **WebKit (Safari's engine)**: iPad, campaign, 2.0 and 2.1 suites | GitHub Actions | 4 files | job passed | 0 |
 
 Browser test files (120 tests): campaign 6, features 21, regression (QA1) 9, responsive 6, v2 11,
 regression2 (QA2) 10, **v21 22**, **ipad 20**, **regression3 (QA3) 15**. Every browser test also fails on
@@ -81,7 +81,12 @@ is scheduled for the art release (2.3).
 ## CI
 
 GitHub Actions runs Chromium (static, unit, all browser tests) and WebKit (ipad, campaign, v2, v21) on
-every push. Results for the release commit are recorded in `RELEASE-NOTES.md` once the run finishes.
+every push. Run 40101606654 (commit 654f7f6, same code as the release): **chromium passed, webkit passed**.
+
+One earlier run on the identical game code (40101406230, commit 5e0a099) failed one Chromium browser
+test while WebKit passed; the next run passed both jobs. That job's log could not be retrieved (GitHub
+returned a server error), so the failing test is unknown. It is recorded here as an unexplained,
+non-reproducing CI failure, not as a pass. CI shows job results only; per-test counts above are local.
 
 ## Not verified
 

@@ -24,6 +24,8 @@
 - **Accessibility:** high contrast, extra-large text, plain font, left-handed layout, hold assist, sound
   captions, separate volumes and optional music.
 - **Up to 3 players** on one device, and **save codes** to move your progress anywhere.
+- **Tested hard:** an independent review found 19 problems before release; all are fixed. Tested in
+  Chrome and in Safari's engine on every update.
 
 **How to update:** reload the game. Your progress carries over automatically.
 
