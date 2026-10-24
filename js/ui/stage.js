@@ -55,25 +55,31 @@
     if (wrap.style.maxWidth !== before) { this._fitText(); this._fitStrokes(); }
   };
 
-  /** Text cards shrink their font (never below 11px, fine print included; bible §11 asks for 12px and
-   *  the CSS starts there) until the text fits the card.
+  /** Text cards shrink their font (never below 11px — 10px on phone-sized stages — fine print included;
+   *  bible §11 asks for 12px and the CSS starts there) until the text fits the card.
    *  Cards are sized in % of the stage while text has a readable minimum, so on small stages long text
    *  would otherwise spill out of its card. */
   Stage.prototype._fitText = function () {
+    // Phone stages (< 340 px) may go down to 10 px: fonts differ between devices, and an 11 px floor left
+    // long cards (rules lists, posters) a few pixels short on some of them.
+    var small = this.el.offsetWidth && this.el.offsetWidth < 340;
+    var floor = small ? 10 : 11;
     this.nodes.forEach(function (node) {
       if (node.hidden || node.classList.contains('has-art')) return;
       var t = node.querySelector('.obj-text');
       if (!t) return;
       node.style.fontSize = '';
+      node.style.lineHeight = '';
       if (!node.offsetWidth) return;
-      var floor = 11;
+      var over = function () { var r = node.getBoundingClientRect(), q = t.getBoundingClientRect(); return Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top); };
       var fs = parseFloat(root.getComputedStyle(node).fontSize);
       for (var i = 0; i < 40 && fs > floor; i++) {
-        var r = node.getBoundingClientRect(), q = t.getBoundingClientRect();
-        if (Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top) <= 1) break;
+        if (over() <= 1) break;
         fs = Math.max(floor, fs - 0.5);
         node.style.fontSize = fs + 'px';
       }
+      // Last resort at the floor: tighter line spacing.
+      if (over() > 1) node.style.lineHeight = '1.05';
     });
   };
 

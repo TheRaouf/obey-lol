@@ -540,7 +540,9 @@ Atkinson at the display size (it is narrower — check line breaks, not overflow
 Minimum rendered sizes: body 15 px; stage text 12 px; fine print 11 px; nothing below 9 px ever.
 2.3 enforces these in code: the CSS floor is 12 px for stage text, and `Stage._fitText` (which
 shrinks a card's text until it fits) stops at **11 px** for every card, fine print included (was
-10/9). Group F enlarged the cards that then overflowed (e.g. L33, L114, L115, L118, L119, L122),
+10/9). Exception, found by CI: on phone-sized stages (< 340 px wide) the floor is **10 px** and, at the
+floor, line spacing tightens to 1.05 — font metrics differ between devices, and an 11 px floor left long
+cards a few px short on some of them. Group F enlarged the cards that then overflowed (e.g. L33, L114, L115, L118, L119, L122),
 card size only, text unchanged. SVG labels inside art follow §11 (≥ 12 px at a 366 px stage): door signs
 size themselves (§3.2), and small art words were replaced by big numerals or glyphs (footprint
 numerals, magazine "10", pack labels such as L46 "MAX" tab, L62 thermometer 10/20/30, L64 "£3",
