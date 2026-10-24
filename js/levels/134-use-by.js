@@ -6,7 +6,7 @@
 (function (root) {
   'use strict';
   var OBEY = root.OBEY, O = OBEY.obj;
-  var FRONT = [14, 15, 16], BACK = [17, 20, 18], XS = [12, 40, 68], NEED = 20;
+  var FRONT = [14, 15, 16], BACK = [17, 20, 18], XS = [16, 40, 64], NEED = 20;
 
   OBEY.registerLevel({
     id: 'use-by',
@@ -38,8 +38,8 @@
       ];
       for (var i = 0; i < 3; i++) {
         var reachable = s.moved[i] && !s.backAside[i];
-        out.push(O('b' + i, XS[i] + 6, 33, 14, 23.8, { art: 'f-carton', artOpts: { date: BACK[i], color: '#2f6fe4' }, label: 'Back-row milk carton, use by the ' + BACK[i] + 'th' + (reachable ? '' : ' (behind the front carton, out of reach)'), kind: reachable ? undefined : 'static', drag: reachable, hidden: s.backAside[i] }));
-        out.push(O('f' + i, XS[i], 46, 14, 23.8, { art: 'f-carton', artOpts: { date: FRONT[i] }, label: 'Front-row milk carton, use by the ' + FRONT[i] + 'th', drag: true, hidden: s.moved[i] }));
+        out.push(O('b' + i, XS[i] + 6, 25.5, 14, 23.8, { art: 'f-carton', artOpts: { date: BACK[i], color: '#2f6fe4' }, label: 'Back-row milk carton, use by the ' + BACK[i] + 'th' + (reachable ? '' : ' (behind the front carton, out of reach)'), kind: reachable ? undefined : 'static', drag: reachable, hidden: s.backAside[i] }));
+        out.push(O('f' + i, XS[i], 47, 14, 23.8, { art: 'f-carton', artOpts: { date: FRONT[i] }, label: 'Front-row milk carton, use by the ' + FRONT[i] + 'th', drag: true, hidden: s.moved[i] }));
       }
       out.push(O('aside', 4, 79, 40, 17, { text: s.moved.some(Boolean) ? 'Moved aside: ' + s.moved.map(function (m, i) { return m ? FRONT[i] + 'th' : ''; }).filter(Boolean).join(', ') : 'Space to put things aside', label: 'Space on the floor to put cartons aside', zone: true, free: true, cls: 'tag-card' }));
       out.push(O('trolley', 64, 76, 28, 22.7, { art: 'f-trolley', label: 'Your trolley (drop milk here to buy it)', zone: true, free: true }));

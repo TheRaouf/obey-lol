@@ -40,11 +40,11 @@
         O('goal', 4, 50, 48, 24, { kind: 'static', art: 'j-goal', label: 'Goal' }),
         O('ball', 38, 64, 10, 10, { art: 'j-ball', label: 'Football (kick it)' }),
         O('bench', 58, 64, 38, 10, { kind: 'static', art: 'table', label: 'Bench' }),
-        O('whistle', 60, 52, 18, 12, { art: 'j-whistle', label: 'Bossworth\'s whistle, lying on the bench', hidden: s.has }),
-        O('red', 82, 48, 12, 16, { art: 'j-refcard', label: 'Red card, on the bench' }),
+        O('whistle', 60, 55, 18, 12, { art: 'j-whistle', label: 'Bossworth\'s whistle, lying on the bench', hidden: s.has }),
+        O('red', 82, 50.5, 12, 16, { art: 'j-refcard', label: 'Red card, on the bench' }),
         O('inv', 4, 77, 44, 9, { kind: 'static', text: s.has ? 'You hold: the whistle' : 'You hold: nothing', label: s.has ? 'You are holding the whistle' : 'You are holding nothing', cls: 'tag-card' }),
         O('blow', 52, 77, 44, 10, { text: 'Blow: FULL TIME', label: 'Blow the whistle for full time', cls: 'btn-card big' }),
-        O('ask', 4, 89, 92, 9, { text: 'Ask Bossworth to end the match', label: 'Ask Bossworth to end the match', cls: 'btn-card small' })
+        O('ask', 4, 89, 92, 9, { text: 'Ask Bossworth to end the match', label: 'Ask Bossworth to end the match', cls: 'btn-card' })
       ];
     },
 

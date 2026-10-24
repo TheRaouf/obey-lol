@@ -29,6 +29,7 @@
     wrong: ['Clicking I AGREE is a trap.', 'The cat flap only works once you have read Clause 9.'],
     secrets: [],
     endingNote: 'None.',
+    trick: 'Reading the terms revealed Clause 9: the cat flap.',
     done: 'You read the fine print. Lawyers everywhere weep with joy.',
 
     init: function () { return { page: 0 }; },
@@ -61,6 +62,11 @@
     },
 
     solution: [{ tap: 'more' }, { tap: 'more' }, { tap: 'flap' }],
+    checks: [
+      { name: 'click I AGREE', steps: [{ tap: 'agree' }], expect: 'fail' },
+      { name: 'the cat flap before Clause 9', steps: [{ tap: 'flap' }], expect: 'nope' },
+      { name: 'the cat flap after one page', steps: [{ tap: 'more' }, { tap: 'flap' }], expect: 'nope' }
+    ],
     secretPaths: {}
   });
 })(typeof window !== 'undefined' ? window : globalThis);

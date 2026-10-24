@@ -12,7 +12,7 @@ async function goLevel(page, n) {
   await page.evaluate((x) => { location.hash = 'level/' + x; }, n);
   await page.waitForFunction((x) => { const r = OBEY_TEST.runtime(); return r && r.level === x && r.status === 'playing'; }, n);
 }
-const withSave = (n, extra) => H.saveWith(n, (d) => { d.seenVersion = '2.4.0'; return extra ? extra(d) : d; });
+const withSave = (n, extra) => H.saveWith(n, (d) => { d.seenVersion = '2.4.1'; return extra ? extra(d) : d; });
 const save = (page) => page.evaluate(() => OBEY_TEST.save());
 
 test('QA3-D1: with storage blocked, switching players and back keeps progress', async () => {

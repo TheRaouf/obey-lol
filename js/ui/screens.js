@@ -82,9 +82,9 @@
     return `<section class="whats-new panel" aria-labelledby="wn-title">
       <h2 id="wn-title">New in ${E(OBEY.VERSION)}</h2>
       <ul>
-        <li><b>100 new levels</b> (133–232) in 25 new chapters: the supermarket, school, a castle, under the sea and sports day.</li>
-        <li><b>25 new ways to ruin things</b> — U.N.D.O. keeps the clues in your Sabotage file.</li>
-        <li>The <b>Final Factory</b> is now Levels 233–236. Your progress moved with it; if you had finished, you carry on at Level 133.</li>
+        <li><b>Art polish:</b> every open item from our art director — props hang on hooks or stand on tables, long rule signs are easier to read, and the dark undersea rooms have a seabed so their buttons look pressable.</li>
+        <li>Shared drawings for objects that appear in several chapters, bigger labels on tins and crates, and map labels that no longer sit on a level.</li>
+        <li>Still 236 levels (133–232 arrived in 2.4) — nothing about your progress changes.</li>
       </ul>
       <button class="btn small-btn" data-act="dismiss-whatsnew">Got it</button>
     </section>`;

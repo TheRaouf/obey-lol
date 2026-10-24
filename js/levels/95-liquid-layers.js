@@ -40,7 +40,7 @@
     view: function (s) {
       var objs = [
         O('poster', 2, 1, 33, 64, { kind: 'static', text: 'DENSITY 101\n(in g/ml)\nBig number: sinks.\nSmall number: floats.\nPour the bottom layer first.', label: 'Poster: density in grams per millilitre. Big number sinks, small number floats. Pour the bottom layer first.', cls: 'book-card' }),
-        O('bench', 34, 47, 32, 8, { kind: 'static', art: 'table' }),
+        O('bench', 34, 47, 32, 28, { kind: 'static', art: 'table', artOpts: { tall: true } }),
         O('column', 36, 3, 28, 62, { art: 'd-column', artOpts: { layers: s.poured.map(function (k) { return LIQ[k].color; }) }, label: 'Tall column' + (s.poured.length ? ' with ' + s.poured.map(function (k) { return LIQ[k].name; }).join(', then ') : ', empty'), zone: true }),
         O('stack', 67, 4, 31, 56, { kind: 'static', text: 'TOWER\n(top first)\n' + (s.poured.length ? s.poured.slice().reverse().map(function (k) { return LIQ[k].name; }).join('\n') : '(empty)'), label: 'Tower so far: ' + (s.poured.map(function (k) { return LIQ[k].name; }).join(', ') || 'empty'), cls: 'plaque-card' })
       ];

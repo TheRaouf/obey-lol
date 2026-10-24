@@ -34,7 +34,7 @@
     view: function (s) {
       var out = s.big ? 'DOOR PIN: 4 1 9\n(don\'t tell B.)' : (s.copies ? 'Copy of the note.\nStill tiny. ' + s.copies + ' cop' + (s.copies === 1 ? 'y' : 'ies') + ' so far.' : 'Output tray: empty');
       var objs = [
-        O('desk', 2, 26, 24, 6, { kind: 'static', art: 'table' }),
+        O('desk', 2, 26, 24, 49, { kind: 'static', art: 'table', artOpts: { tall: true } }),
         O('note', 6, 13, 14, 12, { art: 'note', label: 'Sticky note with writing far too tiny to read (drag it)', drag: true, hidden: s.glass }),
         O('shredder', 4, 56, 22, 30, { art: 'a-shredder', label: 'Shredder', zone: true }),
         O('copytable', 30, 72, 36, 8, { kind: 'static', art: 'table' }),

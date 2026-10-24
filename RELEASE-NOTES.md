@@ -1,5 +1,12 @@
 # OBEY? LOL. — Release notes
 
+## Version 2.4.1
+
+**Polish.** Every open note from our art director is done: props hang on hooks or sit on tables, long rule
+signs are easier to read, the dark undersea rooms have a seabed so their buttons look pressable, labels on
+tins and crates are bigger, and the map's chapter names no longer sit on top of a level. Your progress is
+unchanged.
+
 ## Version 2.4.0
 
 **Bossworth goes shopping, teaching, ruling, diving and refereeing.** 100 new levels in 25 new chapters

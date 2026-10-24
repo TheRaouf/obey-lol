@@ -85,7 +85,7 @@ for (const def of defs.sort((a, b) => a.num - b.num)) {
     ok(r.log.done && r.log.done.stars === 3 && !r.log.done.ruin, `solution must finish with 3★ on ${diff} (got ${r.log.done ? r.log.done.stars + '★' : 'not finished'})`);
   }
   for (const [k, p] of Object.entries(def.alternatives || {})) {
-    const r = runtime(def);
+    const r = runtime(def, 'medium', { allSecrets: !!(p && p.allSecrets) }); // e.g. the finale's golden-quill path
     play(r.rt, r.clock, Array.isArray(p) ? p : p.steps);
     ok(r.log.done, `alternative ${k} must finish the level`);
   }

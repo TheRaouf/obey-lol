@@ -36,7 +36,8 @@
     view: function (s) {
       return [
         O('grass', 0, 74, 100, 26, { kind: 'static', art: 'j-grass' }),
-        O('rules', 4, 3, 58, 15, { kind: 'static', text: 'RACE RULE: the egg must stay on a spoon.', label: 'Race rule: the egg must stay on a spoon.', cls: 'sign-card' }),
+        O('rulesign', 4, 2, 28, 17, { kind: 'static', text: 'RACE RULE', label: 'Race rule sign', cls: 'sign-card' }),
+        O('rules', 35, 3, 44, 15, { kind: 'static', text: 'The egg must stay on a spoon.', label: 'Race rule: the egg must stay on a spoon.', cls: 'honest-card' }),
         O('flag', 84, 26, 12, 50, { kind: 'static', art: 'j-flag', label: 'Finish line flag' }),
         O('table', 4, 62, 54, 14, { kind: 'static', art: 'table' }),
         O('tea', 5, 49, 16, 14, { art: 'j-spoon', artOpts: { kind: 'tea' }, label: s.on === 'tea' ? 'Teaspoon, with the egg wobbling on top' : 'Teaspoon (the official one)', zone: true }),

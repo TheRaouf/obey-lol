@@ -28,6 +28,7 @@
     wrong: ['A wrong answer restarts the quiz (trap).'],
     secrets: [],
     endingNote: 'None.',
+    trick: 'A rehearsal is just practice. The answers were in the questions.',
     done: 'Memory: excellent. Bossworth: slightly moved.',
 
     init: function () { return { q: 0 }; },
@@ -58,6 +59,10 @@
     },
 
     solution: [{ tap: 'opt2' }, { tap: 'opt3' }, { tap: 'opt1' }],
+    checks: [
+      { name: 'the red button opened the exit', steps: [{ tap: 'opt1' }], expect: 'fail' },
+      { name: 'right first answer, wrong code', steps: [{ tap: 'opt2' }, { tap: 'opt2' }], expect: 'fail' }
+    ],
     secretPaths: {}
   });
 })(typeof window !== 'undefined' ? window : globalThis);

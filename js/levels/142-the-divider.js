@@ -6,14 +6,15 @@
 (function (root) {
   'use strict';
   var OBEY = root.OBEY, O = OBEY.obj;
+  // dy: per-item drop (stage %) so each drawing rests on the belt top.
   var ITEMS = [
     { id: 'milk', art: 'f-milk', label: 'Your milk' },
-    { id: 'bread', art: 'f-bread', label: 'Your bread' },
-    { id: 'eggs', art: 'f-eggs', label: 'Your eggs' },
-    { id: 'cake1', art: 'f-cake', label: 'Bossworth\'s giant cake' },
-    { id: 'cake2', art: 'f-cake', label: 'Bossworth\'s second giant cake' },
-    { id: 'cake3', art: 'f-cake', label: 'Bossworth\'s third giant cake' },
-    { id: 'cake4', art: 'f-cake', label: 'Bossworth\'s fourth giant cake' }
+    { id: 'bread', art: 'f-bread', label: 'Your bread', dy: 2.2 },
+    { id: 'eggs', art: 'f-eggs', label: 'Your eggs', dy: 2.5 },
+    { id: 'cake1', art: 'f-cake', label: 'Bossworth\'s giant cake', dy: 1 },
+    { id: 'cake2', art: 'f-cake', label: 'Bossworth\'s second giant cake', dy: 1 },
+    { id: 'cake3', art: 'f-cake', label: 'Bossworth\'s third giant cake', dy: 1 },
+    { id: 'cake4', art: 'f-cake', label: 'Bossworth\'s fourth giant cake', dy: 1 }
   ];
   var LAST_MINE = 'eggs';
 
@@ -47,9 +48,9 @@
       ];
       ITEMS.forEach(function (it, i) {
         var x = i < 3 ? 4 + i * 11.5 : 40 + (i - 3) * 11.5 + (s.placed ? 6 : 0);
-        out.push(O(it.id, x, 48, 11, 11.5, { art: it.art, label: it.label + ' on the belt' + (s.placed ? '' : ' (drop the divider here to put it just after this)'), zone: true, free: true }));
+        out.push(O(it.id, x, 48 + (it.dy || 0), 11, 11.5, { art: it.art, label: it.label + ' on the belt' + (s.placed ? '' : ' (drop the divider here to put it just after this)'), zone: true, free: true }));
       });
-      if (s.placed) out.push(O('bar', 39, 52, 6.5, 7, { kind: 'static', art: 'f-divider', label: 'Divider on the belt after your eggs' }));
+      if (s.placed) out.push(O('bar', 39, 55, 6.5, 7, { kind: 'static', art: 'f-divider', label: 'Divider on the belt after your eggs' }));
       out.push(O('divider', 4, 82, 36, 11, { art: 'f-divider', label: 'NEXT CUSTOMER divider bar (drag it onto the belt)', drag: true, hidden: s.placed }));
       out.push(O('pay', 58, 81, 38, 13, { text: 'PAY', label: 'Pay for the shopping', cls: 'btn-card big' }));
       return out;

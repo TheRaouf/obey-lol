@@ -33,7 +33,8 @@
     view: function (s) {
       return [
         O('log', 4, 3, 56, 34, { kind: 'static', text: 'GOAL LOG\n12\' Bossworth: into his OWN net\n40\' Bossworth: own net again\n77\' You: header', label: 'Goal log. 12 minutes: Bossworth, into his own net. 40 minutes: Bossworth, own net again. 77 minutes: you, header.', cls: 'book-card' }),
-        O('sign', 63, 3, 33, 34, { kind: 'static', text: 'An own goal counts for the OTHER team.', label: 'Sign: an own goal counts for the other team.', cls: 'sign-card' }),
+        O('signhead', 63, 3, 33, 11, { kind: 'static', text: 'OWN GOALS', label: 'Own goals rule sign', cls: 'sign-card' }),
+        O('sign', 62, 15.5, 34, 23, { kind: 'static', text: 'An own goal counts for the OTHER team.', label: 'Sign: an own goal counts for the other team.', cls: 'honest-card' }),
         O('board', 14, 41, 72, 15, { kind: 'static', text: 'BOSS ' + s.b + ' : ' + s.y + ' YOU', label: 'Scoreboard: Bossworth ' + s.b + ', you ' + s.y, cls: 'display-card' }),
         O('b-minus', 4, 60, 20, 12, { text: 'BOSS −', label: 'Bossworth\'s score minus one', cls: 'btn-card' }),
         O('b-plus', 26, 60, 20, 12, { text: 'BOSS +', label: 'Bossworth\'s score plus one', cls: 'btn-card' }),

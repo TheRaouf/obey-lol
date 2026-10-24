@@ -31,6 +31,7 @@
     ],
     wrong: ['Pressing OBEY does not end the game — Bossworth has no idea what to do when obeyed.'],
     secrets: [],
+    trick: 'You chose how to fix the machine. Bossworth just held the wrench.',
     endingNote: 'Hero: repair (hold wrench). Chaos: overload (drag fuse). Secret Master: all 15 secrets + golden quill.',
     done: 'The end. Or is it? (It is. Mostly.)',
 
@@ -50,6 +51,7 @@
       switch (a.type + ':' + a.target) {
         case 'tap:obey':
           s.obeyed++;
+          api.nope();
           api.say(s.obeyed === 1
             ? 'You… pressed it? You actually OBEYED? Nobody obeys me! I don\'t have a plan for this! Please pick something else, this is embarrassing.'
             : 'Stop obeying me! It\'s weird! Repair it, break it, anything!', 'panicked');
@@ -86,6 +88,11 @@
 
     solution: [{ hold: ['wrench', 2200] }],
     alternatives: { chaos: [{ drop: ['fuse', 'machine'] }], secret: { allSecrets: true, steps: [{ tap: 'quill' }] } },
+    checks: [
+      { name: 'press OBEY', steps: [{ tap: 'obey' }], expect: 'nope' },
+      { name: 'let go of the wrench early', steps: [{ hold: ['wrench', 800] }], expect: 'playing' },
+      { name: 'drop the fuse on the floor', steps: [{ drop: ['fuse', 'floor'] }], expect: 'playing' }
+    ],
     secretPaths: {}
   });
 })(typeof window !== 'undefined' ? window : globalThis);

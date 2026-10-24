@@ -2,7 +2,32 @@
 
 All notable changes to this project. Versions follow semantic versioning.
 
-## [2.4.0] — 2026-10-24
+## [2.4.1] — 2026-10-24
+
+All open items from the art director's reviews (docs/ART-REVIEW-2.4.1.md): the 2.4 review's 10 SHOULD and
+9 POLISH items and the follow-ups left after 2.3.
+
+### Changed — art and layout
+- Dark undersea rooms get a seabed band, so buttons show their press shadow again; sea decor stays out of
+  the control row; white water lines and the whale's belly toned down.
+- Long rule signs (11 levels) became a short sign plus a readable card; the full sentence stays in the label.
+- Props hang on hooks or stand on surfaces (horn, hammer, key fob, decree, seal case, fuel nozzles in
+  holsters, referee card); intern drawn at a consistent size; small floats grounded across the 2.4 levels.
+- Bench-height tables get legs that reach the floor (`table` `tall` option); bath taps sit on the rim
+  (L65, L68); a real umbrella stand (L73); L119's cards draw above its curtains; an owl shelf (L189);
+  moat edge (L173); smaller trolley and a floor-stripe yellow line (L150).
+- One canonical drawing for objects drawn by several packs (coin, hammer, oven, jar, tin, chair, mains plug,
+  framed photo, Bossworth's portrait, duck, sofa, torch); objects that differ on purpose are documented.
+- Bigger in-art labels (tins, cereal box, lunchbox, nozzles, ostrich crate, door signs); off-palette colours
+  and over-thick strokes removed; the sleeping dragon's "z" is a drawing, not text.
+- Map: chapter labels sit beside their own levels instead of on a level node.
+
+### Fixed
+- Level lab: alternatives that need all secrets (the finale's golden-quill path) are run with them; the
+  Final Factory levels now declare their trick and wrong moves like every other level (pressing OBEY in
+  the finale and searching Bossworth twice in Level 235 now get a harmless "nope" reaction).
+
+
 
 ### Added
 - 100 new levels (133–232) in 25 new chapters, between Postcard Paradise and the Final Factory:

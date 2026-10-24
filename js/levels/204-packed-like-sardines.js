@@ -38,10 +38,10 @@
         O('label', 66, 3, 30, 20, { kind: 'static', art: 'i-tinlabel', label: 'The tin\'s label: a picture of four sardines going head, tail, head, tail' }),
         O('labeltag', 66, 24, 30, 8, { kind: 'static', text: 'Tin label', label: '', cls: 'tag-card' }),
         O('table', 4, 62, 92, 14, { kind: 'static', art: 'table', label: '' }),
-        O('tin', 8, 34, 84, 28, { kind: 'static', art: 'i-tin', label: 'An open sardine tin' })
+        O('tin', 8, 36.5, 84, 28, { kind: 'static', art: 'i-tin', label: 'An open sardine tin' })
       ];
       s.down.forEach(function (d, i) {
-        out.push(O('f' + (i + 1), 16 + i * 17.5, 34, 16, 28, { art: 'i-sardine', artOpts: { down: d }, label: 'Sardine ' + (i + 1) + ', head ' + (d ? 'down' : 'up') + ' (tap to flip)' }));
+        out.push(O('f' + (i + 1), 16 + i * 17.5, 36.5, 16, 28, { art: 'i-sardine', artOpts: { down: d }, label: 'Sardine ' + (i + 1) + ', head ' + (d ? 'down' : 'up') + ' (tap to flip)' }));
       });
       out.push(O('squash', 4, 80, 44, 14, { text: 'Squash harder', label: 'Squash the lid down harder', cls: 'btn-card big accent' }));
       out.push(O('close', 52, 80, 44, 14, { text: 'Close the lid', label: 'Close the lid', cls: 'btn-card big' }));

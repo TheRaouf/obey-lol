@@ -17,7 +17,7 @@ async function goLevel(page, n) {
 }
 const rtState = (page) => page.evaluate(() => OBEY_TEST.runtime());
 const save = (page) => page.evaluate(() => OBEY_TEST.save());
-const seen = (d) => { d.seenVersion = '2.4.0'; return d; };
+const seen = (d) => { d.seenVersion = '2.4.1'; return d; };
 const withSave = (n, extra) => H.saveWith(n, (d) => seen(extra ? extra(d) : d));
 const CLIP = H.ENGINE === 'chromium' ? ['clipboard-read', 'clipboard-write'] : [];
 
@@ -426,7 +426,7 @@ test('menu: what\'s new (once), next goal, trust line; stats file and joke achie
   assert.match(await page.locator('.trust-line').innerText(), /No ads · no tracking · works offline/);
   await page.getByRole('button', { name: 'Got it' }).click();
   assert.equal(await page.locator('.whats-new').count(), 0);
-  assert.equal((await save(page)).seenVersion, '2.4.0');
+  assert.equal((await save(page)).seenVersion, '2.4.1');
   for (let i = 0; i < 10; i++) { await page.evaluate(() => { location.hash = 'settings'; }); await page.waitForSelector('#screen-settings:not([hidden])'); await page.evaluate(() => { location.hash = 'menu'; }); await page.waitForSelector('#screen-menu:not([hidden])'); }
   assert.ok((await save(page)).achievements['settings-enthusiast']);
   await page.evaluate(() => { location.hash = 'credits'; });

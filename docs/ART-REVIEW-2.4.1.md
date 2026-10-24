@@ -237,3 +237,37 @@ Verification:
 
 Left open: L189 `owl` perch still hangs on the wall with no bracket (not in the review list). L230
 `h3` "Bronze" is 0.5 px from its edge at 320 px (baseline).
+
+## L1 (levels 1–172, 233–236)
+
+Positions, sizes, stacking order, `artOpts` and three short visible strings only. No solution, id, num or
+interactivity change, except the two `api.nope()` calls marked below.
+
+| Item | Status | Change |
+|---|---|---|
+| S2 long display signs | done | L150 `sign` → "TROLLEY LINE" (44, 31, 36, 11) on the post + new static `rule` `honest-card` "Trolley wheels lock past the yellow line." (38, 44, 48, 11). L153 `rule` → "CLASS RULE" (66, 4, 30, 9) + new static `ruleText` `honest-card` "Hands up. / No shouting out." (66, 14.5, 30, 13). Full sentences stay in each sign's `label`; the body cards have `label: ''` (aria-hidden, no double reading). |
+| S4 floating hand props | done | L149 `fob` hangs on the `f-fob` peg; y 3 → 5 so the peg clears the stage edge. L151: `pump` (2, 15.8, 36.2, 59.5) `holsters: true`, listed after the nozzles so the cups draw over the grips; `nU` (27.4, 26.4) and `nD` (27.4, 47.1), size 16 × 20.4 unchanged (14.6 px letters); tags `tU`/`tD` x 45; `hand` status tag (68, 49, 26, 9) above the car. The coordinator's positions (pump unchanged, nU y 32.5 / nD y 47.5) overlapped the two nozzle hit boxes by 5.4 %; the larger pump gives 20.7 % between cups, enough for both. |
+| S6 / P8 L150 | done | `trolley` 26 × 21 → 16 × 13 at (10, 71), wheels still on 84 %. `line` → (54, 78, 22, 5): a flat yellow tile on the floor band, clear of the post. |
+| S8 L148 / L135 / L136 / L145 | done / n.a. | L148 `fire` door sign "FIRE EXIT" → "ALARM" (22 units, 13.4 px at 366); the `alarm` tag now reads "Fire exit: alarm will sound". L135/L136/L145 are fixed in the art by group 2; no object had to grow. |
+| P1 L134 | done | `XS` 12/40/68 → 16/40/64; back row y 33 → 25.5 (drawn bottom on the shelf line at 48.8 %); front row y 46 → 47 (on the bottom line). `b2` now ends at 81.7 %, inside the liner (83.4 %); `f0` no longer pokes past the left liner either. |
+| P2 small floats | done | L138 `last` y 49.5 → 51.3, `tray` 49.5 → 51 (on the case top). L142 per-item `dy` (bread 2.2, eggs 2.5, cakes 1) so every item ends on the belt top; placed `bar` y 52 → 55. L147 `stand` → `table {tall}` (h 15, legs to 75). L172 `desk` (10, 69.5, 50, 27.5), aspect-exact, with `pencils` (11, 56.6, 18, 15.75), `band` (29.5, 63.8, 11.5, 9.7), `paper` (40, 47.5, 20, 25.5) on its top and `tip` (10, 78, 50, 13) on its front. |
+| §18 tall tables | done | `artOpts: { tall: true }` with h = 75 − y: L17 `legs`, L41 `desk`, L43 `mfdtable`, L53 `stand`, L95 `bench`, L147 `stand`, and L94 `bench` (also short by 3 %; not on the list). L115 `table` keeps h 18.5 (legs to 80.5), because h 13 would make the box wider than 5:1 and shrink the table top. Not changed: L34 and L66 use `table` as a wall shelf above other objects; other tables already reach the floor. |
+| §18 L65 / L68 | done | Group 1 extents: L65 `tub` (4, 41, 62, 34), `taps` (22, 22.4, 30, 20.6) after the tub; L68 `tub` (7, 51.5, 56, 30), `taps` (6, 41.5, 16, 11) after the tub. **Exception:** on L65, `taps` overlaps the tub's drop-only zone by 2 % (taps on top). The bath drawing has a 1.7 % empty top margin, so the plate can only sit on the rim if the boxes overlap; with h 18.6 the plate hovers 2 % above the rim. |
+| §18 L73 | done | `stand` → `c-umbrellastand` (8, 66, 16, 24), after `brolly`; `brolly` (6, 48, 20, 26) `stand: !s.brolly`. |
+| 2.3 E51 L119 | done | `curtainL`/`curtainR` moved to the front of the object list, so every card draws above them. |
+| Lab notes L233–L236 | done, 1 left | `trick` copied from `X.TRICKS`. `checks`: L233 agree (fail), flap before Clause 9 ×2 (nope); L234 two wrong answers (fail); L235 answer before the gears (playing), search Bossworth twice (nope); L236 press OBEY (nope), let go of the wrench early, drop the fuse on the floor (playing). **Feedback added:** L235 and L236 had no trap or nope at all, so a second search of Bossworth (L235) and pressing OBEY (L236) now call `api.nope()`. Both are already documented in `wrong`; nothing else changed. **Left open:** L236 `alternatives.secret` is not a data mistake. It needs `allSecrets`, which `tests/unit/levels.test.js` passes in (`normalizePath`) but `tools/level-lab.js` does not, so the lab reports it. Fix it in the lab (tools owner), not in the level. |
+| L17 lab notes | done | Added `trick` and `checks` (drawer 3: nope; sock to Bossworth: nope). `chest` text ' ' → '' (the fit check flagged the single space). |
+
+Visible text changes: L148 door sign "FIRE EXIT" → "ALARM", and the tag "ALARM WILL SOUND" → "Fire exit: alarm
+will sound". L150 sign → "TROLLEY LINE", plus a body card with the old sentence. L153 sign → "CLASS RULE", plus
+a body card "Hands up. / No shouting out.". None of these strings is used in `tests/`.
+
+Verification:
+- `node tools/level-lab.js` on the 25 touched files with packs A–J and `--fit` gives **1158 checks, 1 problem
+  (the L236 lab gap above); fit 0 problems**.
+- `npm test`: 1265 pass. `tools/check.js`: only `sw.js is out of date`.
+- Hit boxes: no interactive objects overlap and none is under 9 % in the touched levels, at the start and
+  after the first solution step. Two exceptions: L65 (above), and L148 `doors`/`beam`, which is an original
+  design (the beam zone sits inside the doors) and was not touched.
+- Before/after stage shots at 1180×900 of every touched level, plus mid states for L65, L73, L138, L142,
+  L150, L151 and L172.
