@@ -7,7 +7,7 @@ Date: 2026-10-24. Counts come from logged runs: `tests/logs/unit-22.tap`, `tests
 
 | Suite | Where | Run | Passed | Failed |
 |---|---|---|---|---|
-| Static checks (`tools/check.js`) | local | 1,972 checks | 1,972 | 0 |
+| Static checks (`tools/check.js`) | local | 1,973 checks | 1,973 | 0 |
 | Unit tests (`tests/unit`, 4 files) | local | 764 | 764 | 0 |
 | Browser tests, Chromium (9 files) | local | 120 | 120 | 0 |
 | Level lab (`tools/level-lab.js`) on the 100 new levels | local | per batch | 0 problems | — |
@@ -34,6 +34,7 @@ Date: 2026-10-24. Counts come from logged runs: `tests/logs/unit-22.tap`, `tests
 | 2 | L65 and L120 kept timer handles in level state, so Restart did not give an identical state | Timers no longer stored in state (L120 uses a generation counter) |
 | 3 | Text spilled out of cards (or fell under the 10 px minimum) in 38 new levels at 320 px, 10 at 768 px and 1 (L116) at desktop sizes | Stage now shrinks card text to fit (floor 10 px, 9 px fine print); 21 cards enlarged or reworded at 320 px |
 | 4 | Lab screenshot page loaded art packs before `art.js` (page error) | Lab load order fixed |
+| 5 | In tall Split View windows (584×820) the stage ran ~45 px off the bottom on levels with long narrator lines (found by CI; the likely cause of the unexplained 2.1 CI failure) | On tablets and larger the stage shrinks to keep its bottom edge on screen, re-checked whenever the text above it changes size; the regression test now covers levels 81 and 89 |
 
 ## Art director review (2.2)
 
