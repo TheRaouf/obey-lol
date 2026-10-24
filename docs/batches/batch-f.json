@@ -1,0 +1,131 @@
+{
+  "chapters": [
+    {
+      "name": "Aisle Antics",
+      "levels": [
+        133,
+        134,
+        135,
+        136
+      ]
+    },
+    {
+      "name": "Deli Dilemma",
+      "levels": [
+        137,
+        138,
+        139,
+        140
+      ]
+    },
+    {
+      "name": "Checkout Chaos",
+      "levels": [
+        141,
+        142,
+        143,
+        144
+      ]
+    },
+    {
+      "name": "Scanner Scramble",
+      "levels": [
+        145,
+        146,
+        147,
+        148
+      ]
+    },
+    {
+      "name": "Carpark Capers",
+      "levels": [
+        149,
+        150,
+        151,
+        152
+      ]
+    }
+  ],
+  "ruins": [
+    {
+      "id": "bean-avalanche",
+      "level": 135,
+      "name": "Bean Avalanche",
+      "clue": "He says the tablecloth trick works on tins. Pull the soup out from the very bottom and find out."
+    },
+    {
+      "id": "big-cheese",
+      "level": 139,
+      "name": "The Big Cheese",
+      "clue": "Mum asked for a little. The deli will happily sell you all of it. Wheels roll."
+    },
+    {
+      "id": "queue-jumper",
+      "level": 141,
+      "name": "Queue Jumper",
+      "clue": "Three queues, four buttons. One of them skips everybody. Everybody notices."
+    },
+    {
+      "id": "alarm-bells",
+      "level": 148,
+      "name": "Alarm Bells",
+      "clue": "There is another way out. The sign next to it even tells you what it sounds like."
+    },
+    {
+      "id": "hose-and-go",
+      "level": 151,
+      "name": "Hose and Go",
+      "clue": "Fill up properly, then drive off the second the tank is full. Don't stop to tidy anything."
+    }
+  ],
+  "art": [
+    "f-trolley",
+    "f-trolleyrow",
+    "f-coin",
+    "f-tin",
+    "f-carton",
+    "f-fridge",
+    "f-cereal",
+    "f-pallet",
+    "f-bagroll",
+    "f-pbag",
+    "f-apples",
+    "f-bananas",
+    "f-prodscale",
+    "f-cake",
+    "f-cheese",
+    "f-counter",
+    "f-glasscase",
+    "f-croissant",
+    "f-tray",
+    "f-oven",
+    "f-shopper",
+    "f-belt",
+    "f-divider",
+    "f-gum",
+    "f-milk",
+    "f-bread",
+    "f-eggs",
+    "f-potatoes",
+    "f-carrier",
+    "f-selfcheck",
+    "f-bagarea",
+    "f-lunchbox",
+    "f-boxed",
+    "f-detacher",
+    "f-gates",
+    "f-barcode",
+    "f-cakebox",
+    "f-autodoor",
+    "f-baguette",
+    "f-car",
+    "f-fob",
+    "f-floorline",
+    "f-lamppost",
+    "f-pump",
+    "f-nozzle",
+    "f-toaster",
+    "f-wsocket",
+    "f-plug"
+  ]
+}
