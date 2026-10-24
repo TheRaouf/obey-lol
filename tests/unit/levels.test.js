@@ -539,3 +539,22 @@ for (const d of NEW22) {
     }
   });
 }
+
+test('every scripted tap is possible in the real UI (a tap on a draggable object only picks it up)', () => {
+  const bad = [];
+  const all = LEVELS.concat(OBEY.bonusLevels);
+  for (const d of all) {
+    const paths = [['solution', d.solution]]
+      .concat(Object.entries(d.alternatives || {}).map(([k, p]) => ['alt ' + k, normalizePath(p).steps]))
+      .concat(Object.entries(d.ruinPaths || {}).map(([k, p]) => ['ruin ' + k, p]))
+      .concat((d.checks || []).map((c) => ['check ' + c.name, c.steps]));
+    for (const [name, steps] of paths) {
+      const { rt, clock } = makeRuntime(OBEY, d.num);
+      for (const st of steps) {
+        if (st.tap) { const o = rt.objects().find((x) => x.id === st.tap); if (o && o.drag && !o.hidden) bad.push(`L${d.num} ${name}: tap ${st.tap}`); }
+        play(rt, clock, [st]);
+      }
+    }
+  }
+  assert.deepEqual(bad, []);
+});

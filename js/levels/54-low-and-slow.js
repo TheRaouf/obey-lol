@@ -31,7 +31,7 @@
 
     view: function (s) {
       return [
-        O('recipe', 4, 3, 42, 44, { kind: 'static', text: 'GRANDMA\'S SPONGE\n\nOven: 180°\nTimer: 20 min\n\nP.S. Do NOT let Bossworth read this out loud.', label: 'Recipe card: oven 180 degrees, timer 20 minutes. P.S. Do not let Bossworth read this out loud.', cls: 'book-card' }),
+        O('recipe', 4, 3, 42, 44, { kind: 'static', text: 'GRANDMA\'S SPONGE\nOven: 180°\nTimer: 20 min\nP.S. Do NOT let Bossworth read this out loud.', label: 'Recipe card: oven 180 degrees, timer 20 minutes. P.S. Do not let Bossworth read this out loud.', cls: 'book-card' }),
         O('oven', 54, 3, 42, 44, { kind: 'static', art: 'b-oven', artOpts: { on: s.baked, cake: true }, label: 'Oven with a cake tin inside' }),
         O('tempd', 4, 52, 42, 11, { kind: 'static', text: 'OVEN ' + s.temp + '°', label: 'Oven temperature: ' + s.temp + ' degrees', cls: 'display-card' }),
         O('tdown', 4, 66, 20, 12, { text: 'TEMP −', label: 'Lower the oven temperature by 20 degrees', cls: 'btn-card' }),

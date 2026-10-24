@@ -68,8 +68,11 @@
   });
 
   /* ---------------------------------------------------------- film set */
+  /* Bowler and chair are drawn small on stage (about 90 px), so they use an 8-unit outline (3.6 px rendered). */
+  var SWB = 'stroke="' + INK + '" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"';
+
   A.addObject('e-coatrack', function () {
-    return svg('0 0 200 200',
+    return svg('50 16 100 182',
       '<rect x="94" y="30" width="12" height="150" rx="5" fill="#9a6b3f" ' + SW3 + '/>' +
       '<path d="M100 44 L66 30 M100 44 L134 30 M100 64 L70 56 M100 64 L130 56" ' + SW + '/>' +
       '<path d="M60 194 L100 172 L140 194" fill="none" ' + SW + '/><circle cx="100" cy="26" r="9" fill="#9a6b3f" ' + SW3 + '/>');
@@ -77,17 +80,17 @@
 
   A.addObject('e-bowler', function () {
     return svg('0 0 200 200',
-      '<path d="M50 130 Q50 54 100 54 Q150 54 150 130 Z" fill="#3a3a48" ' + SW + '/>' +
+      '<path d="M50 130 Q50 54 100 54 Q150 54 150 130 Z" fill="#3a3a48" ' + SWB + '/>' +
       '<path d="M54 116 L146 116" stroke="#e5243b" stroke-width="12"/>' +
-      '<ellipse cx="100" cy="134" rx="78" ry="16" fill="#3a3a48" ' + SW + '/>' +
+      '<ellipse cx="100" cy="134" rx="78" ry="16" fill="#3a3a48" ' + SWB + '/>' +
       '<path d="M74 80 Q80 68 94 64" fill="none" stroke="#6c6c80" stroke-width="7" stroke-linecap="round"/>');
   });
 
   A.addObject('e-chair', function () {
     return svg('0 0 200 200',
-      '<rect x="56" y="26" width="88" height="70" rx="6" fill="#c9a86a" ' + SW + '/>' +
-      '<rect x="44" y="98" width="112" height="22" rx="5" fill="#9a6b3f" ' + SW + '/>' +
-      '<path d="M54 120 L48 192 M146 120 L152 192 M66 26 L66 98 M134 26 L134 98" ' + SW + '/>');
+      '<rect x="56" y="26" width="88" height="70" rx="6" fill="#c9a86a" ' + SWB + '/>' +
+      '<rect x="44" y="98" width="112" height="22" rx="5" fill="#9a6b3f" ' + SWB + '/>' +
+      '<path d="M54 120 L48 192 M146 120 L152 192 M66 26 L66 98 M134 26 L134 98" ' + SWB + '/>');
   });
 
   A.addObject('e-clapper', function (o) {
@@ -304,13 +307,16 @@
   });
 
   A.addObject('e-gondola', function (o) {
+    // Drawn at ~77 px, so outlines are 8 units (3 px rendered). Who rides is written in the window,
+    // so "your car" never depends on telling yellow from orange.
     var col = o.mine ? '#ffd23f' : (o.boss ? '#ffb347' : '#3ec1ff');
+    var W8 = 'stroke="' + INK + '" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"';
+    var who = o.mine ? 'YOU' : (o.boss ? 'B' : '');
     return svg('0 0 200 200',
-      '<path d="M100 10 L100 48" ' + SW + '/>' +
-      '<path d="M30 60 Q100 40 170 60 L160 170 Q100 190 40 170 Z" fill="' + col + '" ' + SW + '/>' +
-      '<rect x="56" y="76" width="88" height="44" rx="8" fill="#e6f7ff" ' + SW3 + '/>' +
-      (o.mine ? '<circle cx="100" cy="98" r="14" fill="#ffd23f" ' + SW3 + '/><circle cx="95" cy="96" r="2.5" fill="' + INK + '"/><circle cx="105" cy="96" r="2.5" fill="' + INK + '"/>' : '') +
-      (o.boss ? '<circle cx="100" cy="102" r="18" fill="#ffb347" ' + SW3 + '/><path d="M98 120 L102 120 L106 134 L94 134 Z" fill="#e5243b"/>' : '') +
+      '<path d="M100 10 L100 48" ' + W8 + '/>' +
+      '<path d="M30 60 Q100 40 170 60 L160 170 Q100 190 40 170 Z" fill="' + col + '" ' + W8 + '/>' +
+      '<rect x="50" y="72" width="100" height="56" rx="8" fill="#e6f7ff" ' + W8 + '/>' +
+      (who ? '<text x="100" y="114" text-anchor="middle" font-size="' + (o.mine ? 36 : 42) + '" font-weight="700" fill="' + INK + '">' + who + '</text>' : '') +
       (o.open ? '<path d="M44 130 L156 130" stroke="#2bc46f" stroke-width="8"/>' : ''));
   });
 

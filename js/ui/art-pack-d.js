@@ -84,9 +84,11 @@
   });
 
   /* ---------------------------------------------------------- electricity */
+  /* The paperclip is a solution object: an ink underlay gives it the house outline so it reads on the floor band. */
   A.addObject('d-clip', function () {
-    return svg('0 0 200 120', '<path d="M40 40 L150 40 Q176 40 176 62 Q176 84 150 84 L56 84 Q38 84 38 68 Q38 54 56 54 L140 54 Q150 54 150 64 Q150 72 140 72 L70 72" fill="none" stroke="#8a86a8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<path d="M40 40 L150 40 Q176 40 176 62 Q176 84 150 84 L56 84 Q38 84 38 68 Q38 54 56 54 L140 54 Q150 54 150 64 Q150 72 140 72 L70 72" fill="none" stroke="#e9eef5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>');
+    return svg('0 0 200 120', '<path d="M40 40 L150 40 Q176 40 176 62 Q176 84 150 84 L56 84 Q38 84 38 68 Q38 54 56 54 L140 54 Q150 54 150 64 Q150 72 140 72 L70 72" fill="none" stroke="' + INK + '" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M40 40 L150 40 Q176 40 176 62 Q176 84 150 84 L56 84 Q38 84 38 68 Q38 54 56 54 L140 54 Q150 54 150 64 Q150 72 140 72 L70 72" fill="none" stroke="#c3ccd8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M40 40 L150 40 Q176 40 176 62 Q176 84 150 84 L56 84 Q38 84 38 68 Q38 54 56 54 L140 54 Q150 54 150 64 Q150 72 140 72 L70 72" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>');
   });
 
   A.addObject('d-duck', function () {
@@ -286,19 +288,24 @@
     var slots = '';
     for (var i = 0; i < 8; i++) { var p = pt(i); slots += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="7" fill="#58607e"/>'; }
     var t = pt(o.target || 0), m = pt(o.mars || 0);
-    var path = '<path d="M' + cx + ' ' + cy + ' L' + t[0].toFixed(1) + ' ' + t[1].toFixed(1) + '" stroke="#ffd23f" stroke-width="5" stroke-dasharray="10 10" fill="none"/>';
+    // The AIM ring and flight line are the tell: yellow on an ink underlay so they read on the pale stage.
+    var seg = 'M' + cx + ' ' + cy + ' L' + t[0].toFixed(1) + ' ' + t[1].toFixed(1);
+    var path = '<path d="' + seg + '" stroke="' + INK + '" stroke-width="9" stroke-linecap="round" fill="none"/><path d="' + seg + '" stroke="#ffd23f" stroke-width="5" stroke-dasharray="10 10" fill="none"/>';
     return svg('0 0 320 320', '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="#9ec0ff" stroke-width="4" stroke-dasharray="4 10"/>' + slots + path +
-      '<circle cx="' + t[0].toFixed(1) + '" cy="' + t[1].toFixed(1) + '" r="24" fill="none" stroke="#ffd23f" stroke-width="5"/>' +
+      '<circle cx="' + t[0].toFixed(1) + '" cy="' + t[1].toFixed(1) + '" r="24" fill="none" stroke="' + INK + '" stroke-width="10"/><circle cx="' + t[0].toFixed(1) + '" cy="' + t[1].toFixed(1) + '" r="24" fill="none" stroke="#ffd23f" stroke-width="5"/>' +
       '<circle cx="' + cx + '" cy="' + cy + '" r="34" fill="#ffd23f" ' + SW + '/><path d="M' + (cx - 14) + ' ' + (cy - 6) + ' q14 -10 28 0" fill="none" stroke="#fff" stroke-width="5" opacity=".7"/>' +
       '<circle cx="' + m[0].toFixed(1) + '" cy="' + m[1].toFixed(1) + '" r="20" fill="#e2552c" ' + SW + '/><circle cx="' + (m[0] - 6).toFixed(1) + '" cy="' + (m[1] - 4).toFixed(1) + '" r="5" fill="#b6532f"/>' +
-      '<text x="' + t[0].toFixed(1) + '" y="' + (t[1] - 32).toFixed(1) + '" text-anchor="middle" font-size="18" font-weight="700" fill="#e5a800">AIM</text>');
+      '<text x="' + t[0].toFixed(1) + '" y="' + (t[1] - 32).toFixed(1) + '" text-anchor="middle" font-size="20" font-weight="700" fill="' + INK + '">AIM</text>');
   });
 
   /** A vertical wire of `color`, optionally snipped in the middle. */
   A.addObject('d-wire', function (o) {
     var c = o.color || '#e5243b';
     var line = function (y1, y2) { return '<path d="M30 ' + y1 + ' L30 ' + y2 + '" stroke="' + INK + '" stroke-width="22" stroke-linecap="round"/><path d="M30 ' + y1 + ' L30 ' + y2 + '" stroke="' + c + '" stroke-width="13" stroke-linecap="round"/>'; };
-    return svg('0 0 60 200', (o.cut ? line(12, 84) + line(118, 188) : line(12, 188)) + '<rect x="14" y="2" width="32" height="14" rx="4" fill="#c3ccd8" ' + SW3 + '/><rect x="14" y="184" width="32" height="14" rx="4" fill="#c3ccd8" ' + SW3 + '/>');
+    // Second channel for the colour code: a number badge on top (o.num) and a colour initial on the wire (o.letter).
+    var badge = o.num ? '<circle cx="30" cy="-20" r="17" fill="#fffdf6" ' + SW3 + '/><text x="30" y="-12" text-anchor="middle" font-size="22" font-weight="700" fill="' + INK + '">' + esc(o.num) + '</text>' : '';
+    var letter = o.letter ? '<rect x="13" y="138" width="34" height="30" rx="6" fill="#fffdf6" ' + SW3 + '/><text x="30" y="160" text-anchor="middle" font-size="20" font-weight="700" fill="' + INK + '">' + esc(o.letter) + '</text>' : '';
+    return svg(o.num ? '0 -40 60 240' : '0 0 60 200', (o.cut ? line(12, 84) + line(118, 188) : line(12, 188)) + '<rect x="14" y="2" width="32" height="14" rx="4" fill="#c3ccd8" ' + SW3 + '/><rect x="14" y="184" width="32" height="14" rx="4" fill="#c3ccd8" ' + SW3 + '/>' + letter + badge);
   });
 
   A.addObject('d-cannon', function (o) {

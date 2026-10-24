@@ -1,6 +1,8 @@
 /* Level 76 — Seagull Standoff
  * The sign says gulls snatch any food they can SEE. Bossworth says eat in the open.
- * Solution: drag the chips under the parasol's shade, then eat them.
+ * Solution: drag the chips under the parasol's shade, then press EAT.
+ * (Chips stay draggable until they're in the shade, so eating is its own button: a tap on a draggable
+ * object picks it up in the UI.)
  * Wrong: eat in the open (trap), bin them (nope). Ruin: feed the chips to the gull.
  */
 (function (root) {
@@ -19,7 +21,7 @@
     hints: [
       'Read the warning sign about what gulls steal.',
       'Gulls only snatch what they can see. Somewhere on this beach is very shady.',
-      'Drag the chips under the parasol, then tap them to eat.'
+      'Drag the chips into the deep shade under the parasol, then press EAT.'
     ],
     wrong: ['Eating in the open gets your chips snatched (trap).', 'Throwing the chips in the bin is a waste (nope).'],
     secrets: [],
@@ -37,7 +39,8 @@
         O('parasol', 6, 22, 40, 44, { kind: 'static', art: 'c-parasol', label: 'Big beach parasol' }),
         O('shade', 4, 66, 44, 14, { text: 'deep shade', label: 'Deep shade under the parasol (drop zone)', zone: true, free: true, cls: 'tag-card', hidden: s.shade }),
         O('bin', 80, 70, 14, 18, { art: 'bin', label: 'Litter bin (drop zone)', zone: true, free: true }),
-        O('chips', s.shade ? 18 : 58, s.shade ? 64 : 62, 16, 16, { art: 'c-chips', label: s.shade ? 'Your chips, hidden in the shade (drag them, or tap to eat)' : 'Your chips, out in the open (drag them, or tap to eat)', drag: true })
+        O('chips', s.shade ? 18 : 58, s.shade ? 64 : 62, 16, 16, { art: 'c-chips', label: s.shade ? 'Your chips, hidden in the shade' : 'Your chips, out in the open (drag them somewhere)', drag: !s.shade, free: s.shade }),
+        O('eat', 52, 84, 26, 12, { text: 'EAT', label: s.shade ? 'Eat your chips (they are in the shade)' : 'Eat your chips (they are out in the open)', cls: 'btn-card accent' })
       ];
     },
 
@@ -45,7 +48,7 @@
       if (a.type === 'tap' && a.target === 'gull') { api.say('The gull blinks. Slowly. It has done this before.', 'suspicious'); return true; }
       if (a.type === 'tap' && a.target === 'shade') { api.say('A parasol. Lovely deep shade. Not that you need it. The sun is your friend. The gull is your friend.', 'neutral'); return true; }
       if (a.type === 'tap' && a.target === 'bin') { api.say('A bin. It smells of yesterday\'s chips. The gull visits it often.', 'neutral'); return true; }
-      if (a.type === 'tap' && a.target === 'chips') {
+      if (a.type === 'tap' && (a.target === 'eat' || (a.target === 'chips' && s.shade))) {
         if (!s.shade) api.fail('SWOOP! The gull took the chips, the fork and a bit of your dignity. Bossworth buys you another portion. Grudgingly.');
         else api.complete({ line: 'Munch, munch, in total darkness. The gull is staring at an empty patch of sand, confused. I… also want chips now.', mood: 'defeated' });
         return true;
@@ -67,9 +70,9 @@
       return true;
     },
 
-    solution: [{ drop: ['chips', 'shade'] }, { tap: 'chips' }],
+    solution: [{ drop: ['chips', 'shade'] }, { tap: 'eat' }],
     checks: [
-      { name: 'eat in the open', steps: [{ tap: 'chips' }], expect: 'fail' },
+      { name: 'eat in the open', steps: [{ tap: 'eat' }], expect: 'fail' },
       { name: 'bin the chips', steps: [{ drop: ['chips', 'bin'] }], expect: 'nope' },
       { name: 'hide only', steps: [{ drop: ['chips', 'shade'] }], expect: 'playing' }
     ],

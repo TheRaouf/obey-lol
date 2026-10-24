@@ -1,0 +1,734 @@
+
+> obey-lol@2.1.0 test:e2e
+> node --test --test-concurrency=1 tests/e2e/*.e2e.test.js
+
+TAP version 13
+# Subtest: first launch: difficulty, tutorial, then the full 136-level campaign via the UI, ending in the Hero ending
+ok 1 - first launch: difficulty, tutorial, then the full 136-level campaign via the UI, ending in the Hero ending
+  ---
+  duration_ms: 89166.442308
+  type: 'test'
+  ...
+# Subtest: map progression: locked levels cannot be opened; completing unlocks the next node immediately
+ok 2 - map progression: locked levels cannot be opened; completing unlocks the next node immediately
+  ---
+  duration_ms: 2148.234329
+  type: 'test'
+  ...
+# Subtest: replay: worse result keeps the best stars; better result improves them
+ok 3 - replay: worse result keeps the best stars; better result improves them
+  ---
+  duration_ms: 2953.887558
+  type: 'test'
+  ...
+# Subtest: alternative paths: every recorded choice can be made through the UI
+ok 4 - alternative paths: every recorded choice can be made through the UI
+  ---
+  duration_ms: 2377.605417
+  type: 'test'
+  ...
+# Subtest: Chaos ending via dragging the fuse; endings gallery replay
+ok 5 - Chaos ending via dragging the fuse; endings gallery replay
+  ---
+  duration_ms: 6164.562021
+  type: 'test'
+  ...
+# Subtest: Secret Master ending requires all 15 secrets and Level 136
+ok 6 - Secret Master ending requires all 15 secrets and Level 136
+  ---
+  duration_ms: 3300.701011
+  type: 'test'
+  ...
+# Subtest: all 15 secrets: discoverable via the UI, counted once, persisted after reload
+ok 7 - all 15 secrets: discoverable via the UI, counted once, persisted after reload
+  ---
+  duration_ms: 7631.994293
+  type: 'test'
+  ...
+# Subtest: field notes: undiscovered secrets show clues only for reached levels
+ok 8 - field notes: undiscovered secrets show clues only for reached levels
+  ---
+  duration_ms: 681.814798
+  type: 'test'
+  ...
+# Subtest: costumes: locked ones cannot be worn; all 8 selectable, visible and persistent
+ok 9 - costumes: locked ones cannot be worn; all 8 selectable, visible and persistent
+  ---
+  duration_ms: 3019.128931
+  type: 'test'
+  ...
+# Subtest: themes: unlock rules, selection changes real presentation, persistence
+ok 10 - themes: unlock rules, selection changes real presentation, persistence
+  ---
+  duration_ms: 1939.640462
+  type: 'test'
+  ...
+# Subtest: achievements screen: locked/unlocked states and progress match the save
+ok 11 - achievements screen: locked/unlocked states and progress match the save
+  ---
+  duration_ms: 1358.06636
+  type: 'test'
+  ...
+# Subtest: every main menu control works and returns to the menu
+ok 12 - every main menu control works and returns to the menu
+  ---
+  duration_ms: 3494.936283
+  type: 'test'
+  ...
+# Subtest: New Game: cancel keeps progress; confirm resets the campaign but keeps cosmetics
+ok 13 - New Game: cancel keeps progress; confirm resets the campaign but keeps cosmetics
+  ---
+  duration_ms: 840.774319
+  type: 'test'
+  ...
+# Subtest: Reset all progress requires confirmation
+ok 14 - Reset all progress requires confirmation
+  ---
+  duration_ms: 1191.825809
+  type: 'test'
+  ...
+# Subtest: hints are graduated and do not change the level; restart gives a clean attempt
+ok 15 - hints are graduated and do not change the level; restart gives a clean attempt
+  ---
+  duration_ms: 845.983089
+  type: 'test'
+  ...
+# Subtest: timers stop when leaving a level (no completion in the background)
+ok 16 - timers stop when leaving a level (no completion in the background)
+  ---
+  duration_ms: 685.316893
+  type: 'test'
+  ...
+# Subtest: rapid repeated input completes once and rewards once
+ok 17 - rapid repeated input completes once and rewards once
+  ---
+  duration_ms: 607.226301
+  type: 'test'
+  ...
+# Subtest: keyboard only: tap, pick-and-place and hold all work
+ok 18 - keyboard only: tap, pick-and-place and hold all work
+  ---
+  duration_ms: 1464.346312
+  type: 'test'
+  ...
+# Subtest: touch input: tap, tap-to-place and press-and-hold on a phone viewport
+ok 19 - touch input: tap, tap-to-place and press-and-hold on a phone viewport
+  ---
+  duration_ms: 1218.730671
+  type: 'test'
+  ...
+# Subtest: progress, settings, cosmetics, achievements and endings survive reload
+ok 20 - progress, settings, cosmetics, achievements and endings survive reload
+  ---
+  duration_ms: 956.35463
+  type: 'test'
+  ...
+# Subtest: malformed save data does not crash; the game starts fresh and keeps a backup
+ok 21 - malformed save data does not crash; the game starts fresh and keeps a backup
+  ---
+  duration_ms: 600.443192
+  type: 'test'
+  ...
+# Subtest: obsolete v1 save is migrated
+ok 22 - obsolete v1 save is migrated
+  ---
+  duration_ms: 542.702163
+  type: 'test'
+  ...
+# Subtest: storage that throws: game still runs with an in-memory save and a warning
+ok 23 - storage that throws: game still runs with an in-memory save and a warning
+  ---
+  duration_ms: 729.731111
+  type: 'test'
+  ...
+# Subtest: tutorial: skippable, saved, replayable from settings
+ok 24 - tutorial: skippable, saved, replayable from settings
+  ---
+  duration_ms: 1228.148895
+  type: 'test'
+  ...
+# Subtest: sound toggle, reduced motion (system and manual), text size
+ok 25 - sound toggle, reduced motion (system and manual), text size
+  ---
+  duration_ms: 1052.959888
+  type: 'test'
+  ...
+# Subtest: interactive stage objects have accessible names; no image-only buttons
+ok 26 - interactive stage objects have accessible names; no image-only buttons
+  ---
+  duration_ms: 2438.197745
+  type: 'test'
+  ...
+# Subtest: the game runs from file:// (no server) with saving
+ok 27 - the game runs from file:// (no server) with saving
+  ---
+  duration_ms: 1100.444635
+  type: 'test'
+  ...
+# Subtest: iPad 9.7" landscape (1024×768): every level's stage fits on screen without scrolling; no sideways overflow
+ok 28 - iPad 9.7" landscape (1024×768): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 3718.272918
+  type: 'test'
+  ...
+# Subtest: iPad 9.7" portrait (768×1024): every level's stage fits on screen without scrolling; no sideways overflow
+ok 29 - iPad 9.7" portrait (768×1024): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 2902.34884
+  type: 'test'
+  ...
+# Subtest: iPad Air / 10.9" landscape (1180×820): every level's stage fits on screen without scrolling; no sideways overflow
+ok 30 - iPad Air / 10.9" landscape (1180×820): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 2612.661089
+  type: 'test'
+  ...
+# Subtest: iPad Air / 10.9" portrait (820×1180): every level's stage fits on screen without scrolling; no sideways overflow
+ok 31 - iPad Air / 10.9" portrait (820×1180): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 3455.454817
+  type: 'test'
+  ...
+# Subtest: iPad Pro 11" landscape (1194×834): every level's stage fits on screen without scrolling; no sideways overflow
+ok 32 - iPad Pro 11" landscape (1194×834): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 3045.72865
+  type: 'test'
+  ...
+# Subtest: iPad Pro 11" portrait (834×1194): every level's stage fits on screen without scrolling; no sideways overflow
+ok 33 - iPad Pro 11" portrait (834×1194): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 2958.830227
+  type: 'test'
+  ...
+# Subtest: iPad Pro 12.9" landscape (1366×1024): every level's stage fits on screen without scrolling; no sideways overflow
+ok 34 - iPad Pro 12.9" landscape (1366×1024): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 3000.923275
+  type: 'test'
+  ...
+# Subtest: iPad Pro 12.9" portrait (1024×1366): every level's stage fits on screen without scrolling; no sideways overflow
+ok 35 - iPad Pro 12.9" portrait (1024×1366): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 3021.513233
+  type: 'test'
+  ...
+# Subtest: iPad mini landscape (1133×744): every level's stage fits on screen without scrolling; no sideways overflow
+ok 36 - iPad mini landscape (1133×744): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 2842.607552
+  type: 'test'
+  ...
+# Subtest: iPad mini portrait (744×1133): every level's stage fits on screen without scrolling; no sideways overflow
+ok 37 - iPad mini portrait (744×1133): every level's stage fits on screen without scrolling; no sideways overflow
+  ---
+  duration_ms: 2639.125791
+  type: 'test'
+  ...
+# Subtest: Slide Over (320×1024): levels and screens have no sideways overflow and the stage stays square and visible
+ok 38 - Slide Over (320×1024): levels and screens have no sideways overflow and the stage stays square and visible
+  ---
+  duration_ms: 3655.499644
+  type: 'test'
+  ...
+# Subtest: Split View 1/3 (375×1024): levels and screens have no sideways overflow and the stage stays square and visible
+ok 39 - Split View 1/3 (375×1024): levels and screens have no sideways overflow and the stage stays square and visible
+  ---
+  duration_ms: 3694.379736
+  type: 'test'
+  ...
+# Subtest: Split View 1/2 (9.7") (507×768): levels and screens have no sideways overflow and the stage stays square and visible
+ok 40 - Split View 1/2 (9.7") (507×768): levels and screens have no sideways overflow and the stage stays square and visible
+  ---
+  duration_ms: 3317.487775
+  type: 'test'
+  ...
+# Subtest: Split View 1/2 (12.9") (678×1024): levels and screens have no sideways overflow and the stage stays square and visible
+ok 41 - Split View 1/2 (12.9") (678×1024): levels and screens have no sideways overflow and the stage stays square and visible
+  ---
+  duration_ms: 3609.142924
+  type: 'test'
+  ...
+# Subtest: Split View 2/3 (11") (694×834): levels and screens have no sideways overflow and the stage stays square and visible
+ok 42 - Split View 2/3 (11") (694×834): levels and screens have no sideways overflow and the stage stays square and visible
+  ---
+  duration_ms: 3375.109889
+  type: 'test'
+  ...
+# Subtest: Split View 2/3 (12.9") (981×1024): levels and screens have no sideways overflow and the stage stays square and visible
+ok 43 - Split View 2/3 (12.9") (981×1024): levels and screens have no sideways overflow and the stage stays square and visible
+  ---
+  duration_ms: 4096.689311
+  type: 'test'
+  ...
+# Subtest: touch play on iPad: tap, tap-to-pick/tap-to-place, press-and-hold with a finger
+ok 44 - touch play on iPad: tap, tap-to-pick/tap-to-place, press-and-hold with a finger
+  ---
+  duration_ms: 1078.901515
+  type: 'test'
+  ...
+# Subtest: rotating the iPad mid-level keeps the attempt, the held item and focus
+ok 45 - rotating the iPad mid-level keeps the attempt, the held item and focus
+  ---
+  duration_ms: 904.092561
+  type: 'test'
+  ...
+# Subtest: Magic Keyboard on iPad: shortcuts and full keyboard play
+ok 46 - Magic Keyboard on iPad: shortcuts and full keyboard play
+  ---
+  duration_ms: 707.721605
+  type: 'test'
+  ...
+# Subtest: Safari touch hygiene: no double-tap zoom, no long-press menu or text selection on game controls
+ok 47 - Safari touch hygiene: no double-tap zoom, no long-press menu or text selection on game controls
+  ---
+  duration_ms: 551.287615
+  type: 'test'
+  ...
+# Subtest: D1: keyboard focus stays on the object used, including across timer re-renders
+ok 48 - D1: keyboard focus stays on the object used, including across timer re-renders
+  ---
+  duration_ms: 934.375585
+  type: 'test'
+  ...
+# Subtest: D2: releasing a keyboard hold early cancels it; key state never gets stuck
+ok 49 - D2: releasing a keyboard hold early cancels it; key state never gets stuck
+  ---
+  duration_ms: 731.990767
+  type: 'test'
+  ...
+# Subtest: D3: pointer hold released outside the stage ends the hold
+ok 50 - D3: pointer hold released outside the stage ends the hold
+  ---
+  duration_ms: 829.559666
+  type: 'test'
+  ...
+# Subtest: D4: completion card is modal — Tab cannot reach the level underneath
+ok 51 - D4: completion card is modal — Tab cannot reach the level underneath
+  ---
+  duration_ms: 1041.114343
+  type: 'test'
+  ...
+# Subtest: D5: dark-scene buttons and sunset legends are readable
+ok 52 - D5: dark-scene buttons and sunset legends are readable
+  ---
+  duration_ms: 516.540707
+  type: 'test'
+  ...
+# Subtest: D7: Replay from the completion card counts as a replay (Déjà Vu note appears)
+ok 53 - D7: Replay from the completion card counts as a replay (Déjà Vu note appears)
+  ---
+  duration_ms: 1083.673886
+  type: 'test'
+  ...
+# Subtest: D8: browser Back closes an open confirm dialog and the tutorial
+ok 54 - D8: browser Back closes an open confirm dialog and the tutorial
+  ---
+  duration_ms: 693.325566
+  type: 'test'
+  ...
+# Subtest: D9: pressing on the gift and then dragging it still delivers it
+ok 55 - D9: pressing on the gift and then dragging it still delivers it
+  ---
+  duration_ms: 849.722145
+  type: 'test'
+  ...
+# Subtest: latent: re-entering the same level never runs two attempts at once
+ok 56 - latent: re-entering the same level never runs two attempts at once
+  ---
+  duration_ms: 602.730386
+  type: 'test'
+  ...
+# Subtest: QA2-D1: a move outside the walkthrough restarts it, so following it always solves the level
+ok 57 - QA2-D1: a move outside the walkthrough restarts it, so following it always solves the level
+  ---
+  duration_ms: 1936.450909
+  type: 'test'
+  ...
+# Subtest: QA2-D2: a hold that is too short does not advance the walkthrough
+ok 58 - QA2-D2: a hold that is too short does not advance the walkthrough
+  ---
+  duration_ms: 839.906911
+  type: 'test'
+  ...
+# Subtest: QA2-D3/D4: migrated 1.x save — continue order, final level unlocks, replaying the finale skips nothing
+ok 59 - QA2-D3/D4: migrated 1.x save — continue order, final level unlocks, replaying the finale skips nothing
+  ---
+  duration_ms: 795.055945
+  type: 'test'
+  ...
+# Subtest: QA2-D5: on Hard, the Level 3 walkthrough waits for the full 15-second countdown
+ok 60 - QA2-D5: on Hard, the Level 3 walkthrough waits for the full 15-second countdown
+  ---
+  duration_ms: 2695.985466
+  type: 'test'
+  ...
+# Subtest: QA2-D6: stopping the walkthrough gives a normally scored attempt and keeps the guide available
+ok 61 - QA2-D6: stopping the walkthrough gives a normally scored attempt and keeps the guide available
+  ---
+  duration_ms: 1238.205412
+  type: 'test'
+  ...
+# Subtest: QA2-D7: the difficulty picker returns focus and marks the current choice for assistive tech
+ok 62 - QA2-D7: the difficulty picker returns focus and marks the current choice for assistive tech
+  ---
+  duration_ms: 572.646436
+  type: 'test'
+  ...
+# Subtest: QA2-D8: the trap card is announced and scrolled into view
+ok 63 - QA2-D8: the trap card is announced and scrolled into view
+  ---
+  duration_ms: 1176.485408
+  type: 'test'
+  ...
+# Subtest: QA2-D9: the walkthrough panel is not rebuilt on every timer tick
+ok 64 - QA2-D9: the walkthrough panel is not rebuilt on every timer tick
+  ---
+  duration_ms: 632.71523
+  type: 'test'
+  ...
+# Subtest: QA2-D10: the "nope" sticker shows even when the object changes its picture
+ok 65 - QA2-D10: the "nope" sticker shows even when the object changes its picture
+  ---
+  duration_ms: 668.111013
+  type: 'test'
+  ...
+# Subtest: QA2-D11: Escape in the New Game difficulty picker still starts the new game
+ok 66 - QA2-D11: Escape in the New Game difficulty picker still starts the new game
+  ---
+  duration_ms: 729.166192
+  type: 'test'
+  ...
+# Subtest: QA3-D1: with storage blocked, switching players and back keeps progress
+ok 67 - QA3-D1: with storage blocked, switching players and back keeps progress
+  ---
+  duration_ms: 956.397142
+  type: 'test'
+  ...
+# Subtest: QA3-D2: timed levels pause behind dialogs, so Skip cannot misreport a finished level
+ok 68 - QA3-D2: timed levels pause behind dialogs, so Skip cannot misreport a finished level
+  ---
+  duration_ms: 745.876086
+  type: 'test'
+  ...
+# Subtest: QA3-D3/D14: Easy sparkle and "Point me" follow the solution — never wrong moves or finished steps
+ok 69 - QA3-D3/D14: Easy sparkle and "Point me" follow the solution — never wrong moves or finished steps
+  ---
+  duration_ms: 947.442008
+  type: 'test'
+  ...
+# Subtest: QA3-D4: hold assist leaves drag-and-hold objects holdable from the keyboard (Level 9 secret)
+ok 70 - QA3-D4: hold assist leaves drag-and-hold objects holdable from the keyboard (Level 9 secret)
+  ---
+  duration_ms: 558.770214
+  type: 'test'
+  ...
+# Subtest: QA3-D5: the stage fits without scrolling in a 694×768 window
+ok 71 - QA3-D5: the stage fits without scrolling in a 694×768 window
+  ---
+  duration_ms: 600.508062
+  type: 'test'
+  ...
+# Subtest: QA3-D5: the stage fits without scrolling in a 584×820 window
+ok 72 - QA3-D5: the stage fits without scrolling in a 584×820 window
+  ---
+  duration_ms: 589.207049
+  type: 'test'
+  ...
+# Subtest: QA3-D5: the stage fits without scrolling in a 844×390 window
+ok 73 - QA3-D5: the stage fits without scrolling in a 844×390 window
+  ---
+  duration_ms: 558.928549
+  type: 'test'
+  ...
+# Subtest: QA3-D5: the stage fits without scrolling in a 1180×500 window
+ok 74 - QA3-D5: the stage fits without scrolling in a 1180×500 window
+  ---
+  duration_ms: 560.521073
+  type: 'test'
+  ...
+# Subtest: QA3-D5: the stage fits without scrolling in a 667×375 window
+ok 75 - QA3-D5: the stage fits without scrolling in a 667×375 window
+  ---
+  duration_ms: 645.43301
+  type: 'test'
+  ...
+# Subtest: QA3-D6/D17: sliders stay usable and the menu never scrolls sideways at 320 px with extra-large text
+ok 76 - QA3-D6/D17: sliders stay usable and the menu never scrolls sideways at 320 px with extra-large text
+  ---
+  duration_ms: 523.245989
+  type: 'test'
+  ...
+# Subtest: QA3-D9/D16: bonus label in Settings; corrupt profile save warns when switching
+ok 77 - QA3-D9/D16: bonus label in Settings; corrupt profile save warns when switching
+  ---
+  duration_ms: 656.470126
+  type: 'test'
+  ...
+# Subtest: QA3-D10: "you did this PROPERLY before" only after a proper finish
+ok 78 - QA3-D10: "you did this PROPERLY before" only after a proper finish
+  ---
+  duration_ms: 9656.655923
+  type: 'test'
+  ...
+# Subtest: QA3-D12/D13: music follows the chapter; no U.N.D.O. tip after the level is finished
+ok 79 - QA3-D12/D13: music follows the chapter; no U.N.D.O. tip after the level is finished
+  ---
+  duration_ms: 1010.74791
+  type: 'test'
+  ...
+# Subtest: QA3-D15: a dialog opened from a dialog keeps the page inert; Escape closes only the top one
+ok 80 - QA3-D15: a dialog opened from a dialog keeps the page inert; Escape closes only the top one
+  ---
+  duration_ms: 661.225665
+  type: 'test'
+  ...
+# Subtest: QA3-D18: U.N.D.O. header text is readable in high-contrast mode
+ok 81 - QA3-D18: U.N.D.O. header text is readable in high-contrast mode
+  ---
+  duration_ms: 554.591444
+  type: 'test'
+  ...
+# Subtest: viewport 320x700: all main screens, levels and overlays fit
+ok 82 - viewport 320x700: all main screens, levels and overlays fit
+  ---
+  duration_ms: 9025.895807
+  type: 'test'
+  ...
+# Subtest: viewport 390x844: all main screens, levels and overlays fit
+ok 83 - viewport 390x844: all main screens, levels and overlays fit
+  ---
+  duration_ms: 9255.401853
+  type: 'test'
+  ...
+# Subtest: viewport 768x1024: all main screens, levels and overlays fit
+ok 84 - viewport 768x1024: all main screens, levels and overlays fit
+  ---
+  duration_ms: 9445.083096
+  type: 'test'
+  ...
+# Subtest: viewport 1365x900: all main screens, levels and overlays fit
+ok 85 - viewport 1365x900: all main screens, levels and overlays fit
+  ---
+  duration_ms: 9875.940305
+  type: 'test'
+  ...
+# Subtest: viewport 1920x1080: all main screens, levels and overlays fit
+ok 86 - viewport 1920x1080: all main screens, levels and overlays fit
+  ---
+  duration_ms: 9786.004476
+  type: 'test'
+  ...
+# Subtest: resizing the window keeps the layout valid
+ok 87 - resizing the window keeps the layout valid
+  ---
+  duration_ms: 1004.305786
+  type: 'test'
+  ...
+# Subtest: difficulty: chosen on first play, shown in the level, changeable in settings, applies next attempt
+ok 88 - difficulty: chosen on first play, shown in the level, changeable in settings, applies next attempt
+  ---
+  duration_ms: 2019.878369
+  type: 'test'
+  ...
+# Subtest: Hard: one hint per level and stricter stars
+ok 89 - Hard: one hint per level and stricter stars
+  ---
+  duration_ms: 864.814814
+  type: 'test'
+  ...
+# Subtest: wrong answer: slapstick gag, laughing Bossworth, sound, and a "how to do it right" card
+ok 90 - wrong answer: slapstick gag, laughing Bossworth, sound, and a "how to do it right" card
+  ---
+  duration_ms: 1545.208187
+  type: 'test'
+  ...
+# Subtest: harmless wrong move: "nope" shake, sticker and buzzer without resetting the room
+ok 91 - harmless wrong move: "nope" shake, sticker and buzzer without resetting the room
+  ---
+  duration_ms: 649.948676
+  type: 'test'
+  ...
+# Subtest: Show me how (Medium): locked at first, unlocked by a trap, walks every step, 1-star guided result
+ok 92 - Show me how (Medium): locked at first, unlocked by a trap, walks every step, 1-star guided result
+  ---
+  duration_ms: 2395.723127
+  type: 'test'
+  ...
+# Subtest: Show me how: Easy has it immediately and handles waits; Hard needs 3 traps; a trap restarts the guide
+ok 93 - Show me how: Easy has it immediately and handles waits; Hard needs 3 traps; a trap restarts the guide
+  ---
+  duration_ms: 4251.593478
+  type: 'test'
+  ...
+# Subtest: Bossworth talks: every line is voiced with his costume and mood, and his mouth moves
+ok 94 - Bossworth talks: every line is voiced with his costume and mood, and his mouth moves
+  ---
+  duration_ms: 610.654298
+  type: 'test'
+  ...
+# Subtest: voice settings: real speech uses the browser voice; silent mode stays silent
+ok 95 - voice settings: real speech uses the browser voice; silent mode stays silent
+  ---
+  duration_ms: 745.237853
+  type: 'test'
+  ...
+# Subtest: trophies: chapter cup won through play, upgraded on a harder difficulty, shown in the trophy room
+ok 96 - trophies: chapter cup won through play, upgraded on a harder difficulty, shown in the trophy room
+  ---
+  duration_ms: 1793.125793
+  type: 'test'
+  ...
+# Subtest: Easy helper: after 25 idle seconds Bossworth's helper shows the next hint for free
+ok 97 - Easy helper: after 25 idle seconds Bossworth's helper shows the next hint for free
+  ---
+  duration_ms: 575.717257
+  type: 'test'
+  ...
+# Subtest: sound events: completion fanfare, stamp, pick/drop and hold sounds are requested
+ok 98 - sound events: completion fanfare, stamp, pick/drop and hold sounds are requested
+  ---
+  duration_ms: 1049.012162
+  type: 'test'
+  ...
+# Subtest: ruin it: pressing the red button 8 times ruins Level 1, files it, and marks the map
+ok 99 - ruin it: pressing the red button 8 times ruins Level 1, files it, and marks the map
+  ---
+  duration_ms: 6526.994212
+  type: 'test'
+  ...
+# Subtest: skip: "Let it be" opens the next level, marks the skipped one, and Continue moves on
+ok 100 - skip: "Let it be" opens the next level, marks the skipped one, and Continue moves on
+  ---
+  duration_ms: 879.634661
+  type: 'test'
+  ...
+# Subtest: jigsaw: a piece hides only on replays of a finished level; finding it is saved once
+ok 101 - jigsaw: a piece hides only on replays of a finished level; finding it is saved once
+  ---
+  duration_ms: 1250.281362
+  type: 'test'
+  ...
+# Subtest: Sabotage Studio: locked before Level 12; bonus levels play, ruin, and keep their own results
+ok 102 - Sabotage Studio: locked before Level 12; bonus levels play, ruin, and keep their own results
+  ---
+  duration_ms: 3041.640127
+  type: 'test'
+  ...
+# Subtest: Daily Dare: today's level, a met dare starts a streak, the menu remembers it
+ok 103 - Daily Dare: today's level, a met dare starts a streak, the menu remembers it
+  ---
+  duration_ms: 1081.713242
+  type: 'test'
+  ...
+# Subtest: U.N.D.O. introduces itself at Level 9, leaks one chapter chat, and tips a ruin after a trap
+ok 104 - U.N.D.O. introduces itself at Level 9, leaks one chapter chat, and tips a ruin after a trap
+  ---
+  duration_ms: 814.065843
+  type: 'test'
+  ...
+# Subtest: narrator asides: replay line, "let me finish", idle lines, nudge offer with a working hint button
+ok 105 - narrator asides: replay line, "let me finish", idle lines, nudge offer with a working hint button
+  ---
+  duration_ms: 1702.362278
+  type: 'test'
+  ...
+# Subtest: fake game over appears once after 3 traps (non-blocking), then the game carries on
+ok 106 - fake game over appears once after 3 traps (non-blocking), then the game carries on
+  ---
+  duration_ms: 5337.961628
+  type: 'test'
+  ...
+# Subtest: chapter card on a new chapter, and a performance review when the chapter is finished
+ok 107 - chapter card on a new chapter, and a performance review when the chapter is finished
+  ---
+  duration_ms: 1160.905164
+  type: 'test'
+  ...
+# Subtest: completion extras: the trick, personal best, share text, and "Replay on Hard"
+ok 108 - completion extras: the trick, personal best, share text, and "Replay on Hard"
+  ---
+  duration_ms: 1101.553602
+  type: 'test'
+  ...
+# Subtest: save code: copy from Settings, load it back (after a reset) with a confirmation
+ok 109 - save code: copy from Settings, load it back (after a reset) with a confirmation
+  ---
+  duration_ms: 1003.506141
+  type: 'test'
+  ...
+# Subtest: profiles: up to 3 players with separate progress and names
+ok 110 - profiles: up to 3 players with separate progress and names
+  ---
+  duration_ms: 1197.127088
+  type: 'test'
+  ...
+# Subtest: accessibility options: high contrast, extra-large text, plain font, left-handed layout
+ok 111 - accessibility options: high contrast, extra-large text, plain font, left-handed layout
+  ---
+  duration_ms: 752.869865
+  type: 'test'
+  ...
+# Subtest: hold assist: tap to start holding, tap again to let go (Wet Paint), also with the keyboard
+ok 112 - hold assist: tap to start holding, tap again to let go (Wet Paint), also with the keyboard
+  ---
+  duration_ms: 1184.817248
+  type: 'test'
+  ...
+# Subtest: sound captions show every effect as text; vibration is requested on traps when supported
+ok 113 - sound captions show every effect as text; vibration is requested on traps when supported
+  ---
+  duration_ms: 736.05779
+  type: 'test'
+  ...
+# Subtest: chapter music plays only in levels and stops when leaving; volumes are saved
+ok 114 - chapter music plays only in levels and stops when leaving; volumes are saved
+  ---
+  duration_ms: 510.499116
+  type: 'test'
+  ...
+# Subtest: keyboard shortcuts: H, R, G, M, N and ? work; arrow keys move along the map
+ok 115 - keyboard shortcuts: H, R, G, M, N and ? work; arrow keys move along the map
+  ---
+  duration_ms: 913.568993
+  type: 'test'
+  ...
+# Subtest: "Point me": the last hint highlights the first thing to use; Easy sparkles on correct moves
+ok 116 - "Point me": the last hint highlights the first thing to use; Easy sparkles on correct moves
+  ---
+  duration_ms: 793.199517
+  type: 'test'
+  ...
+# Subtest: menu: what's new (once), next goal, trust line; stats file and joke achievements
+ok 117 - menu: what's new (once), next goal, trust line; stats file and joke achievements
+  ---
+  duration_ms: 880.613809
+  type: 'test'
+  ...
+# Subtest: brand-new players do not see "What's new"; they get an intern number
+ok 118 - brand-new players do not see "What's new"; they get an intern number
+  ---
+  duration_ms: 575.921281
+  type: 'test'
+  ...
+# Subtest: endings show Bossworth's review of you, the bet payoff, and a spoiler-free share button
+ok 119 - endings show Bossworth's review of you, the bet payoff, and a spoiler-free share button
+  ---
+  duration_ms: 1710.29037
+  type: 'test'
+  ...
+# Subtest: installable app: manifest over http, service worker caches the game, and it reloads offline
+ok 120 - installable app: manifest over http, service worker caches the game, and it reloads offline
+  ---
+  duration_ms: 1433.342721
+  type: 'test'
+  ...
+1..120
+# tests 120
+# suites 0
+# pass 120
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 335035.248367

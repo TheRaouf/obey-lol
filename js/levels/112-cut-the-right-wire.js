@@ -58,7 +58,7 @@
         O('order', 4, 88, 40, 9, { kind: 'static', text: 'Wire 1 → wire 4', label: 'Wires are numbered 1 to 4 from left to right', cls: 'tag-card' })
       ];
       WIRES.forEach(function (w, i) {
-        objs.push(O('wire' + (i + 1), 5 + i * 10, 40, 9, 46, { art: 'd-wire', artOpts: { color: w.hex, cut: s.cut === i }, label: 'Wire ' + (i + 1) + ', ' + w.color + (s.cut === i ? ', cut' : '') }));
+        objs.push(O('wire' + (i + 1), 5 + i * 10, 40, 9, 46, { art: 'd-wire', artOpts: { color: w.hex, cut: s.cut === i, num: i + 1, letter: w.color.charAt(0).toUpperCase() }, label: 'Wire ' + (i + 1) + ', ' + w.color + (s.cut === i ? ', cut' : '') }));
       });
       objs.push(O('panic', 48, 76, 48, 20, { kind: 'static', text: 'Snip carefully. Snip once.', label: 'Snip carefully. Snip once.', cls: 'sign-card' }));
       return objs;

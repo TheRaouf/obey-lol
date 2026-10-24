@@ -32,13 +32,13 @@
 
     view: function (s) {
       var out = [
-        O('rules', 4, 4, 40, 22, { kind: 'static', text: 'LOOP-DE-LOOP RULES\n1. Be this tall →\n2. No crates. No stilts.', label: 'Ride rules: be as tall as the line. No crates, no stilts.', cls: 'book-card' }),
-        O('fine', 4, 27, 40, 8, { kind: 'static', text: 'Reg. 4b: height is measured to the top of your hat.', label: 'Small print: height is measured to the top of your hat.', cls: 'fine-print' }),
+        O('rules', 4, 3, 40, 30, { kind: 'static', text: 'LOOP-DE-LOOP RULES\n1. Be this tall →\n2. No crates. No stilts.', label: 'Ride rules: be as tall as the line. No crates, no stilts.', cls: 'book-card' }),
+        O('fine', 4, 34, 40, 7, { kind: 'static', text: 'Reg. 4b: height is measured to the top of your hat.', label: 'Small print: height is measured to the top of your hat.', cls: 'fine-print' }),
         O('sign', 44, 18, 10, 62, { kind: 'static', art: 'e-heightsign', label: 'Height sign: you must be this tall (the red line)' }),
         O('you', 56, 52, 14, 22, { art: 'hero', label: s.hat ? 'You, wearing a very tall hat: taller than the line' : 'You (shorter than the red line)', zone: true, free: true }),
         O('gate', 76, 30, 20, 46, { art: 'door', artOpts: { sign: 'RIDE' }, label: 'Ride gate' }),
-        O('crate', 4, 62, 16, 16, { art: 'crate', label: 'Wooden crate (drag it)', drag: true }),
-        O('stilts', 4, 36, 14, 24, { art: 'e-stilts', label: 'Stilts (drag them)', drag: true })
+        O('crate', 4, 65, 16, 16, { art: 'crate', label: 'Wooden crate (drag it)', drag: true }),
+        O('stilts', 4, 42, 14, 22, { art: 'e-stilts', label: 'Stilts (drag them)', drag: true })
       ];
       if (s.hat) out.push(O('hatOn', 56.5, 22, 13, 31, { kind: 'static', art: 'e-tallhat', label: '' }));
       else out.push(O('hat', 24, 44, 12, 30, { art: 'e-tallhat', label: 'Very tall top hat (drag it)', drag: true }));

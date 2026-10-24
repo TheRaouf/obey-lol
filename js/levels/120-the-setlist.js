@@ -51,7 +51,7 @@
         ? 'TONIGHT\'S SETLIST\n1. ' + NAMES.drum + ' (drums)\n2. ' + NAMES.horn + ' (trumpet)\n3. ' + NAMES.keys + ' (keyboard)'
         : 'SETLIST\n(confiscated by Bossworth "for security reasons")';
       return [
-        O('setlist', 4, 4, 58, 28, { kind: 'static', text: list, label: s.visible ? 'Setlist: 1 drums, 2 trumpet, 3 keyboard' : 'The setlist has been taken down', cls: 'book-card' }),
+        O('setlist', 4, 4, 58, 31, { kind: 'static', text: list, label: s.visible ? 'Setlist: 1 drums, 2 trumpet, 3 keyboard' : 'The setlist has been taken down', cls: 'book-card' }),
         O('ask', 66, 6, 30, 13, { text: 'Ask for the setlist', label: 'Ask to see the setlist again', cls: 'btn-card', disabled: s.visible }),
         O('progress', 66, 22, 30, 9, { kind: 'static', text: 'Songs played: ' + s.played + ' / 3', label: 'Songs played: ' + s.played + ' of 3', cls: 'tag-card' }),
         O('guitar', 4, 42, 22, 30, { art: 'e-guitar', label: 'Guitar' }),

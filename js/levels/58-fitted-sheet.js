@@ -35,7 +35,7 @@
 
     view: function (s) {
       return [
-        O('poster', 4, 4, 42, 30, { kind: 'static', text: 'HOW TO FOLD A FITTED SHEET\n\nStep 1 of 97: Weep.\nStep 2: Weep squarely.', label: 'Poster: how to fold a fitted sheet. Step 1 of 97: weep.', cls: 'book-card' }),
+        O('poster', 4, 4, 42, 34, { kind: 'static', text: 'HOW TO FOLD A FITTED SHEET\nStep 1 of 97: Weep.\nStep 2: Weep squarely.', label: 'Poster: how to fold a fitted sheet. Step 1 of 97: weep.', cls: 'book-card' }),
         O('sheet', 6, 42, 38, 26, { art: 'b-sheet', artOpts: { balled: s.folds }, drag: true, hidden: s.where !== 'floor', label: s.folds ? 'Fitted sheet, now a ball (drag it)' : 'Fitted sheet with elastic corners (drag it)' }),
         O('fold', 6, 74, 38, 12, { text: 'FOLD (corners in)', label: 'Try to fold the fitted sheet', cls: 'btn-card' }),
         O('bedtag', 52, 4, 44, 14, { kind: 'static', text: 'Mattress: bare.\nShivering slightly.', label: 'Note on the bed: the mattress is bare', cls: 'tag-card' }),

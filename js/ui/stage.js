@@ -25,7 +25,31 @@
     this.guideIds = [];    // objects highlighted by "Show me how"
     this.assist = null;    // hold assist: id of the object being held by tap-to-start / tap-to-stop
     this._bind();
+    var self = this, pending = false;
+    var refit = function () { if (pending) return; pending = true; (root.requestAnimationFrame || setTimeout)(function () { pending = false; self._fitText(); }); };
+    if (root.ResizeObserver) { this._ro = new root.ResizeObserver(refit); this._ro.observe(el); } else root.addEventListener('resize', refit);
   }
+
+  /** Text cards shrink their font (never below 10px, 9px for fine print) until the text fits the card.
+   *  Cards are sized in % of the stage while text has a readable minimum, so on small stages long text
+   *  would otherwise spill out of its card. */
+  Stage.prototype._fitText = function () {
+    this.nodes.forEach(function (node) {
+      if (node.hidden || node.classList.contains('has-art')) return;
+      var t = node.querySelector('.obj-text');
+      if (!t) return;
+      node.style.fontSize = '';
+      if (!node.offsetWidth) return;
+      var floor = node.classList.contains('fine-print') ? 9 : 10;
+      var fs = parseFloat(root.getComputedStyle(node).fontSize);
+      for (var i = 0; i < 40 && fs > floor; i++) {
+        var r = node.getBoundingClientRect(), q = t.getBoundingClientRect();
+        if (Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top) <= 1) break;
+        fs = Math.max(floor, fs - 0.5);
+        node.style.fontSize = fs + 'px';
+      }
+    });
+  };
 
   Stage.prototype._bind = function () {
     var self = this;
@@ -143,6 +167,7 @@
     });
     if (focusedId) this._restoreFocus(focusedId);
     this._syncNarratorZone();
+    this._fitText();
   };
 
   Stage.prototype._update = function (node, o, i) {

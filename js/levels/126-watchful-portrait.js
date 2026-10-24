@@ -38,7 +38,7 @@
       var look = s.step >= 3 ? 'down' : LOOK[target];
       return [
         O('portrait', 38, 4, 24, 30, { art: 'e-portrait', artOpts: { look: look }, label: 'Portrait of a stern duke. His eyes look ' + (s.step >= 3 ? 'pleased with you' : WHERE[target]) }),
-        O('plaque', 28, 36, 44, 7, { kind: 'static', text: 'Duke Ogleton (stares a lot)', label: '', cls: 'tag-card' }),
+        O('plaque', 28, 36, 44, 8.5, { kind: 'static', text: 'Duke Ogleton (stares a lot)', label: '', cls: 'tag-card' }),
         O('lamp', 4, 6, 12, 36, { art: 'lamp', artOpts: { on: true }, label: 'Standing lamp' }),
         O('clock', 76, 8, 20, 20, { art: 'clock', artOpts: { hour: s.clicked.clock ? 6 : 12 }, label: s.clicked.clock ? 'Clock (it clicked: the hand jumped to 6)' : 'Wall clock' }),
         O('vase', 4, 56, 18, 26, { art: 'e-vase', artOpts: { color: s.clicked.vase ? '#2bc46f' : '#9b5de5' }, label: s.clicked.vase ? 'Vase (it clicked and turned)' : 'Vase on a plinth' }),

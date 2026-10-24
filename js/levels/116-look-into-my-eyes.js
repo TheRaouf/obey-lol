@@ -41,7 +41,7 @@
 
     view: function (s) {
       var out = [
-        O('poster', 4, 4, 44, 26, { kind: 'static', text: 'THE GREAT BOSSWORTH\nHypnotist rule no. 1: whoever stares at the watch obeys.', label: 'Poster: whoever stares at the watch obeys', cls: 'book-card' }),
+        O('poster', 4, 3, 48, 30, { kind: 'static', text: 'THE GREAT BOSSWORTH\nHypnotist rule no. 1: whoever stares at the watch obeys.', label: 'Poster: whoever stares at the watch obeys', cls: 'book-card' }),
         O('watch', 56, 2, 28, 34, { art: 'e-watch', artOpts: { tilt: s.tray ? 0 : s.tilt }, label: 'Swinging pocket watch (stare at it)' }),
         O('tray', 52, 40, 30, s.tray ? 32 : 18, { art: 'e-tray', artOpts: { raised: s.tray }, label: s.tray ? 'Silver tray, raised: it reflects the watch at Bossworth' : 'Very shiny silver tray ("for biscuits")' }),
         O('door', 84, 38, 14, 36, { kind: 'static', art: 'door', artOpts: { sign: 'OUT', small: true }, label: 'Locked stage door' })
@@ -49,7 +49,7 @@
       if (!s.tray) {
         out.push(O('red', 8, 54, 30, 24, { art: 'bigbutton', label: 'Big red button ("stay forever")' }));
       } else {
-        out.push(O('cmdTitle', 4, 32, 44, 8, { kind: 'static', text: 'Bossworth is hypnotised. Command him:', label: '', cls: 'tag-card' }));
+        out.push(O('cmdTitle', 4, 34, 44, 8, { kind: 'static', text: 'Bossworth is hypnotised. Command him:', label: '', cls: 'tag-card' }));
         CMDS.forEach(function (c, i) {
           out.push(O(c.id, 4, 43 + i * 11, 44, 9.5, { text: c.text, label: 'Command: ' + c.text, cls: 'btn-card option' }));
         });

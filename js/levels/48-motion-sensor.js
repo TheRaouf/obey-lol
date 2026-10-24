@@ -34,8 +34,8 @@
       var status = s.unlocked ? 'UNLOCKED' : (s.hidden ? 'empty…?' : 'SEES YOU');
       return [
         O('door', 4, 6, 20, 46, { art: 'door', artOpts: { sign: s.unlocked ? 'OPEN' : 'LOCKED', small: true }, label: s.unlocked ? 'Door, unlocked' : 'Door, locked' }),
-        O('notice', 27, 6, 34, 30, { kind: 'static', text: 'SECURITY: after hours, doors UNLOCK once the sensor sees an empty office.', label: 'Security notice: after hours, doors unlock once the sensor sees an empty office', cls: 'book-card' }),
-        O('status', 27, 40, 34, 10, { kind: 'static', text: status, label: 'Sensor status: ' + status, cls: 'display-card' + (s.unlocked ? ' ready' : '') }),
+        O('notice', 27, 5, 34, 36, { kind: 'static', text: 'SECURITY: after hours, doors UNLOCK when the sensor sees an empty office.', label: 'Security notice: after hours, doors unlock once the sensor sees an empty office', cls: 'book-card' }),
+        O('status', 27, 42.5, 34, 10, { kind: 'static', text: status, label: 'Sensor status: ' + status, cls: 'display-card' + (s.unlocked ? ' ready' : '') }),
         O('cone', 44, 10, 54, 90, { kind: 'static', art: 'a-cone', artOpts: { on: !s.hidden }, label: 'The sensor\'s field of view covers the right side of the room' }),
         O('sensor', 84, 2, 14, 10, { kind: 'static', art: 'a-sensor', artOpts: { on: !s.hidden }, label: 'Ceiling motion sensor' }),
         O('desk', 4, 58, 40, 26, { kind: 'static', art: 'a-desk', label: 'Desk with a dark space underneath' }),

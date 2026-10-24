@@ -42,7 +42,7 @@
       var done = Object.keys(s.placed).length;
       var objs = [
         O('shelf', 4, 4, 60, 24, { kind: 'static', art: 'b-dustshelf', artOpts: { filled: { pot: s.placed.plant, mug: s.placed.mug, frame: s.placed.frame } }, label: 'Dusty shelf with clean outlines: a flowerpot shape, a mug shape and a tall frame shape' }),
-        O('note', 68, 4, 28, 24, { kind: 'static', text: 'Back at 6! Please leave everything EXACTLY where it was. — The Owners', label: 'Owners\' note: please leave everything exactly where it was', cls: 'ticket-card' })
+        O('note', 66, 4, 30, 27, { kind: 'static', text: 'Back at 6! Please leave everything EXACTLY where it was. — The Owners', label: 'Owners\' note: please leave everything exactly where it was', cls: 'ticket-card' })
       ];
       Object.keys(SLOTS).forEach(function (k) {
         var r = SLOTS[k];

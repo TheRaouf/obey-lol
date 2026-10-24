@@ -36,7 +36,7 @@
         O('caption', 28, 48, 36, 9, { kind: 'static', text: 'Read daily!*', label: 'Caption: read daily', cls: 'tag-card' }),
         O('fine', 28, 58, 36, 6, { kind: 'static', text: '*by the shredder', label: 'Fine print: by the shredder', cls: 'fine-print' }),
         O('board', 68, 4, 28, 22, { art: 'a-noticeboard', label: 'Staff noticeboard', zone: true }),
-        O('handbook', 67, 30, 31, 42, { kind: 'static', text: 'HANDBOOK p.3\nSuggestions handed to the boss in person must be read aloud.', label: 'Staff handbook page 3: a suggestion handed to the boss in person must be read aloud', cls: 'book-card' }),
+        O('handbook', 67, 28, 31, 48, { kind: 'static', text: 'HANDBOOK p.3\nSuggestions handed to the boss in person must be read aloud.', label: 'Staff handbook page 3: a suggestion handed to the boss in person must be read aloud', cls: 'book-card' }),
         O('slip', 6, 68, 30, 24, { text: 'SUGGESTION:\nLet the player go home.', label: 'Your suggestion slip: let the player go home (drag it)', cls: 'ticket-card', drag: true }),
         O('plant', 4, 6, 12, 26, { art: 'plant', label: 'Office plant', free: true })
       ];

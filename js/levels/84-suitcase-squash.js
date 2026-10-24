@@ -33,8 +33,8 @@
 
     view: function (s) {
       return [
-        O('tip', 4, 4, 56, 12, { kind: 'static', text: 'TRAVEL TIP: too full? SIT ON IT!', label: 'Sticker on the wall: travel tip, too full? Sit on it!', cls: 'sign-card' }),
-        O('hotel', 66, 4, 30, 12, { kind: 'static', text: 'Check-out: NOW', label: 'Hotel sign: check-out now', cls: 'tag-card' }),
+        O('tip', 4, 4, 56, 15, { kind: 'static', text: 'TRAVEL TIP: too full? SIT ON IT!', label: 'Sticker on the wall: travel tip, too full? Sit on it!', cls: 'sign-card' }),
+        O('hotel', 66, 4, 30, 15, { kind: 'static', text: 'Check-out: NOW', label: 'Hotel sign: check-out now', cls: 'tag-card' }),
         O('case', 20, 24, 60, 46, { art: 'c-openbag', artOpts: { fill: s.left, closed: s.closed }, label: 'Overstuffed suitcase, ' + s.left + ' items bulging out (press and hold to sit on it)', hold: true, cls: s.sitting ? 'charging' : '' }),
         O('sitter', 42, 16, 14, 18, { kind: 'static', art: 'hero', label: 'You, sitting on the suitcase', hidden: !s.sitting }),
         O('fold', 4, 80, 44, 13, { text: 'Fold one item (' + s.left + ' left)', label: 'Neatly fold one item, ' + s.left + ' left', cls: 'btn-card' }),

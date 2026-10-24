@@ -40,10 +40,10 @@
         O('mug1', 28, 52, 18, 16, { kind: 'static', art: 'a-bossmug', artOpts: { color: '#ffd23f' }, label: 'Bossworth\'s mug: Best Boss since 1998' }),
         O('photo2', 52, 50, 20, 18, { kind: 'static', art: 'a-photo', artOpts: { pet: 'cat' }, label: 'Photo of Doris and her cat, Mr Whiskers' }),
         O('mug2', 76, 52, 18, 16, { kind: 'static', art: 'a-bossmug', artOpts: { color: '#ff77b4' }, label: 'Doris\'s mug: Staff of the Month 2015' }),
-        O('cap1', 2, 70, 23, 13, { kind: 'static', text: 'Bossworth & Sir Bubbles', label: '', cls: 'tag-card' }),
-        O('cap2', 26, 70, 23, 13, { kind: 'static', text: 'BEST BOSS since 1998', label: '', cls: 'tag-card' }),
-        O('cap3', 50, 70, 23, 13, { kind: 'static', text: 'Doris & Mr Whiskers', label: '', cls: 'tag-card' }),
-        O('cap4', 74, 70, 24, 13, { kind: 'static', text: 'Doris: Staff of the Month 2015', label: '', cls: 'tag-card' })
+        O('cap1', 2, 70, 23, 17, { kind: 'static', text: 'Bossworth & Sir Bubbles', label: '', cls: 'tag-card' }),
+        O('cap2', 26, 70, 23, 17, { kind: 'static', text: 'BEST BOSS since 1998', label: '', cls: 'tag-card' }),
+        O('cap3', 50, 70, 23, 17, { kind: 'static', text: 'Doris & Mr Whiskers', label: '', cls: 'tag-card' }),
+        O('cap4', 74, 70, 24, 17, { kind: 'static', text: 'Doris: Staff of the Month 2015', label: '', cls: 'tag-card' })
       ];
       OPTIONS.forEach(function (p, i) {
         objs.push(O('p' + i, 66, 4 + i * 10.5, 31, 9.5, { text: p, label: 'Try password ' + p, cls: 'btn-card option' }));

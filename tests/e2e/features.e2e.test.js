@@ -379,11 +379,11 @@ test('malformed save data does not crash; the game starts fresh and keeps a back
 test('obsolete v1 save is migrated', async () => {
   const { page, errors, ctx } = await H.openGame(browser, base, { initScript: () => { if (!sessionStorage.getItem('y')) { sessionStorage.setItem('y', '1'); localStorage.setItem('obeylol.save', JSON.stringify({ version: 1, level: 3, stars: { 1: 2, 2: 3 }, secretsFound: ['polly'], sound: false })); } } });
   const s = await page.evaluate(() => OBEY_TEST.save());
-  assert.equal(s.version, 4);
+  assert.equal(s.version, 5);
   assert.deepEqual(s.completed, [1, 2]);
   assert.equal(s.highestUnlocked, 3);
   assert.equal(s.settings.sound, false);
-  assert.equal(JSON.parse(await page.evaluate(() => localStorage.getItem('obeylol.save'))).version, 4);
+  assert.equal(JSON.parse(await page.evaluate(() => localStorage.getItem('obeylol.save'))).version, 5);
   assert.deepEqual(errors, []);
   await ctx.close();
 });

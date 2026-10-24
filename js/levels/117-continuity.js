@@ -33,13 +33,13 @@
     view: function (s) {
       var hatOnRack = s.hat === 'rack';
       return [
-        O('photo', 4, 4, 42, 32, { kind: 'static', text: 'CONTINUITY PHOTO, TAKE 1\n• Lamp: ON\n• Hat: on the coat rack\n• Mug: on the table', label: 'Continuity photo from take one: lamp on, hat on the coat rack, mug on the table', cls: 'book-card' }),
-        O('lamp', 52, 6, 10, 34, { art: 'lamp', artOpts: { on: s.lamp }, label: s.lamp ? 'Lamp (on)' : 'Lamp (off)' }),
-        O('rack', 66, 16, 14, 40, { art: 'e-coatrack', label: hatOnRack ? 'Coat rack with the hat on it' : 'Coat rack (empty)', zone: true }),
-        O('chair', 82, 36, 16, 26, { art: 'e-chair', label: s.hat === 'chair' ? 'Chair (the hat is on it)' : 'Chair', zone: true }),
-        O('hat', hatOnRack ? 67 : 84, hatOnRack ? 9 : 27, 12, 10, { art: 'e-bowler', label: 'Bowler hat (drag it)', drag: true }),
-        O('table', 46, 64, 22, 8, { kind: 'static', label: '', cls: 'keypad-bg' }),
-        O('mug', 51, 52, 12, 12, { art: 'mug', label: 'Prop mug on the table' }),
+        O('photo', 4, 4, 44, 36, { kind: 'static', text: 'CONTINUITY PHOTO, TAKE 1\n• Lamp: ON\n• Hat: on the coat rack\n• Mug: on the table', label: 'Continuity photo from take one: lamp on, hat on the coat rack, mug on the table', cls: 'book-card' }),
+        O('lamp', 35, 38, 12, 38, { art: 'lamp', artOpts: { on: s.lamp }, label: s.lamp ? 'Lamp (on)' : 'Lamp (off)' }),
+        O('rack', 64, 38, 20, 38, { art: 'e-coatrack', label: hatOnRack ? 'Coat rack with the hat on it' : 'Coat rack (empty)', zone: true }),
+        O('chair', 84, 62, 14, 14, { art: 'e-chair', label: s.hat === 'chair' ? 'Chair (the hat is on it)' : 'Chair', zone: true }),
+        O('hat', hatOnRack ? 67 : 84, hatOnRack ? 32 : 59, 14, 12, { art: 'e-bowler', label: 'Bowler hat (drag it)', drag: true }),
+        O('table', 47, 70, 16, 5, { kind: 'static', art: 'table', label: '' }),
+        O('mug', 49.5, 60, 11, 11, { art: 'mug', label: 'Prop mug on the table' }),
         O('camera', 4, 42, 30, 32, { kind: 'static', art: 'e-camera', label: 'Film camera' }),
         O('clapper', 6, 78, 16, 16, { kind: 'static', art: 'e-clapper', label: '' }),
         O('action', 62, 80, 34, 13, { text: 'ACTION!', label: 'Shout ACTION and start filming', cls: 'btn-card accent big' })

@@ -49,7 +49,7 @@
       });
       out.push(O('stageDoor', 72, 18, 24, 50, { art: 'door', artOpts: { sign: 'STAGE', keyhole: true }, label: 'Locked stage door', zone: true }));
       if (s.key) out.push(O('key', 26, 78, 18, 12, { art: 'key', label: 'Key (drag it to the door)', drag: true }));
-      out.push(O('foot', 4, 92, 92, 6, { kind: 'static', text: 'No hamsters, badgers or narrators were harmed. Some were annoyed.', label: '', cls: 'fine-print' }));
+      out.push(O('foot', 4, 90.5, 92, 7.5, { kind: 'static', text: 'No hamsters, badgers or narrators were harmed. Some were annoyed.', label: '', cls: 'fine-print' }));
       return out;
     },
 

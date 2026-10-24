@@ -66,10 +66,12 @@
     var c = HUT[(o.color || 0) % HUT.length];
     var stripes = '';
     for (var i = 0; i < 5; i++) stripes += '<rect x="' + (26 + i * 32) + '" y="112" width="14" height="276" fill="#fff" opacity=".55"/>';
-    var num = o.num ? '<circle cx="100" cy="176" r="46" fill="#fff" ' + SW + '/>' + txt(100, 198, 64, o.num) : '<circle cx="100" cy="176" r="46" fill="#fff" opacity=".35" stroke="' + INK + '" stroke-width="4" stroke-dasharray="8 8"/>';
-    return svg('0 0 200 400', '<rect x="20" y="104" width="160" height="286" fill="' + c + '" ' + SW + '/>' + stripes +
-      '<path d="M6 112 L100 14 L194 112Z" fill="#fff6e0" ' + SW + '/>' + num +
-      '<rect x="56" y="250" width="88" height="140" fill="' + (o.open ? '#1c1640' : c) + '" ' + SW + '/>' + (o.open ? '' : '<circle cx="130" cy="320" r="7" fill="' + INK + '"/>'));
+    // Huts render ~66 px wide (0.33 px per unit), so outlines are 10 units (3.3 px rendered), not SW.
+    var W = 'stroke="' + INK + '" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"';
+    var num = o.num ? '<circle cx="100" cy="176" r="46" fill="#fff" ' + W + '/>' + txt(100, 198, 64, o.num) : '<circle cx="100" cy="176" r="46" fill="#fff" opacity=".35" stroke="' + INK + '" stroke-width="8" stroke-dasharray="14 12"/>';
+    return svg('0 0 200 400', '<rect x="20" y="104" width="160" height="286" fill="' + c + '" ' + W + '/>' + stripes +
+      '<path d="M6 112 L100 14 L194 112Z" fill="#fff6e0" ' + W + '/>' + num +
+      '<rect x="56" y="250" width="88" height="140" fill="' + (o.open ? '#1c1640' : c) + '" ' + W + '/>' + (o.open ? '' : '<circle cx="130" cy="320" r="7" fill="' + INK + '"/>'));
   });
 
   add('c-seagull', function (o) {
@@ -406,7 +408,7 @@
     return svg('0 0 120 200', '<path d="M60 6 L94 80 L26 80Z" fill="' + c + '" ' + SW + '/><circle cx="60" cy="92" r="20" fill="#ffd9b8" ' + SW3 + '/>' +
       '<path d="M36 100 Q60 150 84 100 Q72 110 60 108 Q48 110 36 100Z" fill="#fff" ' + SW3 + '/><circle cx="60" cy="96" r="5" fill="#ff6f91"/>' +
       '<rect x="30" y="120" width="60" height="58" rx="14" fill="#2f6fe4" ' + SW + '/><rect x="32" y="176" width="22" height="14" rx="4" fill="#7a5230" ' + SW3 + '/><rect x="66" y="176" width="22" height="14" rx="4" fill="#7a5230" ' + SW3 + '/>' +
-      (o.sign ? '<rect x="70" y="112" width="48" height="34" rx="4" fill="#fff6e0" ' + SW3 + '/>' + txt(94, 134, 13, 'HI!') : ''));
+      (o.sign ? '<rect x="56" y="104" width="62" height="42" rx="5" fill="#fff6e0" ' + SW3 + '/>' + txt(87, 134, 24, 'HI!') : ''));
   });
 
   add('c-grass', function () {

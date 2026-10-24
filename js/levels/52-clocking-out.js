@@ -35,7 +35,7 @@
         O('rack', 2, 48, 28, 9, { kind: 'static', text: 'Card rack', label: '', cls: 'tag-card' }),
         O('clock', 34, 4, 30, 42, { art: 'a-timeclock', artOpts: { mode: s.mode }, label: 'Time clock, set to ' + s.mode + ' (drop your card here)', zone: true }),
         O('mode', 34, 50, 30, 11, { text: 'Switch to ' + (s.mode === 'IN' ? 'OUT' : 'IN'), label: 'Switch the time clock to ' + (s.mode === 'IN' ? 'OUT' : 'IN'), cls: 'btn-card' }),
-        O('rule', 67, 4, 31, 22, { kind: 'static', text: 'PAYROLL RULE\nNo OUT without an IN.', label: 'Payroll rule: no out without an in', cls: 'book-card' }),
+        O('rule', 67, 4, 31, 32, { kind: 'static', text: 'PAYROLL RULE\nNo OUT without an IN.', label: 'Payroll rule: no out without an in', cls: 'book-card' }),
         O('door', 70, 44, 24, 52, { art: 'door', artOpts: { sign: 'HOME', small: true }, label: 'Door marked HOME' }),
         O('plant', 6, 66, 14, 30, { art: 'plant', label: 'Office plant', free: true })
       ];

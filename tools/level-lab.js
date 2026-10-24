@@ -37,8 +37,11 @@ const before = new Set(OBEY.levels.filter(Boolean).map((d) => d.num));
 for (const f of files) vm.runInThisContext(fs.readFileSync(path.join(ROOT, f), 'utf8'), { filename: f });
 const defs = OBEY.levels.filter((d) => d && !before.has(d.num));
 
+let uiProblems = [];
 function play(rt, clock, steps) {
   for (const st of steps) {
+    // In the real UI a tap on a draggable object picks it up instead of sending a tap.
+    if (st.tap) { const o = rt.objects().find((x) => x.id === st.tap); if (o && o.drag && !o.hidden) uiProblems.push(`step "tap ${st.tap}" can't happen in the UI: ${st.tap} is draggable at that moment (a tap picks it up)`); }
     if (st.tap) rt.dispatch({ type: 'tap', target: st.tap });
     else if (st.drop) rt.dispatch({ type: 'drop', target: st.drop[0], zone: st.drop[1] });
     else if (st.hold) { rt.dispatch({ type: 'holdstart', target: st.hold[0] }); clock.advance(st.hold[1]); rt.dispatch({ type: 'holdend', target: st.hold[0] }); }
@@ -95,6 +98,8 @@ for (const def of defs.sort((a, b) => a.num - b.num)) {
     const got = r.log.done ? 'complete' : (r.rt.stats.fails > f0 ? 'fail' : (r.rt.nopes > n0 ? 'nope' : 'playing'));
     ok(got === c.expect, `check "${c.name}": expected ${c.expect}, got ${got}`);
   }
+  for (const m of new Set(uiProblems)) ok(false, m);
+  uiProblems = [];
   // Leaving must cancel timers.
   const r = runtime(def);
   r.rt.destroy();

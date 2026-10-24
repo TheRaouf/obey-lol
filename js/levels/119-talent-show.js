@@ -37,11 +37,11 @@
 
     view: function () {
       var out = [
-        O('rules', 4, 4, 56, 32, { kind: 'static', text: 'TALENT SHOW RULES\n1. Acts must last under 10 seconds.\n2. No juggling. (We remember 2019.)\n3. Every act must include a hat.', label: 'Rules: 1, under 10 seconds. 2, no juggling. 3, every act must include a hat.', cls: 'book-card' }),
+        O('rules', 4, 4, 58, 36, { kind: 'static', text: 'TALENT SHOW RULES\n1. Acts must last under 10 seconds.\n2. No juggling. (We remember 2019.)\n3. Every act must include a hat.', label: 'Rules: 1, under 10 seconds. 2, no juggling. 3, every act must include a hat.', cls: 'book-card' }),
         O('judges', 64, 4, 32, 32, { kind: 'static', text: 'JUDGES\nLady Hatworth\nMr Stopwatch\nA pigeon', label: 'Judges: Lady Hatworth, Mr Stopwatch, and a pigeon', cls: 'plaque-card' }),
         O('curtainL', 0, 40, 10, 56, { kind: 'static', art: 'e-curtain' }),
         O('curtainR', 90, 40, 10, 56, { kind: 'static', art: 'e-curtain', artOpts: { flip: true } }),
-        O('pick', 14, 40, 72, 8, { kind: 'static', text: 'Choose your act:', label: '', cls: 'tag-card' })
+        O('pick', 14, 41, 72, 8, { kind: 'static', text: 'Choose your act:', label: '', cls: 'tag-card' })
       ];
       ACTS.forEach(function (a, i) {
         out.push(O(a.id, 14 + (i % 2) * 37, 51 + Math.floor(i / 2) * 22, 35, 18, { text: a.text, label: 'Act: ' + a.text.replace('\n', ', '), cls: 'btn-card' }));

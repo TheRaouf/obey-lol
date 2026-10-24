@@ -44,7 +44,7 @@
       PLANTS.forEach(function (p) {
         var w = !!s.watered[p.id];
         objs.push(O(p.id, p.x, p.y, 28, 30, { art: 'b-houseplant', artOpts: { kind: p.kind, soil: w ? 'wet' : p.soil, droopy: p.thirsty && !w, watered: w }, zone: true, free: true, label: w ? p.tag + ', freshly watered and perking up' : p.desc }));
-        objs.push(O(p.id + 'tag', p.x, p.y + 31, 28, 9, { kind: 'static', text: p.tag, label: '', cls: 'tag-card' }));
+        objs.push(O(p.id + 'tag', p.x, p.y + 31, 28, 12, { kind: 'static', text: p.tag, label: '', cls: 'tag-card' }));
       });
       objs.push(O('can', 68, 50, 28, 26, { art: 'b-can', drag: true, label: 'Watering can (drag it onto a plant)' }));
       objs.push(O('cantag', 68, 79, 28, 9, { kind: 'static', text: 'Watering can', label: '', cls: 'tag-card' }));

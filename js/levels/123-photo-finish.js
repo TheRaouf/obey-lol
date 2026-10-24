@@ -38,7 +38,7 @@
     view: function () {
       var out = [
         O('photo', 4, 4, 54, 38, { kind: 'static', art: 'e-photo', label: 'Photo finish: bib 12 is past the finish line first, bib 7 is just behind the line, bib 1 is far behind' }),
-        O('caption', 4, 43, 54, 7, { kind: 'static', text: 'Photo finish: dashed line = finish', label: '', cls: 'tag-card' }),
+        O('caption', 4, 43, 54, 8.5, { kind: 'static', text: 'Photo finish: dashed line = finish', label: '', cls: 'tag-card' }),
         O('medal', 70, 8, 18, 22, { art: 'medal', label: 'Gold medal (drag it onto the winner)', drag: true }),
         O('medalTag', 64, 32, 30, 7, { kind: 'static', text: 'GOLD', label: '', cls: 'tag-card' })
       ];

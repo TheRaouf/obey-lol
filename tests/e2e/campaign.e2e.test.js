@@ -54,7 +54,7 @@ test('first launch: difficulty, tutorial, then the full 136-level campaign via t
     if (d.num === 1) await H.shot(page, 'level-complete');
     if (d.num < 136) {
       assert.equal(save.highestUnlocked, d.num + 1);
-      await page.getByRole('button', { name: 'Next level' }).click();
+      await page.locator('#complete').getByRole('button', { name: 'Next level', exact: true }).click();
       await page.waitForFunction((n) => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === n, d.num + 1);
     } else {
       assert.equal(r.result.ending, 'hero');

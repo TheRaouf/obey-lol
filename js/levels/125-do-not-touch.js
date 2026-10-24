@@ -36,11 +36,11 @@
         O('vase', 6, 12, 24, 30, { art: 'e-vase', artOpts: { color: '#3ec1ff' }, label: 'Exhibit 1: ancient vase' }),
         O('egg', 38, 12, 22, 30, { art: 'e-egg', label: 'Exhibit 2: dinosaur egg' }),
         O('statue', 66, 6, 30, 38, { art: 'e-statue', artOpts: { nodding: s.shook }, label: s.shook ? 'Exhibit 3: The Greeter, nodding at the gift shop' : 'Exhibit 3: The Greeter, a statue holding out his hand' }),
-        O('p1', 2, 55, 30, 18, { kind: 'static', text: 'No. 1: Old vase\nDO NOT TOUCH', label: 'Plaque 1: old vase. Do not touch.', cls: 'tag-card' }),
-        O('p2', 35, 55, 30, 18, { kind: 'static', text: 'No. 2: Dino egg\nDO NOT TOUCH', label: 'Plaque 2: dinosaur egg. Do not touch.', cls: 'tag-card' }),
-        O('p3', 68, 55, 30, 18, { kind: 'static', text: 'No. 3: The Greeter\nInteractive!\nShake his hand.', label: 'Plaque 3: The Greeter. Interactive! Please shake his hand.', cls: 'tag-card' }),
+        O('p1', 2, 55, 30, 20, { kind: 'static', text: 'No. 1: Old vase\nDO NOT TOUCH', label: 'Plaque 1: old vase. Do not touch.', cls: 'tag-card' }),
+        O('p2', 35, 55, 30, 20, { kind: 'static', text: 'No. 2: Dino egg\nDO NOT TOUCH', label: 'Plaque 2: dinosaur egg. Do not touch.', cls: 'tag-card' }),
+        O('p3', 68, 55, 30, 20, { kind: 'static', text: 'No. 3: The Greeter\nInteractive!\nShake his hand.', label: 'Plaque 3: The Greeter. Interactive! Please shake his hand.', cls: 'tag-card' }),
         O('shopSign', 4, 76, 58, 18, { kind: 'static', text: s.shook ? 'GIFT SHOP: now open (The Greeter insisted)' : 'GIFT SHOP & EXIT\nOpens in 400 years', label: s.shook ? 'Gift shop sign: now open' : 'Gift shop and exit: opens in 400 years', cls: 'sign-card' }),
-        O('shop', 70, 74, 26, 24, { art: 'door', artOpts: { sign: 'GIFT SHOP', open: s.shook }, label: s.shook ? 'Gift shop door (open)' : 'Gift shop door (shut)' })
+        O('shop', 70, 75, 26, 23, { art: 'door', artOpts: { sign: 'SHOP', open: s.shook }, label: s.shook ? 'Gift shop door (open)' : 'Gift shop door (shut)' })
       ];
     },
 
