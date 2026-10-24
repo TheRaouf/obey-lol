@@ -1,117 +1,99 @@
-# Test report — OBEY? LOL. 2.0.0 (final, after a second independent QA pass)
+# Test report — OBEY? LOL. 2.1.0
 
-Date: 2026-10-24. Every number comes from the logged runs in `tests/logs/` (`static.log`,
-`unit.tap`, `e2e.tap`) and `tests/e2e/results/*.json`. Re-run with `bash tools/run-all-tests.sh`.
-
-## Environment
-
-| Item | Value |
-|---|---|
-| OS | Linux x86_64 (cloud container) |
-| Node.js | v22.23.4 (built-in `node:test`) |
-| Browser automation | Playwright 1.63.0, Chromium build 1243 (headless) |
-| Not available | Firefox, WebKit/Safari, physical phones, screen readers, speakers |
+Date: 2026-10-24. Numbers below come from logged runs (`tests/logs/`) and the GitHub Actions run
+for the release commit. Re-run locally with `bash tools/run-all-tests.sh`; CI runs on every push
+(`.github/workflows/tests.yml`).
 
 ## Summary
 
-| Suite | Run | Passed | Failed | Skipped |
+| Suite | Where | Run | Passed | Failed |
 |---|---|---|---|---|
-| Static checks (`tools/check.js`) | 470 checks | 470 | 0 | 0 |
-| Unit tests (`tests/unit`) | 219 | 219 | 0 | 0 |
-| Browser tests (`tests/e2e`, Chromium) | 63 | 63 | 0 | 0 |
+| Static checks (`tools/check.js`) | local | 681 checks | 681 | 0 |
+| Unit tests (`tests/unit`) | local + CI | 255 | 255 | 0 |
+| Browser tests, Chromium (all 9 e2e files) | local | 120 | 120 | 0 |
+| Browser tests, Chromium | GitHub Actions | full suite | job passed | 0 |
+| Browser tests, **WebKit (Safari's engine)**: iPad, campaign, 2.0 and 2.1 suites | GitHub Actions | 4 files | job passed | 0 |
 
-Every browser test also asserts no page errors, no console errors, no failed requests and no
-external network requests.
+Browser test files (120 tests): campaign 6, features 21, regression (QA1) 9, responsive 6, v2 11,
+regression2 (QA2) 10, **v21 22**, **ipad 20**, **regression3 (QA3) 15**. Every browser test also fails on
+page errors, console errors, failed requests or any external network request.
 
-## What the browser tests executed (63)
+## What 2.1 adds to the coverage
 
-- **Campaign (6):** first launch → difficulty picker → tutorial → all **36 levels** played through
-  the real UI with the mouse (3 stars on every level) → Hero ending; map locking and unlocks;
-  replay keeps best stars; every choice path; Chaos ending by drag; Secret Master ending refused
-  with 14 secrets and granted with 15.
-- **Features (21):** all 15 secrets via the UI (once each, persisted); field-notes clues; 8 costumes;
-  4 themes; achievements screen; every main-menu control incl. Trophy room; New Game (cancel,
-  confirm, difficulty chosen); Reset; hints and restart; timers stop on leaving; rapid input;
-  keyboard-only play (tap, pick-and-place, hold); touch play on a phone viewport; reload
-  persistence; corrupt save; v1 migration; blocked storage; tutorial; sound, motion, text size;
-  accessible names on all 36 levels; running from `file://`.
-- **2.0 features (11):** difficulty picker, badge, settings change and map medal; Hard's single
-  hint and stricter stars; trap gag + laughing narrator + gag sound + "how to do it right" card;
-  "nope" sticker without a reset; "Show me how" unlock rules on Easy/Medium/Hard, step-by-step
-  highlighting, waits, restart after a trap, 1-star guided result; Bossworth's voice (costume and
-  mood passed to the voice, talking mouth starts and stops); real speech via a stubbed
-  `speechSynthesis` (stage directions not read) and Silent mode; chapter cup won and upgraded
-  through play; Easy helper hint after 25 idle seconds; sound events requested.
-- **Regression 1.0 (9)** and **regression 2.0 (10):** one test per QA defect (below).
-- **Responsive (6):** 320×700, 390×844, 768×1024, 1365×900, 1920×1080 — all 9 menu screens,
-  all 36 levels (incl. keypad, pen, honest note and mid-level states), the trap card, the
-  walkthrough panel, the difficulty picker, the completion card and an ending: no horizontal
-  overflow, controls inside the viewport, tap sizes, readable text, no text overflowing its card,
-  square stage; plus live resizing.
+- **v21 (22):** ruins via the UI and the Sabotage file; Skip; jigsaw (replays only); Sabotage Studio bonus
+  levels (proper and ruined); Daily Dare and streak; U.N.D.O. chat and tips; narrator asides (replay,
+  "let me finish", idle, nudge); fake game over; chapter card and chapter review; completion extras (trick,
+  personal best, share text, "Replay on Hard"); save codes; 3 profiles; high contrast, extra-large text,
+  plain font, left-handed layout; hold assist (pointer and keyboard); captions and vibration; music;
+  keyboard shortcuts and map arrows; "Point me" and Easy sparkle; what's-new panel, next goal, stats,
+  joke achievements; endings review and share; the installable app (manifest, service worker, offline
+  reload — Chromium only).
+- **ipad (20):** 10 iPad sizes in portrait and landscape (9.7", 10.9", 11", 12.9", mini) — every one of the
+  40 levels must show its whole stage without scrolling; 6 Split View / Slide Over widths; touch play
+  (tap, tap-to-place, a real finger hold via touch events in Chromium); rotating mid-level; hardware
+  keyboard; Safari touch hygiene (touch-action, user-select, the long-press callout rule, home-screen meta).
+- **Unit (+36 over 2.0):** bonus levels on every difficulty, all 16 ruins (generic triggers checked against
+  the real level code: they fire exactly at their count), skips, save v4 validation/migration, profiles,
+  Daily Dare, streak/grace/badges, save codes, jigsaw, personal bests, next goal, composure, reviews,
+  U.N.D.O. script, trick recaps for all 40 levels, new achievements, share texts, the pausable clock.
 
-Unit tests (219) cover all 36 level definitions and solutions on **Easy, Medium and Hard (3 stars
-each)**, every alternative path, every secret, hints and Hard's hint limit, trap penalty, guided
-scoring, nope counting, Hard-mode room tweaks, documented wrong moves for all 20 new levels,
-progression and unlock rules, all costume/theme/achievement/trophy rules, endings, save
-validation, v1 → v3 and v2 → v3 migration, blocked and failing storage, New Game and Reset.
+## Independent QA (third review)
 
-### Secrets (all 15 verified through the UI)
-
-plant-whisperer, deja-vu, empty-corner, personal-space, glow-code, countdown, extremely-patient,
-tutorial-dropout, tidy-up, shaken, snack-rule, silent-partner, polly, long-memory, fine-print —
-each found once, never duplicated on replay, persisted after reload (`tests/e2e/results/secrets.json`).
-
-## Independent QA
-
-Two separate reviewers, each without the build history, audited the game in Chromium.
-
-**Review of 1.0** — 9 defects (6 × P2, 3 × P3) plus one latent issue: focus jumping after actions,
-holds not releasing, non-modal completion card, unreadable buttons on dark endings, small-screen
-text overflow, Replay not counting as a replay, Back leaving dialogs open, hold-then-drag, double
-runtimes. All fixed; the 9 regression tests were run against the unfixed build first and failed
-there (0/9), then passed.
-
-**Review of 2.0** — 12 findings (4 × P1, 5 × P2, 3 × P3). All addressed:
+A separate reviewer audited 2.1 in Chromium and reported **19 defects (1 × P1, 6 × P2, 12 × P3)**, each
+reproduced with a script. All are fixed; `regression3.e2e.test.js` and the "QA3" unit tests cover them,
+and the reviewer's own reproduction scripts were re-run against the fixed build.
 
 | ID | Sev | Defect | Fix |
 |---|---|---|---|
-| D1 | P1 | "Show me how" got out of step after an unscripted move and could lead into a trap or strand the player | Any move outside the walkthrough that changes the room restarts the guided attempt with a note |
-| D2 | P1 | A too-short hold advanced the walkthrough (wet paint still wet → trap) | Holds are measured on the level's own clock and must last the full step |
-| D3 | P1 | Migrated save with old L15 (now 35) done: "all levels complete" while 36 locked | Unlocks follow the unbroken run of finished levels (same rule as save validation) |
-| D4 | P1 | Replaying a migrated finale unlocked all 20 new levels | Same unlock rule: replays never skip ahead |
-| D5 | P2 | Level 3 walkthrough ignored Hard's 15 s countdown | Levels can supply a difficulty-aware walkthrough path |
-| D6 | P2 | Stopping the walkthrough left the run capped at 1★ and the guide locked | Stop starts a fresh, normally scored attempt; the guide stays available for that level |
-| D7 | P2 | Difficulty picker lost keyboard focus; current choice only shown by colour | Focus restored; `aria-pressed` and "(current)" text |
-| D8 | P2 | Trap card could appear below the fold and wasn't announced | `role="alert"`, scrolled into view |
-| D9 | P2 | Walkthrough panel re-rendered (and re-announced) on every timer tick | Re-renders only when the step or note changes |
-| D10 | P3 | "Nope" sticker wiped when the object's picture changed | Effects applied after rendering |
-| D11 | P3 | L23 tag overflow at 320 px; stale README/spec star rules; Escape in New Game picker did nothing | Fixed; Escape keeps the current difficulty and continues |
-| D12 | P3 | Migrated "Full Campaign" shows unlocked at 16/36 | Design choice (achievements are kept); unlocked achievements now show a full bar |
+| D1 | P1 | With storage blocked, switching profiles erased progress | In-memory fallback shared per storage, so every profile survives |
+| D2 | P2 | Skip on a timed level reported "skipped" although the level finished behind the dialog | Levels now **pause while any dialog is open** (pausable clock); Skip re-checks the level |
+| D3 | P2 | Easy "warmer" sparkle fired on wrong moves | Sparkle only on the next step of the intended solution |
+| D4 | P2 | Hold assist made the L9 "shaken" secret impossible from the keyboard | Assist leaves drag-and-hold objects to the normal hold; correct description |
+| D5 | P2 | Stage below the fold in Split View / short windows (694×768, 584×820, 1180×500, 844×390) | New layouts for narrow-tall, square-ish and short windows; tested at 5 sizes |
+| D6 | P2 | Settings sliders collapsed to a few px at 320 px / extra-large text | Label above a full-width track |
+| D7 | P2 | Daily Dare differed between players and changed during the day | One shared level per day; a fixed practice dare if it's still locked |
+| D8 | P3 | Bonus 2 could be ruined during "Show me how" | No ruins in guided runs (engine) |
+| D9 | P3 | "Back to Level 104" after a bonus level | "Back to Bonus 4" |
+| D10 | P3 | "You did this PROPERLY before" after only ruining | Tracks proper finishes |
+| D11 | P3 | Ruins set personal bests; New Game wiped bests | Ruins/guided runs never set bests; bests survive New Game |
+| D12 | P3 | Music didn't change chapter on "Next level" | Restarts with the new chapter's tune |
+| D13 | P3 | U.N.D.O. tip after the level finished | Tips only while playing |
+| D14 | P3 | "Point me" highlighted a finished step; nothing on Hard | Highlights the next unfinished step; works on the last hint of any difficulty |
+| D15 | P3 | A dialog opened from a dialog un-inerted the page; Escape closed both | Counted inert state; only the top dialog reacts to keys |
+| D16 | P3 | No warning when a profile's save was corrupt | Warning toast; damaged copy kept |
+| D17 | P3 | Menu scrolled sideways at 320 px with extra-large text | Menu badges wrap |
+| D18 | P3 | Contrast: U.N.D.O. header in high contrast, quip label, composure label, review stars, "RUINED" stamp | Recoloured to ≥ 4.5:1 |
+| D19 | P3 | Speedrun total time missing | Sum of best times on the stats page and map (timer on) |
 
-Each 2.0 fix has a regression test (`tests/e2e/regression2.e2e.test.js`, plus unit tests for
-D3/D4/D5). Unlike the 1.0 round, these were written from the reviewer's reproduction steps and
-run only against the fixed build (the pre-fix build was not preserved separately).
+Also from the reviewer's unverified observations: speech is now primed on the first gesture (iOS),
+audio keeps priming until the context really runs, a switched profile no longer inherits the previous
+player's Daily Dare or "last level", bonus replays get replay lines, and hand-edited saves are capped at
+3 skips.
 
-## Visual checks
+## Art director review (baseline)
 
-Screenshots in `docs/screenshots/` (menu, map, gameplay, level complete, field notes, costumes,
-themes, settings, achievements, trophy room, difficulty picker, wrong-answer gag, "Show me how",
-all three endings) and `docs/screenshots/responsive/` were inspected; contact sheets of all 36
-levels mid-play were reviewed at 1100 px and text-heavy levels at 320 px.
+The new art director agent wrote `docs/ART-BIBLE.md` and reviewed 2.1 (`docs/ART-REVIEW-2.1.md`:
+5 must-fix, 12 should-fix, 11 polish). The 5 must-fix items shipped in 2.1: static information cards no
+longer cast button shadows; `--accent` and `--good` tokens recoloured to ≥ 4.5:1 in every theme; Level 3's
+"PRESS ME" label readable (ink on green); the chapter card stays visible with reduced motion. The rest
+is scheduled for the art release (2.3).
 
-## Not verified / limitations
+## CI
 
-- **Firefox and Safari/WebKit** — not installed here. Uses standard APIs; container query units
-  need Firefox 110+ / Safari 16+.
-- **Physical phones** — touch verified only with Chromium mobile emulation.
-- **Audio output** — sound and voice were not listened to; tests verify which sounds and voice
-  lines are requested and that "Real speech" calls the speech API. Real speech quality depends on
-  the voices installed on the device.
-- **Screen readers** — accessible names, roles, live regions and focus were checked
-  programmatically only.
-- Timed puzzles were tested with Playwright's fake clock.
+GitHub Actions runs Chromium (static, unit, all browser tests) and WebKit (ipad, campaign, v2, v21) on
+every push. Run 40101606654 (commit 654f7f6, same code as the release): **chromium passed, webkit passed**.
 
-## Known remaining defects
+One earlier run on the identical game code (40101406230, commit 5e0a099) failed one Chromium browser
+test while WebKit passed; the next run passed both jobs. That job's log could not be retrieved (GitHub
+returned a server error), so the failing test is unknown. It is recorded here as an unexplained,
+non-reproducing CI failure, not as a pass. CI shows job results only; per-test counts above are local.
 
-None reproducible. Accepted design choices: the mouth animates even with the voice off (visual
-only); migrated 1.x levels count as Medium (Silver cups); achievements earned in 1.x stay earned.
+## Not verified
+
+- **A physical iPad / iPhone.** Layouts, touch and keyboard were verified with emulation (Chromium
+  locally, WebKit in CI). Not verified on a device: the long-press callout (iOS-only CSS), real Safari
+  audio/speech start, Add to Home Screen, VoiceOver.
+- **Firefox.**
+- Audio was never listened to; tests check which sounds and voice lines are requested.
+- The offline/service-worker test runs only in Chromium.
+- Timed puzzles use Playwright's fake clock.

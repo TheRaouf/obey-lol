@@ -7,7 +7,7 @@
 
   /* ------------------------------------------------------------- Daily Dare */
   function daily(app, el) {
-    var s = app.save, key = X.dateKey(), n = X.dareLevel(s, key), def = OBEY.getLevel(n);
+    var s = app.save, key = X.dateKey(), dare = X.dareFor(s, key), n = dare.n, def = OBEY.getLevel(n);
     var doneToday = s.daily.done.indexOf(key) >= 0;
     var streak = X.currentStreak(s, key);
     // Last 14 days strip.
@@ -20,8 +20,8 @@
     el.innerHTML = OBEY.backBar('Daily Dare', 'daily-title', `<span class="pill">${A.icon('calendar')} ${streak}-day streak</span>`, 'daily') + `
       <div class="page">
         <section class="panel dare-card">
-          <p class="small">${E(key)} · the same dare for everyone who has reached this level</p>
-          <h2>${E(OBEY.levelLabel(n))}: ${E(def.title)}</h2>
+          <p class="small">${E(key)} · ${dare.practice ? 'today\'s shared dare is Level ' + dare.global + ', which you haven\'t reached yet — here is a practice dare instead (it still counts for your streak)' : 'the same dare for every player today'}</p>
+          <h2>${dare.practice ? 'Practice: ' : ''}${E(OBEY.levelLabel(n))}: ${E(def.title)}</h2>
           <p><b>The dare:</b> finish it at par — ${def.par} ${def.par === 1 ? 'action' : 'actions'} or fewer — with no hints, no traps and no walkthrough.</p>
           ${doneToday ? `<p class="status">${A.icon('check')} Done today. Come back tomorrow for a new one.</p>` : ''}
           <div class="btn-row"><button class="btn primary" data-act="daily-play">${A.icon('play')} ${doneToday ? 'Play it again' : 'Take the dare'}</button></div>
@@ -56,6 +56,7 @@
       ['Times Bossworth was poked', c.pokes],
       ['Phone calls he took instead of helping', c.phoneCalls],
       ['Time spent finishing levels', app.formatTime(c.playMs)],
+      ['Speedrun: sum of best times (campaign)', s.completed.length ? app.formatTime(s.completed.reduce(function (t, n) { return t + (s.bestTime[n] || 0); }, 0), true) + (s.completed.length < OBEY.LEVEL_COUNT ? ' (' + s.completed.length + ' levels)' : '') : '—'],
       ['Daily Dare best streak', s.daily.best],
       ['Current costume', fav ? fav.name : 'Classic']
     ];

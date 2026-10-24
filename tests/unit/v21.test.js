@@ -189,7 +189,7 @@ test('save v4: defaults validate to themselves; new fields are repaired field by
   assert.deepEqual(v.jigsaw, ['jig-1']);
   assert.deepEqual(v.bestActions, { 1: 3 });
   assert.deepEqual(v.bestTime, {});
-  assert.deepEqual(v.daily, { last: '', streak: 0, best: 0, done: ['2026-10-24'], badges: [3] });
+  assert.deepEqual(v.daily, { last: '', streak: 0, best: 0, done: ['2026-10-24'], badges: [3], practice: null });
   assert.equal(v.counters.pokes, 0);
   assert.equal(v.counters.tuesday, false);
   assert.deepEqual(v.counters.chats, ['mind-maze']);
@@ -451,4 +451,73 @@ test('share texts are spoiler-free and carry the game link', () => {
 
 test('captions exist for every sound the 2.1 features play', () => {
   ['nope', 'pie', 'chicken', 'trombone', 'zap', 'splash', 'ruin', 'glitch', 'phone', 'gameover', 'chapter', 'warmer', 'success'].forEach((k) => assert.ok(X.CAPTIONS[k], k));
+});
+
+/* -------------------------------------------- QA3 regression (2.1 review) */
+test('QA3: pausable clock freezes timers and time while paused (dialogs pause levels)', () => {
+  const base = OBEY.createFakeClock();
+  const c = OBEY.createPausableClock(base);
+  let fired = 0, ticks = 0;
+  c.setTimeout(() => fired++, 1000);
+  c.setInterval(() => ticks++, 300);
+  base.advance(500);
+  c.pause();
+  const t = c.now();
+  base.advance(5000);
+  assert.equal(fired, 0); assert.equal(c.now(), t, 'time stands still');
+  c.resume();
+  base.advance(499); assert.equal(fired, 0);
+  base.advance(1); assert.equal(fired, 1);
+  assert.equal(ticks, 3, 'interval resumed from where it paused');
+  // A level on a paused clock does not advance.
+  const rtClock = OBEY.createPausableClock(base);
+  const rt = new OBEY.LevelRuntime(OBEY.getLevel(3), { clock: rtClock, ctx: { difficulty: 'medium' }, hooks: {} }).start();
+  rtClock.pause(); base.advance(20000);
+  assert.equal(rt.status, 'playing', 'countdown frozen behind a dialog');
+  rtClock.resume(); base.advance(11000);
+  assert.equal(rt.status, 'complete');
+});
+
+test('QA3-D1: with storage blocked, switching profiles keeps every profile in memory', () => {
+  const blocked = { getItem() { throw new Error('x'); }, setItem() { throw new Error('x'); }, removeItem() {} };
+  const a = S.createStore(blocked, S.keyFor(1));
+  const s = completeUpTo(fresh(), 5); a.save(s);
+  const b = S.createStore(blocked, S.keyFor(2)); b.save(fresh());
+  const again = S.createStore(blocked, S.keyFor(1));
+  assert.deepEqual(again.load().data.completed, [1, 2, 3, 4, 5]);
+});
+
+test('QA3-D7: the Daily Dare is the same level for everyone, with a practice dare if it is locked', () => {
+  const key = '2026-10-24', g = X.dareGlobal(key);
+  const all = completeUpTo(fresh(), 36);
+  assert.equal(X.dareFor(all, key).n, g);
+  assert.equal(X.dareFor(all, key).practice, false);
+  const newbie = fresh();
+  const d = X.dareFor(newbie, key);
+  if (g !== 1) { assert.ok(d.practice); assert.equal(d.global, g); assert.ok(P.canPlay(newbie, d.n)); }
+  // The practice dare stays fixed for the day once stored, even as the player progresses.
+  newbie.daily.practice = { key, n: d.n };
+  completeUpTo(newbie, Math.min(10, g - 1 > 0 ? g - 1 : 1));
+  if (!P.canPlay(newbie, g)) assert.equal(X.dareFor(newbie, key).n, d.n);
+});
+
+test('QA3-D8/D11: no ruins during guided runs; ruins never set personal bests; New Game keeps bests', () => {
+  const { rt, clock, log } = makeRuntime(OBEY, 104);
+  rt.restart({ guided: true });
+  play(rt, clock, OBEY.getLevel(104).ruinPaths['tip-top']);
+  assert.ok(log.completed && log.completed.ruin === null && log.completed.guided);
+  const s = completeUpTo(fresh(), 2);
+  assert.ok(P.completeLevel(s, 3, { stars: 1, actions: 4, timeMs: 1800, ruin: 'countdown-crasher' }));
+  assert.ok(P.isCompleted(s, 3));
+  assert.equal(s.bestTime[3], undefined);
+  assert.equal(s.bestActions[3], undefined);
+  assert.ok(!s.clean.includes(3), 'a ruin is not a clean finish');
+  P.completeLevel(s, 3, { stars: 3, actions: 0, timeMs: 11000 });
+  assert.ok(s.clean.includes(3));
+  assert.equal(P.newGame(s).bestTime[3], 11000);
+});
+
+test('QA3: hand-edited saves keep at most 3 skips', () => {
+  const v = S.validate({ completed: [1], skipped: [2, 3, 4, 5, 6] });
+  assert.deepEqual(v.skipped, [2, 3, 4]);
 });

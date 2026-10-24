@@ -183,7 +183,7 @@
       if (held === o.id) label = label + ' (picked up — choose where to put it, or press again to put it back)';
       if (node.getAttribute('aria-label') !== label) node.setAttribute('aria-label', label);
       node.disabled = !!o.disabled;
-      if (o.hold) node.setAttribute('aria-describedby', this._assistOn() ? 'hold-help-assist' : 'hold-help'); else node.removeAttribute('aria-describedby');
+      if (o.hold) node.setAttribute('aria-describedby', this._assistOn() && !o.drag ? 'hold-help-assist' : 'hold-help'); else node.removeAttribute('aria-describedby');
       if (held === o.id || (o.hold && this.assist === o.id)) node.setAttribute('aria-pressed', 'true'); else node.removeAttribute('aria-pressed');
     } else if (o.label) {
       node.setAttribute('role', 'img');
@@ -291,7 +291,7 @@
       this._setHeld(id);
       return;
     }
-    if (o.hold && this._assistOn()) {
+    if (o.hold && !o.drag && this._assistOn()) {
       // Hold assist: first tap starts holding, the next tap lets go.
       if (this.assist === id) { this.assist = null; this.opts.dispatch({ type: 'holdend', target: id }); }
       else {
@@ -423,7 +423,7 @@
     if (!b) return;
     var id = b.getAttribute('data-obj'), o = this.byId[id];
     if (!o || !o.hold || b.disabled) return;
-    if (this._assistOn()) return; // Enter/Space become a normal click (start / stop)
+    if (this._assistOn() && !o.drag) return; // Enter/Space become a normal click (start / stop)
     e.preventDefault();
     if (e.repeat || (this.key && this.key.id === id)) return;
     var self = this;

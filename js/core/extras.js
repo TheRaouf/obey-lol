@@ -279,13 +279,22 @@
   function dayNumber(key) { var p = key.split('-').map(Number); return Math.round(Date.UTC(p[0], p[1] - 1, p[2]) / 86400000); }
   X.daysBetween = function (a, b) { return dayNumber(b) - dayNumber(a); };
   function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
-  /** Today's dare level: picked from the date, among the levels this player can already play. */
-  X.dareLevel = function (s, key) {
+  /** Today's dare: the same level for everyone, picked from the date. */
+  X.dareGlobal = function (key) { return 1 + (hash('dare:' + key) % OBEY.LEVEL_COUNT); };
+  /**
+   * The dare this player takes today: the shared level if they can play it, otherwise a practice dare
+   * among the levels they can play (fixed for the day once chosen; the caller stores `practice`).
+   */
+  X.dareFor = function (s, key) {
+    var g = X.dareGlobal(key), P = OBEY.progress;
+    if (P.canPlay(s, g)) return { n: g, global: g, practice: false };
+    var pr = s.daily && s.daily.practice;
+    if (pr && pr.key === key && P.canPlay(s, pr.n)) return { n: pr.n, global: g, practice: true };
     var pool = [];
-    for (var n = 1; n <= OBEY.LEVEL_COUNT; n++) if (OBEY.progress.canPlay(s, n)) pool.push(n);
-    if (!pool.length) return 1;
-    return pool[hash('dare:' + key) % pool.length];
+    for (var n = 1; n <= OBEY.LEVEL_COUNT; n++) if (P.canPlay(s, n)) pool.push(n);
+    return { n: pool.length ? pool[hash('practice:' + key) % pool.length] : 1, global: g, practice: true, fresh: true };
   };
+  X.dareLevel = function (s, key) { return X.dareFor(s, key).n; };
   X.dareMet = function (r) { return !!r && !r.guided && r.hints === 0 && r.fails === 0 && r.actions <= r.par; };
   X.DARE_BADGES = [3, 7, 30];
   /** Records a met dare for `key`. Returns events (streak/badge) or [] if already done that day. */

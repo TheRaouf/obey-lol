@@ -149,6 +149,7 @@
           ${current ? `<button class="slip slip-primary" data-act="open-level" data-level="${current}">${A.icon('play')}<span>Play Level ${current}</span></button>` : `<p class="map-help strong">All ${L} levels complete.</p>`}
           ${s.skipped.length ? `<p class="map-help">Skipped (still to solve): ${s.skipped.map(function (k) { return `<button class="btn small-btn" data-act="open-level" data-level="${k}">Level ${k}</button>`; }).join(' ')}</p>` : ''}
           <p class="map-help">${P.bonusUnlocked(s) ? `<button class="btn small-btn" data-act="nav" data-to="sabotage">${A.icon('hammer')} Sabotage Studio</button>` : 'The Sabotage Studio bonus pack opens after Level ' + P.BONUS_UNLOCK_LEVEL + '.'}</p>
+          ${s.settings.timer && s.completed.length ? `<p class="map-help">Speedrun total (sum of best times): <b>${app.formatTime(s.completed.reduce(function (t, k) { return t + (s.bestTime[k] || 0); }, 0), true)}</b></p>` : ''}
           <p class="map-help small">Tip: use the arrow keys to move between levels. An eye marks levels with secrets left to find.</p>
         </aside>
         <div class="map-scroll">
@@ -366,7 +367,7 @@
           <h2>Your save</h2>
           <p class="small">${app.store.persistent ? 'Progress saves automatically in this browser.' : 'This browser is blocking storage, so progress only lasts until you close this tab.'}${app.loadStatus === 'recovered' ? ' An unreadable save was found and replaced with a fresh one.' : ''}${app.loadStatus === 'migrated' ? ' Your save was upgraded to the latest format.' : ''}</p>
           <div class="btn-row">
-            ${inLevel ? `<button class="btn" data-act="open-level" data-level="${app.lastLevel}">Back to Level ${app.lastLevel}</button>` : ''}
+            ${inLevel ? `<button class="btn" data-act="open-level" data-level="${app.lastLevel}">Back to ${OBEY.levelLabel(app.lastLevel)}</button>` : ''}
             <button class="btn" data-act="tutorial">Replay the tutorial</button>
             <button class="btn danger" data-act="reset-all">Reset all progress</button>
           </div>

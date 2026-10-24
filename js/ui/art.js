@@ -136,7 +136,7 @@
         '<rect x="14" y="128" width="172" height="22" fill="#4b4466"/><ellipse cx="100" cy="128" rx="86" ry="34" fill="#6d6690" ' + SW + '/>' +
         (squash ? '<ellipse cx="100" cy="122" rx="62" ry="16" fill="' + c + '" ' + SW + '/><path d="M60 118 Q80 108 96 120 Q116 110 140 120" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="5"/>'
           : '<path d="M38 124 L38 92 Q100 60 162 92 L162 124 Q100 156 38 124Z" fill="' + c + '" ' + SW + '/><ellipse cx="100" cy="92" rx="62" ry="28" fill="' + c + '" ' + SW + '/><ellipse cx="80" cy="84" rx="18" ry="7" fill="#fff" opacity=".45"/>') +
-        (o.text && !squash ? '<text x="100" y="99" text-anchor="middle" font-size="22" fill="#fff">' + esc(o.text) + '</text>' : ''));
+        (o.text && !squash ? '<text x="100" y="99" text-anchor="middle" font-size="22" fill="' + (o.color === 'green' ? INK : '#fff') + '">' + esc(o.text) + '</text>' : ''));
     },
     smallbutton: function (o) {
       var c = { blue: '#3a86ff', red: '#e5243b' }[o.color] || '#3a86ff';

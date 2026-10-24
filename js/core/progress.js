@@ -198,13 +198,15 @@
   /** Personal bests, ruins and time-of-day flags shared by campaign and bonus levels. */
   P.recordExtras = function (s, n, result) {
     var ev = [];
+    var fair = !result.guided && !result.ruin; // ruins and guided runs never set personal bests
+    if (fair && s.clean.indexOf(n) < 0) { s.clean.push(n); ev.push({ type: 'clean-first', n: n }); }
     var acts = Math.max(0, Math.floor(Number(result.actions)));
-    if (Number.isFinite(acts) && !result.guided) {
+    if (Number.isFinite(acts) && fair) {
       var pa = s.bestActions[n];
       if (pa === undefined || acts < pa) { s.bestActions[n] = acts; if (pa !== undefined) ev.push({ type: 'best', what: 'actions', n: n, value: acts }); }
     }
     var ms = Math.floor(Number(result.timeMs));
-    if (Number.isFinite(ms) && ms > 0 && !result.guided) {
+    if (Number.isFinite(ms) && ms > 0 && fair) {
       var pt = s.bestTime[n];
       if (pt === undefined || ms < pt) { s.bestTime[n] = ms; if (pt !== undefined) ev.push({ type: 'best', what: 'time', n: n, value: ms }); }
     }
@@ -301,7 +303,7 @@
     fresh.settings = U.clone(s.settings);
     fresh.stats.hintsUsed = s.stats.hintsUsed;
     // Collections and personal records survive a New Game; the campaign itself starts over.
-    ['intern', 'profileName', 'ruins', 'jigsaw', 'daily', 'counters', 'bonus', 'seenVersion'].forEach(function (k) { fresh[k] = U.clone(s[k]); });
+    ['intern', 'profileName', 'ruins', 'jigsaw', 'daily', 'counters', 'bonus', 'seenVersion', 'bestActions', 'bestTime'].forEach(function (k) { fresh[k] = U.clone(s[k]); });
     return fresh;
   };
 
