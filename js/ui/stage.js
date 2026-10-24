@@ -25,16 +25,18 @@
     this.guideIds = [];    // objects highlighted by "Show me how"
     this.assist = null;    // hold assist: id of the object being held by tap-to-start / tap-to-stop
     this._bind();
-    var self = this, pending = false;
-    var refit = function () { if (pending) return; pending = true; (root.requestAnimationFrame || setTimeout)(function () { pending = false; self._fitSize(); self._fitText(); }); };
-    this._refit = refit;
-    root.addEventListener('resize', refit);
-    if (root.ResizeObserver) {
-      // Watch the stage and the whole level screen: a longer narrator line above the stage pushes it down.
-      this._ro = new root.ResizeObserver(function () { self._fitSize(); self._fitText(); }); // already frame-aligned
-      this._ro.observe(el);
+    var self = this;
+    root.addEventListener('resize', function () { self._fitSize(); self._fitText(); });
+    if (root.MutationObserver) {
+      // Text above the stage (narrator line, asides, goal) can grow and push it down. Re-fit when the level
+      // screen's text changes outside the stage. (A ResizeObserver here would loop: fitting resizes the stage.)
       var screen = el.closest && el.closest('.screen');
-      if (screen) this._ro.observe(screen);
+      if (screen) {
+        this._mo = new root.MutationObserver(function (list) {
+          for (var i = 0; i < list.length; i++) if (!el.contains(list[i].target)) { self._fitSize(); return; }
+        });
+        this._mo.observe(screen, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+      }
     }
   }
 
