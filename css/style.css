@@ -1092,6 +1092,7 @@ html[data-contrast="high"] .map-svg rect[fill^="var(--region"] { stroke: var(--i
 .cast-name { font-weight: 700; font-size: .85em; line-height: 1.2; }
 .cast-member.locked .cast-name { color: var(--muted); }
 .credits-stamp { font-size: 2rem; margin: 14px 0 4px; }
+.credits-end { overflow: hidden; padding: 10px 0; } /* the stamp starts at 2.2× (stamp-end); its scrollable overflow must not widen the page on phones */
 .silhouette { filter: grayscale(1) brightness(.3); opacity: .6; } /* was .35: too light to read as a shape on paper */
 .ending-machine .machine-note.pop { animation: note-out .4s cubic-bezier(.2, 1.4, .4, 1) .35s both; }
 @keyframes note-out { from { transform: translateY(-30px); opacity: 0; } to { transform: none; opacity: 1; } }

@@ -82,10 +82,11 @@
     return `<section class="whats-new panel" aria-labelledby="wn-title">
       <h2 id="wn-title">New in ${E(OBEY.VERSION)}</h2>
       <ul>
-        <li><b>100 new levels</b> (33–132) in 25 new chapters: the office, home, the great outdoors, the science lab and showbiz.</li>
-        <li><b>25 new ways to ruin things</b>, one per new chapter, with U.N.D.O.'s tips in the Sabotage file.</li>
-        <li>The <b>Final Factory</b> is now Levels 133–136. Your progress moved with it; you carry on at Level 33.</li>
-        <li>Bonus levels are now numbered Bonus 1–4 everywhere.</li>
+        <li><b>A full art pass:</b> 100 improvements from our art director — furniture stands on the floor, cleaner outlines, contact shadows and readable labels everywhere.</li>
+        <li><b>Every chapter has its own look</b> on the map, trophies and chapter cards, and its own music family.</li>
+        <li><b>Bossworth blinks</b> and greets you in more than one mood. U.N.D.O. has its own voice.</li>
+        <li>New sounds for stars, switches and costumes; rewards no longer pile up; captions sit at the bottom.</li>
+        <li>Bigger text on phones, gentler flashing, and the endings finally show the Instruction Machine.</li>
       </ul>
       <button class="btn small-btn" data-act="dismiss-whatsnew">Got it</button>
     </section>`;

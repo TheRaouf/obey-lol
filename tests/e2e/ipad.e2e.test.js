@@ -31,7 +31,7 @@ test.after(async () => {
 const LEVELS = [];
 for (let n = 1; n <= 136; n++) LEVELS.push(n);
 LEVELS.push(1001, 1002, 1003, 1004);
-const seed = H.saveWith(136, (d) => { d.seenVersion = '2.2.0'; return d; });
+const seed = H.saveWith(136, (d) => { d.seenVersion = '2.3.0'; return d; });
 
 async function enter(page, n) {
   await page.evaluate((x) => { location.hash = 'level/' + x; }, n);
