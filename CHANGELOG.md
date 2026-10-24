@@ -19,6 +19,12 @@ All notable changes to this project. Versions follow semantic versioning.
   shown as Bonus 1–4. Save schema v5 renumbers every stored level number; 2.1 players continue at Level 33.
 - Platinum Bossworth now means a Gold cup in every chapter (34).
 
+### Fixed
+- Offline app updates: the service worker now precaches with `cache: 'reload'`, so an update can't store the
+  previous version's files from the browser's HTTP cache (found when the first 2.2 deploy still ran 2.1).
+- On tablets, the stage shrinks to keep its bottom edge on screen when narrator text above it is long.
+- Card text shrinks to fit its card on small screens.
+
 
 
 Built from a review of 25 comparable games and their reviews (see FEATURE-ROADMAP.md, which ranks

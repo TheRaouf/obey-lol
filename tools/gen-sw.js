@@ -31,7 +31,8 @@ const CACHE = ${JSON.stringify(cache)};
 const FILES = ${JSON.stringify(list, null, 2)};
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
+  // cache: 'reload' skips the browser's HTTP cache, so an update never precaches the previous version's files.
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES.map((f) => new Request(f, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith('obeylol-') && k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
