@@ -27,9 +27,9 @@ function v4Save() {
   return d;
 }
 
-test('registry: 236 campaign levels, bonus pack at 1001–1004, version matches package.json, schema 6', () => {
+test('registry: 236 campaign levels, bonus pack at 1001–1004, version matches package.json, schema 7', () => {
   assert.equal(OBEY.VERSION, require('../../package.json').version);
-  assert.equal(S.SCHEMA, 6);
+  assert.equal(S.SCHEMA, 7);
   assert.equal(OBEY.LEVEL_COUNT, 236);
   assert.equal(OBEY.FINAL, 236);
   assert.equal(OBEY.levels.filter(Boolean).length, 236);
@@ -89,7 +89,7 @@ test('save v5 (2.2–2.3) → v6: Final Factory 133–136 → 233–236; levels 
   const res = S.parse(JSON.stringify(v5Save()));
   assert.equal(res.status, 'migrated');
   const d = res.data;
-  assert.equal(d.version, 6);
+  assert.equal(d.version, S.SCHEMA);
   assert.deepEqual(d.completed, [...Array(132).keys()].map((i) => i + 1).concat([233, 234, 235, 236]));
   assert.equal(d.bestStars[235], 2);
   assert.equal(d.bestStars[133], undefined, 'the new Level 133 is not marked done');
@@ -130,7 +130,7 @@ test('save v4 → current: a player stopped inside the old Final Factory resumes
   assert.ok(!v.completed.includes(33) && !v.completed.includes(133));
 });
 
-test('a v6 save is not renumbered again', () => {
+test('a current save is not renumbered again', () => {
   const d = S.defaults();
   d.completed = [1, 2, 133, 134]; d.highestUnlocked = 135;
   for (const n of d.completed) d.bestStars[n] = 3;
@@ -163,4 +163,21 @@ test('text: the finale, achievements and ninja costume point at the last level (
   assert.equal(X.getRuin('terms-agreer').level, 233);
   assert.equal(X.JIGSAW.find((j) => j.id === 'jig-9').level, 234);
   assert.equal(X.trickFor(236), 'You chose how to fix the machine. Bossworth just held the wrench.');
+});
+
+test('2.4.1: sound effects, voice and music are on by default; older saves get music switched on once', () => {
+  const d = S.defaults();
+  assert.equal(d.settings.sound, true);
+  assert.equal(d.settings.music, true);
+  assert.notEqual(d.settings.voice, 'off');
+  assert.ok(d.settings.sfxVol > 0 && d.settings.voiceVol > 0 && d.settings.musicVol > 0);
+  const old = S.defaults();
+  old.version = 6; old.settings.music = false; old.settings.sound = false; old.settings.sfxVol = 25;
+  const v = S.parse(JSON.stringify(old)).data;
+  assert.equal(v.settings.music, true, 'music switched on once');
+  assert.equal(v.settings.sound, false, 'a muted player stays muted');
+  assert.equal(v.settings.sfxVol, 25, 'volumes keep the player\'s choice');
+  // A current save that turned music off keeps it off.
+  const cur = S.defaults(); cur.settings.music = false;
+  assert.equal(S.parse(JSON.stringify(cur)).data.settings.music, false);
 });

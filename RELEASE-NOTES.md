@@ -4,8 +4,10 @@
 
 **Polish.** Every open note from our art director is done: props hang on hooks or sit on tables, long rule
 signs are easier to read, the dark undersea rooms have a seabed so their buttons look pressable, labels on
-tins and crates are bigger, and the map's chapter names no longer sit on top of a level. Your progress is
-unchanged.
+tins and crates are bigger, and the map's chapter names no longer sit on top of a level.
+
+**Music is now on by default**, together with all the sound effects. You can still turn it off in Settings.
+Your progress is unchanged.
 
 ## Version 2.4.0
 

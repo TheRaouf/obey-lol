@@ -381,7 +381,7 @@ test('obsolete v1 save is migrated', async () => {
   const s = await page.evaluate(() => OBEY_TEST.save());
   const schema = await page.evaluate(() => OBEY.save.SCHEMA);
   assert.equal(s.version, schema);
-  assert.equal(schema, 6);
+  assert.equal(schema, 7);
   assert.deepEqual(s.completed, [1, 2]);
   assert.equal(s.highestUnlocked, 3);
   assert.equal(s.settings.sound, false);

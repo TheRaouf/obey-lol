@@ -1,6 +1,7 @@
 /* OBEY? LOL. — versioned save schema, validation, migration and storage adapter.
  *
- * Schema v6 (current, game 2.4) = v5 with 236 levels: the Final Factory moves again, 133–136 -> 233–236.
+ * Schema v7 (current, game 2.4.1) = v6 with music on by default (v6 saves have music switched on once).
+ * Schema v6 (game 2.4) = v5 with 236 levels: the Final Factory moves again, 133–136 -> 233–236.
  * Schema v5 (game 2.2–2.3) = v4 with 136 levels: the old Levels 33–36 (Final Factory) become
  *   133–136 and the bonus levels 101–104 become 1001–1004, in every field that holds a level number.
  * Schema v4 (game 2.1) = v3 plus: intern, profileName, skipped, ruins, jigsaw, bestActions,
@@ -40,7 +41,7 @@
   var SAVE = {};
   SAVE.KEY = 'obeylol.save';
   SAVE.BACKUP_KEY = 'obeylol.save.corrupt';
-  SAVE.SCHEMA = 6;
+  SAVE.SCHEMA = 7;
   /** Profile slots: slot 1 keeps the original key so older saves stay where they were. */
   SAVE.PROFILES = 3;
   SAVE.keyFor = function (slot) { return slot > 1 ? SAVE.KEY + '.p' + slot : SAVE.KEY; };
@@ -50,7 +51,7 @@
     return {
       sound: true, voice: 'babble', motion: 'system', textSize: 'normal',
       haptics: true, contrast: 'normal', font: 'fun', holdAssist: false, captions: false, hand: 'right',
-      sfxVol: 80, voiceVol: 80, music: false, musicVol: 40, timer: false, honesty: 50, facade: true
+      sfxVol: 80, voiceVol: 80, music: true, musicVol: 40, timer: false, honesty: 50, facade: true
     };
   };
 
@@ -181,6 +182,9 @@
     if (v === 3) { obj = U.clone(obj); obj.version = 4; v = 4; }
     if (v === 4) { obj = SAVE.migrateV4(obj); v = 5; }
     if (v === 5) { obj = SAVE.migrateV5(obj); v = 6; }
+    // v6 -> v7 (2.4.1): music is on by default. Earlier saves stored the old default (off), so switch it
+    // on once; players can still turn it off in Settings. Sound, voice and volumes keep the player's choice.
+    if (v === 6) { obj = U.clone(obj); if (U.isObj(obj.settings)) obj.settings.music = true; obj.version = 7; v = 7; }
     if (from < SAVE.SCHEMA) obj.migratedFrom = from;
     return obj;
   };
@@ -348,7 +352,7 @@
       hand: one(se.hand, ['right', 'left'], 'right'),
       sfxVol: intIn(se.sfxVol, 0, 100, 80),
       voiceVol: intIn(se.voiceVol, 0, 100, 80),
-      music: bool(se.music, false),
+      music: bool(se.music, true),
       musicVol: intIn(se.musicVol, 0, 100, 40),
       timer: bool(se.timer, false),
       honesty: intIn(se.honesty, 0, 100, 50),

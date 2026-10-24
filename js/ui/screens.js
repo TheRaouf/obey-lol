@@ -84,6 +84,7 @@
       <ul>
         <li><b>Art polish:</b> every open item from our art director — props hang on hooks or stand on tables, long rule signs are easier to read, and the dark undersea rooms have a seabed so their buttons look pressable.</li>
         <li>Shared drawings for objects that appear in several chapters, bigger labels on tins and crates, and map labels that no longer sit on a level.</li>
+        <li><b>Music is now on by default</b>, with every sound effect — switch it off in Settings any time.</li>
         <li>Still 236 levels (133–232 arrived in 2.4) — nothing about your progress changes.</li>
       </ul>
       <button class="btn small-btn" data-act="dismiss-whatsnew">Got it</button>

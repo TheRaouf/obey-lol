@@ -22,6 +22,11 @@ All open items from the art director's reviews (docs/ART-REVIEW-2.4.1.md): the 2
   and over-thick strokes removed; the sleeping dragon's "z" is a drawing, not text.
 - Map: chapter labels sit beside their own levels instead of on a level node.
 
+### Changed — sound
+- Music is now on by default, alongside every sound effect and Bossworth's voice. Save schema v7 switches
+  music on once for existing saves (it was off only because that was the old default); sound, voice and
+  volume choices are kept, and music can still be turned off in Settings.
+
 ### Fixed
 - Level lab: alternatives that need all secrets (the finale's golden-quill path) are run with them; the
   Final Factory levels now declare their trick and wrong moves like every other level (pressing OBEY in
