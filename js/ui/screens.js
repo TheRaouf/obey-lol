@@ -128,7 +128,22 @@
     return { right: best.right, y: best.y, fs: fs, lines: tier ? [name, tier] : [name] };
   }
 
+  /** Row spacing in map units. The map is 400 units wide, so on phones a 100-unit row is under 90 px and
+   *  neighbouring nodes (disc + title + stars) overlap; keep rows at least ~100 px apart there. */
+  function mapRow() {
+    var w = root.innerWidth || 1024;
+    return w < 560 ? Math.max(100, Math.round(100 * 400 / Math.max(240, w - 32))) : 100;
+  }
+  var mapCtx = null;
+  root.addEventListener && root.addEventListener('resize', function () {
+    if (!mapCtx || mapCtx.el.closest('[hidden]') || mapRow() === ROW) return;
+    var y = root.scrollY;
+    map(mapCtx.app, mapCtx.el);
+    root.scrollTo(0, y);
+  });
   function map(app, el) {
+    mapCtx = { app: app, el: el };
+    ROW = mapRow();
     var s = app.save, L = OBEY.LEVEL_COUNT;
     var H = TOP * 2 + (L - 1) * ROW;
     var pts = [];
