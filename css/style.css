@@ -689,7 +689,7 @@ button, .slip, .chip-btn, .btn, .map-node, .narrator-btn, .obj { -webkit-tap-hig
 }
 /* Tablet portrait (iPad 744–1024 wide): bigger stage, narrator on top. */
 @media (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
-  .stage-col, .stage-wrap, .stage { max-width: min(700px, 100%, calc(100dvh - 365px)); }
+  .stage-col, .stage-wrap, .stage { max-width: min(700px, 100%, calc(100dvh - 400px)); }
   .narrator-btn { width: 120px; max-width: 120px; }
 }
 /* Phones and Slide Over in landscape (short screens): side-by-side, stage sized by height. */

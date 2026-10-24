@@ -156,7 +156,11 @@ test('Safari touch hygiene: no double-tap zoom, no long-press menu or text selec
   assert.equal(css.htmlTouch, 'manipulation');
   assert.ok(['none', 'manipulation'].includes(css.objTouch));
   assert.equal(css.select, 'none');
-  if (H.ENGINE === 'webkit') assert.equal(css.callout, 'none');
+  // -webkit-touch-callout only exists in iOS Safari (desktop/Linux WebKit and Chromium drop it), so check
+  // that the stylesheet declares it for game controls; real iPad behaviour is on the device checklist.
+  const sheet = await page.evaluate(() => fetch('css/style.css').then((r) => r.text()));
+  assert.match(sheet, /\.obj[^{]*\{[^}]*-webkit-touch-callout:\s*none/);
+  if (css.callout !== undefined) assert.equal(css.callout, 'none');
   const meta = await page.evaluate(() => ({
     viewport: document.querySelector('meta[name="viewport"]').content,
     capable: document.querySelector('meta[name="apple-mobile-web-app-capable"]').content,
