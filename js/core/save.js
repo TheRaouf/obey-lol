@@ -1,6 +1,7 @@
 /* OBEY? LOL. — versioned save schema, validation, migration and storage adapter.
  *
- * Schema v5 (current, game 2.2) = v4 with 136 levels: the old Levels 33–36 (Final Factory) become
+ * Schema v6 (current, game 2.4) = v5 with 236 levels: the Final Factory moves again, 133–136 -> 233–236.
+ * Schema v5 (game 2.2–2.3) = v4 with 136 levels: the old Levels 33–36 (Final Factory) become
  *   133–136 and the bonus levels 101–104 become 1001–1004, in every field that holds a level number.
  * Schema v4 (game 2.1) = v3 plus: intern, profileName, skipped, ruins, jigsaw, bestActions,
  *   bestTime, daily {last, streak, best, done, badges}, counters {...}, bonus {completed, bestStars},
@@ -39,7 +40,7 @@
   var SAVE = {};
   SAVE.KEY = 'obeylol.save';
   SAVE.BACKUP_KEY = 'obeylol.save.corrupt';
-  SAVE.SCHEMA = 5;
+  SAVE.SCHEMA = 6;
   /** Profile slots: slot 1 keeps the original key so older saves stay where they were. */
   SAVE.PROFILES = 3;
   SAVE.keyFor = function (slot) { return slot > 1 ? SAVE.KEY + '.p' + slot : SAVE.KEY; };
@@ -116,8 +117,12 @@
     if (n >= 101 && n <= 104) return n + 900;
     return n;
   };
-  SAVE.migrateV4 = function (obj) {
-    var o = U.clone(obj), R = SAVE.renumberV4;
+  SAVE.migrateV4 = function (obj) { return renumberSave(obj, SAVE.renumberV4, 33, 5); };
+  /** v5 (2.2–2.3, 136 levels) -> v6 (2.4, 236 levels): the Final Factory moves again, 133–136 -> 233–236. */
+  SAVE.renumberV5 = function (n) { n = Number(n); return n >= 133 && n <= 136 ? n + 100 : n; };
+  SAVE.migrateV5 = function (obj) { return renumberSave(obj, SAVE.renumberV5, 133, 6); };
+  function renumberSave(obj, R, resumeAt, version) {
+    var o = U.clone(obj);
     function list(a) { return Array.isArray(a) ? a.map(R) : a; }
     function keys(m) { if (!U.isObj(m)) return m; var out = {}; Object.keys(m).forEach(function (k) { out[R(k)] = m[k]; }); return out; }
     o.completed = list(o.completed);
@@ -130,12 +135,12 @@
     if (U.isObj(o.stats)) { o.stats.noHint = list(o.stats.noHint); o.stats.flawless = list(o.stats.flawless); }
     if (U.isObj(o.bonus)) { o.bonus.completed = list(o.bonus.completed); o.bonus.bestStars = keys(o.bonus.bestStars); }
     if (U.isObj(o.daily) && U.isObj(o.daily.practice)) o.daily.practice.n = R(o.daily.practice.n);
-    // Anyone who had reached the old finale now continues with the new Level 33.
+    // Anyone who had reached the old finale continues with the first new level.
     var h = Number(o.highestUnlocked) || 1;
-    o.highestUnlocked = h >= 33 ? 33 : h;
-    o.version = 5;
+    o.highestUnlocked = h >= resumeAt ? resumeAt : h;
+    o.version = version;
     return o;
-  };
+  }
 
   /** Converts an older schema object into the current schema shape (not yet validated). */
   SAVE.migrate = function (obj) {
@@ -175,6 +180,7 @@
     }
     if (v === 3) { obj = U.clone(obj); obj.version = 4; v = 4; }
     if (v === 4) { obj = SAVE.migrateV4(obj); v = 5; }
+    if (v === 5) { obj = SAVE.migrateV5(obj); v = 6; }
     if (from < SAVE.SCHEMA) obj.migratedFrom = from;
     return obj;
   };

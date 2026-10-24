@@ -79,7 +79,7 @@ for (const f of jsInHtml.filter((r) => r.startsWith('js/core/') || r.startsWith(
   vm.runInThisContext(read(f), { filename: f });
 }
 const OBEY = globalThis.OBEY;
-ok(OBEY.levels.length === OBEY.LEVEL_COUNT && OBEY.LEVEL_COUNT === 136, 'expected 136 levels');
+ok(OBEY.levels.length === OBEY.LEVEL_COUNT && OBEY.LEVEL_COUNT === 236, 'expected 236 levels');
 ok(OBEY.bonusLevels.length === OBEY.BONUS_COUNT && OBEY.bonusLevels.every(Boolean), 'expected ' + OBEY.BONUS_COUNT + ' bonus levels');
 for (const r of OBEY.extras.RUINS) ok(OBEY.getLevel(r.level), `ruin ${r.id}: level ${r.level} missing`);
 for (const j of OBEY.extras.JIGSAW) ok(OBEY.getLevel(j.level) && !OBEY.isBonus(j.level), `jigsaw ${j.id}: bad level`);

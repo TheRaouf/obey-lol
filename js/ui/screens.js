@@ -222,7 +222,7 @@
     el.innerHTML = backBar('Secret field notes', 'secrets-title', `<span class="pill">${s.secrets.length}/15</span>`) + `
       <div class="page">
         <div class="progress-block panel">
-          <p>You have found <b>${s.secrets.length}</b> of 15 secrets.${s.secrets.length === 15 ? ' Something golden waits in Level 136.' : ' Find all 15 for a very special ending.'}</p>
+          <p>You have found <b>${s.secrets.length}</b> of 15 secrets.${s.secrets.length === 15 ? ' Something golden waits in Level ' + OBEY.FINAL + '.' : ' Find all 15 for a very special ending.'}</p>
           <div class="bar" role="progressbar" aria-label="Secrets found" aria-valuemin="0" aria-valuemax="15" aria-valuenow="${s.secrets.length}"><span style="width:${(s.secrets.length / 15 * 100).toFixed(1)}%"></span></div>
         </div>
         <ul class="note-grid">${cards}</ul>

@@ -1,4 +1,4 @@
-/* Level 134 — The Rehearsal
+/* Level 234 — The Rehearsal
  * Before the finale Bossworth quizzes you on earlier levels (memory). Three questions, three
  * choices each. A wrong answer is a trap and restarts the quiz.
  */
@@ -13,7 +13,7 @@
 
   OBEY.registerLevel({
     id: 'the-rehearsal',
-    num: 134,
+    num: 234,
     title: 'The Rehearsal',
     objective: 'Pass Bossworth\'s pop quiz about your adventure.',
     intro: 'The finale is close. Let\'s rehearse! Three questions about our time together. I bet you weren\'t paying attention.',

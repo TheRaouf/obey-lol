@@ -74,7 +74,7 @@
     { id: 'hostile-takeover', level: 121, name: 'Hostile Takeover', trigger: null, line: '', clue: 'There are two buzzers. Only one of them says HOST ONLY. That\'s practically an invitation.' },
     { id: 'stuck-at-the-top', level: 128, name: 'Stuck at the Top', trigger: null, line: '', clue: 'He said don\'t touch the emergency stop. He didn\'t say what happens to HIM if you do.' },
     { id: 'banned-for-life', level: 132, name: 'Banned for Life', trigger: null, line: '', clue: 'A suspicious new player with a moustache. There\'s a red button next to his name that isn\'t Make host.' },
-    { id: 'terms-agreer', level: 133, name: 'Agrees to Everything', trigger: { type: 'fails', count: 4 },
+    { id: 'terms-agreer', level: OBEY.fromEnd(3), name: 'Agrees to Everything', trigger: { type: 'fails', count: 4 },
       line: 'You agreed four times without reading. Legal says you now technically own this level. Take it.',
       clue: 'What happens if you agree to the terms… again and again?' },
     { id: 'label-peeler', level: OBEY.BONUS_BASE + 1, name: 'Label Peeler', trigger: null, line: '', clue: 'Keep switching between the two coloured buttons. Labels don\'t stick forever.' },
@@ -134,10 +134,10 @@
     30: 'The password was literally "NOT PASSWORD".',
     31: 'Wait for the shuffle to finish — the joker never lies about being a joker.',
     32: 'All lights on is a trap. Two bulbs were enough.',
-    133: 'Reading the terms revealed Clause 9: the cat flap.',
-    134: 'A rehearsal is just practice. The answers were in the questions.',
-    135: 'Collect the gears, then ask Bossworth before answering.',
-    136: 'You chose how to fix the machine. Bossworth just held the wrench.',
+    [OBEY.fromEnd(3)]: 'Reading the terms revealed Clause 9: the cat flap.',
+    [OBEY.fromEnd(2)]: 'A rehearsal is just practice. The answers were in the questions.',
+    [OBEY.fromEnd(1)]: 'Collect the gears, then ask Bossworth before answering.',
+    [OBEY.FINAL]: 'You chose how to fix the machine. Bossworth just held the wrench.',
     1001: 'Neither button was RED. The word RED was.',
     1002: 'Optimised charging stopped it at 99%. Switching it off let it reach 100.',
     1003: 'You can solve the tower in seven moves — or move the "C" sign.',
@@ -156,7 +156,7 @@
     { id: 'jig-6', level: 22, x: 3, y: 90 },
     { id: 'jig-7', level: 25, x: 20, y: 40 },
     { id: 'jig-8', level: 29, x: 2, y: 90 },
-    { id: 'jig-9', level: 134, x: 90, y: 90 }
+    { id: 'jig-9', level: OBEY.fromEnd(2), x: 90, y: 90 }
   ];
   X.JIGSAW_IDS = X.JIGSAW.map(function (j) { return j.id; });
   X.jigsawFor = function (n) { return X.JIGSAW.filter(function (j) { return j.level === n; })[0] || null; };
