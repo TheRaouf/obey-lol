@@ -15,7 +15,9 @@ Each of the 36 levels asks the same question in a new way: **obey, disobey, or f
 
 ## Launch
 
-**Easiest:** open `index.html` in a modern browser (Chrome, Edge, Firefox, Safari). Everything —
+**Play online:** https://theraouf.github.io/obey-lol/
+
+**Offline:** open `index.html` in a modern browser (Chrome, Edge, Firefox, Safari). Everything —
 including saving — works from `file://`.
 
 **Local server (optional):** if your browser restricts `file://` pages (for example some
