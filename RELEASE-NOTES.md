@@ -1,5 +1,19 @@
 # OBEY? LOL. — Release notes
 
+## Version 2.4.0
+
+**Bossworth goes shopping, teaching, ruling, diving and refereeing.** 100 new levels in 25 new chapters
+before the Final Factory: the supermarket, school, a castle, under the sea and sports day.
+
+- **100 new levels** (133–232): put the coin in the *last* trolley, read the ruler that starts at 2,
+  feed the guards' bread-stick bars to yourself, count the lighthouse flashes, carry the ostrich egg on the
+  soup ladle. Every one explains its trick when you finish.
+- **25 new ways to ruin things** and **25 new chapter cups**.
+- The Final Factory is now **Levels 233–236**. If you had finished 2.3, your progress moves with it and you
+  carry on at Level 133.
+
+**How to update:** reload the game. Your progress carries over automatically.
+
 ## Version 2.3.0
 
 **Everything looks (and sounds) like it belongs together.** Our art director went through every screen,

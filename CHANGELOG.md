@@ -2,7 +2,23 @@
 
 All notable changes to this project. Versions follow semantic versioning.
 
-## [2.3.0] — 2026-10-24
+## [2.4.0] — 2026-10-24
+
+### Added
+- 100 new levels (133–232) in 25 new chapters, between Postcard Paradise and the Final Factory:
+  the supermarket (Aisle Antics → Carpark Capers), school (Chalkboard Chasm → Detention Dunes), a castle and fairy tale (Moat Mayhem → Spellbook Spire), under the sea
+  (Periscope Pier → Shipwreck Shoals) and sports day (Hurdle Hollow → Podium Party). Each has a trick recap, three graduated hints and at least two
+  declared wrong moves.
+- 25 new ruins (66 total), 25 new chapter cups (65 trophies), 5 new art packs (f–j).
+- Level lab `--fit`: checks every card's text at 320×700, 390×844 and 1180×900.
+
+### Changed
+- The Final Factory moved from Levels 133–136 to 233–236. Save schema v6 renumbers stored level numbers;
+  players who had finished 2.3 continue at Level 133. The finale's level numbers are now derived from the
+  level count (`OBEY.FINAL`, `OBEY.fromEnd(k)`), so future level packs only change the count and add a
+  migration.
+
+
 
 The art release: a full review by the game's art director (docs/ART-REVIEW-2.3.md) produced 100
 enhancements (14 P1, 46 P2, 40 P3), applied in six groups.
