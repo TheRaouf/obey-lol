@@ -109,8 +109,7 @@ if (shots) {
     const { create } = require('./serve.js');
     fs.mkdirSync(shots, { recursive: true });
     const page = 'lab-' + process.pid + '.html';
-    const extra = arts.concat(files).map((f) => `<script src="${f}"></script>`).join('\n');
-    fs.writeFileSync(path.join(ROOT, page), html.replace('<script src="js/ui/art.js"></script>', extra.replace(/<script src="js\/levels[^]*$/, '') + '<script src="js/ui/art.js"></script>').replace('<script src="js/ui/art-extra.js"></script>', '<script src="js/ui/art-extra.js"></script>\n' + arts.map((f) => `<script src="${f}"></script>`).join('\n')));
+    fs.writeFileSync(path.join(ROOT, page), html.replace('<script src="js/ui/art-extra.js"></script>', '<script src="js/ui/art-extra.js"></script>\n' + arts.map((f) => `<script src="${f}"></script>`).join('\n')));
     // Level files must load before the UI; art packs after art-extra.js.
     let page2 = fs.readFileSync(path.join(ROOT, page), 'utf8');
     page2 = page2.replace('<script src="js/levels/b1-red-means-blue.js"></script>', files.map((f) => `<script src="${f}"></script>`).join('\n') + '\n<script src="js/levels/b1-red-means-blue.js"></script>');

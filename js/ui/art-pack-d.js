@@ -2,7 +2,8 @@
  * Original code-drawn SVG in the house style (chunky shapes, ink outlines, flat fills). */
 (function (root) {
   'use strict';
-  var OBEY = root.OBEY, A = OBEY.art;
+  var OBEY = root.OBEY, A = OBEY && OBEY.art;
+  if (!A || !A.addObject) return; // loaded before the base art: nothing to extend yet
   var svg = A.svg, INK = A.INK, SW = A.SW, SW3 = A.SW3;
   function esc(s) { return OBEY.util.escape(String(s)); }
 
@@ -163,8 +164,7 @@
 
   A.addObject('d-microwave', function () {
     return svg('0 0 200 140', '<rect x="10" y="14" width="180" height="116" rx="12" fill="#e9e6f0" ' + SW + '/><rect x="26" y="30" width="112" height="84" rx="8" fill="#fff3a8" ' + SW3 + '/>' +
-      '<circle cx="82" cy="74" r="16" fill="#ffd23f" ' + SW3 + '/><rect x="150" y="34" width="26" height="14" rx="3" fill="#1c1640"/><circle cx="156" cy="70" r="6" fill="#8a86a8"/><circle cx="170" cy="70" r="6" fill="#8a86a8"/><circle cx="156" cy="88" r="6" fill="#8a86a8"/><circle cx="170" cy="88" r="6" fill="#8a86a8"/>' +
-      '<path d="M40 2 Q46 -4 52 2" fill="none" ' + SW3 + '/>');
+      '<circle cx="82" cy="74" r="16" fill="#ffd23f" ' + SW3 + '/><rect x="150" y="34" width="26" height="14" rx="3" fill="#1c1640"/><circle cx="156" cy="70" r="6" fill="#8a86a8"/><circle cx="170" cy="70" r="6" fill="#8a86a8"/><circle cx="156" cy="88" r="6" fill="#8a86a8"/><circle cx="170" cy="88" r="6" fill="#8a86a8"/>');
   });
 
   A.addObject('d-sofa', function () {
@@ -178,10 +178,10 @@
     var body = '#e9eef5', nose = '#e5243b', fin = '#e5243b';
     if (p === 'nose') g = '<path d="M100 30 Q140 70 136 200 L64 200 Q60 70 100 30Z" fill="' + body + '" ' + SW + '/><path d="M100 30 Q124 52 130 86 L70 86 Q76 52 100 30Z" fill="' + nose + '" ' + SW3 + '/>';
     else if (p === 'body') g = '<rect x="64" y="-10" width="72" height="220" fill="' + body + '" ' + SW + '/><circle cx="100" cy="80" r="22" fill="#7dd3ea" ' + SW + '/><path d="M64 150 L136 150" ' + SW3 + '/>';
-    else if (p === 'fins') g = '<path d="M64 0 L64 130 L0 180 L0 120 L64 60" fill="' + fin + '" ' + SW + '/><path d="M136 0 L136 130 L200 180 L200 120 L136 60" fill="' + fin + '" ' + SW + '/><rect x="64" y="-10" width="72" height="140" fill="' + body + '" ' + SW + '/>' +
+    else if (p === 'fins') g = '<path d="M64 60 L-4 120 L-4 182 L64 130Z" fill="' + fin + '" ' + SW + '/><path d="M136 60 L204 120 L204 182 L136 130Z" fill="' + fin + '" ' + SW + '/><rect x="64" y="-10" width="72" height="140" fill="' + body + '" ' + SW + '/>' +
       '<path d="M76 130 Q100 210 124 130Z" fill="#ffb020" ' + SW3 + '/><path d="M90 130 Q100 170 110 130Z" fill="#ffd23f"/>';
-    else if (p === 'finL') g = '<path d="M200 120 L140 170 L140 120 L200 70Z" fill="' + fin + '" ' + SW + '/>';
-    else if (p === 'finR') g = '<path d="M0 120 L60 170 L60 120 L0 70Z" fill="' + fin + '" ' + SW + '/>';
+    else if (p === 'finL') g = '<path d="M204 120 L150 162 L150 190 L204 182Z" fill="' + fin + '" ' + SW + '/>';
+    else if (p === 'finR') g = '<path d="M-4 120 L50 162 L50 190 L-4 182Z" fill="' + fin + '" ' + SW + '/>';
     else if (p === 'planet') g = '<circle cx="100" cy="100" r="46" fill="#ff8c1a" ' + SW + '/><ellipse cx="100" cy="104" rx="80" ry="18" fill="none" ' + SW + '/><path d="M70 84 Q100 74 128 86" fill="none" stroke="#fff" stroke-width="5" opacity=".6"/>';
     else if (p === 'moon') g = '<circle cx="100" cy="100" r="50" fill="#e9e6f0" ' + SW + '/><circle cx="84" cy="86" r="10" fill="#c3ccd8" ' + SW3 + '/><circle cx="118" cy="118" r="8" fill="#c3ccd8" ' + SW3 + '/>';
     else if (p === 'satellite') g = '<rect x="80" y="80" width="40" height="40" rx="6" fill="#c3ccd8" ' + SW + '/><rect x="20" y="88" width="52" height="24" fill="#3e7bff" ' + SW3 + '/><rect x="128" y="88" width="52" height="24" fill="#3e7bff" ' + SW3 + '/><path d="M100 80 L100 56" ' + SW3 + '/><circle cx="100" cy="52" r="6" fill="#ffd23f" ' + SW3 + '/>';
@@ -285,13 +285,13 @@
     var pt = function (i, rr) { var a = (-90 + 45 * i) * Math.PI / 180; return [cx + (rr || r) * Math.cos(a), cy + (rr || r) * Math.sin(a)]; };
     var slots = '';
     for (var i = 0; i < 8; i++) { var p = pt(i); slots += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="7" fill="#58607e"/>'; }
-    var t = pt(o.target || 0), m = pt(o.mars || 0), f = pt(o.target || 0, r + 34);
+    var t = pt(o.target || 0), m = pt(o.mars || 0);
     var path = '<path d="M' + cx + ' ' + cy + ' L' + t[0].toFixed(1) + ' ' + t[1].toFixed(1) + '" stroke="#ffd23f" stroke-width="5" stroke-dasharray="10 10" fill="none"/>';
     return svg('0 0 320 320', '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="#9ec0ff" stroke-width="4" stroke-dasharray="4 10"/>' + slots + path +
       '<circle cx="' + t[0].toFixed(1) + '" cy="' + t[1].toFixed(1) + '" r="24" fill="none" stroke="#ffd23f" stroke-width="5"/>' +
       '<circle cx="' + cx + '" cy="' + cy + '" r="34" fill="#ffd23f" ' + SW + '/><path d="M' + (cx - 14) + ' ' + (cy - 6) + ' q14 -10 28 0" fill="none" stroke="#fff" stroke-width="5" opacity=".7"/>' +
       '<circle cx="' + m[0].toFixed(1) + '" cy="' + m[1].toFixed(1) + '" r="20" fill="#e2552c" ' + SW + '/><circle cx="' + (m[0] - 6).toFixed(1) + '" cy="' + (m[1] - 4).toFixed(1) + '" r="5" fill="#b6532f"/>' +
-      '<text x="' + f[0].toFixed(1) + '" y="' + (f[1] + 6).toFixed(1) + '" text-anchor="middle" font-size="18" font-weight="700" fill="#ffd23f">AIM</text>');
+      '<text x="' + t[0].toFixed(1) + '" y="' + (t[1] - 32).toFixed(1) + '" text-anchor="middle" font-size="18" font-weight="700" fill="#e5a800">AIM</text>');
   });
 
   /** A vertical wire of `color`, optionally snipped in the middle. */

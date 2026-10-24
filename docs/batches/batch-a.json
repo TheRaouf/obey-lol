@@ -1,0 +1,22 @@
+{
+  "chapters": [
+    { "name": "Stapler Steppes", "levels": [33, 34, 35, 36] },
+    { "name": "Filing Fjord", "levels": [37, 38, 39, 40] },
+    { "name": "Printer Peaks", "levels": [41, 42, 43, 44] },
+    { "name": "Canteen Cliffs", "levels": [45, 46, 47, 48] },
+    { "name": "Boardroom Bluffs", "levels": [49, 50, 51, 52] }
+  ],
+  "ruins": [
+    { "id": "screen-sharer", "level": 36, "name": "Screen Sharer", "clue": "Check what your open tab is called. Then share it with the whole meeting." },
+    { "id": "scenic-route", "level": 38, "name": "The Scenic Route", "clue": "Bossworth hates waiting. A lift that stops at five wrong floors is basically a weapon." },
+    { "id": "paper-mountain", "level": 41, "name": "Paper Mountain", "clue": "Copy 100% never helps. Press it until the copier gives up. Six usually does it." },
+    { "id": "foam-party", "level": 45, "name": "Foam Party", "clue": "There is no fire. There is an extinguisher. Press and hold it anyway." },
+    { "id": "spin-cycle", "level": 49, "name": "Spin Cycle", "clue": "He said never stop pushing. Take him at his word: twelve pushes, three laps." }
+  ],
+  "art": [
+    "a-stamp", "a-stapler", "a-jelly", "a-holepunch", "a-chair", "a-cabinet", "a-deskphone", "a-router", "a-plug",
+    "a-elevator", "a-copier", "a-printer", "a-paper", "a-tray", "a-shredder", "a-suggestbox", "a-noticeboard",
+    "a-extinguisher", "a-firebell", "a-coffeemachine", "a-cup", "a-vending", "a-sensor", "a-cone", "a-desk",
+    "a-revolving", "a-photo", "a-bossmug", "a-timeclock", "a-timecard", "a-orglines", "a-portrait"
+  ]
+}

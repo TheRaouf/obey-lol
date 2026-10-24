@@ -1,0 +1,120 @@
+{
+  "chapters": [
+    {
+      "name": "Magic Matinee",
+      "levels": [
+        117,
+        118,
+        119,
+        120
+      ]
+    },
+    {
+      "name": "Curtain Call",
+      "levels": [
+        121,
+        122,
+        123,
+        124
+      ]
+    },
+    {
+      "name": "Buzzer Bonanza",
+      "levels": [
+        125,
+        126,
+        127,
+        128
+      ]
+    },
+    {
+      "name": "Museum Midway",
+      "levels": [
+        129,
+        130,
+        131,
+        132
+      ]
+    },
+    {
+      "name": "Pixel Palace",
+      "levels": [
+        133,
+        134,
+        135,
+        136
+      ]
+    }
+  ],
+  "ruins": [
+    {
+      "id": "bossworth-bunny",
+      "level": 118,
+      "name": "Bunny Bossworth",
+      "clue": "The wand box lists everything it works on. Read the last word. Then point."
+    },
+    {
+      "id": "pursued-by-a-bear",
+      "level": 122,
+      "name": "Pursued by a Bear",
+      "clue": "Not every line in the prompter's box is dialogue. Some of them are bears."
+    },
+    {
+      "id": "hostile-takeover",
+      "level": 125,
+      "name": "Hostile Takeover",
+      "clue": "There are two buzzers. Only one of them says HOST ONLY. That's practically an invitation."
+    },
+    {
+      "id": "stuck-at-the-top",
+      "level": 132,
+      "name": "Stuck at the Top",
+      "clue": "He said don't touch the emergency stop. He didn't say what happens to HIM if you do."
+    },
+    {
+      "id": "banned-for-life",
+      "level": 136,
+      "name": "Banned for Life",
+      "clue": "A suspicious new player with a moustache. There's a red button next to his name that isn't Make host."
+    }
+  ],
+  "art": [
+    "e-tophat",
+    "e-wand",
+    "e-magicbox",
+    "e-padlock",
+    "e-watch",
+    "e-tray",
+    "e-coatrack",
+    "e-bowler",
+    "e-chair",
+    "e-clapper",
+    "e-camera",
+    "e-ghost",
+    "e-keys",
+    "e-guitar",
+    "e-buzzer",
+    "e-podium",
+    "e-jar",
+    "e-strongman",
+    "e-rope",
+    "e-mud",
+    "e-runner",
+    "e-photo",
+    "e-vase",
+    "e-egg",
+    "e-statue",
+    "e-portrait",
+    "e-bookshelf",
+    "e-velvet",
+    "e-heightsign",
+    "e-tallhat",
+    "e-stilts",
+    "e-wheel",
+    "e-gondola",
+    "e-hamster",
+    "e-seeds",
+    "e-avatar",
+    "e-curtain"
+  ]
+}
