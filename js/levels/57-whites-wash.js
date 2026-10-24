@@ -35,13 +35,13 @@
       return [
         O('prog', 54, 4, 42, 11, { kind: 'static', text: 'HOT WHITES 90°', label: 'Programme: hot whites, 90 degrees', cls: 'display-card' }),
         O('start', 54, 18, 42, 12, { text: 'START', label: 'Start the wash', cls: 'btn-card accent' }),
-        O('washer', 4, 6, 44, 64, { art: 'b-washer', artOpts: { sock: s.sock === 'in', open: s.open, spinning: s.washed }, zone: true,
+        O('washer', 4, 40, 40, 40, { art: 'b-washer', artOpts: { sock: s.sock === 'in', open: s.open, spinning: s.washed }, zone: true,
           label: s.open ? 'Washing machine, door open (tap to close)' : 'Washing machine, door shut. Through the window: white sheets' + (s.sock === 'in' ? ' and a flash of red' : '') + ' (tap to open)' }),
-        O('sock', 14, 76, 16, 16, { art: 'b-sock', artOpts: { color: 'red' }, drag: true, hidden: s.sock !== 'floor', label: 'Red sock on the floor (drag it to the basket)', cls: 'pop-in' }),
-        O('basket', 34, 74, 22, 22, { art: 'basket', zone: true, free: true, label: 'Laundry basket for coloureds' + (s.sock === 'basket' ? ', with a red sock in it' : '') }),
-        O('care', 60, 38, 36, 12, { kind: 'static', text: 'Jumper label: 100% WOOL. Hand wash COLD.', label: 'Care label on the jumper: 100 percent wool, hand wash cold', cls: 'tag-card' }),
+        O('sock', 6, 82, 14, 14, { art: 'b-sock', artOpts: { color: 'red' }, drag: true, hidden: s.sock !== 'floor', label: 'Red sock on the floor (drag it to the basket)', cls: 'pop-in' }),
+        O('basket', 44, 76, 20, 20, { art: 'basket', zone: true, free: true, label: 'Laundry basket for coloureds' + (s.sock === 'basket' ? ', with a red sock in it' : '') }),
+        O('care', 60, 38, 36, 14, { kind: 'static', text: 'Jumper label: 100% WOOL. Hand wash COLD.', label: 'Care label on the jumper: 100 percent wool, hand wash cold', cls: 'tag-card' }),
         O('jumper', 66, 54, 26, 24, { art: 'b-jumper', drag: true, hidden: s.jumper, label: 'Bossworth\'s lucky wool jumper (drag it somewhere)' }),
-        O('floor', 60, 84, 36, 10, { kind: 'static', text: s.jumper ? 'Jumper: in the machine. Uh-oh.' : 'Jumper: safely on the chair.', label: '', cls: 'tag-card' })
+        O('floor', 64, 84, 32, 12, { kind: 'static', text: s.jumper ? 'Jumper: in the machine. Uh-oh.' : 'Jumper: safely on the chair.', label: '', cls: 'tag-card' })
       ];
     },
 

@@ -17,7 +17,7 @@
     title: 'Whiteboard Wipe',
     objective: 'Enter the door code from the whiteboard.',
     intro: 'The door code\'s on the whiteboard. Don\'t bother memorising it. I have a photographic memory. Well. Photo-ish. Photo-adjacent.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['memory', 'tap', 'wait'],
     par: 4,
     hints: [
@@ -47,9 +47,9 @@
         O('boardtitle', 8, 6, 52, 8, { kind: 'static', text: visible ? 'DOOR CODE' : 'squeaky clean ✨', label: '', cls: 'tag-card' }),
         O('code', 8, 16, 52, 18, { kind: 'static', text: visible ? CODE.join(' ') : '', label: visible ? 'Whiteboard: door code triangle, circle, square, triangle' : 'Whiteboard, wiped clean', cls: 'shape-btn' }),
         O('photo', 70, 6, 26, 22, { text: '📷\nCleaner\'s\n"before" photo', label: 'The cleaner\'s before photo of the whiteboard', cls: 'btn-card', hidden: !s.wiped }),
-        O('bucket', 74, 34, 18, 18, { kind: 'static', art: 'bucket', label: 'Cleaner\'s bucket' }),
+        O('bucket', 84, 80, 12, 12, { kind: 'static', art: 'bucket', label: 'Cleaner\'s bucket' }),
         O('entry', 4, 40, 60, 12, { kind: 'static', text: s.wiped ? (s.entry.length ? s.entry.join(' ') : 'enter code') : 'pad asleep…', label: 'Code entry: ' + (s.entry.join(' ') || 'empty'), cls: 'display-card' }),
-        O('door', 72, 56, 22, 40, { kind: 'static', art: 'door', artOpts: { sign: 'CODE', small: true }, label: 'Door with a shape lock' })
+        O('door', 66, 56, 18, 36, { kind: 'static', art: 'door', artOpts: { sign: 'CODE', small: true }, label: 'Door with a shape lock' })
       ];
       SHAPES.forEach(function (sh, i) {
         objs.push(O(sh.id, 4 + i * 21, 58, 18, 18, { text: sh.s, label: 'Shape button: ' + sh.name, cls: 'shape-btn ' + sh.cls, disabled: !s.wiped }));

@@ -32,7 +32,7 @@
     init: function () { return { magnet: true, dug: {} }; },
 
     view: function (s) {
-      var objs = [O('oak', 38, 20, 24, 30, { kind: 'static', art: 'c-oak', label: 'The old oak tree' })];
+      var objs = [O('meadow', 0, 0, 100, 100, { kind: 'static', art: 'c-meadow' }), O('oak', 38, 20, 24, 30, { kind: 'static', art: 'c-oak', label: 'The old oak tree' })];
       Object.keys(SPOTS).forEach(function (id) {
         var pos = { digN: [43, 3], digE: [68, 30], digS: [43, 52], digW: [18, 30] }[id];
         objs.push(O(id, pos[0], pos[1], 14, 12, { art: 'c-dig', artOpts: { dug: !!s.dug[id] }, label: 'Patch of soil ' + SPOTS[id] + ' the oak' + (s.dug[id] ? ' (already dug)' : '') }));

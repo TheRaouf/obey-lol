@@ -37,9 +37,9 @@
       var objs = [
         O('rule', 4, 2, 92, 10, { kind: 'static', text: 'Sign: every word weighs 1 kg per letter.', label: 'Sign: every word weighs one kilogram per letter', cls: 'tag-card' }),
         O('scale', 6, 14, 88, 44, { kind: 'static', art: 'scale', artOpts: { tilt: total === TARGET ? 0 : (total < TARGET ? -1 : 1) }, label: 'Scale. Left pan: HEAVY, 5 kilograms. Right pan: ' + (s.pan.length ? s.pan.join(' and ') : 'empty') + ', ' + total + ' kilograms' }),
-        O('left', 10, 30, 30, 9, { kind: 'static', text: 'HEAVY (5)', cls: 'tag-card' }),
+        O('left', 6, 44, 30, 9, { kind: 'static', text: 'HEAVY (5)', cls: 'tag-card' }),
         O('pan', 58, 26, 34, 18, { kind: 'zone', label: 'Right pan of the scale', zone: true }),
-        O('panlist', 58, 44, 34, 9, { kind: 'static', text: (s.pan.length ? s.pan.join(' + ') : 'empty') + ' = ' + total, label: '', cls: 'tag-card' })
+        O('panlist', 62, 44, 30, 9, { kind: 'static', text: (s.pan.length ? s.pan.join(' + ') : 'empty') + ' = ' + total, label: '', cls: 'tag-card' })
       ];
       ORDER.forEach(function (w) {
         var t = TRAY[w];

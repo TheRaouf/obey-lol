@@ -36,7 +36,7 @@
       var shown = s.entry.map(function (k) { return SYM[k]; }).join('  ');
       return [
         O('bell', 4, 8, 22, 14, { text: 'Doorbell', label: 'Doorbell button', cls: 'btn-card' }),
-        O('legend', 4, 30, 22, 26, { kind: 'static', text: 'Tap door = short knock\nHold door = LONG knock', label: 'Tap the door for a short knock, hold it for a long knock', cls: 'tag-card' }),
+        O('legend', 4, 25, 27, 34, { kind: 'static', text: 'Tap door = short knock\nHold door = LONG knock', label: 'Tap the door for a short knock, hold it for a long knock', cls: 'tag-card' }),
         O('door', 32, 6, 36, 72, { art: 'door', artOpts: { sign: 'HOME' }, hold: true, label: 'Front door (tap = short knock, press and hold = long knock)' }),
         O('note', 74, 8, 22, 40, { kind: 'static', text: 'SECRET KNOCK\n\n— • • —\n\nlong, short, short, long', label: 'Note taped by the door: secret knock is long, short, short, long', cls: 'ticket-card' }),
         O('prog', 24, 82, 52, 12, { kind: 'static', text: shown || 'knocks: …', label: 'Your knocks so far: ' + (s.entry.length ? s.entry.map(function (k) { return k === 'L' ? 'long' : 'short'; }).join(', ') : 'none'), cls: 'panel-lights' })

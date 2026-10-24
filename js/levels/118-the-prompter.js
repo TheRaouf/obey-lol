@@ -37,11 +37,11 @@
     view: function (s) {
       var c = CUES[Math.min(s.step, 1)];
       var out = [
-        O('script', 4, 4, 52, 49.5, { kind: 'static', text: 'SCRIPT: The Knight Who Was Right\nGHOST: Who goes there?\nSIR B: Only a small, damp knight.\nGHOST: Are you brave?\nSIR B: I have been wrong about everything.\n(Curtain.)', label: 'Script. Ghost: Who goes there? Sir B: Only a small, damp knight. Ghost: Are you brave? Sir B: I have been wrong about everything. Curtain.', cls: 'book-card' }),
+        O('script', 3, 1, 59, 53.5, { kind: 'static', text: 'SCRIPT: The Knight Who Was Right\nGHOST: Who goes there?\nSIR B: Only a small, damp knight.\nGHOST: Are you brave?\nSIR B: I have been wrong about everything.\n(Curtain.)', label: 'Script. Ghost: Who goes there? Sir B: Only a small, damp knight. Ghost: Are you brave? Sir B: I have been wrong about everything. Curtain.', cls: 'book-card' }),
         O('curtain', 86, 0, 14, 52, { kind: 'static', art: 'e-curtain', artOpts: { flip: true } }),
         O('ghost', 64, 4, 20, 24, { kind: 'static', art: 'e-ghost', label: 'An actor in a ghost sheet' }),
-        O('cue', 58, 30, 38, 20, { kind: 'static', text: c.cue, label: 'On stage now: ' + c.cue, cls: 'speech-card' }),
-        O('desk', 4, 54, 92, 7, { kind: 'static', text: 'Prompter\'s box: whisper a line', label: '', cls: 'tag-card' })
+        O('cue', 62, 30, 34, 21, { kind: 'static', text: c.cue, label: 'On stage now: ' + c.cue, cls: 'speech-card' }),
+        O('desk', 4, 55, 92, 7, { kind: 'static', text: 'Prompter\'s box: whisper a line', label: '', cls: 'tag-card' })
       ];
       c.options.forEach(function (o, i) {
         out.push(O(o[0], 4, 63 + i * 12, 92, 10.5, { text: o[1], label: 'Prompt: ' + o[1], cls: 'btn-card option' }));

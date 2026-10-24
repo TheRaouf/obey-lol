@@ -37,7 +37,7 @@
         O('lock', 68, 48, 14, 14, { kind: 'static', art: 'e-padlock', label: '' }),
         O('table', 14, 64, 36, 7, { kind: 'static', label: '', cls: 'keypad-bg' }),
         O('hat', 18, 36, 28, 28, { art: 'e-tophat', artOpts: { peek: s.rabbits ? 'rabbit' : '' }, label: s.rabbits ? 'Top hat with ' + s.rabbits + ' rabbit' + (s.rabbits > 1 ? 's' : '') + ' in it' : 'Magic top hat', zone: true }),
-        O('box', 14, 6, 44, 24, { kind: 'static', text: 'OMNI-WAND, deluxe.\nWorks on: hats, doors, padlocks, and (warning!) narrators.', label: 'Wand box: works on hats, doors, padlocks, and narrators', cls: 'book-card' }),
+        O('box', 14, 2, 48, 32, { kind: 'static', text: 'OMNI-WAND, deluxe.\nWorks on: hats, doors, padlocks, and (warning!) narrators.', label: 'Wand box: works on hats, doors, padlocks, and narrators', cls: 'book-card' }),
         O('wand', 40, 78, 18, 18, { art: 'e-wand', label: 'Magic wand (drag it onto something)', drag: true })
       ];
     },

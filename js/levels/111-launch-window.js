@@ -16,7 +16,7 @@
     title: 'Launch Window',
     objective: 'Launch so the rocket meets Mars.',
     intro: 'Launch window! Wait until Mars is sitting right in the AIM ring, THEN launch. Point, shoot, arrive. Astronomy is just darts with extra steps.',
-    introMood: 'pleased',
+    introMood: 'panicked',
     actions: ['tap', 'counting', 'planning'],
     par: 3,
     hints: [
@@ -36,10 +36,10 @@
       var away = (TARGET - s.mars + SLOTS) % SLOTS;
       return [
         O('orrery', 2, 2, 62, 62, { kind: 'static', art: 'd-orrery', artOpts: { mars: s.mars, target: TARGET }, label: 'Orrery: Mars is ' + (away === 0 ? 'in the AIM ring' : away + ' dots before the AIM ring (it moves clockwise)') }),
-        O('plan', 66, 2, 32, 40, { kind: 'static', text: 'FLIGHT PLAN\nFlight time: 2 days.\nMars moves 1 dot clockwise per day.', label: 'Flight plan: flight time 2 days. Mars moves 1 dot clockwise per day.', cls: 'book-card' }),
-        O('day', 66, 46, 32, 12, { kind: 'static', text: 'Day ' + s.day, label: 'Day ' + s.day, cls: 'display-card' }),
+        O('plan', 65, 2, 33, 44, { kind: 'static', text: 'FLIGHT PLAN\nFlight time: 2 days.\nMars moves 1 dot clockwise per day.', label: 'Flight plan: flight time 2 days. Mars moves 1 dot clockwise per day.', cls: 'book-card' }),
+        O('day', 66, 47, 32, 11, { kind: 'static', text: 'Day ' + s.day, label: 'Day ' + s.day, cls: 'display-card' }),
         O('next', 66, 62, 32, 13, { text: 'Next day', label: 'Advance one day', cls: 'btn-card' }),
-        O('launch', 66, 80, 32, 16, { text: 'LAUNCH', label: 'Launch the rocket', cls: 'btn-card accent big' }),
+        O('launch', 66, 80, 32, 16, { text: 'LAUNCH', label: 'Launch the rocket', cls: 'btn-card big' }),
         O('rocket', 6, 68, 16, 28, { art: 'd-rocket', label: 'Rocket on the launch pad' }),
         O('note', 26, 70, 36, 24, { kind: 'static', text: 'The rocket flies along the dashed line to the AIM ring.', label: 'The rocket flies along the dashed line to the AIM ring.', cls: 'tag-card' })
       ];

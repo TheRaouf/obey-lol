@@ -39,14 +39,15 @@
     view: function (s) {
       var n = Object.keys(s.clean).length;
       var objs = [
+        O('counter', 4, 42, 92, 18, { kind: 'static', art: 'table' }),
         O('rule', 4, 3, 92, 13, { kind: 'static', text: 'Kitchen rule: wash the CLEANEST thing first, so the water stays clean for the rest.', label: 'Kitchen rule: wash the cleanest thing first so the water stays clean', cls: 'honest-card' })
       ];
       DISHES.forEach(function (d) {
         var c = !!s.clean[d.id];
-        objs.push(O(d.id, d.x, 19, 20, 28, { art: 'b-dish', artOpts: { kind: d.kind, grime: d.grime, clean: c }, label: c ? 'The ' + d.name + ', sparkling clean' : d.desc + ' (tap to wash it)' }));
+        objs.push(O(d.id, d.x, 24, 20, 28, { art: 'b-dish', artOpts: { kind: d.kind, grime: d.grime, clean: c }, label: c ? 'The ' + d.name + ', sparkling clean' : d.desc + ' (tap to wash it)' }));
       });
       objs.push(O('sink', 4, 52, 64, 34, { art: 'b-sink', artOpts: { water: 'clean' }, zone: true, free: true, label: 'Sink of warm soapy water' }));
-      objs.push(O('soap', 76, 50, 18, 30, { art: 'b-soap', drag: true, label: 'Washing-up liquid, the whole bottle (drag it)' }));
+      objs.push(O('soap', 76, 52, 18, 29, { art: 'b-soap', drag: true, label: 'Washing-up liquid, the whole bottle (drag it)' }));
       objs.push(O('soaptag', 72, 82, 26, 13, { kind: 'static', text: 'One squirt is plenty!', label: 'Bottle label: one squirt is plenty', cls: 'tag-card' }));
       objs.push(O('count', 4, 88, 64, 9, { kind: 'static', text: 'Washed: ' + n + ' of 4', label: '', cls: 'tag-card' }));
       return objs;

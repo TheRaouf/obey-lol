@@ -35,7 +35,7 @@
     view: function (s) {
       return [
         O('window', 16, 4, 68, 54, { art: 'd-monitor', artOpts: { mode: s.mode }, label: s.mode === 'frozen' ? 'Monitor with a frozen Door Control window' : 'Monitor: ' + STATUS[s.mode], kind: s.mode === 'frozen' ? undefined : 'static' }),
-        O('app', 34, 18, 32, 12, { text: 'Open Door', label: 'Open Door app on the desktop', cls: 'btn-card accent', hidden: s.mode !== 'desktop' }),
+        O('app', 34, 18, 32, 12, { text: 'Open Door', label: 'Open Door app on the desktop', cls: 'btn-card big', hidden: s.mode !== 'desktop' }),
         O('status', 10, 60, 80, 9, { kind: 'static', text: STATUS[s.mode], label: 'Status: ' + STATUS[s.mode], cls: 'tag-card' }),
         O('power', 6, 74, 20, 20, { art: 'd-power', artOpts: { on: s.mode !== 'off' }, label: 'Power button (press, or press and hold)', hold: true, cls: s.holding ? 'charging' : '' }),
         O('esc', 32, 78, 16, 14, { text: 'Esc', label: 'Escape key', cls: 'btn-card key' }),

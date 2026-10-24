@@ -26,7 +26,7 @@
     title: 'Picture Perfect',
     objective: 'Take exactly the same photo as the postcard.',
     intro: 'Photo stop! Recreate this famous postcard EXACTLY. Professional tip: aim at the palm tree. Postcards are ALL about palm trees. And keep it wide, so there\'s room for me to photobomb.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['tap', 'compare'],
     par: 5,
     hints: [
@@ -52,7 +52,7 @@
         O('right', 27, 50, 21, 12, { text: 'Pan ▶', label: 'Pan the camera right', cls: 'btn-card' }),
         O('zin', 52, 50, 21, 12, { text: 'Zoom +', label: 'Zoom in', cls: 'btn-card' }),
         O('zout', 75, 50, 21, 12, { text: 'Zoom −', label: 'Zoom out', cls: 'btn-card' }),
-        O('snap', 30, 72, 40, 15, { text: 'SNAP!', label: 'Take the photo', cls: 'btn-card accent big' })
+        O('snap', 30, 72, 40, 15, { text: 'SNAP!', label: 'Take the photo', cls: 'btn-card big' })
       ];
     },
 

@@ -15,7 +15,7 @@
     title: 'The Fridge Light',
     objective: 'Find out whether the fridge light goes off when the door is shut.',
     intro: 'The fridge light stays ON when the door is shut. Always. Every time I open it — on. Ten thousand times. That\'s science. Case closed. Don\'t investigate.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['tap', 'drag', 'wait', 'choice'],
     par: 5,
     hints: [
@@ -34,7 +34,7 @@
     view: function (s) {
       var evidence = s.photo === 'dark' && s.phone === 'counter';
       return [
-        O('fridge', 4, 6, 46, 80, { art: 'b-fridge', artOpts: { open: s.open, light: s.open, phone: s.phone === 'fridge' }, zone: true,
+        O('fridge', 4, 30, 46, 60, { art: 'b-fridge', artOpts: { open: s.open, light: s.open, phone: s.phone === 'fridge' }, zone: true,
           label: s.open ? 'Fridge, door open, light on' + (s.phone === 'fridge' ? ', your phone is on the shelf' : '') + ' (tap to shut)' : 'Fridge, door shut' + (s.phone === 'fridge' ? ' with your phone inside' : '') + ' (tap to open)' }),
         O('seal', 4, 88, 46, 9, { kind: 'static', text: 'Door seal: 100% light-proof', label: 'Sticker: door seal is 100 percent light-proof', cls: 'tag-card' }),
         O('caption', 56, 4, 40, 26, { kind: 'static', text: evidence ? 'Photo from inside the shut fridge: completely BLACK.' : (s.phone === 'fridge' ? (s.open ? 'Phone is in. Shut the door for the photo.' : (s.photo ? '*muffled click* Photo taken.' : 'Self-timer ticking…')) : 'Phone camera: 3-second self-timer, ready.'),

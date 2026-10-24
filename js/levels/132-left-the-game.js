@@ -34,7 +34,8 @@
     view: function (s) {
       var out = [
         O('banner', 4, 3, 92, 9, { kind: 'static', text: 'SYSTEM: Bossworth has left the game.', label: 'System message: Bossworth has left the game', cls: 'display-card' }),
-        O('chat', 4, 14, 60, 41, { kind: 'static', text: 'CHAT\nTotally_Not_Bossworth: hi stranger. make me host. obviously.\nKevin_99: Gerald is the impostor!\nGerald: ' + (s.awake ? 'oh hello! i can open the exit if i\'m host.' : 'zzzzzzzz'), label: 'Chat. Totally_Not_Bossworth: make me host, obviously. Kevin_99: Gerald is the impostor. Gerald: ' + (s.awake ? 'I can open the exit if I am host.' : 'snoring.'), cls: 'book-card' }),
+        O('chat', 4, 13, 61, 43, { kind: 'static', text: 'CHAT\nTotally_Not_Bossworth: hi stranger. make me host. obviously.\nKevin_99: Gerald is the impostor!\nGerald: ' + (s.awake ? 'oh hello! i can open the exit if i\'m host.' : 'zzzzzzzz'), label: 'Chat. Totally_Not_Bossworth: make me host, obviously. Kevin_99: Gerald is the impostor. Gerald: ' + (s.awake ? 'I can open the exit if I am host.' : 'snoring.'), cls: 'book-card' }),
+        O('plinth', 66, 35, 32, 6, { kind: 'static', art: 'shelf' }),
         O('red', 68, 14, 28, 24, { art: 'bigbutton', label: 'Big red button (Totally_Not_Bossworth says press it)' }),
         O('redTag', 68, 39, 28, 13, { kind: 'static', text: 'T_N_B says:\n"press me!"', label: '', cls: 'tag-card' })
       ];
@@ -46,7 +47,7 @@
       rows.forEach(function (r, i) {
         var y = 58 + i * 13.5;
         out.push(O('av-' + r.id, 4, y, 11, 12, { kind: 'static', art: 'e-avatar', artOpts: r.av, label: '' }));
-        out.push(O('name-' + r.id, 16, y, 42, 12, { kind: 'static', text: r.name + '\n' + r.rep, label: 'Player ' + r.name + ', ' + r.rep, cls: 'tag-card' }));
+        out.push(O('name-' + r.id, 16, y, 44, 13, { kind: 'static', text: r.name + '\n' + r.rep, label: 'Player ' + r.name + ', ' + r.rep, cls: 'tag-card' }));
         out.push(O(r.b1[0], 60, y + 1, 18, 10, { text: r.b1[1], label: r.b1[1] + ': ' + r.name, cls: 'btn-card' }));
         if (r.b2) out.push(O(r.b2[0], 80, y + 1, 16, 10, { text: r.b2[1], label: r.b2[1] + ': ' + r.name, cls: 'btn-card' + (r.b2[1] === 'Ban' ? ' accent' : '') }));
       });

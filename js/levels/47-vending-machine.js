@@ -14,7 +14,7 @@
     title: 'Vending Machine',
     objective: 'Get the stuck keycard out of the vending machine.',
     intro: 'Your exit keycard is stuck in the vending machine. Classic. Shake it! Rock it! Give it a big hug and a wobble! Machines love that.',
-    introMood: 'pleased',
+    introMood: 'annoyed',
     actions: ['tap', 'logic', 'observe'],
     par: 2,
     hints: [
@@ -33,7 +33,7 @@
     view: function (s) {
       var objs = [
         O('machine', 4, 4, 46, 60, { kind: 'static', art: 'a-vending', artOpts: { dropped: s.dropped, taken: s.taken }, label: s.dropped ? 'Vending machine. A2 and the keycard have fallen into the tray.' : 'Vending machine. Your keycard hangs stuck on spiral B2; directly above it, in A2, is a snack.' }),
-        O('tray', 10, 67, 34, 11, { text: s.dropped ? 'Collect from tray' : 'Tray (empty)', label: s.dropped ? 'Collect from the tray: a biscuit and your keycard' : 'Collection tray, empty', cls: 'btn-card' + (s.dropped ? ' accent' : ' ghost') }),
+        O('tray', 10, 67, 34, 11, { text: s.dropped ? 'Collect from tray' : 'Tray (empty)', label: s.dropped ? 'Collect from the tray: a biscuit and your keycard' : 'Collection tray, empty', cls: 'btn-card' + (s.dropped ? ' big' : ' ghost') }),
         O('sticker', 54, 32, 42, 12, { kind: 'static', text: 'Snacks drop straight down.', label: 'Sticker: snacks drop straight down', cls: 'tag-card' }),
         O('shake', 54, 48, 42, 12, { text: 'Shake the machine', label: 'Shake the machine', cls: 'btn-card accent' }),
         O('door', 74, 64, 22, 34, { kind: 'static', art: 'door', artOpts: { sign: 'STAFF', small: true }, label: 'Staff door (needs your keycard)' })

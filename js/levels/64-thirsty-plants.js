@@ -13,7 +13,7 @@
     { id: 'cactus', kind: 'cactus', soil: 'dry', x: 36, y: 4, tag: 'Cactus · watered yesterday', desc: 'Cactus, label says watered yesterday, water monthly' },
     { id: 'basil', kind: 'basil', soil: 'wet', x: 68, y: 4, tag: 'Basil · watered today', desc: 'Basil, perky, soil dark and wet' },
     { id: 'lily', kind: 'lily', soil: 'dry', thirsty: true, x: 4, y: 48, tag: 'Peace lily', desc: 'Peace lily, drooping, soil dry and cracked' },
-    { id: 'plastic', kind: 'plastic', soil: 'wet', x: 36, y: 48, tag: 'Bargain plant', desc: 'Plastic plant with a £2.99 price sticker' }
+    { id: 'plastic', kind: 'plastic', soil: 'wet', x: 36, y: 48, tag: 'Bargain plant', desc: 'Plastic plant with a £3 price sticker' }
   ];
 
   OBEY.registerLevel({
@@ -44,7 +44,7 @@
       PLANTS.forEach(function (p) {
         var w = !!s.watered[p.id];
         objs.push(O(p.id, p.x, p.y, 28, 30, { art: 'b-houseplant', artOpts: { kind: p.kind, soil: w ? 'wet' : p.soil, droopy: p.thirsty && !w, watered: w }, zone: true, free: true, label: w ? p.tag + ', freshly watered and perking up' : p.desc }));
-        objs.push(O(p.id + 'tag', p.x, p.y + 31, 28, 12, { kind: 'static', text: p.tag, label: '', cls: 'tag-card' }));
+        objs.push(O(p.id + 'tag', p.x, p.y + 31, 28, 13, { kind: 'static', text: p.tag, label: '', cls: 'tag-card' }));
       });
       objs.push(O('can', 68, 50, 28, 26, { art: 'b-can', drag: true, label: 'Watering can (drag it onto a plant)' }));
       objs.push(O('cantag', 68, 79, 28, 9, { kind: 'static', text: 'Watering can', label: '', cls: 'tag-card' }));

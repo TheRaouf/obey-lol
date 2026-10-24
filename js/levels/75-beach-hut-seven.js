@@ -26,7 +26,7 @@
     title: 'Beach Hut Seven',
     objective: 'Find beach hut number 7 and open it.',
     intro: 'Your hut is number SEVEN! The numbers faded in a storm, but huts are always counted from the LEFT. Everybody knows that. Count seven from the left and in you pop.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['tap', 'count'],
     par: 1,
     hints: [

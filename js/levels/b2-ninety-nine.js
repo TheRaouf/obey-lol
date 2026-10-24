@@ -40,7 +40,7 @@
       return [
         O('phone', 30, 6, 40, 58, { kind: 'static', art: 'phone', artOpts: { pct: s.pct, plugged: s.plugged }, label: 'Phone, battery ' + s.pct + '%' }),
         O('toggle', 6, 70, 54, 12, { text: 'Optimised charging: ' + (s.optimised ? 'ON' : 'OFF'), label: 'Optimised charging switch, ' + (s.optimised ? 'on' : 'off'), cls: 'btn-card option' }),
-        O('unplug', 64, 70, 30, 12, { text: 'Unplug', label: 'Unplug the phone', cls: 'btn-card accent' }),
+        O('unplug', 64, 70, 30, 12, { text: 'Unplug', label: 'Unplug the phone', cls: 'btn-card big' }),
         O('pct', 6, 86, 88, 9, { kind: 'static', text: 'Battery: ' + s.pct + '%' + (s.pct === 99 && s.optimised ? ' (optimised: holding at 99%)' : ''), label: 'Battery ' + s.pct + '%', cls: 'tag-card' })
       ];
     },

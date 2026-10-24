@@ -54,7 +54,7 @@
       for (var c = 0; c < 6; c++) {
         var a = (pos(s, c) * 60 - 90) * Math.PI / 180;
         var mine = c === 0, boss = c === 3;
-        out.push(O('car' + c, +(CX + R * Math.cos(a) - 6).toFixed(2), +(CY + R * Math.sin(a) - 5).toFixed(2), 12, 11, {
+        out.push(O('car' + c, +(CX + R * Math.cos(a) - 8).toFixed(2), +(CY + R * Math.sin(a) - 8).toFixed(2), 16, 16, {
           kind: 'static', art: 'e-gondola', artOpts: { mine: mine, boss: boss, open: mine && open },
           label: mine ? 'Your car (yellow)' : (boss ? 'Bossworth\'s car' : '')
         }));

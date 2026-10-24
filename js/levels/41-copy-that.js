@@ -14,7 +14,7 @@
     title: 'Copy That',
     objective: 'Read the door PIN on the tiny sticky note.',
     intro: 'The door PIN is on that sticky note. Tiny writing, isn\'t it? Shred it, it\'s rubbish. I\'ll remember the PIN. It was… a number. Definitely a number.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['drag', 'tap', 'read'],
     par: 5,
     hints: [
@@ -37,10 +37,11 @@
         O('desk', 2, 26, 24, 6, { kind: 'static', art: 'table' }),
         O('note', 6, 13, 14, 12, { art: 'note', label: 'Sticky note with writing far too tiny to read (drag it)', drag: true, hidden: s.glass }),
         O('shredder', 4, 56, 22, 30, { art: 'a-shredder', label: 'Shredder', zone: true }),
-        O('copier', 30, 4, 36, 34, { art: 'a-copier', artOpts: { note: s.glass }, label: s.glass ? 'Photocopier, sticky note on the glass' : 'Photocopier glass (drop things here)', zone: true }),
-        O('copy100', 30, 41, 17, 11, { text: 'Copy 100%', label: 'Copy at 100 percent', cls: 'btn-card' }),
-        O('copy400', 49, 41, 17, 11, { text: 'Copy 400%', label: 'Copy at 400 percent (enlarge)', cls: 'btn-card accent' }),
-        O('print', 30, 56, 36, 22, { kind: 'static', text: out, label: 'Copier output: ' + out.replace('\n', ' '), cls: 'book-card' }),
+        O('copytable', 30, 72, 36, 8, { kind: 'static', art: 'table' }),
+        O('copier', 30, 46, 36, 26, { art: 'a-copier', artOpts: { note: s.glass }, label: s.glass ? 'Photocopier, sticky note on the glass' : 'Photocopier glass (drop things here)', zone: true }),
+        O('copy100', 30, 27, 17, 11, { text: 'Copy 100%', label: 'Copy at 100 percent', cls: 'btn-card' }),
+        O('copy400', 49, 27, 17, 11, { text: 'Copy 400%', label: 'Copy at 400 percent (enlarge)', cls: 'btn-card accent' }),
+        O('print', 30, 4, 36, 20, { kind: 'static', text: out, label: 'Copier output: ' + out.replace('\n', ' '), cls: 'book-card' }),
         O('display', 70, 4, 28, 9, { kind: 'static', text: s.entry ? s.entry.split('').join(' ') : 'PIN?', label: 'PIN display: ' + (s.entry || 'empty'), cls: 'display-card' }),
         O('door', 72, 50, 24, 46, { kind: 'static', art: 'door', artOpts: { sign: 'PIN', small: true }, label: 'Door with a PIN pad' })
       ];

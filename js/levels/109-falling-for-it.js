@@ -38,7 +38,7 @@
     view: function (s) {
       var objs = [
         O('chamber', 4, 4, 44, 50, { art: 'd-chamber', artOpts: { dropped: s.dropped }, label: s.dropped ? 'Vacuum chamber: the ball and the feather are both lying on the bottom' : 'Vacuum chamber: a bowling ball and a feather held at the top' }),
-        O('release', 8, 58, 36, 13, { text: s.dropped ? 'Released!' : 'RELEASE BOTH', label: s.dropped ? 'Both released' : 'Release the ball and the feather together', cls: 'btn-card big' + (s.dropped ? ' ghost' : ' accent') }),
+        O('release', 8, 58, 36, 13, { text: s.dropped ? 'Released!' : 'RELEASE BOTH', label: s.dropped ? 'Both released' : 'Release the ball and the feather together', cls: 'btn-card big' + (s.dropped ? ' ghost' : '') }),
         O('gauge', 4, 76, 44, 10, { kind: 'static', text: 'Chamber air: NONE (vacuum)', label: 'Chamber air: none, it is a vacuum', cls: 'panel-card ok' }),
         O('result', 4, 88, 44, 10, { kind: 'static', text: s.dropped ? 'Landed: together!' : 'Landed: not tested yet', label: s.dropped ? 'Result: both landed together' : 'Result: not tested yet', cls: 'tag-card' }),
         O('report', 54, 4, 42, 30, { kind: 'static', text: 'LAB REPORT\nIn this vacuum chamber, which lands first?', label: 'Lab report: in this vacuum chamber, which lands first?', cls: 'book-card' })

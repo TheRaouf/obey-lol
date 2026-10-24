@@ -34,7 +34,7 @@
       var out = [
         O('jar', 26, 4, 48, 52, { kind: 'static', art: 'e-jar', label: 'Glass jar with nine jellybeans and one small frog with eyes' }),
         O('label', 4, 58, 92, 9, { kind: 'static', text: 'Label: jellybeans, plus Reginald (a frog). Reginald is not a bean.', label: 'Jar label: jellybeans, plus Reginald. Reginald is a frog, not a bean.', cls: 'tag-card' }),
-        O('ask', 4, 69, 92, 7, { kind: 'static', text: 'How many jellybeans?', label: '', cls: 'subtle' })
+        O('ask', 4, 69, 92, 7, { kind: 'static', text: 'How many jellybeans?', label: '', cls: 'tag-card' })
       ];
       GUESSES.forEach(function (g, i) {
         out.push(O('g' + g, 4 + i * 24, 79, 20, 15, { text: g, label: 'Guess ' + g, cls: 'btn-card big' }));

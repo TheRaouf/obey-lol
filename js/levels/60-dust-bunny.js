@@ -36,9 +36,9 @@
         O('carrot', 4, 4, 14, 20, { art: 'b-carrot', drag: true, hidden: s.home, label: 'A carrot (drag it)' }),
         O('poster', 22, 4, 44, 22, { kind: 'static', text: 'MISSING: Mr Flopsy.\nGrey. Fluffy. Twitchy nose.\nLoves carrots.', label: 'Poster: missing, Mr Flopsy. Grey, fluffy, twitchy nose. Loves carrots.', cls: 'honest-card' }),
         O('hutch', 70, 4, 26, 28, { art: 'b-hutch', artOpts: { bunny: s.home }, zone: true, free: true, label: s.home ? 'Rabbit hutch, Mr Flopsy inside munching' : 'Rabbit hutch, door open, empty' }),
-        O('sofa', 4, 32, 60, 30, { kind: 'static', art: 'b-sofa', label: 'Sofa' }),
-        O('bunny', 16, 62, 30, 22, { art: 'b-bunny', artOpts: { twitch: true }, zone: true, free: true, hidden: s.home, label: 'Grey fluffy "dust bunny" with long ears and a twitching nose' }),
-        O('dust', 18, 70, 26, 14, { kind: 'static', art: 'b-dust', hidden: !s.home, label: 'A real pile of dust' }),
+        O('sofa', 4, 48, 60, 30, { kind: 'static', art: 'b-sofa', label: 'Sofa' }),
+        O('bunny', 16, 66, 30, 22, { art: 'b-bunny', artOpts: { twitch: true }, zone: true, free: true, hidden: s.home, label: 'Grey fluffy "dust bunny" with long ears and a twitching nose' }),
+        O('dust', 18, 74, 26, 14, { kind: 'static', art: 'b-dust', hidden: !s.home, label: 'A real pile of dust' }),
         O('vacuum', 66, 52, 30, 40, { art: 'b-vacuum', artOpts: { on: s.sucking }, hold: true, label: 'Vacuum cleaner (press and hold to vacuum under the sofa)' }),
         O('tip', 4, 88, 56, 9, { kind: 'static', text: 'Vacuum: hold to hoover.', label: '', cls: 'tag-card' })
       ];

@@ -19,7 +19,7 @@
     title: 'Mislabelled Boxes',
     objective: 'Get the key without letting a rabbit escape.',
     intro: 'Three boxes, three labels, all written by me, so all perfectly accurate. The key is in the box marked KEY. Obviously. Open it and stop dawdling.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['tap', 'logic'],
     par: 1,
     hints: [
@@ -37,15 +37,16 @@
 
     view: function (s) {
       var out = [
-        O('note', 4, 4, 56, 27, { kind: 'static', text: 'Stagehand\'s note: Bossworth wrote these labels. EVERY label is wrong. Each box holds a key, a rabbit, or both.', label: 'Stagehand note: every label is wrong. Each box holds a key, a rabbit, or both.', cls: 'book-card' }),
-        O('peek', 62, 6, 34, 16, { text: s.peeked ? 'Peephole: one rabbit. Just a rabbit.' : 'Look through the peephole', label: s.peeked ? 'Peephole on the KEY + RABBIT box: you see only a rabbit' : 'Peephole on the KEY + RABBIT box (look through it)', cls: 'btn-card' + (s.peeked ? ' ghost' : ''), free: true })
+        O('note', 4, 3, 56, 32, { kind: 'static', text: 'Stagehand\'s note: Bossworth wrote these labels. EVERY label is wrong. Each box holds a key, a rabbit, or both.', label: 'Stagehand note: every label is wrong. Each box holds a key, a rabbit, or both.', cls: 'book-card' }),
+        O('peek', 62, 6, 34, 16, { text: s.peeked ? 'Peephole: one rabbit. Just a rabbit.' : 'Look through the peephole', label: s.peeked ? 'Peephole on the KEY + RABBIT box: you see only a rabbit' : 'Peephole on the KEY + RABBIT box (look through it)', cls: 'btn-card' + (s.peeked ? ' ghost' : ''), free: true }),
+        O('table', 4, 62, 92, 18, { kind: 'static', art: 'table' })
       ];
       BOXES.forEach(function (b, i) {
         var x = 4 + i * 32;
-        out.push(O(b.id, x, 36, 28, 30, { art: 'e-magicbox', artOpts: { color: b.color, peephole: b.id === 'boxBoth' }, label: 'Magic box labelled ' + b.label + (b.id === 'boxBoth' ? ' (it has the peephole)' : '') }));
+        out.push(O(b.id, x, 38, 28, 30, { art: 'e-magicbox', artOpts: { color: b.color, peephole: b.id === 'boxBoth' }, label: 'Magic box labelled ' + b.label + (b.id === 'boxBoth' ? ' (it has the peephole)' : '') }));
         out.push(O(b.id + '-tag', x + 2, 68, 24, 9, { kind: 'static', text: b.label, label: '', cls: 'tag-card' }));
       });
-      out.push(O('arrow', 70, 24, 22, 8, { kind: 'static', text: '↓ peephole', label: '', cls: 'subtle' }));
+      out.push(O('arrow', 66, 23, 30, 9, { kind: 'static', text: '↓ peephole', label: '', cls: 'tag-card' }));
       return out;
     },
 

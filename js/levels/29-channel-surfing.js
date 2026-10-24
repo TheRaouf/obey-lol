@@ -24,7 +24,7 @@
     title: 'Channel Surfing',
     objective: 'Find the way out.',
     intro: 'Don\'t touch the TV. Channel 5 is my favourite. It\'s static. Very soothing. Very… nothing-to-see-here.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['tap', 'explore'],
     par: 3,
     hints: [

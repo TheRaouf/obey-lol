@@ -17,7 +17,7 @@
     title: 'Snooze Button',
     objective: 'Sleep as long as possible and still catch the 7:30 bus.',
     intro: 'BRRRING! Hit snooze! Each snooze is one tiny minute. Snooze forever! The bus waits for nobody, but it\'ll make an exception for me. I\'m charming.',
-    introMood: 'pleased',
+    introMood: 'panicked',
     actions: ['tap', 'count', 'logic'],
     par: 3,
     hints: [
@@ -38,7 +38,7 @@
         O('alarm', 30, 2, 40, 40, { kind: 'static', art: 'b-alarm', artOpts: { time: clock(s.t), ringing: true }, label: 'Alarm clock showing ' + clock(s.t) + ', ringing' }),
         O('sign', 4, 45, 92, 17, { kind: 'static', text: 'SNOOZE adds 9 minutes. Getting ready takes 12 minutes. The bus leaves at 7:30 SHARP.', label: 'Sign by the bed: snooze adds 9 minutes, getting ready takes 12 minutes, the bus leaves at 7:30 sharp', cls: 'honest-card' }),
         O('snooze', 6, 66, 42, 16, { text: 'SNOOZE', label: 'Snooze button', cls: 'btn-card big' }),
-        O('up', 52, 66, 42, 16, { text: 'GET UP', label: 'Get up and get ready', cls: 'btn-card accent big' }),
+        O('up', 52, 66, 42, 16, { text: 'GET UP', label: 'Get up and get ready', cls: 'btn-card big' }),
         O('slept', 6, 86, 88, 10, { kind: 'static', text: 'Extra sleep so far: ' + s.t + ' min', label: '', cls: 'tag-card' })
       ];
     },

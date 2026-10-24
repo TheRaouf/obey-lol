@@ -39,12 +39,13 @@
     view: function (s) {
       var objs = [
         O('recipe', 4, 3, 44, 22, { kind: 'static', text: 'SHORTBREAD\nbutter, flour,\n1 cup of SUGAR', label: 'Recipe: shortbread needs butter, flour and one cup of sugar', cls: 'book-card' }),
-        O('maker', 52, 3, 44, 22, { kind: 'static', text: 'Bossworth\'s label maker.\nLast printed: "SUGAR", "SALT".', label: 'Bossworth\'s label maker. Last printed: SUGAR and SALT.', cls: 'tag-card' })
+        O('maker', 52, 3, 44, 22, { kind: 'static', text: 'Bossworth\'s label maker.\nLast printed: "SUGAR", "SALT".', label: 'Bossworth\'s label maker. Last printed: SUGAR and SALT.', cls: 'tag-card' }),
+        O('shelf', 4, 52, 90, 18, { kind: 'static', art: 'shelf' })
       ];
       JARS.forEach(function (j) {
         var t = s.tasted === j.id;
         objs.push(O(j.id, j.x, 29, 20, 27, { art: 'b-jar', artOpts: { lid: j.lid }, drag: true, zone: true, label: 'Jar labelled ' + j.label + (t ? ' (you tasted it: ' + j.inside + ')' : '') + ' — drag it to the bowl' }));
-        objs.push(O(j.id + 'tag', j.x - 1, 57, 22, 8, { kind: 'static', text: j.label, label: '', cls: 'tag-card' }));
+        objs.push(O(j.id + 'tag', j.x - 3, 57, 26, 10, { kind: 'static', text: j.label, label: '', cls: 'tag-card' }));
       });
       objs.push(O('spoon', 80, 29, 12, 27, { art: 'b-spoon', drag: true, label: s.tasted ? 'Teaspoon (already used for one taste)' : 'Teaspoon for a taste test (drag it onto a jar)' }));
       objs.push(O('bowl', 4, 70, 34, 26, { art: 'b-mixbowl', zone: true, free: true, label: 'Mixing bowl with butter and flour' }));

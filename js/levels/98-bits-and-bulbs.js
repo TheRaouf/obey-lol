@@ -44,7 +44,7 @@
         objs.push(O('v' + v, x, 36, 18, 10, { kind: 'static', text: String(v), label: '', cls: 'tag-card' }));
         objs.push(O('b' + v, x, 48, 18, 28, { art: 'bulb', artOpts: { on: s.on[i] }, label: 'Bulb worth ' + v + ', ' + (s.on[i] ? 'on' : 'off') }));
       });
-      objs.push(O('enter', 30, 84, 40, 13, { text: 'ENTER', label: 'Enter the code', cls: 'btn-card accent big' }));
+      objs.push(O('enter', 30, 84, 40, 13, { text: 'ENTER', label: 'Enter the code', cls: 'btn-card big' }));
       return objs;
     },
 

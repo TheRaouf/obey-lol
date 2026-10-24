@@ -31,15 +31,15 @@
 
     view: function () {
       return [
-        O('gnomeL', 6, 6, 12, 20, { kind: 'static', art: 'c-gnome', artOpts: { color: '#2bc46f' }, label: 'A gnome in the garden' }),
-        O('sign', 22, 8, 40, 11, { kind: 'static', text: 'GNOME GARDEN · keep out', label: 'Sign: Gnome Garden, keep out', cls: 'plaque-card' }),
-        O('gnomeC', 66, 2, 13, 24, { kind: 'static', art: 'c-gnome', artOpts: { sign: true }, label: 'A gnome holding a sign that says HI!' }),
-        O('gnomeR', 84, 6, 12, 20, { kind: 'static', art: 'c-gnome', artOpts: { color: '#ff8c1a' }, label: 'A gnome in the garden' }),
-        O('field', 0, 62, 100, 16, { kind: 'static', art: 'c-meadow', label: 'An open field. No fence anywhere.' }),
-        O('gate', 30, 28, 40, 40, { art: 'c-lonegate', label: 'Locked garden gate, standing on its own with no fence either side' }),
-        O('grassL', 4, 54, 22, 12, { art: 'c-grass', label: 'Open grass to the left of the gate' }),
-        O('grassR', 74, 54, 22, 12, { art: 'c-grass', label: 'Open grass to the right of the gate' }),
-        O('climb', 30, 82, 40, 13, { text: 'Climb over', label: 'Climb over the gate', cls: 'btn-card accent' })
+        O('gnomeL', 6, 58, 12, 20, { kind: 'static', art: 'c-gnome', artOpts: { color: '#2bc46f' }, label: 'A gnome in the garden' }),
+        O('sign', 20, 6, 46, 13, { kind: 'static', text: 'GNOME GARDEN · keep out', label: 'Sign: Gnome Garden, keep out', cls: 'plaque-card' }),
+        O('gnomeC', 68, 56, 13, 24, { kind: 'static', art: 'c-gnome', artOpts: { sign: true }, label: 'A gnome holding a sign that says HI!' }),
+        O('gnomeR', 84, 58, 12, 20, { kind: 'static', art: 'c-gnome', artOpts: { color: '#ff8c1a' }, label: 'A gnome in the garden' }),
+        O('field', 0, 74, 100, 22, { kind: 'static', art: 'c-meadow', label: 'An open field. No fence anywhere.' }),
+        O('gate', 30, 46, 40, 40, { art: 'c-lonegate', label: 'Locked garden gate, standing on its own with no fence either side' }),
+        O('grassL', 4, 72, 22, 12, { art: 'c-grass', label: 'Open grass to the left of the gate' }),
+        O('grassR', 74, 72, 22, 12, { art: 'c-grass', label: 'Open grass to the right of the gate' }),
+        O('climb', 30, 86, 40, 10, { text: 'Climb over', label: 'Climb over the gate', cls: 'btn-card accent' })
       ];
     },
 

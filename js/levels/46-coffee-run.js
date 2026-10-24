@@ -34,11 +34,11 @@
       var f = Math.round(s.fill);
       return [
         O('machine', 30, 4, 30, 44, { kind: 'static', art: 'a-coffeemachine', artOpts: { pouring: s.pouring }, label: 'Coffee machine' }),
-        O('cup', 37, 25, 16, 17, { kind: 'static', art: 'a-cup', artOpts: { fill: s.fill, max: MAX }, label: 'Bossworth\'s mug, ' + f + '% full, MAX line at ' + MAX + '%' }),
+        O('cup', 35, 23, 20, 21, { kind: 'static', art: 'a-cup', artOpts: { fill: s.fill, max: MAX }, label: 'Bossworth\'s mug, ' + f + '% full, MAX line at ' + MAX + '%' }),
         O('brew', 64, 8, 32, 14, { text: s.pouring ? 'Pouring…' : 'BREW (hold)', label: 'Brew button (press and hold to pour)', hold: true, cls: 'hold-btn' + (s.pouring ? ' charging' : '') }),
         O('meter', 64, 26, 32, 11, { kind: 'static', text: 'Fill: ' + f + '%', label: 'Fill level ' + f + ' percent', cls: 'display-card' + (f >= ENOUGH ? ' ready' : '') }),
-        O('serve', 64, 41, 32, 12, { text: 'Serve ☕', label: 'Serve the coffee to Bossworth', cls: 'btn-card accent' }),
-        O('notice', 4, 56, 56, 26, { kind: 'static', text: 'FACILITIES NOTICE\nFill mugs to the MAX line only. Brimming mugs spill on the boss\'s laptop. AGAIN.', label: 'Facilities notice: fill mugs to the max line only, brimming mugs spill on the boss\'s laptop, again', cls: 'book-card' }),
+        O('serve', 64, 41, 32, 12, { text: 'Serve ☕', label: 'Serve the coffee to Bossworth', cls: 'btn-card big' }),
+        O('notice', 4, 52, 58, 32, { kind: 'static', text: 'FACILITIES NOTICE\nFill mugs to the MAX line only. Brimming mugs spill on the boss\'s laptop. AGAIN.', label: 'Facilities notice: fill mugs to the max line only, brimming mugs spill on the boss\'s laptop, again', cls: 'book-card' }),
         O('plant', 80, 66, 14, 30, { art: 'plant', label: 'Office plant', free: true })
       ];
     },

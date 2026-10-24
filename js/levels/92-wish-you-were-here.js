@@ -34,9 +34,9 @@
     view: function (s) {
       return [
         O('sign', 4, 4, 56, 15, { kind: 'static', text: 'LOCAL = this town only\nABROAD = everywhere else', label: 'Postbox sign: local means this town only, abroad means everywhere else', cls: 'plaque-card' }),
-        O('box', 64, 20, 32, 56, { kind: 'static', art: 'c-postbox', label: 'Red postbox with two slots' }),
-        O('local', 63, 30, 34, 10, { text: 'LOCAL', label: 'LOCAL slot (drop zone)', zone: true, free: true, cls: 'tag-card' }),
-        O('abroad', 63, 44, 34, 10, { text: 'ABROAD', label: 'ABROAD slot (drop zone)', zone: true, free: true, cls: 'tag-card' }),
+        O('box', 64, 40, 32, 56, { kind: 'static', art: 'c-postbox', label: 'Red postbox with two slots' }),
+        O('local', 63, 50, 34, 10, { text: 'LOCAL', label: 'LOCAL slot (drop zone)', zone: true, free: true, cls: 'tag-card' }),
+        O('abroad', 63, 64, 34, 10, { text: 'ABROAD', label: 'ABROAD slot (drop zone)', zone: true, free: true, cls: 'tag-card' }),
         O('card', 4, 34, 40, 26, { art: 'c-postcard', artOpts: { stamped: s.stamped }, label: 'Postcard to Gran Olga, Fjordvik, NORWAY, ' + (s.stamped ? 'stamped' : 'no stamp yet') + ' (drag it to a slot, or drop a stamp on it)', drag: true, zone: !s.stamped }),
         O('stamp', 20, 70, 14, 14, { art: 'c-stamp', label: 'A postage stamp (drag it)', drag: true, hidden: s.stamped })
       ];

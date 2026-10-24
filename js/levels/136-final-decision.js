@@ -38,7 +38,7 @@
 
     view: function (s, ctx) {
       return [
-        O('machine', 26, 4, 48, 50, { art: 'machine', artOpts: { gears: 3, big: true, repairing: s.repairing }, label: 'The Instruction Machine (fuse intake on the front)', zone: true, free: true }),
+        O('machine', 22, 4, 56, 50, { art: 'machine', artOpts: { gears: 3, big: true, repairing: s.repairing }, label: 'The Instruction Machine (fuse intake on the front)', zone: true, free: true }),
         O('obey', 36, 58, 28, 16, { text: 'OBEY', label: 'Big button labelled OBEY', cls: 'btn-card obey-btn' }),
         O('wrench', 6, 60, 24, 30, { art: 'wrench', label: 'Wrench (press and hold to repair the machine)', hold: true, cls: s.repairing ? 'charging' : '' }),
         O('fuse', 72, 62, 20, 26, { art: 'fuse', label: 'Chaos fuse (drag it into the machine)', drag: true }),

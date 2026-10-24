@@ -82,7 +82,7 @@
   OBEY.ACHIEVEMENT_IDS = OBEY.ACHIEVEMENTS.map(function (a) { return a.id; });
 
   /* --------------------------------------------------------------- chapters */
-  // Nine chapters of four levels; each has a trophy cup whose metal depends on difficulty.
+  // 34 chapters of four levels (136 campaign levels); each has a trophy cup whose metal depends on difficulty.
   OBEY.CHAPTERS = [
     { id: 'button-bay', name: 'Button Bay', levels: [1, 2, 3, 4] },
     { id: 'mind-maze', name: 'Mind Maze', levels: [5, 6, 7, 8] },

@@ -44,7 +44,7 @@
         O('fp', 45, 51, 10, 20, { kind: 'static', art: 'c-footprints', label: 'Your footprints, leading up from town' }),
         O('pathS', 26, 72, 18, 10, { text: 'path ↓', label: 'Take the path going down, back the way you came', cls: 'btn-card ghost' }),
         O('town', 30, 84, 40, 15, { kind: 'static', art: 'c-town', label: 'The town you walked here from' }),
-        O('came', 72, 76, 26, 12, { kind: 'static', text: 'You walked here from TOWN', label: 'Note: you walked here from town, up the bottom path', cls: 'tag-card' }),
+        O('came', 70, 75, 26, 14, { kind: 'static', text: 'You walked here from TOWN', label: 'Note: you walked here from town, up the bottom path', cls: 'tag-card' }),
         O('spin', 4, 82, 22, 12, { text: 'Turn sign ↻', label: 'Turn the signpost a quarter turn clockwise', cls: 'btn-card' })
       ];
     },

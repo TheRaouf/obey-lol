@@ -14,7 +14,7 @@
     title: 'Lights Out',
     objective: 'Open the exit.',
     intro: 'Turn ALL the lights ON. All of them. Brightness is happiness. Don\'t read the sign on the door.',
-    introMood: 'pleased',
+    introMood: 'suspicious',
     actions: ['tap', 'logic', 'read'],
     par: 2,
     hints: [

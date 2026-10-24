@@ -22,7 +22,7 @@
     title: 'Alphabetical Order',
     objective: 'File the folders in alphabetical order.',
     intro: 'File these alphabetically. Mine goes first, obviously. B for Bossworth. B for Brilliant. B for Before everybody else.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['tap', 'sequence', 'read'],
     par: 5,
     hints: [

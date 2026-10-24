@@ -47,11 +47,11 @@
         O('barFill', 4, 18, Math.max(4, Math.round(78 * s.pct / 100)), 8, { kind: 'static', label: '', cls: 'hold-btn done' }),
         O('pct', 84, 18, 12, 8, { kind: 'static', text: s.pct + '%', label: 'Loading: ' + s.pct + ' percent', cls: 'tag-card' }),
         O('gerald', 30, 30, 38, 38, { art: 'e-hamster', artOpts: { running: s.fed }, label: s.fed ? 'Gerald the hamster, sprinting in his wheel' : 'Gerald the hamster, asleep in his wheel (it powers the loading bar)', zone: true }),
-        O('tagG', 30, 68, 38, 6, { kind: 'static', text: 'Loading engine: Gerald', label: '', cls: 'subtle' }),
+        O('tagG', 28, 67.5, 42, 8.5, { kind: 'static', text: 'Loading engine: Gerald', label: '', cls: 'tag-card' }),
         O('tip', 4, 76, 62, 20, { kind: 'static', text: TIPS[s.tip], label: TIPS[s.tip], cls: 'speech-card' })
       ];
       if (!s.fed) out.push(O('seeds', 76, 32, 18, 22, { art: 'e-seeds', label: 'Bag of sunflower seeds (drag it)', drag: true }));
-      if (s.ready) out.push(O('start', 70, 78, 26, 16, { text: 'START', label: 'Start the next level', cls: 'btn-card accent big' }));
+      if (s.ready) out.push(O('start', 70, 78, 26, 16, { text: 'START', label: 'Start the next level', cls: 'btn-card big' }));
       else out.push(O('skip', 70, 78, 26, 16, { text: 'Skip ▸▸', label: 'Skip loading', cls: 'btn-card' }));
       return out;
     },

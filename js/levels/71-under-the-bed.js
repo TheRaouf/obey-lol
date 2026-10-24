@@ -33,14 +33,14 @@
 
     view: function (s) {
       return [
-        O('bed', 4, 16, 62, 40, { kind: 'static', art: 'b-bed', artOpts: { sheet: true, blanket: true }, label: 'Your bed' }),
-        O('sniff', 12, 64, 46, 12, { kind: 'static', text: 'sniff… sniff…', label: 'Sniffling from under the bed', cls: 'tag-card', hidden: s.seen }),
-        O('monster', 18, 58, 32, 26, { art: 'b-monster', artOpts: { asleep: s.light, light: s.light, hug: s.teddy }, zone: true, hidden: !s.seen || s.light, label: 'Small purple monster under the bed, shivering in the dark' }),
-        O('sleeper', 18, 58, 32, 26, { kind: 'static', art: 'b-monster', artOpts: { asleep: true, light: true, hug: s.teddy }, hidden: !s.light, label: 'The little monster, asleep by its night light' }),
-        O('torch', 70, 4, 26, 16, { art: 'b-torch', artOpts: { on: s.seen }, label: s.seen ? 'Torch, shining under the bed' : 'Torch (tap to shine it under the bed)' }),
-        O('nightlight', 72, 24, 18, 22, { art: 'b-nightlight', artOpts: { on: true }, drag: true, hidden: s.light, label: 'Moon-shaped night light (drag it)' }),
-        O('teddy', 72, 50, 20, 22, { art: 'b-teddy', drag: true, hidden: s.teddy, label: 'Teddy bear (drag it)' }),
-        O('switch', 76, 76, 14, 20, { art: 'b-switchplate', artOpts: { on: true }, label: 'Big light switch (tap to turn the lights off)' })
+        O('bed', 4, 48, 62, 40, { kind: 'static', art: 'b-bed', artOpts: { sheet: true, blanket: true }, label: 'Your bed' }),
+        O('sniff', 12, 86, 46, 10, { kind: 'static', text: 'sniff… sniff…', label: 'Sniffling from under the bed', cls: 'tag-card', hidden: s.seen }),
+        O('monster', 18, 70, 32, 26, { art: 'b-monster', artOpts: { asleep: s.light, light: s.light, hug: s.teddy }, zone: true, hidden: !s.seen || s.light, label: 'Small purple monster under the bed, shivering in the dark' }),
+        O('sleeper', 18, 70, 32, 26, { kind: 'static', art: 'b-monster', artOpts: { asleep: true, light: true, hug: s.teddy }, hidden: !s.light, label: 'The little monster, asleep by its night light' }),
+        O('torch', 38, 54, 22, 14, { art: 'b-torch', artOpts: { on: s.seen }, label: s.seen ? 'Torch, shining under the bed' : 'Torch (tap to shine it under the bed)' }),
+        O('nightlight', 72, 8, 18, 22, { art: 'b-nightlight', artOpts: { on: true }, drag: true, hidden: s.light, label: 'Moon-shaped night light (drag it)' }),
+        O('teddy', 72, 70, 20, 22, { art: 'b-teddy', drag: true, hidden: s.teddy, label: 'Teddy bear (drag it)' }),
+        O('switch', 76, 36, 14, 20, { art: 'b-switchplate', artOpts: { on: true }, label: 'Big light switch (tap to turn the lights off)' })
       ];
     },
 

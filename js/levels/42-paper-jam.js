@@ -13,7 +13,7 @@
     title: 'Paper Jam',
     objective: 'Print your exit pass.',
     intro: 'Printer\'s jammed again. The jam is ALWAYS in the top lid. Open the top lid and have a good rummage. Wear something black.',
-    introMood: 'pleased',
+    introMood: 'annoyed',
     actions: ['tap', 'drag', 'sequence', 'read'],
     par: 4,
     hints: [
@@ -32,12 +32,13 @@
     view: function (s) {
       var msg = s.jam ? 'JAM:\nTRAY 2' : (s.open ? 'CLOSE\nTRAY 2' : 'READY');
       return [
-        O('printer', 8, 22, 58, 48, { kind: 'static', art: 'a-printer', artOpts: { jam: s.jam }, label: 'Office printer' }),
-        O('lid', 16, 10, 42, 10, { text: 'Top lid', label: 'Printer top lid', cls: 'btn-card ghost' }),
-        O('tray', 16, 52, 42, 14, { art: 'a-tray', artOpts: { open: s.open }, label: 'Paper tray 2, ' + (s.open ? 'open' : 'closed') }),
-        O('paper', 26, 70, 20, 16, { art: 'a-paper', label: 'Crumpled jammed sheet (drag it out)', drag: true, hidden: !(s.open && s.jam), cls: 'pop-in' }),
+        O('stand', 8, 76, 58, 12, { kind: 'static', art: 'table' }),
+        O('printer', 8, 30, 58, 48, { kind: 'static', art: 'a-printer', artOpts: { jam: s.jam }, label: 'Office printer' }),
+        O('lid', 16, 18, 42, 10, { text: 'Top lid', label: 'Printer top lid', cls: 'btn-card ghost' }),
+        O('tray', 16, 60, 42, 14, { art: 'a-tray', artOpts: { open: s.open }, label: 'Paper tray 2, ' + (s.open ? 'open' : 'closed') }),
+        O('paper', 26, 78, 20, 16, { art: 'a-paper', label: 'Crumpled jammed sheet (drag it out)', drag: true, hidden: !(s.open && s.jam), cls: 'pop-in' }),
         O('display', 70, 8, 26, 18, { kind: 'static', text: msg, label: 'Printer display: ' + msg.replace('\n', ' '), cls: 'display-card' + (s.jam ? '' : ' ready') }),
-        O('print', 70, 30, 26, 13, { text: 'PRINT', label: 'Print button', cls: 'btn-card accent' }),
+        O('print', 70, 30, 26, 13, { text: 'PRINT', label: 'Print button', cls: 'btn-card big' }),
         O('bin', 76, 60, 16, 28, { art: 'bin', label: 'Paper recycling bin', zone: true })
       ];
     },

@@ -45,7 +45,7 @@
       });
       var n = s.sel.filter(Boolean).length;
       objs.push(O('count', 4, 86, 44, 11, { kind: 'static', text: n + ' selected', label: n + ' squares selected', cls: 'tag-card' }));
-      objs.push(O('verify', 54, 85, 42, 13, { text: 'VERIFY', label: 'Verify the captcha', cls: 'btn-card accent big' }));
+      objs.push(O('verify', 54, 85, 42, 13, { text: 'VERIFY', label: 'Verify the captcha', cls: 'btn-card big' }));
       return objs;
     },
 

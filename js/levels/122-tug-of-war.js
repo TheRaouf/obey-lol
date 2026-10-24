@@ -33,8 +33,8 @@
     view: function (s) {
       var you = 6 + s.slid * 8;
       var out = [
-        O('rules', 4, 4, 56, 26, { kind: 'static', text: 'REFEREE\'S RULES\n1. Dragged over the centre line? You lose.\n2. Land in the mud? You lose.', label: 'Referee rules: dragged over the centre line, you lose. Land in the mud, you lose.', cls: 'book-card' }),
-        O('score', 62, 4, 34, 22, { kind: 'static', text: 'Team You: 1\nTeam Bossworth: 9 strongmen', label: 'Team You: one. Team Bossworth: nine strongmen.', cls: 'plaque-card' }),
+        O('rules', 2, 1, 60, 29, { kind: 'static', text: 'REFEREE\'S RULES\n1. Dragged over the centre line? You lose.\n2. Land in the mud? You lose.', label: 'Referee rules: dragged over the centre line, you lose. Land in the mud, you lose.', cls: 'book-card' }),
+        O('score', 63, 1, 34, 27, { kind: 'static', text: 'Team You: 1\nTeam Bossworth: 9 strongmen', label: 'Team You: one. Team Bossworth: nine strongmen.', cls: 'plaque-card' }),
         O('line', 41, 40, 2, 34, { kind: 'static', label: 'Centre line', cls: 'keypad-bg' }),
         O('rope', you + 8, 54, 60 - s.slid * 8, 5, { kind: 'static', art: 'e-rope', label: '' }),
         O('you', you, 44, 12, 22, { kind: 'static', art: 'hero', label: 'You, holding the rope' })
@@ -42,7 +42,7 @@
       for (var i = 0; i < 3; i++) {
         out.push(O('strong' + i, 50 + i * 9, 38, 14, 30, { kind: 'static', art: 'e-strongman', artOpts: { color: ['#ffb347', '#ff8c1a', '#e0a96d'][i] }, label: i === 0 ? 'Team Bossworth: nine strongmen leaning back' : '' }));
       }
-      out.push(O('x3', 50, 30.5, 34, 7.5, { kind: 'static', text: '+6 more strongmen', label: '', cls: 'subtle' }));
+      out.push(O('x3', 46, 30.5, 42, 8.5, { kind: 'static', text: '+6 more strongmen', label: '', cls: 'tag-card' }));
       out.push(O('mud', 80, 56, 19, 14, { kind: 'static', art: 'e-mud', label: 'A mud pit right behind Team Bossworth' }));
       out.push(O('mudTag', 81, 71, 17, 6, { kind: 'static', text: 'MUD', label: '', cls: 'tag-card' }));
       out.push(O('pull', 6, 82, 40, 13, { text: 'PULL!', label: 'Pull the rope', cls: 'btn-card accent big' }));

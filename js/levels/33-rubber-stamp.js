@@ -13,7 +13,7 @@
     title: 'Rubber Stamp',
     objective: 'Process the form so you can leave.',
     intro: 'Paperwork! Stamp this form APPROVED and you\'re free to go. I filled it in for you. Don\'t read it. It\'s very boring. Riveting, actually. But boring.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['drag', 'read'],
     par: 1,
     hints: [
@@ -31,16 +31,16 @@
 
     view: function (s) {
       return [
-        O('desk', 2, 61, 60, 10, { kind: 'static', art: 'table' }),
-        O('form', 6, 6, 52, 56, {
+        O('desk', 2, 62, 76, 15, { kind: 'static', art: 'table' }),
+        O('form', 4, 4, 52, 57, {
           text: 'FORM 27-B\n\nApplication to stay in this room FOREVER and fetch Bossworth\'s coffee.\n\nSigned: you (by Bossworth)' + (s.stamped ? '\n\n[' + s.stamped + ']' : ''),
           label: 'Form 27-B: application to stay in this room forever and fetch Bossworth\'s coffee. Drop a stamp here.',
           cls: 'book-card', zone: true
         }),
-        O('approved', 66, 4, 28, 26, { art: 'a-stamp', artOpts: { word: 'APPROVED', color: 'red' }, label: 'Red rubber stamp: APPROVED (drag it)', drag: true }),
-        O('denied', 66, 36, 28, 26, { art: 'a-stamp', artOpts: { word: 'DENIED', color: 'blue' }, label: 'Blue rubber stamp: DENIED (drag it)', drag: true }),
+        O('approved', 57, 48, 14, 14, { art: 'a-stamp', artOpts: { word: 'APPROVED', color: 'red' }, label: 'Red rubber stamp: APPROVED (drag it)', drag: true }),
+        O('denied', 71, 48, 14, 14, { art: 'a-stamp', artOpts: { word: 'DENIED', color: 'blue' }, label: 'Blue rubber stamp: DENIED (drag it)', drag: true }),
         O('tray', 6, 78, 30, 16, { text: 'IN-TRAY\n(pending)', label: 'In-tray marked pending', cls: 'tag-card', zone: true }),
-        O('door', 70, 66, 22, 32, { art: 'door', artOpts: { sign: 'EXIT', small: true }, label: 'Exit door, locked until the form is processed' })
+        O('door', 80, 62, 16, 32, { art: 'door', artOpts: { sign: 'EXIT', small: true }, label: 'Exit door, locked until the form is processed' })
       ];
     },
 

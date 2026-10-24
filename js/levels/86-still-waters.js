@@ -59,7 +59,7 @@
         O('float', 44, 38, 12, 16, { kind: 'static', art: 'c-float', artOpts: { under: s.bite }, label: s.bite ? 'Your float has dipped under the water: a bite!' : 'Your float, bobbing on the surface' }),
         O('bell', 4, 74, 14, 16, { art: 'bell', label: 'Bossworth\'s dinner bell' }),
         O('quiet', 21, 76, 28, 14, { text: 'QUIET PLEASE', label: 'A QUIET PLEASE sign (drag it to someone noisy)', drag: true, cls: 'btn-card big', hidden: s.shushed }),
-        O('reel', 52, 76, 22, 14, { text: 'Reel in', label: 'Reel in the line', cls: 'btn-card accent' }),
+        O('reel', 52, 76, 22, 14, { text: 'Reel in', label: 'Reel in the line', cls: 'btn-card big' }),
         O('radio', 77, 72, 20, 18, { art: 'c-radio', artOpts: { on: s.radio }, label: s.radio ? 'Radio blaring polka music (tap to switch off)' : 'Radio, switched off (tap to switch on)' })
       ];
     },

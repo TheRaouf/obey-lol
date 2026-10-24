@@ -41,7 +41,7 @@
         O('mousehole', 86, 84, 10, 10, { art: 'mousehole', artOpts: { mouse: s.mouse }, label: 'Tiny mouse hole', free: true })
       ];
       SEQ.forEach(function (c, i) {
-        objs.push(O('fp' + i, 14 + i * 16, 64 - (i % 2) * 6, 12, 12, { kind: 'static', art: 'footprint', artOpts: { color: c, shape: SHAPE[c], n: i + 1 }, label: 'Footprint ' + (i + 1) + ': ' + NAME[c] }));
+        objs.push(O('fp' + i, 14 + i * 16, 80 - (i % 2) * 4, 13, 13, { kind: 'static', art: 'footprint', artOpts: { color: c, shape: SHAPE[c], n: i + 1 }, label: 'Footprint ' + (i + 1) + ': ' + NAME[c] }));
       });
       ['red', 'yellow', 'blue'].forEach(function (c, i) {
         objs.push(O('btn-' + c, 50 + i * 16, 12, 14, 14, { text: SHAPE[c], label: 'Panel button: ' + NAME[c], cls: 'color-btn ' + c }));

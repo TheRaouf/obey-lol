@@ -39,14 +39,15 @@
 
     view: function (s) {
       var objs = [
-        O('poster', 2, 4, 31, 56, { kind: 'static', text: 'DENSITY 101\n(in g/ml)\nBig number: sinks.\nSmall number: floats.\nPour the bottom layer first.', label: 'Poster: density in grams per millilitre. Big number sinks, small number floats. Pour the bottom layer first.', cls: 'book-card' }),
-        O('column', 36, 2, 28, 62, { art: 'd-column', artOpts: { layers: s.poured.map(function (k) { return LIQ[k].color; }) }, label: 'Tall column' + (s.poured.length ? ' with ' + s.poured.map(function (k) { return LIQ[k].name; }).join(', then ') : ', empty'), zone: true }),
+        O('poster', 2, 1, 33, 64, { kind: 'static', text: 'DENSITY 101\n(in g/ml)\nBig number: sinks.\nSmall number: floats.\nPour the bottom layer first.', label: 'Poster: density in grams per millilitre. Big number sinks, small number floats. Pour the bottom layer first.', cls: 'book-card' }),
+        O('bench', 34, 47, 32, 8, { kind: 'static', art: 'table' }),
+        O('column', 36, 3, 28, 62, { art: 'd-column', artOpts: { layers: s.poured.map(function (k) { return LIQ[k].color; }) }, label: 'Tall column' + (s.poured.length ? ' with ' + s.poured.map(function (k) { return LIQ[k].name; }).join(', then ') : ', empty'), zone: true }),
         O('stack', 67, 4, 31, 56, { kind: 'static', text: 'TOWER\n(top first)\n' + (s.poured.length ? s.poured.slice().reverse().map(function (k) { return LIQ[k].name; }).join('\n') : '(empty)'), label: 'Tower so far: ' + (s.poured.map(function (k) { return LIQ[k].name; }).join(', ') || 'empty'), cls: 'plaque-card' })
       ];
       SHELF.forEach(function (k, i) {
         var x = 4 + i * 24;
         objs.push(O('b-' + k, x + 3, 66, 14, 22, { art: 'd-bottle', artOpts: { color: LIQ[k].color }, label: LIQ[k].name + ', density ' + LIQ[k].d.toFixed(2) + ' g/ml', drag: true, hidden: s.poured.indexOf(k) >= 0 }));
-        objs.push(O('t-' + k, x, 90, 20, 8, { kind: 'static', text: LIQ[k].short + ' ' + LIQ[k].d.toFixed(2), label: '', cls: 'tag-card', hidden: s.poured.indexOf(k) >= 0 }));
+        objs.push(O('t-' + k, x - 1, 89, 22, 9, { kind: 'static', text: LIQ[k].short + ' ' + LIQ[k].d.toFixed(2), label: '', cls: 'tag-card', hidden: s.poured.indexOf(k) >= 0 }));
       });
       return objs;
     },

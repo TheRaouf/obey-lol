@@ -27,7 +27,7 @@
     title: 'Pop-Up Panic',
     objective: 'Get past the pop-ups to unlock the door.',
     intro: 'Pop-ups! Just click the BIG button on every one. Big buttons are always right. That\'s basic user experience design. I read half a book about it.',
-    introMood: 'pleased',
+    introMood: 'neutral',
     actions: ['tap', 'reading', 'logic'],
     par: 3,
     hints: [
