@@ -9,19 +9,6 @@
   function hi(d) { return '<path d="' + d + '" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="6" stroke-linecap="round"/>'; }
 
   /* ------------------------------------------------------------- kitchen */
-  add('b-toaster', function (o) {
-    var shade = ['#f6e2b3', '#f2d08a', '#d9963b', '#3b2a1a'][o.shade || 0];
-    var up = o.down ? 52 : 22;
-    return svg('0 0 200 200',
-      '<rect x="56" y="' + up + '" width="40" height="44" rx="8" fill="' + shade + '" ' + SW3 + '/><rect x="104" y="' + up + '" width="40" height="44" rx="8" fill="' + shade + '" ' + SW3 + '/>' +
-      '<rect x="24" y="56" width="152" height="120" rx="30" fill="#c3ccd8" ' + SW + '/>' + hi('M44 78 Q48 66 62 64') +
-      '<rect x="52" y="52" width="44" height="10" rx="4" fill="#4b4466"/><rect x="104" y="52" width="44" height="10" rx="4" fill="#4b4466"/>' +
-      '<rect x="176" y="' + (o.down ? 128 : 84) + '" width="18" height="14" rx="4" fill="#e5243b" ' + SW3 + '/><path d="M178 80 L178 150" stroke="' + INK + '" stroke-width="3"/>' +
-      '<circle cx="100" cy="140" r="14" fill="#fffdf6" ' + SW3 + '/><path d="M100 140 L' + (o.down ? 110 : 94) + ' 131" ' + SW3 + '/>' +
-      '<rect x="36" y="176" width="20" height="10" rx="3" fill="#4b4466"/><rect x="144" y="176" width="20" height="10" rx="3" fill="#4b4466"/>' +
-      (o.down ? '<path d="M70 44 Q64 30 72 20 M100 44 Q94 28 102 16 M130 44 Q124 30 132 20" fill="none" stroke="' + (o.shade >= 3 ? '#4b4466' : '#8a86a8') + '" stroke-width="5" stroke-linecap="round" opacity=".7"/>' : ''));
-  });
-
   add('b-smoke', function (o) {
     return svg('0 0 200 100', '<path d="M30 20 L170 20 Q170 70 100 76 Q30 70 30 20Z" fill="#fffdf6" ' + SW + '/><circle cx="100" cy="46" r="10" fill="' + (o.beeping ? '#e5243b' : '#8a86a8') + '" ' + SW3 + '/>' +
       '<path d="M60 38 L60 54 M140 38 L140 54" ' + SW3 + '/>' + (o.beeping ? '<path d="M18 60 L4 74 M182 60 L196 74 M100 84 L100 98" stroke="#e5243b" stroke-width="6" stroke-linecap="round"/>' : ''));
@@ -57,19 +44,48 @@
     return svg('0 0 140 180', '<rect x="26" y="16" width="88" height="150" rx="16" fill="#2d2850" ' + SW + '/>' + screen + '<circle cx="70" cy="152" r="6" fill="#8a86a8"/>');
   });
 
-  add('b-tub', function (o) {
-    var fill = { soup: '#ff9f43', chilli: '#c2414d', mix: '#e0703f' }[o.content] || '#c3ccd8';
-    var body = '<path d="M24 84 L176 84 L164 178 L36 178 Z" fill="#e9f6ff" fill-opacity="' + (o.open ? '.2' : '.9') + '" ' + SW + '/>';
-    var food = o.open ? '<path d="M30 100 L170 100 L163 172 L37 172 Z" fill="' + fill + '"/>' + (o.content === 'chilli' || o.content === 'mix' ? '<circle cx="70" cy="128" r="7" fill="#7a1f3d"/><circle cx="118" cy="146" r="7" fill="#7a1f3d"/><circle cx="140" cy="118" r="6" fill="#7a1f3d"/>' : '') +
-      (o.content === 'soup' || o.content === 'mix' ? '<path d="M56 112 Q76 104 96 112 M104 136 Q124 128 144 136" fill="none" stroke="#fff6a8" stroke-width="5" stroke-linecap="round"/>' : '') : '<path d="M30 100 L170 100 L163 172 L37 172 Z" fill="#c3ccd8" opacity=".75"/>';
-    var lid = o.open ? '<g transform="rotate(-24 30 70)"><rect x="18" y="54" width="164" height="24" rx="8" fill="#7fb2ff" ' + SW + '/></g>' : '<rect x="16" y="64" width="168" height="24" rx="8" fill="#7fb2ff" ' + SW + '/>';
-    return svg('0 0 200 200', food + body + lid + '<rect x="60" y="112" width="80" height="34" rx="4" fill="#fffdf6" ' + SW3 + ' opacity="' + (o.open ? 0 : 1) + '"/>');
-  });
-
   add('b-microwave', function (o) {
     return svg('0 0 240 160', '<rect x="8" y="10" width="224" height="140" rx="14" fill="#c3ccd8" ' + SW + '/><rect x="24" y="26" width="148" height="108" rx="10" fill="' + (o.on ? '#ffe066' : '#2d2850') + '" ' + SW + '/>' +
       '<rect x="186" y="28" width="32" height="18" rx="4" fill="#1c1640" ' + SW3 + '/><circle cx="202" cy="70" r="9" fill="#fffdf6" ' + SW3 + '/><circle cx="202" cy="100" r="9" fill="#fffdf6" ' + SW3 + '/>' +
       '<path d="M36 120 L160 120" stroke="#8a86a8" stroke-width="4" opacity=".6"/>' + hi('M38 44 L62 44'));
+  });
+
+  add('b-budgie', function (o) {
+    var bars = '';
+    for (var i = 0; i < 7; i++) bars += '<path d="M' + (44 + i * 19) + ' 40 L' + (44 + i * 19) + ' 170" stroke="#8a86a8" stroke-width="4"/>';
+    var bird = '<ellipse cx="100" cy="122" rx="24" ry="30" fill="#7be37b" ' + SW3 + '/><circle cx="100" cy="94" r="16" fill="#ffe066" ' + SW3 + '/><path d="M88 92 Q93 96 98 92" fill="none" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M104 98 L112 102 L104 106Z" fill="#ff8c1a" ' + SW3 + '/><path d="M60 150 L140 150" ' + SW3 + '/>';
+    if (o.covered) return svg('0 0 200 200', '<path d="M30 40 Q100 -10 170 40 L180 180 L20 180 Z" fill="#ff77b4" ' + SW + '/><path d="M40 170 L60 120 M90 176 L100 110 M150 172 L140 118" stroke="#fff" stroke-width="5" opacity=".6"/>');
+    return svg('0 0 200 200', '<path d="M100 8 L100 24" ' + SW + '/><path d="M36 40 Q100 4 164 40 L164 176 L36 176 Z" fill="#fffdf6" fill-opacity=".4" ' + SW + '/>' + bird + bars + '<rect x="28" y="170" width="144" height="16" rx="6" fill="#c3ccd8" ' + SW3 + '/>');
+  });
+
+  add('b-broom', function () {
+    return svg('0 0 100 220', '<path d="M50 10 L50 150" stroke="' + INK + '" stroke-width="14" stroke-linecap="round"/><path d="M50 10 L50 150" stroke="#c98b4a" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M20 214 L30 150 L70 150 L80 214 Z" fill="#ffd23f" ' + SW + '/><path d="M36 160 L32 210 M50 160 L50 210 M64 160 L68 210" stroke="#d9a441" stroke-width="4"/>');
+  });
+
+  add('b-stool', function () {
+    return svg('0 0 160 140', '<rect x="14" y="20" width="132" height="26" rx="8" fill="#ff8c1a" ' + SW + '/><path d="M30 46 L20 130 M130 46 L140 130 M42 46 L52 130 M118 46 L108 130" ' + SW + '/>' +
+      '<path d="M26 90 L134 90" ' + SW + '/>' + hi('M30 30 L70 30'));
+  });
+
+  add('b-jar', function (o) {
+    var lid = o.lid || '#e5243b';
+    return svg('0 0 140 180', '<rect x="22" y="40" width="96" height="132" rx="18" fill="#e9f6ff" fill-opacity=".85" ' + SW + '/><rect x="30" y="80" width="80" height="84" rx="12" fill="#fffdf6"/>' +
+      '<path d="M40 96 L44 100 M60 110 L64 106 M86 98 L90 102 M50 130 L54 134 M76 140 L80 136 M94 124 L98 128" stroke="#c3ccd8" stroke-width="4" stroke-linecap="round"/>' +
+      '<rect x="18" y="16" width="104" height="28" rx="8" fill="' + lid + '" ' + SW + '/>' + hi('M34 60 L34 150'));
+  });
+
+  add('b-ants', function (o) {
+    var a = '';
+    var pts = [[12, 80], [44, 70], [76, 60], [108, 50], [140, 38], [172, 26]];
+    pts.forEach(function (p, i) { a += '<g transform="translate(' + p[0] + ' ' + p[1] + ') rotate(-18) scale(1.5)"><ellipse cx="-5" cy="0" rx="4" ry="3" fill="' + INK + '"/><ellipse cx="3" cy="0" rx="5" ry="3.5" fill="' + INK + '"/><path d="M-2 -5 L-2 5 M3 -5 L3 5" stroke="' + INK + '" stroke-width="1.5"/></g>'; });
+    return svg('0 0 200 100', o.flip ? '<g transform="translate(200 0) scale(-1 1)">' + a + '</g>' : a);
+  });
+
+  add('b-mixbowl', function (o) {
+    return svg('0 0 200 140', (o.full ? '<ellipse cx="100" cy="46" rx="80" ry="16" fill="#f6e2b3" ' + SW3 + '/>' : '') + '<path d="M14 44 Q14 132 100 132 Q186 132 186 44 Z" fill="#7fb2ff" ' + SW + '/><path d="M14 44 L186 44" ' + SW + '/>' +
+      '<path d="M150 40 L176 4" stroke="' + INK + '" stroke-width="12" stroke-linecap="round"/><path d="M150 40 L176 4" stroke="#c98b4a" stroke-width="6" stroke-linecap="round"/>' + hi('M40 70 Q46 100 70 112'));
   });
 
   /* ------------------------------------------------------------- laundry */
@@ -298,48 +314,57 @@
       '<path d="M60 110 L120 110" stroke="#7fb2ff" stroke-width="6" stroke-linecap="round"/>');
   });
 
-  add('b-cabinet', function (o) {
-    return svg('0 0 200 200', '<rect x="10" y="10" width="180" height="180" rx="12" fill="#fffdf6" ' + SW + '/>' +
-      (o.open ? '<rect x="22" y="22" width="156" height="156" rx="8" fill="#e9dcff" ' + SW3 + '/><path d="M22 100 L178 100" ' + SW3 + '/><rect x="40" y="60" width="26" height="40" rx="6" fill="#ff77b4" ' + SW3 + '/><rect x="80" y="70" width="40" height="30" rx="6" fill="#7fb2ff" ' + SW3 + '/><circle cx="148" cy="150" r="20" fill="#ffd23f" ' + SW3 + '/><text x="148" y="157" text-anchor="middle" font-size="20" fill="' + INK + '">★</text>'
-        : '<rect x="22" y="22" width="156" height="156" rx="8" fill="#cfefff" ' + SW3 + '/>' + hi('M40 40 L80 80 M40 70 L60 90') + '<rect x="150" y="84" width="14" height="32" rx="4" fill="#8a86a8" ' + SW3 + '/>'));
-  });
-
-  add('b-toothcup', function (o) {
-    var n = o.n || 2, brushes = '', cols = ['#e5243b', '#2bc46f', '#3a86ff', '#ffc31f'];
-    for (var i = 0; i < n; i++) { var x = 70 + i * (60 / Math.max(1, n - 1)); brushes += '<path d="M' + x + ' 100 L' + (x + (i - (n - 1) / 2) * 10) + ' 20" stroke="' + INK + '" stroke-width="12" stroke-linecap="round"/><path d="M' + x + ' 100 L' + (x + (i - (n - 1) / 2) * 10) + ' 20" stroke="' + cols[i % 4] + '" stroke-width="6" stroke-linecap="round"/>' + '<rect x="' + (x + (i - (n - 1) / 2) * 10 - 6) + '" y="14" width="12" height="16" rx="3" fill="#fffdf6" ' + SW3 + '/>'; }
-    return svg('0 0 200 200', brushes + '<path d="M52 90 L148 90 L138 186 L62 186 Z" fill="#7fb2ff" ' + SW + '/>' + hi('M70 110 L72 160'));
-  });
-
   add('b-towel', function (o) {
     var c = o.color || '#ff77b4';
     return svg('0 0 120 200', '<path d="M10 20 L110 20" stroke="#8a86a8" stroke-width="10" stroke-linecap="round"/><path d="M22 14 L98 14 L98 186 L22 186 Z" fill="' + c + '" ' + SW + '/><path d="M22 150 L98 150 M22 164 L98 164" stroke="#fff" stroke-width="5" opacity=".7"/>');
   });
 
+  add('b-spider', function (o) {
+    var legs = '';
+    for (var i = 0; i < 4; i++) {
+      var y = 74 + i * 12;
+      legs += '<path d="M90 ' + y + ' Q60 ' + (y - 30 + i * 8) + ' 34 ' + (y + 6 + i * 6) + ' M110 ' + y + ' Q140 ' + (y - 30 + i * 8) + ' 166 ' + (y + 6 + i * 6) + '" fill="none" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>';
+    }
+    return svg('0 0 200 160', legs + '<ellipse cx="100" cy="102" rx="26" ry="30" fill="#4b4466" ' + SW3 + '/><circle cx="100" cy="66" r="18" fill="#4b4466" ' + SW3 + '/>' +
+      '<circle cx="93" cy="62" r="6" fill="#fff"/><circle cx="107" cy="62" r="6" fill="#fff"/><circle cx="94" cy="63" r="3" fill="' + INK + '"/><circle cx="108" cy="63" r="3" fill="' + INK + '"/>' +
+      (o.glass ? '<path d="M44 20 L156 20 L148 150 L52 150 Z" fill="#cfefff" fill-opacity=".45" ' + SW + '/>' + hi('M64 36 L66 130') : '') +
+      (o.card ? '<rect x="30" y="148" width="140" height="12" rx="3" fill="#ffd23f" ' + SW3 + '/>' : ''));
+  });
+
+  add('b-postcard', function () {
+    return svg('0 0 200 140', '<rect x="10" y="14" width="180" height="112" rx="8" fill="#ffd23f" ' + SW + '/><rect x="140" y="26" width="38" height="44" rx="4" fill="#ff77b4" ' + SW3 + '/>' +
+      '<path d="M100 26 L100 116" ' + SW3 + '/><path d="M24 44 L86 44 M24 64 L80 64 M24 84 L70 84" ' + SW3 + '/><path d="M112 92 L180 92 M112 108 L170 108" ' + SW3 + '/>');
+  });
+
+  add('b-window', function (o) {
+    return svg('0 0 200 200', '<rect x="14" y="14" width="172" height="172" rx="10" fill="' + (o.night ? '#2d2850' : '#9fdcff') + '" ' + SW + '/>' +
+      (o.night ? '<circle cx="140" cy="60" r="18" fill="#fff6a8"/><circle cx="60" cy="50" r="3" fill="#fff"/><circle cx="90" cy="120" r="3" fill="#fff"/>' : '<circle cx="146" cy="56" r="20" fill="#ffd23f"/><path d="M30 150 Q60 120 90 150 Q120 120 170 150 L170 172 L30 172Z" fill="#2bc46f"/>') +
+      (o.open ? '<path d="M100 14 L100 186" ' + SW + '/><path d="M100 14 L150 30 L150 170 L100 186" fill="#e9f6ff" fill-opacity=".6" ' + SW + '/>' : '<path d="M100 14 L100 186 M14 100 L186 100" ' + SW + '/>'));
+  });
+
+  add('b-coatstand', function (o) {
+    return svg('0 0 120 300', '<path d="M60 40 L60 280 M24 290 L60 270 L96 290" ' + SW + '/><path d="M60 50 L30 36 M60 50 L90 36" ' + SW + '/>' +
+      (o.coat ? '<path d="M40 56 L80 56 L96 200 L24 200 Z" fill="#7d5a2b" ' + SW + '/><path d="M60 56 L60 196" stroke="#4b2a1a" stroke-width="3"/>' : '') +
+      (o.hat ? '<path d="M24 40 L96 40 L84 30 L82 4 L38 4 L36 30 Z" fill="#2d2850" ' + SW + '/><path d="M36 30 L84 30" stroke="#e5243b" stroke-width="6"/>' : ''));
+  });
+
+  add('b-shadow', function (o) {
+    var c = '#1c1640';
+    var body = o.coat ? '<path d="M70 70 L130 70 L154 270 L46 270 Z" fill="' + c + '"/><path d="M70 74 Q40 120 30 190 M130 74 Q160 120 170 190" stroke="' + c + '" stroke-width="18" stroke-linecap="round" fill="none"/>' : '<path d="M96 60 L104 60 L104 290 L96 290Z" fill="' + c + '"/>';
+    var head = o.hat ? '<path d="M56 64 L144 64 L128 46 L124 0 L76 0 L72 46 Z" fill="' + c + '"/><path d="M60 52 L40 20 M140 52 L160 20" stroke="' + c + '" stroke-width="12" stroke-linecap="round"/>' : '<path d="M100 60 L64 40 M100 60 L136 40" stroke="' + c + '" stroke-width="10" stroke-linecap="round"/>';
+    return svg('0 0 200 300', '<g opacity=".72">' + head + body + '</g>');
+  });
+
+  add('b-hat', function () {
+    return svg('0 0 180 100', '<path d="M10 84 L170 84 L150 66 L140 10 L40 10 L30 66 Z" fill="#2d2850" ' + SW + '/><path d="M30 66 L150 66" stroke="#e5243b" stroke-width="10"/><path d="M10 84 L170 84" ' + SW + '/>');
+  });
+
+  add('b-coat', function () {
+    return svg('0 0 120 220', '<path d="M60 8 Q44 8 40 20 L14 40 L4 200 L116 200 L106 40 L80 20 Q76 8 60 8Z" fill="#7d5a2b" ' + SW + '/><path d="M60 24 L60 196" stroke="#4b2a1a" stroke-width="4"/>' +
+      '<circle cx="70" cy="80" r="5" fill="#ffd23f"/><circle cx="70" cy="120" r="5" fill="#ffd23f"/><circle cx="70" cy="160" r="5" fill="#ffd23f"/>');
+  });
+
   /* ------------------------------------------------------------- bedroom */
-  add('b-lunchbox', function (o) {
-    var n = o.count || 0, dots = '';
-    for (var i = 0; i < n; i++) dots += '<circle cx="' + (52 + i * 32) + '" cy="96" r="12" fill="' + ['#f2c27b', '#e5243b', '#ff8c1a', '#ffd23f', '#7be37b'][i % 5] + '" ' + SW3 + '/>';
-    return svg('0 0 200 160', (o.closed ? '<rect x="14" y="40" width="172" height="40" rx="14" fill="#2bc46f" ' + SW + '/>' : '<path d="M20 60 L60 10 L184 10 L144 60Z" fill="#2bc46f" ' + SW + '/>') +
-      '<rect x="14" y="60" width="172" height="90" rx="16" fill="#7be37b" ' + SW + '/>' + (o.closed ? '' : dots) + '<path d="M80 52 Q100 40 120 52" fill="none" ' + SW + '/>');
-  });
-
-  add('b-apple', function () {
-    return svg('0 0 120 120', '<path d="M60 34 Q90 14 106 46 Q114 90 80 108 Q60 114 40 108 Q6 90 14 46 Q30 14 60 34Z" fill="#e5243b" ' + SW + '/><path d="M60 34 Q60 18 70 8" fill="none" ' + SW3 + '/><path d="M64 24 Q84 6 96 18 Q80 30 64 24Z" fill="#2bc46f" ' + SW3 + '/>' + hi('M34 50 Q36 40 44 36'));
-  });
-
-  add('b-cookie', function () {
-    return svg('0 0 120 120', '<circle cx="60" cy="60" r="48" fill="#d9a066" ' + SW + '/><circle cx="44" cy="44" r="7" fill="#4b2a1a"/><circle cx="74" cy="40" r="6" fill="#4b2a1a"/><circle cx="56" cy="70" r="7" fill="#4b2a1a"/><circle cx="82" cy="74" r="6" fill="#4b2a1a"/><circle cx="38" cy="78" r="5" fill="#4b2a1a"/>');
-  });
-
-  add('b-cheese', function () {
-    return svg('0 0 140 120', '<path d="M10 90 L130 90 L130 50 L10 90Z" fill="#ffd23f" ' + SW + '/><path d="M10 90 L130 50 L120 30 Z" fill="#ffe066" ' + SW + '/><path d="M10 90 L10 110 L130 110 L130 90" fill="#ffd23f" ' + SW + '/>' +
-      '<circle cx="60" cy="100" r="5" fill="#f5b400"/><circle cx="100" cy="98" r="6" fill="#f5b400"/>');
-  });
-
-  add('b-banana', function () {
-    return svg('0 0 160 120', '<path d="M20 30 Q40 100 140 84 Q150 80 146 72 Q60 80 34 24 Z" fill="#ffd23f" ' + SW + '/><path d="M20 30 L14 18 L28 16 L34 24" fill="#8a5a2b" ' + SW3 + '/>');
-  });
-
   add('b-alarm', function (o) {
     return svg('0 0 200 200', '<path d="M30 46 Q30 14 62 22 M170 46 Q170 14 138 22" fill="#ffd23f" ' + SW + '/><path d="M60 170 L44 190 M140 170 L156 190" ' + SW + '/>' +
       '<circle cx="100" cy="110" r="74" fill="#ff8fa0" ' + SW + '/><rect x="46" y="86" width="108" height="50" rx="10" fill="#1c1640" ' + SW3 + '/>' +
