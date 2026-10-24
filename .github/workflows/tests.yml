@@ -23,7 +23,12 @@ jobs:
       - name: Unit tests
         run: node --test tests/unit/*.test.js
       - name: Browser tests (Chromium)
-        run: node --test --test-concurrency=1 tests/e2e/*.e2e.test.js
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 tests/e2e/*.e2e.test.js 2>&1 | tee e2e.tap
+      - name: Report failures as annotations
+        if: failure()
+        run: node tools/tap-annotate.js e2e.tap
 
   webkit:
     runs-on: ubuntu-latest
@@ -38,7 +43,12 @@ jobs:
       - name: Browser tests (WebKit — Safari's engine)
         env:
           BROWSER: webkit
-        run: node --test --test-concurrency=1 tests/e2e/ipad.e2e.test.js tests/e2e/campaign.e2e.test.js tests/e2e/v2.e2e.test.js tests/e2e/v21.e2e.test.js
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 tests/e2e/ipad.e2e.test.js tests/e2e/campaign.e2e.test.js tests/e2e/v2.e2e.test.js tests/e2e/v21.e2e.test.js 2>&1 | tee e2e.tap
+      - name: Report failures as annotations
+        if: failure()
+        run: node tools/tap-annotate.js e2e.tap
       - name: Keep the WebKit results
         if: always()
         uses: actions/upload-artifact@v4
