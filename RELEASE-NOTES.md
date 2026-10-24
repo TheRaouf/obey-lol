@@ -1,5 +1,20 @@
 # OBEY? LOL. — Release notes
 
+## Version 2.2.0
+
+**A hundred more ways to not do what you're told.** 100 new levels in 25 new chapters, played before the
+Final Factory: Bossworth's office, his house, his holiday, his laboratory and his talent show.
+
+- **100 new levels** (33–132): stamp the wrong form, read an upside-down thermostat, buy the snack above
+  the keycard, follow the footprints not the signpost, take the stairs in a fire drill, sit on the
+  suitcase. Every one has a "the trick" recap when you finish.
+- **25 new ways to ruin things**, one per chapter. U.N.D.O. keeps the clues in your Sabotage file.
+- **25 new chapter cups** to win on Easy, Medium and Hard.
+- The Final Factory is now **Levels 133–136**. If you had finished 2.1, your progress moves with it and
+  you carry on at Level 33. Bonus levels are now called Bonus 1–4 everywhere.
+
+**How to update:** reload the game. Your progress carries over automatically.
+
 ## Version 2.1.0
 
 **Ruin everything. On an iPad.** Bossworth now has a nemesis (you), a sidekick who betrays him

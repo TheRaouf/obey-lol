@@ -12,7 +12,7 @@ async function goLevel(page, n) {
   await page.evaluate((x) => { location.hash = 'level/' + x; }, n);
   await page.waitForFunction((x) => { const r = OBEY_TEST.runtime(); return r && r.level === x && r.status === 'playing'; }, n);
 }
-const withSave = (n, extra) => H.saveWith(n, (d) => { d.seenVersion = '2.1.0'; return extra ? extra(d) : d; });
+const withSave = (n, extra) => H.saveWith(n, (d) => { d.seenVersion = '2.2.0'; return extra ? extra(d) : d; });
 const save = (page) => page.evaluate(() => OBEY_TEST.save());
 
 test('QA3-D1: with storage blocked, switching players and back keeps progress', async () => {
@@ -75,8 +75,8 @@ test('QA3-D4: hold assist leaves drag-and-hold objects holdable from the keyboar
 
 for (const [w, h] of [[694, 768], [584, 820], [844, 390], [1180, 500], [667, 375]]) {
   test(`QA3-D5: the stage fits without scrolling in a ${w}×${h} window`, async () => {
-    const { page, errors, ctx } = await H.openGame(browser, base, { viewport: { width: w, height: h }, hasTouch: true, isMobile: true, seed: withSave(36) });
-    for (const n of [9, 15, 26, 33]) {
+    const { page, errors, ctx } = await H.openGame(browser, base, { viewport: { width: w, height: h }, hasTouch: true, isMobile: true, seed: withSave(136) });
+    for (const n of [9, 15, 26, 81, 89, 133]) {
       await goLevel(page, n);
       await page.evaluate(() => window.scrollTo(0, 0));
       const r = await page.evaluate(() => { const b = document.getElementById('stage').getBoundingClientRect(); return { bottom: b.bottom, ih: innerHeight, w: b.width, over: document.scrollingElement.scrollWidth > innerWidth + 1 }; });
@@ -105,7 +105,7 @@ test('QA3-D6/D17: sliders stay usable and the menu never scrolls sideways at 320
 test('QA3-D9/D16: bonus label in Settings; corrupt profile save warns when switching', async () => {
   const { page, errors, ctx } = await H.openGame(browser, base, { seed: withSave(12) });
   await page.evaluate(() => localStorage.setItem('obeylol.save.p2', '{broken'));
-  await goLevel(page, 104);
+  await goLevel(page, 1004);
   await page.evaluate(() => { location.hash = 'settings'; });
   assert.equal(await page.getByRole('button', { name: 'Back to Bonus 4' }).count(), 1);
   await page.getByRole('button', { name: 'Play as Player 2' }).click();

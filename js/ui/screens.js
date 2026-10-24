@@ -82,11 +82,10 @@
     return `<section class="whats-new panel" aria-labelledby="wn-title">
       <h2 id="wn-title">New in ${E(OBEY.VERSION)}</h2>
       <ul>
-        <li><b>Ruin it:</b> deliberately terrible ways to finish levels, and a Sabotage file to collect them.</li>
-        <li><b>U.N.D.O.</b>, a glitchy sidekick who leaks Bossworth's chats. And a fake game over. Probably fake.</li>
-        <li><b>Sabotage Studio:</b> 4 bonus microgame levels after Level 12.</li>
-        <li><b>Daily Dare</b> with streaks, <b>Skip</b> for stuck levels, personal bests, share cards.</li>
-        <li>Made for iPad: install to the home screen, play offline, keyboard shortcuts, hold assist, high contrast and more.</li>
+        <li><b>100 new levels</b> (33–132) in 25 new chapters: the office, home, the great outdoors, the science lab and showbiz.</li>
+        <li><b>25 new ways to ruin things</b>, one per new chapter, with U.N.D.O.'s tips in the Sabotage file.</li>
+        <li>The <b>Final Factory</b> is now Levels 133–136. Your progress moved with it; you carry on at Level 33.</li>
+        <li>Bonus levels are now numbered Bonus 1–4 everywhere.</li>
       </ul>
       <button class="btn small-btn" data-act="dismiss-whatsnew">Got it</button>
     </section>`;
@@ -207,7 +206,7 @@
     el.innerHTML = backBar('Secret field notes', 'secrets-title', `<span class="pill">${s.secrets.length}/15</span>`) + `
       <div class="page">
         <div class="progress-block panel">
-          <p>You have found <b>${s.secrets.length}</b> of 15 secrets.${s.secrets.length === 15 ? ' Something golden waits in Level 36.' : ' Find all 15 for a very special ending.'}</p>
+          <p>You have found <b>${s.secrets.length}</b> of 15 secrets.${s.secrets.length === 15 ? ' Something golden waits in Level 136.' : ' Find all 15 for a very special ending.'}</p>
           <div class="bar" role="progressbar" aria-label="Secrets found" aria-valuemin="0" aria-valuemax="15" aria-valuenow="${s.secrets.length}"><span style="width:${(s.secrets.length / 15 * 100).toFixed(1)}%"></span></div>
         </div>
         <ul class="note-grid">${cards}</ul>

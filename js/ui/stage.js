@@ -25,7 +25,56 @@
     this.guideIds = [];    // objects highlighted by "Show me how"
     this.assist = null;    // hold assist: id of the object being held by tap-to-start / tap-to-stop
     this._bind();
+    var self = this;
+    root.addEventListener('resize', function () { self._fitSize(); self._fitText(); });
+    if (root.MutationObserver) {
+      // Text above the stage (narrator line, asides, goal) can grow and push it down. Re-fit when the level
+      // screen's text changes outside the stage. (A ResizeObserver here would loop: fitting resizes the stage.)
+      var screen = el.closest && el.closest('.screen');
+      if (screen) {
+        this._mo = new root.MutationObserver(function (list) {
+          for (var i = 0; i < list.length; i++) if (!el.contains(list[i].target)) { self._fitSize(); return; }
+        });
+        this._mo.observe(screen, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+      }
+    }
   }
+
+  /** On tablets and larger, the square stage shrinks so its bottom edge stays on screen whatever sits
+   *  above it (long narrator lines, a two-line goal). CSS gives the normal size; this only trims it. */
+  Stage.prototype._fitSize = function () {
+    var wrap = this.el.parentElement;
+    if (!wrap || !wrap.classList.contains('stage-wrap')) return;
+    var before = wrap.style.maxWidth;
+    wrap.style.maxWidth = '';
+    if (!this.el.offsetWidth || root.innerWidth < 540) return;
+    var r = this.el.getBoundingClientRect();
+    var scrollY = root.scrollY || 0;
+    var over = (r.bottom + scrollY) - root.innerHeight + 6;
+    if (over > 0) wrap.style.maxWidth = Math.max(240, Math.floor(r.width - over)) + 'px';
+    if (wrap.style.maxWidth !== before) this._fitText();
+  };
+
+  /** Text cards shrink their font (never below 10px, 9px for fine print) until the text fits the card.
+   *  Cards are sized in % of the stage while text has a readable minimum, so on small stages long text
+   *  would otherwise spill out of its card. */
+  Stage.prototype._fitText = function () {
+    this.nodes.forEach(function (node) {
+      if (node.hidden || node.classList.contains('has-art')) return;
+      var t = node.querySelector('.obj-text');
+      if (!t) return;
+      node.style.fontSize = '';
+      if (!node.offsetWidth) return;
+      var floor = node.classList.contains('fine-print') ? 9 : 10;
+      var fs = parseFloat(root.getComputedStyle(node).fontSize);
+      for (var i = 0; i < 40 && fs > floor; i++) {
+        var r = node.getBoundingClientRect(), q = t.getBoundingClientRect();
+        if (Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top) <= 1) break;
+        fs = Math.max(floor, fs - 0.5);
+        node.style.fontSize = fs + 'px';
+      }
+    });
+  };
 
   Stage.prototype._bind = function () {
     var self = this;
@@ -143,6 +192,8 @@
     });
     if (focusedId) this._restoreFocus(focusedId);
     this._syncNarratorZone();
+    this._fitText();
+    this._fitSize();
   };
 
   Stage.prototype._update = function (node, o, i) {

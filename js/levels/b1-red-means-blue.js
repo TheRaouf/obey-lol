@@ -9,7 +9,7 @@
 
   OBEY.registerLevel({
     id: 'red-means-blue',
-    num: 101,
+    num: OBEY.BONUS_BASE + 1,
     title: 'Red Means Blue',
     objective: 'Press RED.',
     intro: 'Sabotage Studio, test one. Simple: press RED. Not blue. RED. You know what red is. I hope.',

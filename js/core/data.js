@@ -36,7 +36,7 @@
     { id: 'wizard', name: 'Wizard', unlock: { type: 'stars', value: 20 }, aside: '*waves wand dramatically*' },
     { id: 'robot', name: 'Robot', unlock: { type: 'level', value: 12 }, aside: 'BEEP. INSTRUCTION LOADED:' },
     { id: 'dino', name: 'Dino', unlock: { type: 'secrets', value: 8 }, aside: 'RAWR. (That means "listen".)' },
-    { id: 'ninja', name: 'Ninja', unlock: { type: 'level', value: 36 }, aside: '*appears silently*' }
+    { id: 'ninja', name: 'Ninja', unlock: { type: 'level', value: 136 }, aside: '*appears silently*' }
   ];
 
   OBEY.THEMES = [
@@ -58,9 +58,9 @@
 
   /* ---------------------------------------------------------------- endings */
   OBEY.ENDINGS = [
-    { id: 'hero', name: 'The Honest Machine', short: 'Hero ending', condition: 'Finish Level 36 by repairing the Instruction Machine.' },
-    { id: 'chaos', name: 'Total Meltdown', short: 'Chaos ending', condition: 'Finish Level 36 by overloading the Instruction Machine.' },
-    { id: 'secret', name: 'The Last Word', short: 'Secret Master ending', condition: 'Discover all 15 secrets, then finish Level 36 with the golden quill.' }
+    { id: 'hero', name: 'The Honest Machine', short: 'Hero ending', condition: 'Finish Level 136 by repairing the Instruction Machine.' },
+    { id: 'chaos', name: 'Total Meltdown', short: 'Chaos ending', condition: 'Finish Level 136 by overloading the Instruction Machine.' },
+    { id: 'secret', name: 'The Last Word', short: 'Secret Master ending', condition: 'Discover all 15 secrets, then finish Level 136 with the golden quill.' }
   ];
   OBEY.ENDING_IDS = OBEY.ENDINGS.map(function (e) { return e.id; });
 
@@ -69,12 +69,12 @@
   OBEY.ACHIEVEMENTS = [
     { id: 'first-steps', name: 'First Steps', desc: 'Complete Level 1.', progress: function (s, P) { return [P.isCompleted(s, 1) ? 1 : 0, 1]; } },
     { id: 'professional-disobeyer', name: 'Professional Disobeyer', desc: 'Defy a direct instruction 10 times (counted when a level is completed).', progress: function (s) { return [Math.min(s.stats.defiance, 10), 10]; } },
-    { id: 'perfect-performance', name: 'Perfect Performance', desc: 'Earn 3 stars on all 36 levels.', progress: function (s) { var n = 0; for (var k in s.bestStars) if (s.bestStars[k] === 3) n++; return [n, OBEY.LEVEL_COUNT]; } },
+    { id: 'perfect-performance', name: 'Perfect Performance', desc: 'Earn 3 stars on all ' + OBEY.LEVEL_COUNT + ' levels.', progress: function (s) { var n = 0; for (var k in s.bestStars) if (s.bestStars[k] === 3) n++; return [n, OBEY.LEVEL_COUNT]; } },
     { id: 'secret-agent', name: 'Secret Agent', desc: 'Discover your first secret.', progress: function (s) { return [Math.min(s.secrets.length, 1), 1]; } },
     { id: 'collector', name: 'Collector', desc: 'Discover 8 secrets.', progress: function (s) { return [Math.min(s.secrets.length, 8), 8]; } },
     { id: 'secret-master', name: 'Secret Master', desc: 'Discover all 15 secrets.', progress: function (s) { return [s.secrets.length, 15]; } },
     { id: 'costume-party', name: 'Costume Party', desc: 'Dress Bossworth in all 8 costumes.', progress: function (s) { return [s.costumes.worn.length, 8]; } },
-    { id: 'full-campaign', name: 'Full Campaign', desc: 'Complete all 36 levels.', progress: function (s) { return [s.completed.length, OBEY.LEVEL_COUNT]; } },
+    { id: 'full-campaign', name: 'Full Campaign', desc: 'Complete all ' + OBEY.LEVEL_COUNT + ' levels.', progress: function (s) { return [s.completed.length, OBEY.LEVEL_COUNT]; } },
     { id: 'chaos-enthusiast', name: 'Chaos Enthusiast', desc: 'Reach the Chaos ending.', progress: function (s) { return [s.endings.seen.indexOf('chaos') >= 0 ? 1 : 0, 1]; } },
     { id: 'heroic-finish', name: 'Heroic Finish', desc: 'Reach the Hero ending.', progress: function (s) { return [s.endings.seen.indexOf('hero') >= 0 ? 1 : 0, 1]; } },
     { id: 'ghostwriter', name: 'Ghostwriter', desc: 'Reach the Secret Master ending.', progress: function (s) { return [s.endings.seen.indexOf('secret') >= 0 ? 1 : 0, 1]; } }
@@ -92,7 +92,32 @@
     { id: 'clockwork-canyon', name: 'Clockwork Canyon', levels: [21, 22, 23, 24] },
     { id: 'mirror-marsh', name: 'Mirror Marsh', levels: [25, 26, 27, 28] },
     { id: 'static-summit', name: 'Static Summit', levels: [29, 30, 31, 32] },
-    { id: 'final-factory', name: 'Final Factory', levels: [33, 34, 35, 36] }
+    { id: 'stapler-steppes', name: 'Stapler Steppes', levels: [33,  34,  35,  36] },
+    { id: 'filing-fjord', name: 'Filing Fjord', levels: [37,  38,  39,  40] },
+    { id: 'printer-peaks', name: 'Printer Peaks', levels: [41,  42,  43,  44] },
+    { id: 'canteen-cliffs', name: 'Canteen Cliffs', levels: [45,  46,  47,  48] },
+    { id: 'boardroom-bluffs', name: 'Boardroom Bluffs', levels: [49,  50,  51,  52] },
+    { id: 'kitchen-kerfuffle', name: 'Kitchen Kerfuffle', levels: [53,  54,  55,  56] },
+    { id: 'laundry-lagoon', name: 'Laundry Lagoon', levels: [57,  58,  59,  60] },
+    { id: 'hallway-hijinks', name: 'Hallway Hijinks', levels: [61,  62,  63,  64] },
+    { id: 'soapy-shallows', name: 'Soapy Shallows', levels: [65,  66,  67,  68] },
+    { id: 'bedtime-bedlam', name: 'Bedtime Bedlam', levels: [69,  70,  71,  72] },
+    { id: 'brolly-beach', name: 'Brolly Beach', levels: [73,  74,  75,  76] },
+    { id: 'compass-crossing', name: 'Compass Crossing', levels: [77,  78,  79,  80] },
+    { id: 'timetable-terminal', name: 'Timetable Terminal', levels: [81,  82,  83,  84] },
+    { id: 'campfire-creek', name: 'Campfire Creek', levels: [85,  86,  87,  88] },
+    { id: 'postcard-paradise', name: 'Postcard Paradise', levels: [89,  90,  91,  92] },
+    { id: 'beaker-basin', name: 'Beaker Basin', levels: [93,  94,  95,  96] },
+    { id: 'circuit-cove', name: 'Circuit Cove', levels: [97,  98,  99,  100] },
+    { id: 'pixel-plateau', name: 'Pixel Plateau', levels: [101,  102,  103,  104] },
+    { id: 'rocket-ridge', name: 'Rocket Ridge', levels: [105,  106,  107,  108] },
+    { id: 'orbit-outpost', name: 'Orbit Outpost', levels: [109,  110,  111,  112] },
+    { id: 'magic-matinee', name: 'Magic Matinee', levels: [113,  114,  115,  116] },
+    { id: 'curtain-call', name: 'Curtain Call', levels: [117,  118,  119,  120] },
+    { id: 'buzzer-bonanza', name: 'Buzzer Bonanza', levels: [121,  122,  123,  124] },
+    { id: 'museum-midway', name: 'Museum Midway', levels: [125,  126,  127,  128] },
+    { id: 'pixel-palace', name: 'Pixel Palace', levels: [129,  130,  131,  132] },
+    { id: 'final-factory', name: 'Final Factory', levels: [133, 134, 135, 136] }
   ];
   OBEY.chapterOf = function (n) { return OBEY.CHAPTERS.filter(function (c) { return c.levels.indexOf(n) >= 0; })[0]; };
 
@@ -116,7 +141,7 @@
     { id: 'flawless', name: 'Flawless', kind: 'special', tier: 2, desc: 'Finish 10 different levels without falling for a single trap.' },
     { id: 'hard-boiled', name: 'Hard Boiled', kind: 'special', tier: 3, desc: 'Finish 12 different levels on Hard.' },
     { id: 'good-sport', name: 'Good Sport', kind: 'special', tier: 1, desc: 'Fall for 25 traps in total. Bossworth thanks you for your service.' },
-    { id: 'platinum-bossworth', name: 'Platinum Bossworth', kind: 'special', tier: 4, desc: 'Win a Gold cup in all nine chapters.' }
+    { id: 'platinum-bossworth', name: 'Platinum Bossworth', kind: 'special', tier: 4, desc: 'Win a Gold cup in every chapter.' }
   ]);
   OBEY.TROPHY_IDS = OBEY.TROPHIES.map(function (t) { return t.id; });
 

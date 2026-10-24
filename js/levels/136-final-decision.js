@@ -1,4 +1,4 @@
-/* Level 36 — The Final Decision
+/* Level 136 — The Final Decision
  * The Instruction Machine. Multiple outcomes:
  *   Hero    — press and HOLD the wrench for 2 s to repair the machine so it only gives honest instructions.
  *   Chaos   — DRAG the fuse into the machine's intake to overload it.
@@ -13,7 +13,7 @@
 
   OBEY.registerLevel({
     id: 'final-decision',
-    num: 36,
+    num: 136,
     title: 'The Final Decision',
     objective: 'Decide what happens to the Instruction Machine.',
     intro: function (ctx) {

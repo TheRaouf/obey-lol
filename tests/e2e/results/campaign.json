@@ -290,25 +290,25 @@
     },
     {
       "level": 33,
-      "id": "terms-and-conditions",
+      "id": "rubber-stamp",
       "stars": 3,
-      "actions": 3,
-      "par": 3,
+      "actions": 1,
+      "par": 1,
       "hints": 0,
       "path": "intended solution (mouse)"
     },
     {
       "level": 34,
-      "id": "the-rehearsal",
+      "id": "stock-take",
       "stars": 3,
-      "actions": 3,
-      "par": 3,
+      "actions": 1,
+      "par": 1,
       "hints": 0,
       "path": "intended solution (mouse)"
     },
     {
       "level": 35,
-      "id": "last-instruction",
+      "id": "please-hold",
       "stars": 3,
       "actions": 4,
       "par": 4,
@@ -317,6 +317,906 @@
     },
     {
       "level": 36,
+      "id": "take-it-offline",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 37,
+      "id": "alphabetical-order",
+      "stars": 3,
+      "actions": 5,
+      "par": 5,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 38,
+      "id": "thirteenth-floor",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 39,
+      "id": "whiteboard-wipe",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 40,
+      "id": "org-chart",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 41,
+      "id": "copy-that",
+      "stars": 3,
+      "actions": 5,
+      "par": 5,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 42,
+      "id": "paper-jam",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 43,
+      "id": "print-queue",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 44,
+      "id": "suggestion-box",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 45,
+      "id": "fire-drill",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 46,
+      "id": "coffee-run",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 47,
+      "id": "vending-machine",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 48,
+      "id": "motion-sensor",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 49,
+      "id": "revolving-door",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 50,
+      "id": "sticky-situation",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 51,
+      "id": "calendar-clash",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 52,
+      "id": "clocking-out",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 53,
+      "id": "the-chirp",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 54,
+      "id": "low-and-slow",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 55,
+      "id": "fridge-light",
+      "stars": 3,
+      "actions": 5,
+      "par": 5,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 56,
+      "id": "sugar-or-salt",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 57,
+      "id": "whites-wash",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 58,
+      "id": "fitted-sheet",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 59,
+      "id": "odd-sock-out",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 60,
+      "id": "dust-bunny",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 61,
+      "id": "secret-knock",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 62,
+      "id": "topsy-thermostat",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 63,
+      "id": "feeding-time",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 64,
+      "id": "thirsty-plants",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 65,
+      "id": "bath-time",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 66,
+      "id": "washing-up",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 67,
+      "id": "souper-microwave",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 68,
+      "id": "spider-eviction",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 69,
+      "id": "shadow-on-the-wall",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 70,
+      "id": "snooze-button",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 71,
+      "id": "under-the-bed",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 72,
+      "id": "home-sweet-home",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 73,
+      "id": "brolly-good",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 74,
+      "id": "sandcastle-shore",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 75,
+      "id": "beach-hut-seven",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 76,
+      "id": "seagull-standoff",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 77,
+      "id": "green-man",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 78,
+      "id": "magnetic-north",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 79,
+      "id": "spun-signpost",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 80,
+      "id": "picture-perfect",
+      "stars": 3,
+      "actions": 5,
+      "par": 5,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 81,
+      "id": "departure-board",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 82,
+      "id": "baggage-claim",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 83,
+      "id": "listen-carefully",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 84,
+      "id": "suitcase-squash",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 85,
+      "id": "bear-aware",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 86,
+      "id": "still-waters",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 87,
+      "id": "up-the-creek",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 88,
+      "id": "campfire-curfew",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 89,
+      "id": "riding-the-wind",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 90,
+      "id": "tracks-in-the-snow",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 91,
+      "id": "the-lonely-gate",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 92,
+      "id": "wish-you-were-here",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 93,
+      "id": "absolutely-zero",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 94,
+      "id": "fire-formula",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 95,
+      "id": "liquid-layers",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 96,
+      "id": "static-cling",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 97,
+      "id": "bridge-the-gap",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 98,
+      "id": "bits-and-bulbs",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 99,
+      "id": "off-and-on-again",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 100,
+      "id": "like-poles",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 101,
+      "id": "pop-up-panic",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 102,
+      "id": "watched-loader",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 103,
+      "id": "prove-youre-human",
+      "stars": 3,
+      "actions": 6,
+      "par": 6,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 104,
+      "id": "signal-seeker",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 105,
+      "id": "four-litres-exactly",
+      "stars": 3,
+      "actions": 7,
+      "par": 7,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 106,
+      "id": "airlock-etiquette",
+      "stars": 3,
+      "actions": 5,
+      "par": 5,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 107,
+      "id": "dots-and-dashes",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 108,
+      "id": "signal-delay",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 109,
+      "id": "falling-for-it",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 110,
+      "id": "docking-lights",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 111,
+      "id": "launch-window",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 112,
+      "id": "cut-the-right-wire",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 113,
+      "id": "hat-trick",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 114,
+      "id": "wand-waving",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 115,
+      "id": "mislabelled",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 116,
+      "id": "look-into-my-eyes",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 117,
+      "id": "continuity",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 118,
+      "id": "the-prompter",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 119,
+      "id": "talent-show",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 120,
+      "id": "the-setlist",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 121,
+      "id": "buzz-in",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 122,
+      "id": "tug-of-war",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 123,
+      "id": "photo-finish",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 124,
+      "id": "jellybean-jar",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 125,
+      "id": "do-not-touch",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 126,
+      "id": "watchful-portrait",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 127,
+      "id": "height-check",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 128,
+      "id": "ferris-wheel",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 129,
+      "id": "fake-settings",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 130,
+      "id": "now-loading",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 131,
+      "id": "roll-credits",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 132,
+      "id": "left-the-game",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 133,
+      "id": "terms-and-conditions",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 134,
+      "id": "the-rehearsal",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 135,
+      "id": "last-instruction",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 136,
       "id": "final-decision",
       "stars": 3,
       "actions": 1,

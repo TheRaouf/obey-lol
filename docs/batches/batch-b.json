@@ -1,0 +1,141 @@
+{
+  "chapters": [
+    {
+      "name": "Kitchen Kerfuffle",
+      "levels": [
+        53,
+        54,
+        55,
+        56
+      ]
+    },
+    {
+      "name": "Laundry Lagoon",
+      "levels": [
+        57,
+        58,
+        59,
+        60
+      ]
+    },
+    {
+      "name": "Hallway Hijinks",
+      "levels": [
+        61,
+        62,
+        63,
+        64
+      ]
+    },
+    {
+      "name": "Soapy Shallows",
+      "levels": [
+        65,
+        66,
+        67,
+        68
+      ]
+    },
+    {
+      "name": "Bedtime Bedlam",
+      "levels": [
+        69,
+        70,
+        71,
+        72
+      ]
+    }
+  ],
+  "ruins": [
+    {
+      "id": "alarm-whacker",
+      "level": 53,
+      "name": "Alarm Whacker",
+      "clue": "Poking a chirping smoke alarm with a broom once is rude. Three times is a lifestyle."
+    },
+    {
+      "id": "shrunken-jumper",
+      "level": 57,
+      "name": "Shrunken Jumper",
+      "clue": "Bossworth's lucky wool jumper really wants that hot wash. Its label really doesn't."
+    },
+    {
+      "id": "bossworth-bloom",
+      "level": 64,
+      "name": "Bossworth in Bloom",
+      "clue": "Not everything in the plant room that could use a watering is a plant."
+    },
+    {
+      "id": "bubble-avalanche",
+      "level": 66,
+      "name": "Bubble Avalanche",
+      "clue": "One squirt of washing-up liquid is plenty. The whole bottle is… more."
+    },
+    {
+      "id": "rug-mountain",
+      "level": 72,
+      "name": "Rug Mountain",
+      "clue": "Bossworth says everything fits under the rug. Test that theory. All of it."
+    }
+  ],
+  "art": [
+    "b-smoke",
+    "b-oven",
+    "b-fridge",
+    "b-camphone",
+    "b-microwave",
+    "b-budgie",
+    "b-broom",
+    "b-stool",
+    "b-jar",
+    "b-ants",
+    "b-mixbowl",
+    "b-washer",
+    "b-jumper",
+    "b-sheet",
+    "b-bed",
+    "b-sock",
+    "b-sofa",
+    "b-bunny",
+    "b-dust",
+    "b-carrot",
+    "b-hutch",
+    "b-vacuum",
+    "b-thermostat",
+    "b-thermometer",
+    "b-dog",
+    "b-tortoise",
+    "b-bowl",
+    "b-bone",
+    "b-lettuce",
+    "b-houseplant",
+    "b-can",
+    "b-bathtub",
+    "b-plug",
+    "b-taps",
+    "b-duck",
+    "b-dish",
+    "b-sink",
+    "b-soap",
+    "b-tin",
+    "b-spoon",
+    "b-soupmug",
+    "b-towel",
+    "b-spider",
+    "b-postcard",
+    "b-window",
+    "b-coatstand",
+    "b-shadow",
+    "b-hat",
+    "b-coat",
+    "b-alarm",
+    "b-monster",
+    "b-torch",
+    "b-nightlight",
+    "b-teddy",
+    "b-switchplate",
+    "b-dustshelf",
+    "b-rug",
+    "b-frame"
+  ]
+}

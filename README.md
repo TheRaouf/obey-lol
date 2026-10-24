@@ -2,9 +2,9 @@
 
 A funny, deceptive, offline puzzle adventure for the browser. Bossworth, your narrator, gives
 instructions. Some are lies, some are half-truths, and some are — annoyingly — completely true.
-Each of the 36 levels asks the same question in a new way: **obey, disobey, or find a third option?**
+Each of the 136 levels asks the same question in a new way: **obey, disobey, or find a third option?**
 
-- 36 hand-made levels in 9 chapters, plus the 4-level **Sabotage Studio** bonus pack
+- 136 hand-made levels in 34 chapters, plus the 4-level **Sabotage Studio** bonus pack
 - **Ruin it:** 16 deliberately terrible ways to finish levels, collected in your Sabotage file
 - **U.N.D.O.**, a glitchy sidekick program that leaks Bossworth's chats and teaches you to sabotage
 - Three difficulties, hints, a "Show me how" walkthrough, "Skip" for stuck levels, and a Daily Dare with streaks
@@ -128,8 +128,10 @@ choices, difficulty and settings.
 
 - Corrupt or hand-edited saves are repaired field by field; unreadable saves are replaced with a
   fresh one and the original text is kept under `obeylol.save.corrupt`.
-- Older saves are migrated automatically. 2.0 saves gain the new 2.1 fields. 1.x saves (16 levels) keep
-  all progress: their finale (old Levels 15–16) becomes Levels 35–36 and you continue at Level 15.
+- Older saves are migrated automatically. 2.1 saves: the Final Factory (old Levels 33–36) becomes
+  Levels 133–136 and the bonus levels become Bonus 1–4 (numbers 1001–1004); you continue at Level 33.
+  2.0 saves gain the 2.1 fields. 1.x saves (16 levels) keep all progress: their finale (old Levels 15–16)
+  becomes Levels 135–136 and you continue at Level 15.
 - If the browser blocks storage (private modes, strict settings), the game keeps progress in memory
   for the current tab and tells you so.
 - `file://` and `http://127.0.0.1` are different origins, so they keep **separate** saves.
@@ -174,10 +176,11 @@ js/core/save.js         versioned save schema, validation, migration, storage ad
 js/core/progress.js     progression rules (unlocks, stars, secrets, achievements, endings)
 js/core/engine.js       level runtime: actions, timers, narrator, hints, scoring, fake clock
 js/core/extras.js       2.1 data and rules: ruins, tricks, jigsaw, asides, U.N.D.O., Daily Dare, save codes
-js/levels/NN-*.js       one file per level (data + init/view/on), 36 files
+js/levels/NN-*.js       one file per level (data + init/view/on), 136 files + 4 bonus files (b1–b4)
 js/levels/bN-*.js       the 4 Sabotage Studio bonus levels
 js/ui/art.js            code-drawn narrator (8 costumes × 7 moods), objects, icons
 js/ui/art-extra.js      2.1 art: bonus-level objects, jigsaw, U.N.D.O., new icons
+js/ui/art-pack-a…e.js   2.2 art for the 100 new levels (office, home, outdoors, science, showbiz)
 js/ui/audio.js          Web Audio sound effects and Bossworth's voice (no files)
 js/ui/stage.js          stage renderer + unified tap/drag/hold input (mouse, touch, keyboard)
 js/ui/screens.js        menu, map, field notes, costumes, themes, achievements, trophy room, settings, credits
@@ -187,7 +190,7 @@ js/ui/app.js            routing, level screen, gags, "Show me how", difficulty, 
 js/ui/app-extra.js      2.1 features: asides, ruins, jigsaw, U.N.D.O., sharing, profiles, shortcuts, captions, music, offline app, boot
 manifest.webmanifest    home-screen app manifest; sw.js = generated offline service worker
 assets/                 icon and bundled OFL fonts
-tests/unit/             Node tests for core logic and all 36 levels
+tests/unit/             Node tests for core logic and all 140 levels
 tests/e2e/              Playwright tests (+ results/*.json written by the runs)
 tools/                  serve.js, check.js, gen-docs.js, package.sh
 docs/                   generated level spec & data reference, QA notes, screenshots

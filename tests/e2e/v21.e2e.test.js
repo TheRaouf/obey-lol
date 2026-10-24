@@ -17,7 +17,7 @@ async function goLevel(page, n) {
 }
 const rtState = (page) => page.evaluate(() => OBEY_TEST.runtime());
 const save = (page) => page.evaluate(() => OBEY_TEST.save());
-const seen = (d) => { d.seenVersion = '2.1.0'; return d; };
+const seen = (d) => { d.seenVersion = '2.2.0'; return d; };
 const withSave = (n, extra) => H.saveWith(n, (d) => seen(extra ? extra(d) : d));
 const CLIP = H.ENGINE === 'chromium' ? ['clipboard-read', 'clipboard-write'] : [];
 
@@ -94,7 +94,7 @@ test('Sabotage Studio: locked before Level 12; bonus levels play, ruin, and keep
   await o.page.evaluate(() => { location.hash = 'sabotage'; });
   await o.page.waitForSelector('#screen-sabotage:not([hidden])');
   assert.match(await o.page.locator('#screen-sabotage').innerText(), /Opens after you finish Level 12/);
-  await o.page.evaluate(() => { location.hash = 'level/101'; });
+  await o.page.evaluate(() => { location.hash = 'level/1001'; });
   await o.page.waitForSelector('#screen-map:not([hidden])');
   await o.ctx.close();
 
@@ -102,7 +102,7 @@ test('Sabotage Studio: locked before Level 12; bonus levels play, ruin, and keep
   const page = o.page;
   await page.evaluate(() => { location.hash = 'sabotage'; });
   await page.getByRole('button', { name: /Bonus 2: Ninety-Nine/ }).click();
-  await page.waitForFunction(() => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === 102);
+  await page.waitForFunction(() => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === 1002);
   assert.match(await page.locator('.lvl-num').innerText(), /Bonus 2/);
   await page.locator(H.sel('toggle')).click();
   await page.clock.runFor(5000);
@@ -110,11 +110,11 @@ test('Sabotage Studio: locked before Level 12; bonus levels play, ruin, and keep
   await page.waitForSelector('#complete:not([hidden])');
   assert.match(await page.locator('#complete h2').innerText(), /Bonus 2 complete/);
   let s = await save(page);
-  assert.deepEqual(s.bonus.completed, [102]);
-  assert.equal(s.bonus.bestStars[102], 3);
-  assert.ok(!s.completed.includes(102));
+  assert.deepEqual(s.bonus.completed, [1002]);
+  assert.equal(s.bonus.bestStars[1002], 3);
+  assert.ok(!s.completed.includes(1002));
   // Bonus 1: flip-flopping between the two buttons ruins it.
-  await goLevel(page, 101);
+  await goLevel(page, 1001);
   for (let i = 0; i < 6; i++) await page.locator(H.sel(i % 2 ? 'btnB' : 'btnA')).click();
   await page.waitForSelector('#complete:not([hidden])');
   assert.match(await page.locator('#complete .stamp').innerText(), /RUINED/);
@@ -125,7 +125,7 @@ test('Sabotage Studio: locked before Level 12; bonus levels play, ruin, and keep
 });
 
 test('Daily Dare: today\'s level, a met dare starts a streak, the menu remembers it', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: withSave(36) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: withSave(136) });
   await page.evaluate(() => { location.hash = 'daily'; });
   await page.waitForSelector('#screen-daily:not([hidden])');
   const n = await page.evaluate(() => OBEY.extras.dareLevel(OBEY_TEST.save(), OBEY.extras.dateKey()));
@@ -426,7 +426,7 @@ test('menu: what\'s new (once), next goal, trust line; stats file and joke achie
   assert.match(await page.locator('.trust-line').innerText(), /No ads · no tracking · works offline/);
   await page.getByRole('button', { name: 'Got it' }).click();
   assert.equal(await page.locator('.whats-new').count(), 0);
-  assert.equal((await save(page)).seenVersion, '2.1.0');
+  assert.equal((await save(page)).seenVersion, '2.2.0');
   for (let i = 0; i < 10; i++) { await page.evaluate(() => { location.hash = 'settings'; }); await page.waitForSelector('#screen-settings:not([hidden])'); await page.evaluate(() => { location.hash = 'menu'; }); await page.waitForSelector('#screen-menu:not([hidden])'); }
   assert.ok((await save(page)).achievements['settings-enthusiast']);
   await page.evaluate(() => { location.hash = 'credits'; });
@@ -435,7 +435,7 @@ test('menu: what\'s new (once), next goal, trust line; stats file and joke achie
   await page.evaluate(() => { location.hash = 'stats'; });
   await page.waitForSelector('#screen-stats:not([hidden])');
   assert.match(await page.locator('#screen-stats').innerText(), /Bossworth's review of you/);
-  assert.match(await page.locator('#screen-stats').innerText(), /Levels finished\s*3 of 36/);
+  assert.match(await page.locator('#screen-stats').innerText(), /Levels finished\s*3 of 136/);
   assert.deepEqual(errors, []);
   await ctx.close();
 });
@@ -452,8 +452,8 @@ test('brand-new players do not see "What\'s new"; they get an intern number', as
 });
 
 test('endings show Bossworth\'s review of you, the bet payoff, and a spoiler-free share button', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: withSave(35) });
-  await goLevel(page, 36);
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: withSave(135) });
+  await goLevel(page, 136);
   await H.playSteps(page, [{ hold: ['wrench', 2200] }]);
   await page.waitForSelector('#complete:not([hidden])');
   await page.getByRole('button', { name: 'See your ending' }).click();

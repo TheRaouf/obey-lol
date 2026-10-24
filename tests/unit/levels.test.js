@@ -6,15 +6,15 @@ const { loadGame, play, makeRuntime, normalizePath } = require('./load');
 const OBEY = loadGame();
 const LEVELS = OBEY.levels;
 
-test('exactly 36 levels are registered, numbered 1..36 in order', () => {
-  assert.equal(LEVELS.length, 36);
-  assert.equal(OBEY.LEVEL_COUNT, 36);
+test('exactly 136 levels are registered, numbered 1..136 in order', () => {
+  assert.equal(LEVELS.length, 136);
+  assert.equal(OBEY.LEVEL_COUNT, 136);
   LEVELS.forEach((d, i) => assert.equal(d.num, i + 1, `slot ${i}`));
 });
 
 test('level ids are unique, stable, kebab-case', () => {
   const ids = LEVELS.map((d) => d.id);
-  assert.equal(new Set(ids).size, 36);
+  assert.equal(new Set(ids).size, 136);
   ids.forEach((id) => assert.match(id, /^[a-z0-9]+(-[a-z0-9]+)*$/));
 });
 
@@ -38,7 +38,7 @@ test('levels are not copies of each other (distinct object sets and action mixes
     const { rt } = makeRuntime(OBEY, d.num);
     return rt.objects().map((o) => o.id).sort().join(',');
   });
-  assert.equal(new Set(sigs).size, 36);
+  assert.equal(new Set(sigs).size, 136);
   const mechanics = new Set(LEVELS.flatMap((d) => d.actions));
   for (const m of ['tap', 'drag', 'hold', 'wait', 'choice', 'sequence']) assert.ok(mechanics.has(m), 'mechanic ' + m);
 });
@@ -271,20 +271,20 @@ test('L14: charging without battery does nothing; early release resets', () => {
   assert.equal(log.completed.choices.sign, 'graffiti');
 });
 
-test('L35: the question only appears after all three gears; intro reflects choices', () => {
-  const r = makeRuntime(OBEY, 35, { choices: { gift: 'prank', rule: 'potato' } });
+test('L135: the question only appears after all three gears; intro reflects choices', () => {
+  const r = makeRuntime(OBEY, 135, { choices: { gift: 'prank', rule: 'potato' } });
   assert.match(r.rt.line, /bonked me/);
   assert.match(r.rt.line, /potato/);
   assert.equal(r.rt.findObject('yes').hidden, true);
   assert.equal(r.rt.dispatch({ type: 'tap', target: 'yes' }), false);
   play(r.rt, r.clock, r.def.alternatives.why);
   assert.equal(r.log.completed.choices.trust, 'why');
-  const nice = makeRuntime(OBEY, 35, { choices: { gift: 'return', rule: 'door', sign: 'fix' } });
+  const nice = makeRuntime(OBEY, 135, { choices: { gift: 'return', rule: 'door', sign: 'fix' } });
   assert.match(nice.rt.line, /nice to me/);
 });
 
-test('L36: three outcomes; quill only with all secrets; OBEY does not end the game', () => {
-  let r = makeRuntime(OBEY, 36);
+test('L136: three outcomes; quill only with all secrets; OBEY does not end the game', () => {
+  let r = makeRuntime(OBEY, 136);
   assert.equal(r.rt.findObject('quill').hidden, true);
   assert.equal(r.rt.dispatch({ type: 'tap', target: 'quill' }), false);
   play(r.rt, r.clock, [{ tap: 'obey' }, { tap: 'obey' }]);
@@ -293,10 +293,10 @@ test('L36: three outcomes; quill only with all secrets; OBEY does not end the ga
   assert.equal(r.log.completed, null, 'short hold does not repair');
   play(r.rt, r.clock, r.def.solution);
   assert.equal(r.log.completed.ending, 'hero');
-  r = makeRuntime(OBEY, 36);
+  r = makeRuntime(OBEY, 136);
   play(r.rt, r.clock, r.def.alternatives.chaos);
   assert.equal(r.log.completed.ending, 'chaos');
-  r = makeRuntime(OBEY, 36, { allSecrets: true });
+  r = makeRuntime(OBEY, 136, { allSecrets: true });
   play(r.rt, r.clock, r.def.alternatives.secret.steps);
   assert.equal(r.log.completed.ending, 'secret');
 });
@@ -349,7 +349,7 @@ test('every alternative path (choices, patient routes, endings) completes', () =
       count++;
     }
   }
-  assert.equal(count, 8);
+  assert.equal(count, 28, '8 from 1.x/2.x plus 20 in the 2.2 levels');
 });
 
 test('Hard: only one hint tier; a trap costs 2 extra actions', () => {
@@ -477,10 +477,10 @@ test('new levels: wrong moves behave as documented', () => {
   r = makeRuntime(OBEY, 32); // lights
   play(r.rt, r.clock, [{ tap: 'b3' }, { tap: 'b2' }]);
   assert.equal(r.log.completed, null);
-  r = makeRuntime(OBEY, 33); // contract
+  r = makeRuntime(OBEY, 133); // contract
   play(r.rt, r.clock, [{ tap: 'flap' }, { tap: 'agree' }]);
   assert.equal(r.rt.nopes, 1); assert.equal(r.rt.stats.fails, 1);
-  r = makeRuntime(OBEY, 34); // quiz
+  r = makeRuntime(OBEY, 134); // quiz
   play(r.rt, r.clock, [{ tap: 'opt2' }, { tap: 'opt1' }]);
   assert.equal(r.rt.stats.fails, 1); assert.equal(r.rt.state.q, 0);
 });
@@ -502,4 +502,59 @@ test('QA2-D5: Level 3 walkthrough path matches the Hard countdown', () => {
   const { rt, clock, log } = makeRuntime(OBEY, 3, { difficulty: 'hard' });
   play(rt, clock, d.guide({ difficulty: 'hard' }));
   assert.ok(log.completed);
+});
+
+/* ---------------------------------------------------------------- 2.2 levels */
+const NEW22 = LEVELS.filter((d) => d.num >= 33 && d.num <= 132);
+
+test('2.2: 100 new levels (33–132) sit between Static Summit and the Final Factory (133–136)', () => {
+  assert.equal(NEW22.length, 100);
+  assert.deepEqual([133, 134, 135, 136].map((n) => OBEY.getLevel(n).id), ['terms-and-conditions', 'the-rehearsal', 'last-instruction', 'final-decision']);
+  assert.equal(OBEY.CHAPTERS.length, 34);
+  OBEY.CHAPTERS.forEach((c, i) => { assert.equal(c.levels.length, 4, c.id); assert.deepEqual(c.levels, [1, 2, 3, 4].map((k) => i * 4 + k), c.id); });
+  assert.equal(new Set(OBEY.CHAPTERS.map((c) => c.name)).size, 34, 'chapter names unique');
+});
+
+for (const d of NEW22) {
+  test(`L${d.num} ${d.id}: declared wrong moves behave as documented; 3★ on every difficulty`, () => {
+    assert.ok(typeof d.trick === 'string' && d.trick.length > 15, 'trick');
+    assert.ok(d.checks.some((c) => c.expect === 'fail' || c.expect === 'nope'), 'at least one trap or nope');
+    for (const c of d.checks) {
+      const { rt, clock, log } = makeRuntime(OBEY, d.num);
+      const f0 = rt.stats.fails, n0 = rt.nopes;
+      play(rt, clock, c.steps);
+      const got = log.completed ? 'complete' : (rt.stats.fails > f0 ? 'fail' : (rt.nopes > n0 ? 'nope' : 'playing'));
+      assert.equal(got, c.expect, c.name);
+    }
+    for (const diff of ['easy', 'medium', 'hard']) {
+      const { rt, clock, log } = makeRuntime(OBEY, d.num, { difficulty: diff });
+      play(rt, clock, d.solution);
+      assert.equal(log.completed && log.completed.stars, 3, diff);
+    }
+    for (const [k, p] of Object.entries(d.ruinPaths || {})) {
+      const { rt, clock, log } = makeRuntime(OBEY, d.num);
+      play(rt, clock, p);
+      assert.equal(log.completed && log.completed.ruin, k, 'ruin ' + k);
+      assert.ok(OBEY.extras.getRuin(k), 'ruin registered: ' + k);
+    }
+  });
+}
+
+test('every scripted tap is possible in the real UI (a tap on a draggable object only picks it up)', () => {
+  const bad = [];
+  const all = LEVELS.concat(OBEY.bonusLevels);
+  for (const d of all) {
+    const paths = [['solution', d.solution]]
+      .concat(Object.entries(d.alternatives || {}).map(([k, p]) => ['alt ' + k, normalizePath(p).steps]))
+      .concat(Object.entries(d.ruinPaths || {}).map(([k, p]) => ['ruin ' + k, p]))
+      .concat((d.checks || []).map((c) => ['check ' + c.name, c.steps]));
+    for (const [name, steps] of paths) {
+      const { rt, clock } = makeRuntime(OBEY, d.num);
+      for (const st of steps) {
+        if (st.tap) { const o = rt.objects().find((x) => x.id === st.tap); if (o && o.drag && !o.hidden) bad.push(`L${d.num} ${name}: tap ${st.tap}`); }
+        play(rt, clock, [st]);
+      }
+    }
+  }
+  assert.deepEqual(bad, []);
 });

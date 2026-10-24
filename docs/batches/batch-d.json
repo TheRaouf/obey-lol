@@ -1,0 +1,121 @@
+{
+  "chapters": [
+    {
+      "name": "Beaker Basin",
+      "levels": [
+        93,
+        94,
+        95,
+        96
+      ]
+    },
+    {
+      "name": "Circuit Cove",
+      "levels": [
+        97,
+        98,
+        99,
+        100
+      ]
+    },
+    {
+      "name": "Pixel Plateau",
+      "levels": [
+        101,
+        102,
+        103,
+        104
+      ]
+    },
+    {
+      "name": "Rocket Ridge",
+      "levels": [
+        105,
+        106,
+        107,
+        108
+      ]
+    },
+    {
+      "name": "Orbit Outpost",
+      "levels": [
+        109,
+        110,
+        111,
+        112
+      ]
+    }
+  ],
+  "ruins": [
+    {
+      "id": "absolute-zero",
+      "level": 93,
+      "name": "Absolute Zero",
+      "clue": "He said ZERO. The dial is in kelvin. Give him exactly what he asked for."
+    },
+    {
+      "id": "screen-smasher",
+      "level": 99,
+      "name": "Screen Smasher",
+      "clue": "Computers respect aggression, apparently. Click the frozen window six times."
+    },
+    {
+      "id": "cookie-avalanche",
+      "level": 101,
+      "name": "Cookie Avalanche",
+      "clue": "That cookie banner has a very tempting button. Accept ALL of it."
+    },
+    {
+      "id": "overfueled",
+      "level": 105,
+      "name": "Overfueled",
+      "clue": "Skip the maths. Drag the pump hose straight onto the rocket."
+    },
+    {
+      "id": "hard-docking",
+      "level": 110,
+      "name": "Hard Docking",
+      "clue": "Codes are for cowards. Hit THRUST three times."
+    }
+  ],
+  "art": [
+    "d-flask",
+    "d-jar",
+    "d-fire",
+    "d-bottle",
+    "d-column",
+    "d-freezer",
+    "d-balloon",
+    "d-keycard",
+    "d-stool",
+    "d-clip",
+    "d-duck",
+    "d-spoon",
+    "d-wire-h",
+    "d-power",
+    "d-monitor",
+    "d-magnet",
+    "d-cart",
+    "d-tube",
+    "d-laptop",
+    "d-router",
+    "d-microwave",
+    "d-sofa",
+    "d-tile",
+    "d-tank",
+    "d-pump",
+    "d-drain",
+    "d-hose",
+    "d-rocket",
+    "d-airdoor",
+    "d-rover",
+    "d-crater",
+    "d-dish",
+    "d-chamber",
+    "d-station",
+    "d-capsule",
+    "d-orrery",
+    "d-wire",
+    "d-cannon"
+  ]
+}

@@ -13,7 +13,7 @@
 
   OBEY.registerLevel({
     id: 'tower-toppler',
-    num: 103,
+    num: OBEY.BONUS_BASE + 3,
     title: 'The Tower',
     objective: 'Get all three discs onto peg C.',
     intro: 'Move the tower to peg C. One disc at a time. Never a big disc on a small one. The PROPER way. Seven moves. I\'ll be counting.',

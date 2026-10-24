@@ -284,7 +284,7 @@
     var firstClean = events.some(function (e) { return e.type === 'clean-first'; });
     if (r.ruin && s.clean.indexOf(r.level) >= 0) top += '<p class="bonus-line"><b>Bossworth:</b> You did this one PROPERLY before. And now you come back… to RUIN it?</p>';
     else if (!r.ruin && !r.guided && firstClean && !lev.firstTime && ruinsHere.some(function (id) { return s.ruins.indexOf(id) >= 0; })) top += '<p class="bonus-line"><b>Bossworth:</b> You did it properly this time. After what you did before. …Thank you. I mean it.</p>';
-    if (!r.ruin && X.TRICKS[r.level]) top += '<p class="trick"><b>The trick:</b> ' + E(X.TRICKS[r.level]) + '</p>';
+    if (!r.ruin && X.trickFor(r.level)) top += '<p class="trick"><b>The trick:</b> ' + E(X.trickFor(r.level)) + '</p>';
     if (r.ruin) top += '<p class="trick"><b>U.N.D.O.:</b> Ruin logged in your Sabotage file. ' + s.ruins.length + ' of ' + X.RUINS.length + ' found.</p>';
     var ba = s.bestActions[r.level], bt = s.bestTime[r.level];
     var bests = events.filter(function (e) { return e.type === 'best'; });

@@ -6,10 +6,10 @@
   'use strict';
   var OBEY = root.OBEY || (root.OBEY = {});
 
-  OBEY.VERSION = '2.1.0';
-  OBEY.LEVEL_COUNT = 36;
-  /** Bonus levels (the Sabotage Studio pack) use numbers 101..100+BONUS_COUNT. */
-  OBEY.BONUS_BASE = 100;
+  OBEY.VERSION = '2.2.0';
+  OBEY.LEVEL_COUNT = 136;
+  /** Bonus levels (the Sabotage Studio pack) use numbers 1001..1000+BONUS_COUNT (Bonus 1 = 1001). */
+  OBEY.BONUS_BASE = 1000;
   OBEY.BONUS_COUNT = 4;
   OBEY.isBonus = function (n) { return Number.isInteger(n) && n > OBEY.BONUS_BASE && n <= OBEY.BONUS_BASE + OBEY.BONUS_COUNT; };
 

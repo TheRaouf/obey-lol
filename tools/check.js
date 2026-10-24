@@ -75,16 +75,16 @@ for (const a of acts) {
 
 // 6. Load the core + levels and validate art keys / object definitions
 global.window = undefined;
-for (const f of jsInHtml.filter((r) => r.startsWith('js/core/') || r.startsWith('js/levels/') || r === 'js/ui/art.js' || r === 'js/ui/art-extra.js')) {
+for (const f of jsInHtml.filter((r) => r.startsWith('js/core/') || r.startsWith('js/levels/') || r === 'js/ui/art.js' || r === 'js/ui/art-extra.js' || r.startsWith('js/ui/art-pack-'))) {
   vm.runInThisContext(read(f), { filename: f });
 }
 const OBEY = globalThis.OBEY;
-ok(OBEY.levels.length === OBEY.LEVEL_COUNT && OBEY.LEVEL_COUNT === 36, 'expected 36 levels');
+ok(OBEY.levels.length === OBEY.LEVEL_COUNT && OBEY.LEVEL_COUNT === 136, 'expected 136 levels');
 ok(OBEY.bonusLevels.length === OBEY.BONUS_COUNT && OBEY.bonusLevels.every(Boolean), 'expected ' + OBEY.BONUS_COUNT + ' bonus levels');
 for (const r of OBEY.extras.RUINS) ok(OBEY.getLevel(r.level), `ruin ${r.id}: level ${r.level} missing`);
 for (const j of OBEY.extras.JIGSAW) ok(OBEY.getLevel(j.level) && !OBEY.isBonus(j.level), `jigsaw ${j.id}: bad level`);
 for (const d of OBEY.levels.concat(OBEY.bonusLevels)) {
-  ok(typeof OBEY.extras.TRICKS[d.num] === 'string', `L${d.num}: missing trick recap`);
+  ok(OBEY.extras.trickFor(d.num).length > 15, `L${d.num}: missing trick recap`);
   const rt = new OBEY.LevelRuntime(d, { clock: OBEY.createFakeClock(), ctx: { replay: true, allSecrets: true } }).start();
   for (const o of rt.objects()) {
     if (o.art) ok(OBEY.art.hasObject(o.art), `L${d.num}/${o.id}: unknown art "${o.art}"`);

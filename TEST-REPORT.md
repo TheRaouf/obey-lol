@@ -1,4 +1,61 @@
-# Test report — OBEY? LOL. 2.1.0
+# Test report — OBEY? LOL. 2.2.0
+
+Date: 2026-10-24. Counts come from logged runs: `tests/logs/unit-22.tap`, `tests/logs/e2e-22.tap`
+(Node v22.23.4, Playwright Chromium).
+
+**CI (GitHub Actions run 40107528446, commit f414b65 — same game code as the release):** Chromium job (static,
+unit, all 120 browser tests) **passed**; WebKit job (Safari's engine: iPad, campaign, 2.0 and 2.1 suites) **passed**.
+The two runs before it failed on real defects (see #5 below and a ResizeObserver loop error in WebKit introduced
+and fixed during this release); CI failures are now reported as readable annotations (`tools/tap-annotate.js`).
+
+## Summary
+
+| Suite | Where | Run | Passed | Failed |
+|---|---|---|---|---|
+| Static checks (`tools/check.js`) | local | 1,973 checks | 1,973 | 0 |
+| Unit tests (`tests/unit`, 4 files) | local | 764 | 764 | 0 |
+| Browser tests, Chromium (9 files) | local | 120 | 120 | 0 |
+| Level lab (`tools/level-lab.js`) on the 100 new levels | local | per batch | 0 problems | — |
+
+## What 2.2 adds to the coverage
+
+- **Every new level (33–132), in Node:** each declared wrong move behaves as documented (trap / nope /
+  still playing), the intended solution earns 3★ on Easy, Medium and Hard, every ruin path finishes with
+  its registered ruin, restart gives a clean state, hints are graduated, leaving cancels all timers.
+- **Every scripted tap is possible in the real UI** (new test + level-lab rule): in the UI, tapping a
+  draggable object picks it up instead of sending a tap. This caught Level 76 (fixed: separate EAT button).
+- **Save schema v5** (`v22.test.js`): 2.1 saves renumber Final Factory 33–36 → 133–136 and bonus 101–104
+  → 1001–1004 in every field; a finished 2.1 player continues at Level 33; v5 saves are not renumbered again;
+  1.x saves still migrate (now to 135/136).
+- **Browser:** the campaign test now plays all 136 levels through the real UI from a fresh save to the Hero
+  ending; the iPad suite checks all 140 levels at 10 iPad sizes; the responsive suite checks all 136 levels
+  at 5 viewports for text spilling out of cards.
+
+## Defects found while integrating (all fixed)
+
+| # | Defect | Fix |
+|---|---|---|
+| 1 | L76 could not be finished in the UI (eating = tapping the draggable chips) | Separate EAT button; chips stop being draggable once hidden |
+| 2 | L65 and L120 kept timer handles in level state, so Restart did not give an identical state | Timers no longer stored in state (L120 uses a generation counter) |
+| 3 | Text spilled out of cards (or fell under the 10 px minimum) in 38 new levels at 320 px, 10 at 768 px and 1 (L116) at desktop sizes | Stage now shrinks card text to fit (floor 10 px, 9 px fine print); 21 cards enlarged or reworded at 320 px |
+| 4 | Lab screenshot page loaded art packs before `art.js` (page error) | Lab load order fixed |
+| 5 | In tall Split View windows (584×820) the stage ran ~45 px off the bottom on levels with long narrator lines (found by CI; the likely cause of the unexplained 2.1 CI failure) | On tablets and larger the stage shrinks to keep its bottom edge on screen, re-checked whenever the text above it changes size; the regression test now covers levels 81 and 89 |
+
+## Art director review (2.2)
+
+`docs/ART-REVIEW-2.2.md`: 10 MUST (all applied — e.g. the L97 answer paperclip had no outline, the L112
+wires relied on colour alone, L111's AIM label was ~2:1 contrast, L125 sign text was 7.6 px), 13 SHOULD
+and 8 POLISH, scheduled for the 2.3 art release.
+
+## Not verified
+
+- A physical iPad / iPhone; Firefox; audio by ear (tests check which sounds are requested).
+- The 100 new levels were play-tested by scripts and screenshots, not by people. Difficulty and how funny
+  they are have not been tested with players.
+
+---
+
+# Test report — OBEY? LOL. 2.1.0 (previous release)
 
 Date: 2026-10-24. Numbers below come from logged runs (`tests/logs/`) and the GitHub Actions run
 for the release commit. Re-run locally with `bash tools/run-all-tests.sh`; CI runs on every push

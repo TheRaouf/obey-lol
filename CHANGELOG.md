@@ -2,7 +2,24 @@
 
 All notable changes to this project. Versions follow semantic versioning.
 
-## [2.1.0] — 2026-10-24
+## [2.2.0] — 2026-10-24
+
+### Added
+- 100 new levels (33–132) in 25 new chapters, between Static Summit and the Final Factory:
+  the office (Stapler Steppes → Boardroom Bluffs), home (Kitchen Kerfuffle → Bedtime Bedlam), the
+  outdoors (Brolly Beach → Postcard Paradise), the science lab (Beaker Basin → Orbit Outpost) and
+  showbiz (Magic Matinee → Pixel Palace). Each has a trick recap, three graduated hints and at least two
+  declared wrong moves (trap or harmless "nope").
+- 25 new ruins, one per new chapter (41 total), each with a U.N.D.O. tip in the Sabotage file.
+- 25 new chapter cups (40 trophies), 5 new art packs, and a level lab (`tools/level-lab.js`) that
+  validates and plays a level on every difficulty before it ships.
+
+### Changed
+- The Final Factory moved from Levels 33–36 to 133–136; bonus levels are now numbered 1001–1004 and
+  shown as Bonus 1–4. Save schema v5 renumbers every stored level number; 2.1 players continue at Level 33.
+- Platinum Bossworth now means a Gold cup in every chapter (34).
+
+
 
 Built from a review of 25 comparable games and their reviews (see FEATURE-ROADMAP.md, which ranks
 200 improvements; the top 50 and the *Dude, Stop* feature set ship here) and optimised for iPad.

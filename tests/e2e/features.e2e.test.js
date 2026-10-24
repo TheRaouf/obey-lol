@@ -23,7 +23,7 @@ async function goLevel(page, n) {
 
 /* ------------------------------------------------------------------ secrets */
 test('all 15 secrets: discoverable via the UI, counted once, persisted after reload', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(135) });
   const defs = await H.levelDefs(page);
   const secrets = await page.evaluate(() => OBEY.SECRETS);
   for (const sec of secrets) {
@@ -84,7 +84,7 @@ test('costumes: locked ones cannot be worn; all 8 selectable, visible and persis
   await o.ctx.close();
 
   const ids = ['classic', 'royal', 'alien', 'detective', 'wizard', 'robot', 'dino', 'ninja'];
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(36, (d) => { d.costumes.unlocked = ids.slice(); return d; }) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(136, (d) => { d.costumes.unlocked = ids.slice(); return d; }) });
   await page.evaluate(() => { location.hash = 'costumes'; });
   await page.waitForSelector('#screen-costumes:not([hidden])');
   const svgs = new Set();
@@ -121,7 +121,7 @@ test('themes: unlock rules, selection changes real presentation, persistence', a
   await page.evaluate(() => { location.hash = 'themes'; });
   await page.waitForSelector('#screen-themes:not([hidden])');
   assert.equal(await page.locator('[data-act="theme"]').count(), 1, 'only candy unlocked after level 5');
-  await H.seed(page, H.saveWith(36));
+  await H.seed(page, H.saveWith(136));
   await page.evaluate(() => { location.hash = 'themes'; });
   await page.waitForSelector('[data-act="theme"][data-id="sunset"]');
   const looks = {};
@@ -160,7 +160,7 @@ test('achievements screen: locked/unlocked states and progress match the save', 
   assert.ok(!s.achievements.collector && !s.achievements['full-campaign']);
   assert.equal(await page.locator('.ach.got').count(), Object.keys(s.achievements).length);
   assert.match(await page.locator('.ach', { hasText: 'Collector' }).innerText(), /2\/8/);
-  assert.match(await page.locator('.ach', { hasText: 'Full Campaign' }).innerText(), /3\/36/);
+  assert.match(await page.locator('.ach', { hasText: 'Full Campaign' }).innerText(), /3\/136/);
   assert.equal(await page.locator('.ending-card.seen').count(), 0);
   await H.shot(page, 'achievements');
   assert.deepEqual(errors, []);
@@ -283,9 +283,9 @@ test('rapid repeated input completes once and rewards once', async () => {
 });
 
 test('keyboard only: tap, pick-and-place and hold all work', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(135) });
   const defs = await H.levelDefs(page);
-  for (const n of [2, 8, 9, 14, 36]) {
+  for (const n of [2, 8, 9, 14, 136]) {
     await goLevel(page, n);
     await H.playSteps(page, defs[n - 1].solution, 'keyboard');
     await page.waitForSelector('#complete:not([hidden])');
@@ -347,11 +347,11 @@ test('touch input: tap, tap-to-place and press-and-hold on a phone viewport', as
 
 /* -------------------------------------------------------- persistence */
 test('progress, settings, cosmetics, achievements and endings survive reload', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(36, (d) => { d.endings.seen = ['hero']; d.endings.history = [{ id: 'hero', at: 1 }]; d.themes.unlocked.push('ocean'); d.themes.selected = 'ocean'; d.settings.sound = false; d.settings.textSize = 'large'; return d; }) });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(136, (d) => { d.endings.seen = ['hero']; d.endings.history = [{ id: 'hero', at: 1 }]; d.themes.unlocked.push('ocean'); d.themes.selected = 'ocean'; d.settings.sound = false; d.settings.textSize = 'large'; return d; }) });
   await page.reload();
   await page.waitForSelector('.screen:not([hidden])');
   const s = await page.evaluate(() => OBEY_TEST.save());
-  assert.equal(s.completed.length, 36);
+  assert.equal(s.completed.length, 136);
   assert.deepEqual(s.endings.seen, ['hero']);
   assert.equal(s.settings.sound, false);
   assert.equal(await page.evaluate(() => document.documentElement.getAttribute('data-text')), 'large');
@@ -379,11 +379,11 @@ test('malformed save data does not crash; the game starts fresh and keeps a back
 test('obsolete v1 save is migrated', async () => {
   const { page, errors, ctx } = await H.openGame(browser, base, { initScript: () => { if (!sessionStorage.getItem('y')) { sessionStorage.setItem('y', '1'); localStorage.setItem('obeylol.save', JSON.stringify({ version: 1, level: 3, stars: { 1: 2, 2: 3 }, secretsFound: ['polly'], sound: false })); } } });
   const s = await page.evaluate(() => OBEY_TEST.save());
-  assert.equal(s.version, 4);
+  assert.equal(s.version, 5);
   assert.deepEqual(s.completed, [1, 2]);
   assert.equal(s.highestUnlocked, 3);
   assert.equal(s.settings.sound, false);
-  assert.equal(JSON.parse(await page.evaluate(() => localStorage.getItem('obeylol.save'))).version, 4);
+  assert.equal(JSON.parse(await page.evaluate(() => localStorage.getItem('obeylol.save'))).version, 5);
   assert.deepEqual(errors, []);
   await ctx.close();
 });
@@ -460,8 +460,8 @@ test('sound toggle, reduced motion (system and manual), text size', async () => 
 });
 
 test('interactive stage objects have accessible names; no image-only buttons', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(35, (d) => { d.secrets = []; return d; }) });
-  for (let n = 1; n <= 36; n++) {
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: H.saveWith(135, (d) => { d.secrets = []; return d; }) });
+  for (let n = 1; n <= 136; n++) {
     await goLevel(page, n);
     const bad = await page.evaluate(() => [...document.querySelectorAll('button')].filter((b) => b.offsetParent !== null && !(b.getAttribute('aria-label') || b.textContent.trim())).map((b) => b.outerHTML.slice(0, 80)));
     assert.deepEqual(bad, [], 'L' + n);
