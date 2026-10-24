@@ -1076,3 +1076,127 @@ E99 is counted in B. Its one-line `data.js` comment fix is done by whoever appli
 - **Per priority:** P1 14 (E4, E5, E20, E22, E23, E25, E52, E67, E69, E72, E87, E88, E90, E97) ·
   P2 46 · P3 40.
 - **Per group:** A 39 · B 18 · C 7 · D 10 · E 12 · F 14.
+
+---
+
+## Applied in 2.3
+
+Status after all six apply groups landed on `v2.3` (commits `22a6c68` D, `de33e9a` C, `ac4bfc2` E,
+`4547d5c` B, `e0f3019` A, `524e102` hand-off leftovers, `6c80a69` F), checked against the code.
+**Applied** = as specified (small implementation differences noted); **partial** = part of the item
+landed; **deviated** = done differently on purpose; **already done** = nothing to change.
+Totals: applied 92 · partial 2 (E51, E98) · deviated 5 (E10, E42, E46, E50, E54) · already done 1 (E39).
+`docs/ART-BIBLE.md` was updated to match (2.3 notes throughout, regenerated §5.2/§5.3, new §18
+follow-ups).
+
+| Item | Status | Note |
+|---|---|---|
+| E1 | applied | `theme-color` and manifest `theme_color` are `#d61e35`. |
+| E2 | applied | `plus`, `bowtie`, `palette`, `scroll`, `cup` icons; every menu slip has one. |
+| E3 | applied | Tilt −.25°/+.2° at 600–900 px, plus a matching hover rule. |
+| E4 | applied | Captions at the bottom. |
+| E5 | applied | Toasts top centre, top-right ≥ 901 px; keyframe named `toast-drop`. |
+| E6 | applied | Screen titles and level name get the 2 px ink-35 % shadow. |
+| E7 | applied | Bonus slips `nowrap`. |
+| E8 | applied | `.count-badge` in the hint chip, updated with the count; `.empty` state added. |
+| E9 | applied | Phone stat chips in three columns. |
+| E10 | deviated | Re-cast as listed except L62, L72 (and L83) kept `panicked`; pleased now 67 of 140 (48 %). |
+| E11 | applied | `<g class="eyes">` / `eyes eyes-closed`. |
+| E12 | applied | `blink` 5.2 s, mini portraits offset −1.7 s, off under reduced motion. |
+| E13 | applied | `acc-star`, `acc-bulb`, `acc-antenna`, `acc-tails`, `acc-crown-jewel`. |
+| E14 | applied | One-property idles as specified, off under reduced motion. |
+| E15 | applied | Phone narrator 84 px. |
+| E16 | applied | `undoBot` draws the small version by default; `{ small: false }` for the full one. |
+| E17 | applied | Hero re-scaled/grounded in L45, L48, L96, L102, L106, L127 (14–17 % tall). |
+| E18 | applied | `b-shadow` is a coat-stand silhouette, `#8a86a8`, `SW3` outline. |
+| E19 | applied | L1 `red` at y 38. |
+| E20 | applied | Pans hang from the tilted beam ends (arm 104), `.toFixed(1)`. |
+| E21 | applied | L20 `left` (6, 44, 30, 9), `panlist` (62, 44, 30, 9). |
+| E22 | applied | Minute hand to 46, hour to 62, numerals r 72 at 17 units. |
+| E23 | applied | Numeral inside the footprint shape, 30 units, white with ink edge. |
+| E24 | applied | L11 footprints at `80 − (i % 2) × 4`, 13 × 13. |
+| E25 | applied | `doorSign`: sized to text, two-line wrap on a 34-unit plate, condenses long words up to 20 %. |
+| E26 | applied | WELCOME `#4a3c22`. |
+| E27 | applied | Magazine shows a 34-unit "10" in a white disc. |
+| E28 | applied | Lit bulbs get five `SW3` ink rays (viewBox widened so the bulb does not jump). |
+| E29 | applied | INTAKE plate 64 × 26, 15-unit type. |
+| E30 | applied | `a-desk` modesty panel opaque `#c3ccd8` with `SW3`. |
+| E31 | applied | L46 "MAX" on its own white tab; L45 lift numeral enlarged. |
+| E32 | applied | L63 tortoise legs `#5fd98a` with `SW3` outlines. |
+| E33 | applied | L62 thermometer 10/20/30, L64 "£3" tag, L65/L68 red "H" disc. |
+| E34 | applied | Pack A/B highlights .45–.55. |
+| E35 | applied | Pack A/B off-bible hexes mapped; `#9b5de5` recorded in the bible. |
+| E36 | applied | Pack C hexes mapped; sand `#f3d998` kept and recorded as a terrain colour. |
+| E37 | applied | Compass "N" upright at 28 units; `c-stamp` drops "POST" for perforated scallops. |
+| E38 | applied | L79 footprints outlined; L90 trails on 9-unit ink underlays. |
+| E39 | already done | The `c-beachhut` disc was already 46 units in 2.2; L75 exception recorded in bible §11. |
+| E40 | applied | `d-microwave` screen `#1c1640` / `#7dffb2`; `d-router` returns `a-router`. |
+| E41 | applied | Pack D stripes `INK`; pack C `#000` → `INK` at .25; `#3e7bff` → `#3a86ff`. |
+| E42 | deviated | Highlights .45–.55 done; the L110 beacon ring became ink rays, not `.shimmer` (a glow would fight the colour code). |
+| E43 | applied | Pack E hexes mapped. |
+| E44 | applied | L128 gondola "BOSS" + tie mark; L132 Gerald closed-eye arcs + "z z". |
+| E45 | applied | Office rooms grounded or seated on `table`/`shelf` (L33, L39, L41–L45). |
+| E46 | deviated | Home rooms grounded; L65 taps sit closer to the bath but a ~19 % gap remains because of the art margins (follow-up). |
+| E47 | applied | L73 brolly in a `bin` stand (own drawing is a follow-up), L78 `c-meadow` backdrop, L85, L91 meadow at 74 %, L92. |
+| E48 | applied | Science rooms grounded; L106 airlock doors 30 % tall, bases on the floor. |
+| E49 | applied | L115 boxes on a `table`, L116, L126, L132, L9 bow on the lid, L17 drawers on a cabinet backdrop. |
+| E50 | deviated | L136 machine 56 % wide; L135 rug at 84–96 %; L135 got two static pipes, no wall gear (an inert gear would look collectible in a gear-hunt room). |
+| E51 | partial | L121 tag under the buzzer, L113/L114 wands 18 × 18; L119 cards re-laid but curtains not set to `z: 0`. |
+| E52 | applied | L115, L122, L124, L130 clues are `tag-card`s. |
+| E53 | applied | 23 neutral confirm buttons `btn-card accent` → `btn-card big`; accent kept for Bossworth's pushed choices. |
+| E54 | deviated | Landmark icons and `A.chapterIcon` as specified, but drawn at 18 px (label) and ≤ 48 px (watermark, corner chosen away from nodes) to fit the map; label gets a paper halo. |
+| E55 | applied | `--region-4` hue tints per theme; `.map-dot` hidden. |
+| E56 | applied | `.map-world` max 640 px. |
+| E57 | applied | Cups engraved with the chapter icon; chapter cards show name, tier, "n / 4"; rule text in the intro. |
+| E58 | applied | Progress bars `--good`. |
+| E59 | applied | Settings in two CSS columns (`columns: 2`) rather than a grid. |
+| E60 | applied | Completed by the coordinator (`524e102`): grid/nowrap and the level-count note moved into the `dt`. |
+| E61 | applied | `.day.hit::after` ✓. |
+| E62 | applied | Credits cast strip (64 px, silhouettes when locked) and "THE END?" stamp. |
+| E63 | applied | Machine in each ending's first scene: hero note slides out, chaos tilted with gear/spring debris, secret `asleep` with the quill. |
+| E64 | applied | Hero green stamp, chaos rotated card + chipped stamp, secret double gold border. |
+| E65 | applied | Quill .85; hero sparks `var(--good)`. |
+| E66 | applied | Chapter card with 40 px landmark icon and a stamped kicker. |
+| E67 | applied | Zap `.34s steps(2) 3` (2.9 Hz); `tv-static` .6 s. |
+| E68 | applied | `star-pop` .29 s (not .32) so each star peaks 120 ms after its delay (0/120/240). |
+| E69 | applied | Reduced-motion hold bar fills in `steps(4)` over 2 s. |
+| E70 | applied | `screen-in` 160 ms, not on `#screen-level`. |
+| E71 | applied | Completed by the coordinator (`524e102`): mask fade, scroll-snap, and `scrollTop` keeps the newest message in view. |
+| E72 | applied | Shadow tokens `--shadow-hover/press`; `#ffc145` shadows in Sunset and the dark endings, ink inside paper surfaces. |
+| E73 | applied | `.grounded` from the drawn bottom (`getBBox`) at 74–99.5 %; flat ink-14 % ellipse; flat floor art excluded. |
+| E74 | applied | `lamp`/`bulb` cones 50 %, lamp cone ends at its base. |
+| E75 | applied | Dragged shadow ink at 30 % via `color-mix`. |
+| E76 | applied | Music families per pack (0–7 classic, 8–12 office, 13–17 home, 18–22 outdoors, 23–27 science, 28–32 show, 33 final); bonus −1 whole-tone "studio". |
+| E77 | applied | Music ducks to 45 % under babble and speech. |
+| E78 | applied | Hold hum 2 s, 220 → 660 Hz, `stopHold()` on release; `charged` ding when a hold bar fills. |
+| E79 | applied | Stamp thud at 520 ms (`App.STAMP_LAND_MS`). |
+| E80 | applied | `star1–3` chimes at 120 / 240 / 360 ms, caption "star chime". |
+| E81 | applied | `App.playReward`: 380 ms reward queue; toast sounds routed through it. |
+| E82 | applied | Babble pauses after `,;:` / `.` / `…`. |
+| E83 | applied | Laugh scaled by the costume voice base. |
+| E84 | applied | `undo` bleeps on each message; `glitch` only when a leak starts. |
+| E85 | applied | `toggle`, `wear`, `paint`, `locked`, `boing` with captions (`App.clickSound`). |
+| E86 | applied | Badge styled as specified, phones only. |
+| E87 | applied | Stage text floor 12 px CSS, fine print 11 px, `_fitText` floor 11 px; overflowing cards enlarged in F. |
+| E88 | applied | Unearned stars `--muted` at full opacity, outline-only `starEmpty`. |
+| E89 | applied | Locked titles `--muted` at full opacity; `.subtle` .75. |
+| E90 | applied | Yellow colour-button glyph in ink; shape glyphs with a 3 px ink text stroke. |
+| E91 | applied | Bronze medal ink letter; Sunset gradient stop `#a8455f`; stars fixed `#ffd23f`. |
+| E92 | applied | iPad portrait menu centred, slips in two columns. |
+| E93 | applied | Phone flavour asides clamp to one line (asides with a button excluded). |
+| E94 | applied | Phone trophy grid two per row. |
+| E95 | applied | `text-wrap: balance` on `.score-rule` and `.objective`. |
+| E96 | applied | High contrast: no region tints, 3 px dashed ink region rules. |
+| E97 | applied | `Stage._fitStrokes` sets `--ow`; 95.6 % in 3–6 px at group A's run (96.3 % of 536 at the 2.3 head). Exceptions: L56 `b-ants`, L92 `c-stamp`, L127 `e-stilts`, L97 `d-clip` (bespoke strokes). |
+| E98 | partial | Only chair (`e-chair` → `a-chair`), jar (`d-jar` → `b-jar`) and router unified; desk, frame, portrait, tray, magnet, balloon, stamp still separate. |
+| E99 | applied | `art.js` header and `data.js` chapter comment corrected. |
+| E100 | applied | `tools/art/contrast.js`, `strokes.js`, `sheets.js`, `lib.js`; npm `art:strokes`, `art:contrast`, `art:sheets`. |
+
+### Follow-ups for a later release
+
+- Base `table` legs are too short for bench-height tables (L17, L41, L43, L53, L95, L115).
+- Trim the `b-taps` / `b-bathtub` margins so the L65 taps meet the bath.
+- An umbrella-stand drawing for L73 (currently `bin`).
+- A map region label can sit on a chapter's first node (e.g. node 37).
+- The 13 pre-existing level-lab notes on L133–L136 (no `trick` / declared wrong move; L136
+  alternative secret path) are level-lab format gaps, not art.
