@@ -222,7 +222,7 @@ test('trophies: chapter cup won through play, upgraded on a harder difficulty, s
   await page.waitForSelector('#screen-trophies:not([hidden])');
   assert.equal(await page.locator('.trophy-card.won').count(), 1);
   assert.match(await page.locator('.trophy-card.won').innerText(), /Silver/);
-  assert.equal(await page.locator('.trophy-card').count(), 40);
+  assert.equal(await page.locator('.trophy-card').count(), 65);
   await H.shot(page, 'trophy-room');
   assert.deepEqual(errors, []);
   await ctx.close();

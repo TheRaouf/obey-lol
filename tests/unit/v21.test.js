@@ -87,7 +87,7 @@ const WRONG = {
   16: [{ tap: 'no' }, { tap: 'yes' }],
   17: [{ tap: 'd1' }, { tap: 'd2' }, { tap: 'd3' }],
   30: [{ tap: 't-please' }, { tap: 'enter' }],
-  133: [{ tap: 'agree' }]
+  [OBEY.fromEnd(3)]: [{ tap: 'agree' }]
 };
 
 test('generic ruin triggers fire exactly at their count and never before', () => {
@@ -121,9 +121,9 @@ test('generic ruin triggers fire exactly at their count and never before', () =>
   });
 });
 
-test('ruins: 41 in total (16 from 2.1 + 25 in the 2.2 levels), unique ids, each with a name, clue and (for generic ones) a meltdown line', () => {
-  assert.equal(X.RUINS.length, 41);
-  assert.equal(new Set(X.RUIN_IDS).size, 41);
+test('ruins: 66 in total (16 from 2.1, 25 in 2.2, 25 in 2.4), unique ids, each with a name, clue and (for generic ones) a meltdown line', () => {
+  assert.equal(X.RUINS.length, 66);
+  assert.equal(new Set(X.RUIN_IDS).size, 66);
   X.RUINS.forEach((r) => { assert.ok(r.name && r.clue); if (r.trigger) assert.ok(r.line.length > 20); });
 });
 
@@ -152,8 +152,8 @@ test('skip ("Let it be"): unlocks the next level, at most 3 open skips, never th
   assert.equal(P.skipLevel(s, 6), null);
   assert.match(P.skipBlocker(s, 2), /already finished/);
   assert.match(P.skipBlocker(s, 30), /locked/);
-  const all = completeUpTo(fresh(), 135);
-  assert.match(P.skipBlocker(all, 136), /final level/);
+  const all = completeUpTo(fresh(), OBEY.fromEnd(1));
+  assert.match(P.skipBlocker(all, OBEY.FINAL), /final level/);
   assert.match(P.skipBlocker(s, 1001), /Bonus/);
   // Finishing a skipped level frees the skip.
   P.completeLevel(s, 4, { stars: 2, actions: 3 });
@@ -164,12 +164,12 @@ test('skip ("Let it be"): unlocks the next level, at most 3 open skips, never th
 test('only skipped levels left: Continue points at the first skipped one', () => {
   const s = completeUpTo(fresh(), 2);
   P.skipLevel(s, 3);
-  for (let n = 4; n <= 136; n++) P.completeLevel(s, n, { stars: 3 });
+  for (let n = 4; n <= OBEY.LEVEL_COUNT; n++) P.completeLevel(s, n, { stars: 3 });
   assert.equal(P.nextLevel(s), 3);
 });
 
 test('save validation keeps skips consistent: no completed, finale or out-of-range skips; unlock follows them', () => {
-  const v = S.validate({ completed: [1, 2], skipped: [3, 3, 2, 136, 999, 'x'], highestUnlocked: 1 });
+  const v = S.validate({ completed: [1, 2], skipped: [3, 3, 2, OBEY.FINAL, 999, 'x'], highestUnlocked: 1 });
   assert.deepEqual(v.skipped, [3]);
   assert.equal(v.highestUnlocked, 4);
 });
@@ -356,7 +356,7 @@ test('save codes round-trip through export/import and reject damaged codes', () 
 test('next goal names the nearest cosmetic unlock', () => {
   const s = fresh();
   assert.equal(X.nextGoal(s), 'Finish Level 4 to unlock the Royal costume.');
-  completeUpTo(s, 136);
+  completeUpTo(s, OBEY.LEVEL_COUNT);
   s.costumes.unlocked = OBEY.COSTUMES.map((c) => c.id).filter((id) => id !== 'alien' && id !== 'dino');
   s.themes.unlocked = OBEY.THEMES.map((t) => t.id);
   s.secrets = OBEY.SECRET_IDS.slice(0, 2);
@@ -385,7 +385,7 @@ test('opening asides: replay lines on replays, post-game lines after the finale,
   const always = () => 0; // rand() = 0 → take the first branch each time
   assert.ok(X.REPLAY.includes(X.openingAside(s, 5, { replay: true }, always)));
   assert.equal(X.openingAside(s, 5, { replay: false }, () => 0.99), null);
-  const done = completeUpTo(fresh(), 136);
+  const done = completeUpTo(fresh(), OBEY.LEVEL_COUNT);
   assert.ok(X.POSTGAME.includes(X.openingAside(done, 5, {}, always)));
   s.ruins = ['button-masher']; s.intern = 42;
   assert.match(X.callback(s, 3), /Intern #42.*Level 1/);
@@ -445,8 +445,8 @@ test('share texts are spoiler-free and carry the game link', () => {
   assert.ok(t.includes(OBEY.SHARE_URL));
   assert.match(X.shareLevel(Object.assign({}, r, { ruin: 'pie-connoisseur' }), OBEY.getLevel(12)), /RUINED IT/);
   assert.match(X.shareDare('2026-10-24', 5, 3), /Daily Dare 2026-10-24 .* streak 3/);
-  const s = completeUpTo(fresh(), 136);
-  assert.match(X.shareEnding(s, 'hero'), /Hero ending\. No spoilers\. 408\/408 stars/);
+  const s = completeUpTo(fresh(), OBEY.LEVEL_COUNT);
+  assert.match(X.shareEnding(s, 'hero'), /Hero ending\. No spoilers\. 708\/708 stars/);
 });
 
 test('captions exist for every sound the 2.1 features play', () => {
@@ -489,7 +489,7 @@ test('QA3-D1: with storage blocked, switching profiles keeps every profile in me
 
 test('QA3-D7: the Daily Dare is the same level for everyone, with a practice dare if it is locked', () => {
   const key = '2026-10-24', g = X.dareGlobal(key);
-  const all = completeUpTo(fresh(), 136);
+  const all = completeUpTo(fresh(), OBEY.LEVEL_COUNT);
   assert.equal(X.dareFor(all, key).n, g);
   assert.equal(X.dareFor(all, key).practice, false);
   const newbie = fresh();

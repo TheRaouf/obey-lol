@@ -1,4 +1,4 @@
-/* Level 135 — The Last Instruction
+/* Level 235 — The Last Instruction
  * Prepares the finale. Bossworth's dialogue reacts to the player's earlier choices
  * (gift / rulebook / sign) — it never blocks completion.
  * Solution: collect the three gears (one in plain sight, one under the rug, one from Bossworth's hat),
@@ -31,7 +31,7 @@
 
   OBEY.registerLevel({
     id: 'last-instruction',
-    num: 135,
+    num: 235,
     title: 'The Last Instruction',
     objective: 'Follow Bossworth\'s last instruction… or at least listen to it.',
     intro: function (ctx) {

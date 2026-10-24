@@ -1,0 +1,22 @@
+{
+  "chapters": [
+    { "name": "Hurdle Hollow", "levels": [213, 214, 215, 216] },
+    { "name": "Whistle Woods", "levels": [217, 218, 219, 220] },
+    { "name": "Gutter Gulch", "levels": [221, 222, 223, 224] },
+    { "name": "Checkmate Chalet", "levels": [225, 226, 227, 228] },
+    { "name": "Podium Party", "levels": [229, 230, 231, 232] }
+  ],
+  "ruins": [
+    { "id": "egg-on-face", "level": 213, "name": "Egg on Face", "clue": "He said don't give the egg to HIM. It's an ostrich egg. You do the maths." },
+    { "id": "referee-sent-off", "level": 218, "name": "Referee Sent Off", "clue": "Once you hold the whistle, you're the referee. Referees carry cards. There's a red one on the bench." },
+    { "id": "windmill-wrecker", "level": 222, "name": "Windmill Wrecker", "clue": "Straight at the hole bounces off the windmill. Keep doing it. Windmills are not as strong as they look." },
+    { "id": "board-flipper", "level": 225, "name": "Board Flipper", "clue": "Nine queens against one pawn? There's a button for people who've had enough of chess." },
+    { "id": "hurdle-dodger", "level": 232, "name": "Hurdle Dodger", "clue": "The rule card says what gets you disqualified. Do that. You still get through." }
+  ],
+  "art": [
+    "j-grass", "j-egg", "j-crate", "j-spoon", "j-flag", "j-sack", "j-tile", "j-sandpit", "j-print", "j-mflag",
+    "j-boss", "j-coin", "j-whistle", "j-refcard", "j-ball", "j-goal", "j-keeper", "j-alley", "j-golf", "j-domino",
+    "j-boombox", "j-chair", "j-baize", "j-chessboard", "j-chessclock", "j-hand", "j-pcard", "j-kit", "j-dummy",
+    "j-lockers", "j-podium", "j-trophy", "j-cloth", "j-hurdle"
+  ]
+}

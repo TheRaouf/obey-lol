@@ -10,7 +10,9 @@
  *  - every `alternatives` path completes; every `ruinPaths` path completes with that ruin id
  *  - every `checks` entry behaves as declared: { name, steps, expect: 'fail'|'nope'|'complete'|'playing' }
  *  - at least one wrong move is a trap (api.fail) or a harmless nope, declared in `checks`
- * With --shots DIR it also renders each level (1024×1024 stage screenshot) via Playwright.
+ * With --shots DIR it also renders each level (after the chapter banner fades) via Playwright.
+ * With --fit it opens each level at 320×700, 390×844 and 1180×900 and reports any stage text that spills
+ * out of its card or renders under 10 px (each one counts as a problem).
  */
 'use strict';
 const fs = require('fs');
@@ -20,10 +22,11 @@ const ROOT = path.resolve(__dirname, '..');
 
 const args = process.argv.slice(2);
 const files = [], arts = [];
-let shots = null;
+let shots = null, fit = false;
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--art') arts.push(args[++i]);
   else if (args[i] === '--shots') shots = args[++i];
+  else if (args[i] === '--fit') fit = true;
   else files.push(args[i]);
 }
 if (!files.length) { console.error('Usage: node tools/level-lab.js <level files...> [--art file] [--shots dir]'); process.exit(2); }
@@ -108,11 +111,11 @@ for (const def of defs.sort((a, b) => a.num - b.num)) {
 
 console.log(`\n${defs.length} level(s), ${checks} checks, ${problems} problem(s).`);
 
-if (shots) {
+if (shots || fit) {
   (async () => {
     const { chromium } = require('playwright');
     const { create } = require('./serve.js');
-    fs.mkdirSync(shots, { recursive: true });
+    if (shots) fs.mkdirSync(shots, { recursive: true });
     const page = 'lab-' + process.pid + '.html';
     fs.writeFileSync(path.join(ROOT, page), html.replace('<script src="js/ui/art-extra.js"></script>', '<script src="js/ui/art-extra.js"></script>\n' + arts.map((f) => `<script src="${f}"></script>`).join('\n')));
     // Level files must load before the UI; art packs after art-extra.js.
@@ -121,18 +124,60 @@ if (shots) {
     fs.writeFileSync(path.join(ROOT, page), page2);
     const srv = create(); await new Promise((res) => srv.listen(0, '127.0.0.1', res));
     const b = await chromium.launch();
-    const p = await b.newPage({ viewport: { width: 1180, height: 900 } });
     const errs = [];
-    p.on('pageerror', (e) => errs.push(e.message)); p.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
-    await p.goto(`http://127.0.0.1:${srv.address().port}/${page}?test=1`);
-    await p.waitForSelector('.screen:not([hidden])');
-    await p.evaluate(() => { const d = OBEY.save.defaults(); for (let i = 1; i <= OBEY.LEVEL_COUNT; i++) { d.completed.push(i); d.bestStars[i] = 3; } d.highestUnlocked = OBEY.LEVEL_COUNT; d.tutorialDone = true; d.seenVersion = OBEY.VERSION; OBEY_TEST.seed(d); });
-    for (const def of defs) {
-      await p.evaluate((n) => { location.hash = 'level/' + n; }, def.num);
-      await p.waitForTimeout(500);
-      await p.screenshot({ path: path.join(shots, `L${def.num}-${def.id}.png`) });
+    const url = `http://127.0.0.1:${srv.address().port}/${page}?test=1`;
+    async function open(vp, mobile) {
+      const ctx = await b.newContext({ viewport: vp, hasTouch: mobile, isMobile: mobile });
+      const p = await ctx.newPage();
+      p.on('pageerror', (e) => errs.push(e.message)); p.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
+      await p.goto(url);
+      await p.waitForSelector('.screen:not([hidden])');
+      await p.evaluate(() => { const d = OBEY.save.defaults(); for (let i = 1; i <= OBEY.LEVEL_COUNT; i++) if (OBEY.getLevel(i)) { d.completed.push(i); d.bestStars[i] = 3; } d.highestUnlocked = OBEY.LEVEL_COUNT; d.tutorialDone = true; d.seenVersion = OBEY.VERSION; OBEY_TEST.seed(d); });
+      return { ctx, p };
     }
-    console.log('Screenshots in ' + shots + (errs.length ? '\nPage errors: ' + errs.join(' | ') : ''));
+    const go = async (p, n) => { await p.evaluate((x) => { location.hash = 'level/' + x; }, n); await p.waitForFunction((x) => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === x, n); };
+    if (shots) {
+      const { ctx, p } = await open({ width: 1180, height: 900 }, false);
+      for (const def of defs) {
+        await go(p, def.num);
+        await p.waitForTimeout(2600); // let the chapter banner fade
+        await p.screenshot({ path: path.join(shots, `L${def.num}-${def.id}.png`) });
+      }
+      await ctx.close();
+      console.log('Screenshots in ' + shots);
+    }
+    if (fit) {
+      let fitProblems = 0;
+      for (const [w, h] of [[320, 700], [390, 844], [1180, 900]]) {
+        const { ctx, p } = await open({ width: w, height: h }, w < 800);
+        for (const def of defs) {
+          await go(p, def.num);
+          const bad = await p.evaluate(() => {
+            const out = [];
+            for (const o of document.querySelectorAll('#stage .obj:not([hidden])')) {
+              const t = o.querySelector('.obj-text');
+              if (t && !o.classList.contains('has-art')) {
+                const r = o.getBoundingClientRect(), b = t.getBoundingClientRect();
+                const rg = document.createRange(); rg.selectNodeContents(t); const q = rg.getBoundingClientRect(); // the glyphs, not the block
+                const over = Math.max(q.right - r.right, r.left - q.left, q.bottom - r.bottom, r.top - q.top, b.bottom - r.bottom, r.top - b.top);
+                if (over > 1.5) out.push(`text spills ${Math.round(over)}px out of "${o.dataset.obj}"`);
+              }
+            }
+            for (const el of document.querySelectorAll('#stage *')) {
+              if (el.offsetParent === null || el.children.length || !el.textContent.trim()) continue;
+              const fs = parseFloat(getComputedStyle(el).fontSize);
+              if (fs < 10) out.push(`tiny text ${fs}px: "${el.textContent.trim().slice(0, 24)}"`);
+            }
+            return out;
+          });
+          for (const m of bad) { fitProblems++; console.log(`  ✗ L${def.num} at ${w}×${h}: ${m}`); }
+        }
+        await ctx.close();
+      }
+      console.log(`Fit check: ${fitProblems} problem(s).`);
+      problems += fitProblems;
+    }
+    if (errs.length) { console.log('Page errors: ' + errs.join(' | ')); problems += errs.length; }
     await b.close(); srv.close();
     fs.unlinkSync(path.join(ROOT, page));
     process.exit(problems ? 1 : 0);

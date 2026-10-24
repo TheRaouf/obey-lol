@@ -6,15 +6,15 @@ const { loadGame, play, makeRuntime, normalizePath } = require('./load');
 const OBEY = loadGame();
 const LEVELS = OBEY.levels;
 
-test('exactly 136 levels are registered, numbered 1..136 in order', () => {
-  assert.equal(LEVELS.length, 136);
-  assert.equal(OBEY.LEVEL_COUNT, 136);
+test('exactly 236 levels are registered, numbered 1..236 in order', () => {
+  assert.equal(LEVELS.length, 236);
+  assert.equal(OBEY.LEVEL_COUNT, 236);
   LEVELS.forEach((d, i) => assert.equal(d.num, i + 1, `slot ${i}`));
 });
 
 test('level ids are unique, stable, kebab-case', () => {
   const ids = LEVELS.map((d) => d.id);
-  assert.equal(new Set(ids).size, 136);
+  assert.equal(new Set(ids).size, 236);
   ids.forEach((id) => assert.match(id, /^[a-z0-9]+(-[a-z0-9]+)*$/));
 });
 
@@ -38,7 +38,7 @@ test('levels are not copies of each other (distinct object sets and action mixes
     const { rt } = makeRuntime(OBEY, d.num);
     return rt.objects().map((o) => o.id).sort().join(',');
   });
-  assert.equal(new Set(sigs).size, 136);
+  assert.equal(new Set(sigs).size, 236);
   const mechanics = new Set(LEVELS.flatMap((d) => d.actions));
   for (const m of ['tap', 'drag', 'hold', 'wait', 'choice', 'sequence']) assert.ok(mechanics.has(m), 'mechanic ' + m);
 });
@@ -271,20 +271,20 @@ test('L14: charging without battery does nothing; early release resets', () => {
   assert.equal(log.completed.choices.sign, 'graffiti');
 });
 
-test('L135: the question only appears after all three gears; intro reflects choices', () => {
-  const r = makeRuntime(OBEY, 135, { choices: { gift: 'prank', rule: 'potato' } });
+test('Finale-1 (the trust level): the question only appears after all three gears; intro reflects choices', () => {
+  const r = makeRuntime(OBEY, OBEY.fromEnd(1), { choices: { gift: 'prank', rule: 'potato' } });
   assert.match(r.rt.line, /bonked me/);
   assert.match(r.rt.line, /potato/);
   assert.equal(r.rt.findObject('yes').hidden, true);
   assert.equal(r.rt.dispatch({ type: 'tap', target: 'yes' }), false);
   play(r.rt, r.clock, r.def.alternatives.why);
   assert.equal(r.log.completed.choices.trust, 'why');
-  const nice = makeRuntime(OBEY, 135, { choices: { gift: 'return', rule: 'door', sign: 'fix' } });
+  const nice = makeRuntime(OBEY, OBEY.fromEnd(1), { choices: { gift: 'return', rule: 'door', sign: 'fix' } });
   assert.match(nice.rt.line, /nice to me/);
 });
 
-test('L136: three outcomes; quill only with all secrets; OBEY does not end the game', () => {
-  let r = makeRuntime(OBEY, 136);
+test('Finale (the Instruction Machine): three outcomes; quill only with all secrets; OBEY does not end the game', () => {
+  let r = makeRuntime(OBEY, OBEY.FINAL);
   assert.equal(r.rt.findObject('quill').hidden, true);
   assert.equal(r.rt.dispatch({ type: 'tap', target: 'quill' }), false);
   play(r.rt, r.clock, [{ tap: 'obey' }, { tap: 'obey' }]);
@@ -293,10 +293,10 @@ test('L136: three outcomes; quill only with all secrets; OBEY does not end the g
   assert.equal(r.log.completed, null, 'short hold does not repair');
   play(r.rt, r.clock, r.def.solution);
   assert.equal(r.log.completed.ending, 'hero');
-  r = makeRuntime(OBEY, 136);
+  r = makeRuntime(OBEY, OBEY.FINAL);
   play(r.rt, r.clock, r.def.alternatives.chaos);
   assert.equal(r.log.completed.ending, 'chaos');
-  r = makeRuntime(OBEY, 136, { allSecrets: true });
+  r = makeRuntime(OBEY, OBEY.FINAL, { allSecrets: true });
   play(r.rt, r.clock, r.def.alternatives.secret.steps);
   assert.equal(r.log.completed.ending, 'secret');
 });
@@ -349,7 +349,7 @@ test('every alternative path (choices, patient routes, endings) completes', () =
       count++;
     }
   }
-  assert.equal(count, 28, '8 from 1.x/2.x plus 20 in the 2.2 levels');
+  assert.equal(count, 49, '8 from 1.x/2.0, 20 in the 2.2 levels, 21 in the 2.4 levels');
 });
 
 test('Hard: only one hint tier; a trap costs 2 extra actions', () => {
@@ -477,10 +477,10 @@ test('new levels: wrong moves behave as documented', () => {
   r = makeRuntime(OBEY, 32); // lights
   play(r.rt, r.clock, [{ tap: 'b3' }, { tap: 'b2' }]);
   assert.equal(r.log.completed, null);
-  r = makeRuntime(OBEY, 133); // contract
+  r = makeRuntime(OBEY, OBEY.fromEnd(3)); // contract
   play(r.rt, r.clock, [{ tap: 'flap' }, { tap: 'agree' }]);
   assert.equal(r.rt.nopes, 1); assert.equal(r.rt.stats.fails, 1);
-  r = makeRuntime(OBEY, 134); // quiz
+  r = makeRuntime(OBEY, OBEY.fromEnd(2)); // quiz
   play(r.rt, r.clock, [{ tap: 'opt2' }, { tap: 'opt1' }]);
   assert.equal(r.rt.stats.fails, 1); assert.equal(r.rt.state.q, 0);
 });
@@ -505,17 +505,17 @@ test('QA2-D5: Level 3 walkthrough path matches the Hard countdown', () => {
 });
 
 /* ---------------------------------------------------------------- 2.2 levels */
-const NEW22 = LEVELS.filter((d) => d.num >= 33 && d.num <= 132);
+const NEW = LEVELS.filter((d) => d.num >= 33 && d.num <= 232); // 2.2 (33–132) and 2.4 (133–232)
 
-test('2.2: 100 new levels (33–132) sit between Static Summit and the Final Factory (133–136)', () => {
-  assert.equal(NEW22.length, 100);
-  assert.deepEqual([133, 134, 135, 136].map((n) => OBEY.getLevel(n).id), ['terms-and-conditions', 'the-rehearsal', 'last-instruction', 'final-decision']);
-  assert.equal(OBEY.CHAPTERS.length, 34);
+test('the 200 levels added in 2.2 (33–132) and 2.4 (133–232) sit between Static Summit and the Final Factory', () => {
+  assert.equal(NEW.length, 200);
+  assert.deepEqual([3, 2, 1, 0].map((k) => OBEY.getLevel(OBEY.fromEnd(k)).id), ['terms-and-conditions', 'the-rehearsal', 'last-instruction', 'final-decision']);
+  assert.equal(OBEY.CHAPTERS.length, 59);
   OBEY.CHAPTERS.forEach((c, i) => { assert.equal(c.levels.length, 4, c.id); assert.deepEqual(c.levels, [1, 2, 3, 4].map((k) => i * 4 + k), c.id); });
-  assert.equal(new Set(OBEY.CHAPTERS.map((c) => c.name)).size, 34, 'chapter names unique');
+  assert.equal(new Set(OBEY.CHAPTERS.map((c) => c.name)).size, 59, 'chapter names unique');
 });
 
-for (const d of NEW22) {
+for (const d of NEW) {
   test(`L${d.num} ${d.id}: declared wrong moves behave as documented; 3★ on every difficulty`, () => {
     assert.ok(typeof d.trick === 'string' && d.trick.length > 15, 'trick');
     assert.ok(d.checks.some((c) => c.expect === 'fail' || c.expect === 'nope'), 'at least one trap or nope');

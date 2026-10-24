@@ -4,7 +4,9 @@ const path = require('path');
 const { create } = require('../serve.js');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const ALL_LEVELS = '1-136,1001-1004';
+// Read the level count from the game so new level packs are covered automatically.
+const LEVEL_COUNT = Number(/OBEY\.LEVEL_COUNT = (\d+)/.exec(require('fs').readFileSync(path.join(ROOT, 'js/core/ns.js'), 'utf8'))[1]);
+const ALL_LEVELS = '1-' + LEVEL_COUNT + ',1001-1004';
 
 /** "1-5,9,1001-1004" -> [1,2,3,4,5,9,1001,...] */
 function parseList(spec) {
@@ -57,8 +59,8 @@ async function open(opts = {}) {
   await page.waitForSelector('.screen:not([hidden])');
   await page.evaluate((o) => {
     const d = OBEY.save.defaults();
-    for (let i = 1; i <= 136; i++) { d.completed.push(i); d.bestStars[i] = 3; }
-    d.highestUnlocked = 136; d.tutorialDone = true; d.seenVersion = OBEY.VERSION;
+    for (let i = 1; i <= OBEY.LEVEL_COUNT; i++) { d.completed.push(i); d.bestStars[i] = 3; }
+    d.highestUnlocked = OBEY.LEVEL_COUNT; d.tutorialDone = true; d.seenVersion = OBEY.VERSION;
     d.themes.unlocked = ['classic', 'candy', 'ocean', 'sunset']; d.themes.selected = o.theme || 'classic';
     if (o.contrast) d.settings.contrast = o.contrast;
     if (o.motion) d.settings.motion = o.motion;

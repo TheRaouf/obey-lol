@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Art QA: contact sheets of stage renders (bible §10, §17). Playwright only: no Python or PIL.
  *
- *   node tools/art/sheets.js [--levels 1-136,1001-1004] [--viewport 1180x900] [--theme classic]
+ *   node tools/art/sheets.js [--levels 1-N,1001-1004 (default: every level)] [--viewport 1180x900] [--theme classic]
  *                            [--contrast high] [--motion reduce] [--wait 2300]
  *                            [--out art-sheets] [--per 6] [--cols 3] [--scale 0.6]
  *   node tools/art/sheets.js --from <dir of S<n>.png> [--out …] [--per …] [--cols …] [--scale …]

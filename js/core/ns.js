@@ -6,8 +6,11 @@
   'use strict';
   var OBEY = root.OBEY || (root.OBEY = {});
 
-  OBEY.VERSION = '2.3.0';
-  OBEY.LEVEL_COUNT = 136;
+  OBEY.VERSION = '2.4.0';
+  OBEY.LEVEL_COUNT = 236;
+  /** The Final Factory is always the last four campaign levels; the finale is the very last one. */
+  OBEY.FINAL = OBEY.LEVEL_COUNT;
+  OBEY.fromEnd = function (k) { return OBEY.LEVEL_COUNT - k; };
   /** Bonus levels (the Sabotage Studio pack) use numbers 1001..1000+BONUS_COUNT (Bonus 1 = 1001). */
   OBEY.BONUS_BASE = 1000;
   OBEY.BONUS_COUNT = 4;

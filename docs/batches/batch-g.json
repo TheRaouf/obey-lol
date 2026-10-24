@@ -1,0 +1,118 @@
+{
+  "chapters": [
+    {
+      "name": "Chalkboard Chasm",
+      "levels": [
+        153,
+        154,
+        155,
+        156
+      ]
+    },
+    {
+      "name": "Bookworm Bog",
+      "levels": [
+        157,
+        158,
+        159,
+        160
+      ]
+    },
+    {
+      "name": "Paintpot Pass",
+      "levels": [
+        161,
+        162,
+        163,
+        164
+      ]
+    },
+    {
+      "name": "Lunchbox Lane",
+      "levels": [
+        165,
+        166,
+        167,
+        168
+      ]
+    },
+    {
+      "name": "Detention Dunes",
+      "levels": [
+        169,
+        170,
+        171,
+        172
+      ]
+    }
+  ],
+  "ruins": [
+    {
+      "id": "quiz-plane",
+      "level": 156,
+      "name": "Quiz Plane",
+      "clue": "There's a button on the desk that turns a quiz into an aircraft. Press it. Watch him cry."
+    },
+    {
+      "id": "encyclopedia-stairs",
+      "level": 158,
+      "name": "Encyclopedia Stairs",
+      "clue": "Who needs a ladder? A to Z makes a lovely staircase. The librarian may disagree."
+    },
+    {
+      "id": "mud-masterpiece",
+      "level": 161,
+      "name": "Mud Masterpiece",
+      "clue": "Why choose two colours when you could have ALL of them? Every pot on the palette, then mix."
+    },
+    {
+      "id": "mystery-stew",
+      "level": 167,
+      "name": "Mystery Stew",
+      "clue": "The dinner hatch swaps anything for stew. Nobody knows what's in it. Find out."
+    },
+    {
+      "id": "self-starter",
+      "level": 169,
+      "name": "Self-Starter",
+      "clue": "Star of the Week can go to anyone. Anyone. Even the one holding the sticker."
+    }
+  ],
+  "art": [
+    "g-kid",
+    "g-desk",
+    "g-ladder",
+    "g-bookcase",
+    "g-atlas",
+    "g-encyclopedias",
+    "g-pot",
+    "g-palette",
+    "g-easel",
+    "g-fold",
+    "g-sample",
+    "g-ramp",
+    "g-bean",
+    "g-rosette",
+    "g-gro",
+    "g-sink",
+    "g-soap",
+    "g-till",
+    "g-dish",
+    "g-apple",
+    "g-crisps",
+    "g-pudding",
+    "g-buswindow",
+    "g-stoppole",
+    "g-busdoor",
+    "g-tally",
+    "g-star",
+    "g-pencils",
+    "g-band",
+    "g-lines",
+    "g-stave",
+    "g-measure",
+    "g-equaliser",
+    "g-weight",
+    "g-chalktray"
+  ]
+}

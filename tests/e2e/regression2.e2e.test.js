@@ -16,7 +16,7 @@ const withDiff = (n, diff, extra) => H.saveWith(n, (d) => { d.difficulty = diff;
 const status = (page) => page.evaluate(() => OBEY_TEST.runtime());
 
 test('QA2-D1: a move outside the walkthrough restarts it, so following it always solves the level', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: withDiff(135, 'easy') });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: withDiff(235, 'easy') });
   // L24: deviate, then follow the guide.
   await goLevel(page, 24);
   await page.locator('#guide-btn').click();
@@ -46,7 +46,7 @@ test('QA2-D1: a move outside the walkthrough restarts it, so following it always
 });
 
 test('QA2-D2: a hold that is too short does not advance the walkthrough', async () => {
-  const { page, errors, ctx } = await H.openGame(browser, base, { seed: withDiff(135, 'easy') });
+  const { page, errors, ctx } = await H.openGame(browser, base, { seed: withDiff(235, 'easy') });
   await goLevel(page, 22);
   await page.locator('#guide-btn').click();
   await H.hold(page, 'fan', 1900);
@@ -74,11 +74,11 @@ test('QA2-D3/D4: migrated 1.x save — continue order, final level unlocks, repl
   });
   let s = await page.evaluate(() => OBEY_TEST.save());
   assert.equal(s.highestUnlocked, 15);
-  await goLevel(page, 135);
+  await goLevel(page, 235);
   await H.playSteps(page, [{ tap: 'gearA' }, { tap: 'rug' }, { tap: 'gearB' }, { tap: 'narrator' }, { tap: 'yes' }]);
   await page.waitForSelector('#complete:not([hidden])');
   s = await page.evaluate(() => OBEY_TEST.save());
-  assert.equal(s.highestUnlocked, 15, 'replaying 135 does not open Levels 16–134');
+  assert.equal(s.highestUnlocked, 15, 'replaying 235 does not open Levels 16–234');
   await page.evaluate(() => { location.hash = 'map'; });
   await page.waitForSelector('#screen-map:not([hidden])');
   assert.equal(await page.locator('.map-node[data-level="20"].node-locked').count(), 1);

@@ -56,9 +56,9 @@ g += '\n## Achievements (' + OBEY.ACHIEVEMENTS.length + ')\n\n| ID | Name | Exac
 OBEY.ACHIEVEMENTS.forEach((a) => { g += `| \`${a.id}\` | ${a.name} | ${a.desc} |\n`; });
 g += '\n## Endings (3)\n\n| ID | Name | Condition |\n|---|---|---|\n';
 OBEY.ENDINGS.forEach((e) => { g += `| \`${e.id}\` | ${e.name} | ${e.condition} |\n`; });
-g += '\nThe Secret Master ending is enforced twice: the golden quill only exists in Level 136 when all 15 secrets are in the save, and `progress.recordEnding` rejects `secret` unless 15 secrets are found and Level 136 is completed.\n';
+g += '\nThe Secret Master ending is enforced twice: the golden quill only exists in Level ' + OBEY.FINAL + ' when all 15 secrets are in the save, and `progress.recordEnding` rejects `secret` unless 15 secrets are found and Level ' + OBEY.FINAL + ' is completed.\n';
 g += '\n## Campaign choices\n\n| Key | Level | Hero-leaning value | Chaos-leaning value |\n|---|---|---|---|\n';
-const where = { gift: 9, rule: 10, sign: 14, trust: 135 };
+const where = { gift: 9, rule: 10, sign: 14, trust: OBEY.fromEnd(1) };
 for (const [k, vals] of Object.entries(OBEY.CHOICES)) {
   const hero = Object.keys(vals).find((v) => vals[v] === 'hero'), chaos = Object.keys(vals).find((v) => vals[v] === 'chaos');
   g += `| \`${k}\` | ${where[k]} | \`${hero}\` | \`${chaos}\` |\n`;
@@ -68,6 +68,6 @@ OBEY.TROPHIES.forEach((t) => { g += `| \`${t.id}\` | ${t.name} | ${t.desc} |\n`;
 g += '\n## Ruins (' + OBEY.extras.RUINS.length + ')\n\n| ID | Name | Level | U.N.D.O. tip |\n|---|---|---|---|\n';
 OBEY.extras.RUINS.forEach((r) => { g += `| \`${r.id}\` | ${r.name} | ${OBEY.levelLabel(r.level)} | ${r.clue} |\n`; });
 g += '\nTrap-based ruins all need 4 traps in one attempt, so on Hard "Show me how" (unlocked after 3 traps) always comes first. Ruins never trigger during a guided run.\n';
-g += '\nChoices only change dialogue (Level 135 intro, ending lines). They never block completion or decide the ending; the ending is decided by the player\'s action in Level 136.\n';
+g += '\nChoices only change dialogue (Level ' + OBEY.fromEnd(1) + ' intro, ending lines). They never block completion or decide the ending; the ending is decided by the player\'s action in Level ' + OBEY.FINAL + '.\n';
 fs.writeFileSync(path.join(ROOT, 'docs', 'GAME-DATA.md'), g);
 console.log('Wrote docs/LEVEL-SPEC.md and docs/GAME-DATA.md');

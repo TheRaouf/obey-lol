@@ -58,7 +58,7 @@ async function checkLayout(page, label) {
 
 for (const [w, h] of VIEWPORTS) {
   test(`viewport ${w}x${h}: all main screens, levels and overlays fit`, async () => {
-    const { page, errors, ctx } = await H.openGame(browser, base, { viewport: { width: w, height: h }, seed: H.saveWith(135, (d) => { d.endings.seen = ['hero', 'chaos']; d.endings.history = [{ id: 'hero', at: 1 }]; return d; }), hasTouch: w < 800, isMobile: w < 800 });
+    const { page, errors, ctx } = await H.openGame(browser, base, { viewport: { width: w, height: h }, seed: H.saveWith(235, (d) => { d.endings.seen = ['hero', 'chaos']; d.endings.history = [{ id: 'hero', at: 1 }]; return d; }), hasTouch: w < 800, isMobile: w < 800 });
     const dir = path.join(H.SHOTS, 'responsive');
     fs.mkdirSync(dir, { recursive: true });
     for (const s of SCREENS) {
@@ -67,7 +67,7 @@ for (const [w, h] of VIEWPORTS) {
       await checkLayout(page, `${w} ${s}`);
       if (['menu', 'map', 'settings'].includes(s)) await page.waitForTimeout(800), await page.screenshot({ path: path.join(dir, `${s}-${w}x${h}.png`) });
     }
-    for (let n = 1; n <= 136; n++) {
+    for (let n = 1; n <= 236; n++) {
       await page.evaluate((x) => { location.hash = 'level/' + x; }, n);
       await page.waitForFunction((x) => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === x, n);
       if (n === 13) await page.locator(H.sel('panel')).click();

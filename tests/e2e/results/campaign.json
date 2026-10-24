@@ -1190,6 +1190,906 @@
     },
     {
       "level": 133,
+      "id": "trolley-trouble",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 134,
+      "id": "use-by",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 135,
+      "id": "tin-tower",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 136,
+      "id": "toy-inside",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 137,
+      "id": "bag-it",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 138,
+      "id": "last-croissant",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 139,
+      "id": "cheese-wheel",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 140,
+      "id": "weigh-it-up",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 141,
+      "id": "pick-a-queue",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 142,
+      "id": "the-divider",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 143,
+      "id": "spend-to-save",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 144,
+      "id": "two-bags",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 145,
+      "id": "unexpected-item",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 146,
+      "id": "security-tag",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 147,
+      "id": "scan-this-one",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 148,
+      "id": "exit-doors",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 149,
+      "id": "key-fob",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 150,
+      "id": "trolley-line",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 151,
+      "id": "fuel-cap",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 152,
+      "id": "faulty-toaster",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 153,
+      "id": "hands-up",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 154,
+      "id": "every-good-boy",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 155,
+      "id": "broken-ruler",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 156,
+      "id": "pop-quiz",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 157,
+      "id": "shelf-help",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 158,
+      "id": "top-shelf",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 159,
+      "id": "i-before-e",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 160,
+      "id": "table-trouble",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 161,
+      "id": "mix-it-up",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 162,
+      "id": "fold-and-snip",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 163,
+      "id": "fair-test",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 164,
+      "id": "bending-bean",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 165,
+      "id": "clean-hands",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 166,
+      "id": "dinner-money",
+      "stars": 3,
+      "actions": 5,
+      "par": 5,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 167,
+      "id": "lunchbox-swap",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 168,
+      "id": "ding-ding",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 169,
+      "id": "star-of-the-week",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 170,
+      "id": "room-xiv",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 171,
+      "id": "balancing-act",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 172,
+      "id": "lines",
+      "stars": 3,
+      "actions": 7,
+      "par": 7,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 173,
+      "id": "the-drawbridge",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 174,
+      "id": "guest-list",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 175,
+      "id": "changing-of-the-guard",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 176,
+      "id": "catapult-post",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 177,
+      "id": "line-of-succession",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 178,
+      "id": "seal-of-approval",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 179,
+      "id": "knight-moves",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 180,
+      "id": "arise-sir-player",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 181,
+      "id": "breadstick-bars",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 182,
+      "id": "light-the-oven",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 183,
+      "id": "pancake-stack",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 184,
+      "id": "eight-slices",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 185,
+      "id": "tiptoe",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 186,
+      "id": "bedtime-story",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 187,
+      "id": "riddle-me-nothing",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 188,
+      "id": "knock-knock",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 189,
+      "id": "the-hourglass",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 190,
+      "id": "invisible-ink",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 191,
+      "id": "reverso",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 192,
+      "id": "happily-ever-after",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 193,
+      "id": "sonar-silence",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 194,
+      "id": "blow-the-tanks",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 195,
+      "id": "red-right-returning",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 196,
+      "id": "one-long-blast",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 197,
+      "id": "flash-count",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 198,
+      "id": "ship-in-a-bottle",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 199,
+      "id": "lifebuoy-lob",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 200,
+      "id": "keepers-ferry",
+      "stars": 3,
+      "actions": 12,
+      "par": 12,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 201,
+      "id": "going-once",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 202,
+      "id": "weigh-anchor",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 203,
+      "id": "short-changed",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 204,
+      "id": "packed-like-sardines",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 205,
+      "id": "thumbs-up",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 206,
+      "id": "shell-game",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 207,
+      "id": "tidy-tentacles",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 208,
+      "id": "moving-house",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 209,
+      "id": "five-bells",
+      "stars": 3,
+      "actions": 6,
+      "par": 6,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 210,
+      "id": "follow-the-light",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 211,
+      "id": "stir-the-water",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 212,
+      "id": "thar-she-blows",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 213,
+      "id": "egg-and-spoon",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 214,
+      "id": "sack-race",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 215,
+      "id": "long-jump",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 216,
+      "id": "relay-order",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 217,
+      "id": "heads-i-win",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 218,
+      "id": "whistle-blower",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 219,
+      "id": "own-goal",
+      "stars": 3,
+      "actions": 5,
+      "par": 5,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 220,
+      "id": "spot-kick",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 221,
+      "id": "gutter-ball",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 222,
+      "id": "bank-shot",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 223,
+      "id": "domino-rally",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 224,
+      "id": "musical-chairs",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 225,
+      "id": "chess-clock",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 226,
+      "id": "rock-paper-bossworth",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 227,
+      "id": "broadside",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 228,
+      "id": "snap",
+      "stars": 3,
+      "actions": 3,
+      "par": 3,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 229,
+      "id": "kit-check",
+      "stars": 3,
+      "actions": 4,
+      "par": 4,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 230,
+      "id": "medal-table",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 231,
+      "id": "trophy-polish",
+      "stars": 3,
+      "actions": 2,
+      "par": 2,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 232,
+      "id": "the-last-hurdle",
+      "stars": 3,
+      "actions": 1,
+      "par": 1,
+      "hints": 0,
+      "path": "intended solution (mouse)"
+    },
+    {
+      "level": 233,
       "id": "terms-and-conditions",
       "stars": 3,
       "actions": 3,
@@ -1198,7 +2098,7 @@
       "path": "intended solution (mouse)"
     },
     {
-      "level": 134,
+      "level": 234,
       "id": "the-rehearsal",
       "stars": 3,
       "actions": 3,
@@ -1207,7 +2107,7 @@
       "path": "intended solution (mouse)"
     },
     {
-      "level": 135,
+      "level": 235,
       "id": "last-instruction",
       "stars": 3,
       "actions": 4,
@@ -1216,7 +2116,7 @@
       "path": "intended solution (mouse)"
     },
     {
-      "level": 136,
+      "level": 236,
       "id": "final-decision",
       "stars": 3,
       "actions": 1,

@@ -1,4 +1,42 @@
-# Test report — OBEY? LOL. 2.3.0
+# Test report — OBEY? LOL. 2.4.0
+
+Date: 2026-10-24. Counts come from logged runs: `tests/logs/unit-24.tap`, `tests/logs/e2e-24.tap`
+(Node v22.23.4, Playwright Chromium).
+
+**CI (GitHub Actions run 40123235532, commit 8f90442):** Chromium job (static, unit, all 120 browser tests)
+**passed**; WebKit job (Safari's engine: iPad — all 240 levels at 10 iPad sizes — campaign, 2.0 and 2.1
+suites) **passed**.
+
+| Suite | Where | Run | Passed | Failed |
+|---|---|---|---|---|
+| Static checks (`tools/check.js`) | local | 3,339 checks | 3,339 | 0 |
+| Unit tests (`tests/unit`) | local | 1,265 | 1,265 | 0 |
+| Browser tests, Chromium (9 files) | local | 120 | 120 | 0 |
+| Level lab, levels 33–232 with `--fit` (text at 320×700, 390×844, 1180×900) | local | 200 levels, 9,280 checks | 0 problems | — |
+
+The campaign browser test plays all 236 levels through the real UI from a fresh save to the Hero ending.
+Every one of the 100 new levels is also played in Node: solution for 3★ on Easy, Medium and Hard, every
+declared wrong move (trap / nope), every ruin path, restart, hints, timers, and a check that every scripted
+tap is possible in the UI.
+
+## Found while integrating (all fixed)
+
+| # | Finding | Fix |
+|---|---|---|
+| 1 | Save schema v6 needed: the Final Factory moves again (133–136 → 233–236) | Migration v5 → v6 (and v4 → v5 → v6), with unit tests for finished, mid-campaign and in-finale saves; finale numbers now derived from `OBEY.LEVEL_COUNT` everywhere |
+| 2 | Art review MUST items: 11 signs touching their card edges, objects floating above tables, L181 bars mid-wall, L194 "EMERGENCY" spilling sideways, sub-9 px numerals (L195, L214), an over-thick desk outline (L155) | Applied (docs/ART-REVIEW-2.4.md) |
+| 3 | The text-fit check and the game's text fitter measured the text block, so a single word wider than its card was missed | Both now measure the glyphs (a DOM Range); such words shrink to fit |
+| 4 | Art tools stopped at Level 136 | They read the level count from the game |
+| 5 | WebKit CI: the iPad test stopped at Level 201 on every size — Safari ignores hash navigations past ~200 in quick succession on one page. Not a game defect (the address simply stopped changing; no errors) | The test reloads its page every 150 visits; confirmed green in CI |
+
+## Not verified
+- Physical devices, Firefox, and sound by ear.
+- The 100 new levels were play-tested by scripts and screenshots, not by people.
+- Art review SHOULD/POLISH items (19) are deferred, e.g. button press-shadows in the dark undersea rooms.
+
+---
+
+# Test report — OBEY? LOL. 2.3.0 (previous release)
 
 Date: 2026-10-24. Counts come from logged runs: `tests/logs/unit-23.tap`, `tests/logs/e2e-23.tap`
 (Node v22.23.4, Playwright Chromium).

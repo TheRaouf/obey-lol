@@ -29,13 +29,24 @@ test.after(async () => {
 });
 
 const LEVELS = [];
-for (let n = 1; n <= 136; n++) LEVELS.push(n);
+for (let n = 1; n <= 236; n++) LEVELS.push(n);
 LEVELS.push(1001, 1002, 1003, 1004);
-const seed = H.saveWith(136, (d) => { d.seenVersion = '2.3.0'; return d; });
+const seed = H.saveWith(236, (d) => { d.seenVersion = '2.4.0'; return d; });
 
-async function enter(page, n) {
+// WebKit (Safari) ignores hash navigations after ~200 in quick succession on one page — a browser
+// anti-abuse limit no player reaches. With 240 levels per iPad size, reload the page every 150 visits.
+const visits = new WeakMap();
+async function enter(page, n, errors) {
+  const v = (visits.get(page) || 0) + 1;
+  visits.set(page, v);
+  if (v % 150 === 0) { await page.reload(); await page.waitForSelector('.screen:not([hidden])'); }
   await page.evaluate((x) => { location.hash = 'level/' + x; }, n);
-  await page.waitForFunction((x) => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === x, n);
+  try {
+    await page.waitForFunction((x) => OBEY_TEST.runtime() && OBEY_TEST.runtime().level === x, n, { timeout: 15000 });
+  } catch (e) {
+    const st = await page.evaluate(() => ({ hash: location.hash, screen: OBEY_TEST.screen(), level: OBEY_TEST.runtime() && OBEY_TEST.runtime().level })).catch((x) => ({ evalError: x.message }));
+    throw new Error(`Level ${n} did not open: ${JSON.stringify(st)}; page errors: ${(errors || []).slice(-3).join(' | ') || 'none'}`);
+  }
   await page.evaluate(() => window.scrollTo(0, 0));
 }
 
@@ -44,7 +55,7 @@ for (const [w, h, name] of IPADS) {
     const { page, errors, ctx } = await H.openGame(browser, base, { viewport: { width: w, height: h }, hasTouch: true, isMobile: true, seed });
     const bad = [];
     for (const n of LEVELS) {
-      await enter(page, n);
+      await enter(page, n, errors);
       const r = await page.evaluate(() => {
         const st = document.getElementById('stage').getBoundingClientRect();
         const el = document.scrollingElement;

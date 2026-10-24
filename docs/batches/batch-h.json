@@ -1,0 +1,131 @@
+{
+  "chapters": [
+    {
+      "name": "Moat Mayhem",
+      "levels": [
+        173,
+        174,
+        175,
+        176
+      ]
+    },
+    {
+      "name": "Royal Rumpus",
+      "levels": [
+        177,
+        178,
+        179,
+        180
+      ]
+    },
+    {
+      "name": "Feast Fiasco",
+      "levels": [
+        181,
+        182,
+        183,
+        184
+      ]
+    },
+    {
+      "name": "Dragon Doze",
+      "levels": [
+        185,
+        186,
+        187,
+        188
+      ]
+    },
+    {
+      "name": "Spellbook Spire",
+      "levels": [
+        189,
+        190,
+        191,
+        192
+      ]
+    }
+  ],
+  "ruins": [
+    {
+      "id": "human-cannonball",
+      "level": 176,
+      "name": "Human Cannonball",
+      "clue": "The catapult takes anything you drop in its cup. Anything. Including whoever is holding the phone."
+    },
+    {
+      "id": "usurper",
+      "level": 177,
+      "name": "The Usurper",
+      "clue": "Bossworth crowned himself. There's a crown, and there's a you. Fair is fair."
+    },
+    {
+      "id": "singed-portrait",
+      "level": 182,
+      "name": "Singed Eyebrows",
+      "clue": "A fire-sneeze at a SHUT oven door has to bounce somewhere. Look what's hanging above the oven."
+    },
+    {
+      "id": "throne-napper",
+      "level": 185,
+      "name": "Throne Napper",
+      "clue": "He told you to blow the horn. For once, take his advice. Dragons wake up grumpy and want something comfy."
+    },
+    {
+      "id": "sand-everywhere",
+      "level": 189,
+      "name": "Sand Everywhere",
+      "clue": "There's a hammer on the wall, and an hourglass is just sand in a glass jail."
+    }
+  ],
+  "art": [
+    "h-gatehouse",
+    "h-bridge",
+    "h-basket",
+    "h-rock",
+    "h-guard",
+    "h-visitor",
+    "h-cap",
+    "h-chefhat",
+    "h-crown",
+    "h-bellrope",
+    "h-bell",
+    "h-coins",
+    "h-catapult",
+    "h-window",
+    "h-letter",
+    "h-throne",
+    "h-bossportrait",
+    "h-seal",
+    "h-decree",
+    "h-armour",
+    "h-bar",
+    "h-jar",
+    "h-dragon",
+    "h-oven",
+    "h-pepper",
+    "h-cake",
+    "h-statue",
+    "h-talkdoor",
+    "h-horn",
+    "h-banner",
+    "h-hourglass",
+    "h-hammer",
+    "h-candle",
+    "h-boot",
+    "h-parchment",
+    "h-spellbook",
+    "h-cauldron",
+    "h-owl",
+    "h-shelf",
+    "h-flagstones",
+    "h-chesstile",
+    "h-cakecuts",
+    "h-matches",
+    "h-postcard",
+    "h-bin",
+    "h-brush",
+    "h-pancake",
+    "h-plate"
+  ]
+}

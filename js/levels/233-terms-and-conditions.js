@@ -1,4 +1,4 @@
-/* Level 133 — Terms and Conditions
+/* Level 233 — Terms and Conditions
  * "Just click I AGREE." Reading the whole contract (Read more ×2) reveals Clause 9: the reader may
  * leave through the cat flap. Clicking I AGREE is a trap (you become Bossworth's intern).
  * Wrong: the cat flap before reading Clause 9 (nope).
@@ -14,7 +14,7 @@
 
   OBEY.registerLevel({
     id: 'terms-and-conditions',
-    num: 133,
+    num: 233,
     title: 'Terms and Conditions',
     objective: 'Get out of the contract.',
     intro: 'Before the finale, a little paperwork. Just click I AGREE. Nobody reads these. Nobody. Ever.',

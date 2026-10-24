@@ -82,11 +82,9 @@
     return `<section class="whats-new panel" aria-labelledby="wn-title">
       <h2 id="wn-title">New in ${E(OBEY.VERSION)}</h2>
       <ul>
-        <li><b>A full art pass:</b> 100 improvements from our art director — furniture stands on the floor, cleaner outlines, contact shadows and readable labels everywhere.</li>
-        <li><b>Every chapter has its own look</b> on the map, trophies and chapter cards, and its own music family.</li>
-        <li><b>Bossworth blinks</b> and greets you in more than one mood. U.N.D.O. has its own voice.</li>
-        <li>New sounds for stars, switches and costumes; rewards no longer pile up; captions sit at the bottom.</li>
-        <li>Bigger text on phones, gentler flashing, and the endings finally show the Instruction Machine.</li>
+        <li><b>100 new levels</b> (133–232) in 25 new chapters: the supermarket, school, a castle, under the sea and sports day.</li>
+        <li><b>25 new ways to ruin things</b> — U.N.D.O. keeps the clues in your Sabotage file.</li>
+        <li>The <b>Final Factory</b> is now Levels 233–236. Your progress moved with it; if you had finished, you carry on at Level 133.</li>
       </ul>
       <button class="btn small-btn" data-act="dismiss-whatsnew">Got it</button>
     </section>`;
@@ -222,7 +220,7 @@
     el.innerHTML = backBar('Secret field notes', 'secrets-title', `<span class="pill">${s.secrets.length}/15</span>`) + `
       <div class="page">
         <div class="progress-block panel">
-          <p>You have found <b>${s.secrets.length}</b> of 15 secrets.${s.secrets.length === 15 ? ' Something golden waits in Level 136.' : ' Find all 15 for a very special ending.'}</p>
+          <p>You have found <b>${s.secrets.length}</b> of 15 secrets.${s.secrets.length === 15 ? ' Something golden waits in Level ' + OBEY.FINAL + '.' : ' Find all 15 for a very special ending.'}</p>
           <div class="bar" role="progressbar" aria-label="Secrets found" aria-valuemin="0" aria-valuemax="15" aria-valuenow="${s.secrets.length}"><span style="width:${(s.secrets.length / 15 * 100).toFixed(1)}%"></span></div>
         </div>
         <ul class="note-grid">${cards}</ul>

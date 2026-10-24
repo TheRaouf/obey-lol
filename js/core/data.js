@@ -36,7 +36,7 @@
     { id: 'wizard', name: 'Wizard', unlock: { type: 'stars', value: 20 }, aside: '*waves wand dramatically*' },
     { id: 'robot', name: 'Robot', unlock: { type: 'level', value: 12 }, aside: 'BEEP. INSTRUCTION LOADED:' },
     { id: 'dino', name: 'Dino', unlock: { type: 'secrets', value: 8 }, aside: 'RAWR. (That means "listen".)' },
-    { id: 'ninja', name: 'Ninja', unlock: { type: 'level', value: 136 }, aside: '*appears silently*' }
+    { id: 'ninja', name: 'Ninja', unlock: { type: 'level', value: OBEY.FINAL }, aside: '*appears silently*' }
   ];
 
   OBEY.THEMES = [
@@ -58,9 +58,9 @@
 
   /* ---------------------------------------------------------------- endings */
   OBEY.ENDINGS = [
-    { id: 'hero', name: 'The Honest Machine', short: 'Hero ending', condition: 'Finish Level 136 by repairing the Instruction Machine.' },
-    { id: 'chaos', name: 'Total Meltdown', short: 'Chaos ending', condition: 'Finish Level 136 by overloading the Instruction Machine.' },
-    { id: 'secret', name: 'The Last Word', short: 'Secret Master ending', condition: 'Discover all 15 secrets, then finish Level 136 with the golden quill.' }
+    { id: 'hero', name: 'The Honest Machine', short: 'Hero ending', condition: 'Finish Level ' + OBEY.FINAL + ' by repairing the Instruction Machine.' },
+    { id: 'chaos', name: 'Total Meltdown', short: 'Chaos ending', condition: 'Finish Level ' + OBEY.FINAL + ' by overloading the Instruction Machine.' },
+    { id: 'secret', name: 'The Last Word', short: 'Secret Master ending', condition: 'Discover all 15 secrets, then finish Level ' + OBEY.FINAL + ' with the golden quill.' }
   ];
   OBEY.ENDING_IDS = OBEY.ENDINGS.map(function (e) { return e.id; });
 
@@ -82,7 +82,7 @@
   OBEY.ACHIEVEMENT_IDS = OBEY.ACHIEVEMENTS.map(function (a) { return a.id; });
 
   /* --------------------------------------------------------------- chapters */
-  // 34 chapters of four levels (136 campaign levels); each has a trophy cup whose metal depends on difficulty.
+  // 59 chapters of four levels (236 campaign levels); each has a trophy cup whose metal depends on difficulty.
   OBEY.CHAPTERS = [
     { id: 'button-bay', name: 'Button Bay', levels: [1, 2, 3, 4] },
     { id: 'mind-maze', name: 'Mind Maze', levels: [5, 6, 7, 8] },
@@ -117,7 +117,32 @@
     { id: 'buzzer-bonanza', name: 'Buzzer Bonanza', levels: [121,  122,  123,  124] },
     { id: 'museum-midway', name: 'Museum Midway', levels: [125,  126,  127,  128] },
     { id: 'pixel-palace', name: 'Pixel Palace', levels: [129,  130,  131,  132] },
-    { id: 'final-factory', name: 'Final Factory', levels: [133, 134, 135, 136] }
+    { id: 'aisle-antics', name: 'Aisle Antics', levels: [133,  134,  135,  136] },
+    { id: 'deli-dilemma', name: 'Deli Dilemma', levels: [137,  138,  139,  140] },
+    { id: 'checkout-chaos', name: 'Checkout Chaos', levels: [141,  142,  143,  144] },
+    { id: 'scanner-scramble', name: 'Scanner Scramble', levels: [145,  146,  147,  148] },
+    { id: 'carpark-capers', name: 'Carpark Capers', levels: [149,  150,  151,  152] },
+    { id: 'chalkboard-chasm', name: 'Chalkboard Chasm', levels: [153,  154,  155,  156] },
+    { id: 'bookworm-bog', name: 'Bookworm Bog', levels: [157,  158,  159,  160] },
+    { id: 'paintpot-pass', name: 'Paintpot Pass', levels: [161,  162,  163,  164] },
+    { id: 'lunchbox-lane', name: 'Lunchbox Lane', levels: [165,  166,  167,  168] },
+    { id: 'detention-dunes', name: 'Detention Dunes', levels: [169,  170,  171,  172] },
+    { id: 'moat-mayhem', name: 'Moat Mayhem', levels: [173,  174,  175,  176] },
+    { id: 'royal-rumpus', name: 'Royal Rumpus', levels: [177,  178,  179,  180] },
+    { id: 'feast-fiasco', name: 'Feast Fiasco', levels: [181,  182,  183,  184] },
+    { id: 'dragon-doze', name: 'Dragon Doze', levels: [185,  186,  187,  188] },
+    { id: 'spellbook-spire', name: 'Spellbook Spire', levels: [189,  190,  191,  192] },
+    { id: 'periscope-pier', name: 'Periscope Pier', levels: [193,  194,  195,  196] },
+    { id: 'lighthouse-lookout', name: 'Lighthouse Lookout', levels: [197,  198,  199,  200] },
+    { id: 'mackerel-market', name: 'Mackerel Market', levels: [201,  202,  203,  204] },
+    { id: 'coral-caverns', name: 'Coral Caverns', levels: [205,  206,  207,  208] },
+    { id: 'shipwreck-shoals', name: 'Shipwreck Shoals', levels: [209,  210,  211,  212] },
+    { id: 'hurdle-hollow', name: 'Hurdle Hollow', levels: [213,  214,  215,  216] },
+    { id: 'whistle-woods', name: 'Whistle Woods', levels: [217,  218,  219,  220] },
+    { id: 'gutter-gulch', name: 'Gutter Gulch', levels: [221,  222,  223,  224] },
+    { id: 'checkmate-chalet', name: 'Checkmate Chalet', levels: [225,  226,  227,  228] },
+    { id: 'podium-party', name: 'Podium Party', levels: [229,  230,  231,  232] },
+    { id: 'final-factory', name: 'Final Factory', levels: [OBEY.fromEnd(3), OBEY.fromEnd(2), OBEY.fromEnd(1), OBEY.FINAL] }
   ];
   OBEY.chapterOf = function (n) { return OBEY.CHAPTERS.filter(function (c) { return c.levels.indexOf(n) >= 0; })[0]; };
 
