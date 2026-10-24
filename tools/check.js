@@ -98,6 +98,8 @@ for (const ic of manifest.icons) ok(fs.existsSync(path.join(ROOT, ic.src)), `man
 ok(fs.existsSync(path.join(ROOT, 'assets/icons/apple-touch-icon.png')), 'missing apple-touch-icon');
 const sw = require('./gen-sw.js');
 ok(fs.existsSync(path.join(ROOT, 'sw.js')) && read('sw.js') === sw.build(), 'sw.js is out of date: run node tools/gen-sw.js');
+ok(/cache: 'reload'/.test(read('sw.js')), 'sw.js must precache with cache: reload (else updates can cache stale files)');
+ok(require(path.join(ROOT, 'package.json')).version === OBEY.VERSION, 'package.json version must match OBEY.VERSION (it names the offline cache)');
 for (const f of sw.files()) ok(fs.existsSync(path.join(ROOT, f)), `service worker precaches a missing file: ${f}`);
 
 for (const f of ['README.md', 'CHANGELOG.md', 'RELEASE-NOTES.md', 'TEST-REPORT.md', 'FEATURE-ROADMAP.md', 'LICENSE', 'ASSETS.md', 'package.json', 'assets/icon.svg', 'assets/fonts/OFL-BagelFatOne.txt', 'assets/fonts/OFL-AtkinsonHyperlegible.txt']) {
