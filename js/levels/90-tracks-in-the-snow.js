@@ -37,7 +37,7 @@
         O('snowman', 29, 8, 11, 16, { kind: 'static', art: 'c-snowman', artOpts: { hat: 'top', scarf: 'red', nose: 'carrot' }, label: 'A snowman in a top hat, pointing nowhere helpful' }),
         O('kennel', 40, 5, 20, 19, { kind: 'static', art: 'c-kennel', label: 'A dog kennel, top middle' }),
         O('ice', 70, 6, 26, 16, { kind: 'static', art: 'c-icepond', label: 'A frozen pond with cracks, top right' }),
-        O('icetag', 72, 20, 22, 6, { kind: 'static', text: 'THIN ICE!', label: 'Sign: thin ice', cls: 'tag-card' }),
+        O('icetag', 72, 18, 22, 8, { kind: 'static', text: 'THIN ICE!', label: 'Sign: thin ice', cls: 'tag-card' }),
         O('tracks', 4, 26, 92, 48, { kind: 'static', art: 'c-tracks', label: 'Three crossing trails. Big boot prints wind from the left start to the thin ice on the right. Paw prints wiggle from the middle start to the kennel. Small boot prints run from the right start to the lodge on the left.' }),
         O('big', 4, 76, 26, 13, { text: 'Big boots', label: 'Follow the big boot prints (start on the left)', cls: 'btn-card' }),
         O('paw', 37, 76, 26, 13, { text: 'Paw prints', label: 'Follow the paw prints (start in the middle)', cls: 'btn-card' }),

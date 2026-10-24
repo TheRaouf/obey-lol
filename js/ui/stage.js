@@ -26,9 +26,32 @@
     this.assist = null;    // hold assist: id of the object being held by tap-to-start / tap-to-stop
     this._bind();
     var self = this, pending = false;
-    var refit = function () { if (pending) return; pending = true; (root.requestAnimationFrame || setTimeout)(function () { pending = false; self._fitText(); }); };
-    if (root.ResizeObserver) { this._ro = new root.ResizeObserver(refit); this._ro.observe(el); } else root.addEventListener('resize', refit);
+    var refit = function () { if (pending) return; pending = true; (root.requestAnimationFrame || setTimeout)(function () { pending = false; self._fitSize(); self._fitText(); }); };
+    this._refit = refit;
+    root.addEventListener('resize', refit);
+    if (root.ResizeObserver) {
+      // Watch the stage and the whole level screen: a longer narrator line above the stage pushes it down.
+      this._ro = new root.ResizeObserver(function () { self._fitSize(); self._fitText(); }); // already frame-aligned
+      this._ro.observe(el);
+      var screen = el.closest && el.closest('.screen');
+      if (screen) this._ro.observe(screen);
+    }
   }
+
+  /** On tablets and larger, the square stage shrinks so its bottom edge stays on screen whatever sits
+   *  above it (long narrator lines, a two-line goal). CSS gives the normal size; this only trims it. */
+  Stage.prototype._fitSize = function () {
+    var wrap = this.el.parentElement;
+    if (!wrap || !wrap.classList.contains('stage-wrap')) return;
+    var before = wrap.style.maxWidth;
+    wrap.style.maxWidth = '';
+    if (!this.el.offsetWidth || root.innerWidth < 540) return;
+    var r = this.el.getBoundingClientRect();
+    var scrollY = root.scrollY || 0;
+    var over = (r.bottom + scrollY) - root.innerHeight + 6;
+    if (over > 0) wrap.style.maxWidth = Math.max(240, Math.floor(r.width - over)) + 'px';
+    if (wrap.style.maxWidth !== before) this._fitText();
+  };
 
   /** Text cards shrink their font (never below 10px, 9px for fine print) until the text fits the card.
    *  Cards are sized in % of the stage while text has a readable minimum, so on small stages long text
@@ -168,6 +191,7 @@
     if (focusedId) this._restoreFocus(focusedId);
     this._syncNarratorZone();
     this._fitText();
+    this._fitSize();
   };
 
   Stage.prototype._update = function (node, o, i) {

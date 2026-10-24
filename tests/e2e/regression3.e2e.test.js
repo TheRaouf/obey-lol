@@ -76,7 +76,7 @@ test('QA3-D4: hold assist leaves drag-and-hold objects holdable from the keyboar
 for (const [w, h] of [[694, 768], [584, 820], [844, 390], [1180, 500], [667, 375]]) {
   test(`QA3-D5: the stage fits without scrolling in a ${w}×${h} window`, async () => {
     const { page, errors, ctx } = await H.openGame(browser, base, { viewport: { width: w, height: h }, hasTouch: true, isMobile: true, seed: withSave(136) });
-    for (const n of [9, 15, 26, 133]) {
+    for (const n of [9, 15, 26, 81, 89, 133]) {
       await goLevel(page, n);
       await page.evaluate(() => window.scrollTo(0, 0));
       const r = await page.evaluate(() => { const b = document.getElementById('stage').getBoundingClientRect(); return { bottom: b.bottom, ih: innerHeight, w: b.width, over: document.scrollingElement.scrollWidth > innerWidth + 1 }; });
