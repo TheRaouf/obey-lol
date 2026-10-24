@@ -166,7 +166,7 @@ p { margin: 0 0 .7em; }
 /* -------------------------------------------------------------------- map */
 .map-layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 24px; align-items: start; }
 .map-side { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 14px; }
-.map-help { margin: 0; color: var(--muted); }
+.map-help { margin: 0; color: var(--on-bg); } /* 2.3: muted failed contrast on the page background */
 .map-help.strong { color: var(--ink); font-weight: 700; }
 .map-scroll { width: 100%; }
 .map-world { position: relative; width: 100%; max-width: 640px; margin: 0 auto; background: var(--paper); border: var(--line) solid var(--ink); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; }
@@ -845,7 +845,7 @@ kbd { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700; b
 @media (max-width: 600px) { .jigsaw-panel { grid-template-columns: 1fr; } .day-strip { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
 
 /* ---- Sabotage Studio objects ------------------------------------------- */
-.obj.btn-card.word-red { color: #e5243b; font-family: var(--font-display); font-weight: 400; --fx: 1.7; }
+.obj.btn-card.word-red { color: #d61e35; font-family: var(--font-display); font-weight: 400; --fx: 1.7; }
 html[data-contrast="high"] .obj.btn-card.word-red { color: #b34700; }
 .obj.color-btn.peeling { rotate: -4deg; border-style: dashed; }
 .obj.peg-selected { outline: 4px solid var(--accent-2); outline-offset: 2px; border-radius: 12px; }

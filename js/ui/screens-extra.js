@@ -56,7 +56,7 @@
       ['Times Bossworth was poked', c.pokes],
       ['Phone calls he took instead of helping', c.phoneCalls],
       ['Time spent finishing levels', app.formatTime(c.playMs)],
-      ['Speedrun: sum of best times (campaign)', s.completed.length ? app.formatTime(s.completed.reduce(function (t, n) { return t + (s.bestTime[n] || 0); }, 0), true) + (s.completed.length < OBEY.LEVEL_COUNT ? ' (' + s.completed.length + ' levels)' : '') : '—'],
+      ['Speedrun: sum of best times (campaign' + (s.completed.length && s.completed.length < OBEY.LEVEL_COUNT ? ', ' + s.completed.length + ' levels' : '') + ')', s.completed.length ? app.formatTime(s.completed.reduce(function (t, n) { return t + (s.bestTime[n] || 0); }, 0), true) : '—'], // 2.3 E60: note in the dt
       ['Daily Dare best streak', s.daily.best],
       ['Current costume', fav ? fav.name : 'Classic']
     ];

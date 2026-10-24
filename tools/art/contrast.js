@@ -70,7 +70,6 @@ const PAIRS = [
   ['good', 'paper', 'stamp-mini "found", dare ok text, hero end stamp', 4.5],
   ['paper', 'ink', 'danger button, node-flag, run-timer', 4.5],
   ['muted', 'paper', 'unearned star outline (.star-off) — non-text', 3.0],
-  ['ink', 'bg', 'ink outlines/shadows against background — non-text', 3.0],
   ['ink', 'stage', 'object outlines against stage — non-text', 3.0],
   ['accent', 'stage', 'drop-target/zone-ghost outline on stage — non-text', 3.0],
   ['good', 'stage', 'guide-target outline on stage — non-text', 3.0],
@@ -90,7 +89,8 @@ for (const t of Object.keys(themes)) {
   S('.obj.fine-print (ink @ .8) on stage', cr(over(ink, 0.8, stage), stage), 4.5);
   S('.region-label (ink @ .55) on paper (map)', cr(over(ink, 0.55, paper), paper), 3.0);
   S('.score-rule / .trust-line / .lvl-num (on-bg @ .85) on bg', cr(over(onbg, 0.85, bg), bg), 4.5);
-  S('.map-help (muted) on bg (map side, no panel)', cr(muted, bg), 4.5);
+  S('.map-help (on-bg) on bg (map side, no panel)', cr(onbg, bg), 4.5);
+  S('hard shadows on bg (ink; #ffc145 in Sunset, E72) — non-text', cr(t === 'sunset' ? hex(SUN) : ink, bg), 3.0);
   S('.guide-steps li (muted) on #e8fff3', cr(muted, hex('#e8fff3')), 4.5);
   S('.hint-box .small (ink @ .8) on accent-2', cr(over(ink, 0.8, a2), a2), 4.5);
   S('accent (guide-note) on #fff0f0 wrong-card', cr(tok(t, 'accent'), hex('#fff0f0')), 4.5);
@@ -119,7 +119,7 @@ const FIXED = [
   ['#1c1640', '#ffc31f', '.color-btn.yellow label (ink, 2.3 E90)', 4.5],
   ['#ffffff', '#2f6fe4', '.color-btn.blue label (white)', 4.5],
   ['#1c1640', '#fffdf6', '.shape-btn glyph outline (3 px ink stroke) on paper — non-text', 3.0],
-  ['#e5243b', '#fffdf6', '.word-red text on paper', 4.5],
+  ['#d61e35', '#fffdf6', '.word-red text on paper', 4.5],
   ['#b34700', '#ffffff', '.word-red text, high contrast', 4.5],
   ['#1c1640', '#d08a4b', '.medal-easy "E" ink on bronze (2.3 E91)', 4.5],
   ['#1c1640', '#c9d1dc', '.medal-medium', 4.5],

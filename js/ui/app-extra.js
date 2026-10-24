@@ -165,6 +165,7 @@
     li.innerHTML = '<b>' + E(who) + ':</b> ' + E(text);
     log.appendChild(li);
     while (log.children.length > 8) log.removeChild(log.firstChild);
+    log.scrollTop = log.scrollHeight; // 2.3 E71: keep the newest message in view
     var box = doc.getElementById('undo-chat');
     box.classList.remove('glitch'); void box.offsetWidth; box.classList.add('glitch');
   };
