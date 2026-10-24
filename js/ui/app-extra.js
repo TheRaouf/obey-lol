@@ -145,6 +145,7 @@
 
   App.undoTip = function () {
     if (!App.visit || App.visit.tipShown || !doc.getElementById('undo-chat')) return;
+    if (!App.runtime || App.runtime.status !== 'playing') return;
     var tip = X.undoTip(App.save, App.levelNum);
     if (!tip) return;
     App.visit.tipShown = true;
@@ -193,17 +194,35 @@
       App.visit.finishShown = true;
       App.setAside(pick(X.FINISH), { kind: 'finish' });
     }
-    // Easy: a little sparkle when a move is part of the solution.
-    if (accepted && App.save.difficulty === 'easy' && !App.guide && !rt.guided) {
-      var targets = [];
-      (rt.def.solution || []).forEach(function (st) { targets = targets.concat(App.stepTargets(st)); });
-      if (targets.indexOf(a.target) >= 0 && a.target !== 'narrator') { App.stage.warm(a.target); OBEY.audio.play('warmer'); }
+    // Track progress through the intended solution; Easy sparkles only on the right next move.
+    if (accepted && App.matchesNextStep(a)) {
+      att.solIdx = (att.solIdx || 0) + 1;
+      if (App.save.difficulty === 'easy' && !App.guide && !rt.guided) { App.stage.warm(a.target); OBEY.audio.play('warmer'); }
     }
     // Ruins: deliberately terrible ways to finish.
     if (!App.guide && !rt.guided) {
       var r = X.ruinTriggered(App.levelNum, { taps: att.taps, fails: rt.stats.fails, nopes: rt.nopes });
       if (r) { OBEY.audio.play('ruin'); rt.api.complete({ ruin: r.id, line: r.line, mood: 'panicked' }); }
     }
+  };
+
+  /** The next step of the intended solution the player hasn't done yet (waits are skipped). */
+  App.nextSolutionStep = function () {
+    var rt = App.runtime, steps = (rt && rt.def.solution) || [], i = (App.att && App.att.solIdx) || 0;
+    while (steps[i] && steps[i].wait) i++;
+    return steps[i] || null;
+  };
+  App.matchesNextStep = function (a) {
+    var rt = App.runtime, att = App.att;
+    if (!rt || !att) return false;
+    var steps = rt.def.solution || [], i = att.solIdx || 0;
+    while (steps[i] && steps[i].wait) { i++; att.solIdx = i; }
+    var st = steps[i];
+    if (!st) return false;
+    if (st.tap) return a.type === 'tap' && a.target === st.tap;
+    if (st.drop) return a.type === 'drop' && a.target === st.drop[0] && a.zone === st.drop[1];
+    if (st.hold) return a.type === 'holdend' && a.target === st.hold[0] && (a.ms || 0) >= st.hold[1] - 150;
+    return false;
   };
 
   function maybeNudge() {
@@ -214,6 +233,7 @@
   }
 
   App.afterFail = function () {
+    if (App.att) App.att.solIdx = 0; // a trap resets the room
     maybeNudge();
     App.undoTip();
     var rt = App.runtime;
@@ -261,8 +281,9 @@
     var s = App.save, top = '', bottom = '', buttons = '';
     var lev = events.filter(function (e) { return e.type === 'level'; })[0] || {};
     var ruinsHere = X.ruinsFor(r.level).map(function (x) { return x.id; });
-    if (r.ruin && !lev.firstTime) top += '<p class="bonus-line"><b>Bossworth:</b> You did this one PROPERLY before. And now you come back… to RUIN it?</p>';
-    else if (!r.ruin && !lev.firstTime && ruinsHere.some(function (id) { return s.ruins.indexOf(id) >= 0; })) top += '<p class="bonus-line"><b>Bossworth:</b> You did it properly this time. After what you did before. …Thank you. I mean it.</p>';
+    var firstClean = events.some(function (e) { return e.type === 'clean-first'; });
+    if (r.ruin && s.clean.indexOf(r.level) >= 0) top += '<p class="bonus-line"><b>Bossworth:</b> You did this one PROPERLY before. And now you come back… to RUIN it?</p>';
+    else if (!r.ruin && !r.guided && firstClean && !lev.firstTime && ruinsHere.some(function (id) { return s.ruins.indexOf(id) >= 0; })) top += '<p class="bonus-line"><b>Bossworth:</b> You did it properly this time. After what you did before. …Thank you. I mean it.</p>';
     if (!r.ruin && X.TRICKS[r.level]) top += '<p class="trick"><b>The trick:</b> ' + E(X.TRICKS[r.level]) + '</p>';
     if (r.ruin) top += '<p class="trick"><b>U.N.D.O.:</b> Ruin logged in your Sabotage file. ' + s.ruins.length + ' of ' + X.RUINS.length + ' found.</p>';
     var ba = s.bestActions[r.level], bt = s.bestTime[r.level];
@@ -309,7 +330,7 @@
     var ta = wrap.querySelector('textarea');
     ta.value = text; ta.focus(); ta.select();
     function close() { App.removeOverlayCloser(close); wrap.remove(); App.inertApp(false); doc.removeEventListener('keydown', key, true); if (prev && prev.focus && doc.contains(prev)) prev.focus(); }
-    function key(e) { if (e.key === 'Escape') { e.preventDefault(); close(); } }
+    function key(e) { if (App.isTopModal(wrap) && e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); } }
     App.addOverlayCloser(close);
     doc.addEventListener('keydown', key, true);
     wrap.addEventListener('click', function (e) { if (e.target.closest('[data-tm]') || e.target === wrap) close(); });
@@ -335,10 +356,14 @@
     App.store = OBEY.save.createStore(App.storage, OBEY.save.keyFor(slot));
     var res = App.store.load();
     App.save = res.data;
+    App.loadStatus = res.status;
+    App.dare = null;
+    App.lastLevel = null;
     App.beforeFirstRender(res);
     App.persist();
     App.applySettings();
     App.toast('Now playing as ' + (App.save.profileName || 'Player ' + slot) + '.', 'info');
+    if (res.status === 'recovered') App.toast('That player\'s save could not be read, so a fresh one was started. The damaged copy was kept.', 'warn');
     App.go('menu');
   };
 
@@ -373,7 +398,8 @@
     if (!st) return;
     var want = st.music && st.sound && App.screen === 'level' && !doc.hidden && App.levelNum;
     if (want) {
-      var ch = OBEY.isBonus(App.levelNum) ? 8 : OBEY.CHAPTERS.indexOf(OBEY.chapterOf(App.levelNum));
+      var ch = OBEY.isBonus(App.levelNum) ? 8 : Math.max(0, OBEY.CHAPTERS.indexOf(OBEY.chapterOf(App.levelNum)));
+      if (OBEY.audio.musicOn() && OBEY.audio.musicChapter() !== ch) OBEY.audio.stopMusic();
       if (!OBEY.audio.musicOn()) OBEY.audio.startMusic(ch);
     } else OBEY.audio.stopMusic();
   };
@@ -482,7 +508,7 @@
     App.inertApp(true);
     wrap.querySelector('[data-info]').focus();
     function close() { App.removeOverlayCloser(close); wrap.remove(); App.inertApp(false); doc.removeEventListener('keydown', key, true); if (prev && prev.focus && doc.contains(prev)) prev.focus(); }
-    function key(e) { if (e.key === 'Escape') { e.preventDefault(); close(); } }
+    function key(e) { if (App.isTopModal(wrap) && e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); } }
     App.addOverlayCloser(close);
     doc.addEventListener('keydown', key, true);
     wrap.addEventListener('click', function (e) { if (e.target.closest('[data-info]') || e.target === wrap) close(); });
@@ -501,6 +527,7 @@
     App.confirm({ title: 'Skip ' + OBEY.levelLabel(n) + '?', body: 'Bossworth will pretend this never happened. The next level unlocks, and this one stays on the map marked "skipped" so you can solve it later. You can have up to ' + P.MAX_SKIPS + ' skipped levels at once.', ok: 'Let it be' })
       .then(function (yes) {
         if (!yes) return;
+        if (!App.runtime || App.runtime.status !== 'playing' || App.levelNum !== n) { App.toast('No need — the level is already finished.', 'info'); return; }
         P.skipLevel(App.save, n);
         App.persist();
         App.toast(OBEY.levelLabel(n) + ' skipped. It will wait for you.', 'info');
@@ -517,8 +544,9 @@
     App.show('level', App.levelNum);
   };
   ACT['daily-play'] = function () {
-    var key = X.dateKey();
-    App.dare = { key: key, n: X.dareLevel(App.save, key) };
+    var key = X.dateKey(), d = X.dareFor(App.save, key);
+    if (d.practice) { App.save.daily.practice = { key: key, n: d.n }; App.persist(); }
+    App.dare = { key: key, n: d.n, practice: d.practice };
     App.go('level/' + App.dare.n);
   };
   ACT['copy-code'] = function () { App.copySaveCode(); };

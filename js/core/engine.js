@@ -62,6 +62,48 @@
   OBEY.realClock = realClock;
 
   /**
+   * A clock whose timers can be paused (used while a dialog covers a level, so countdowns,
+   * floods and queues never advance behind it). Wraps another clock (real or fake).
+   */
+  OBEY.createPausableClock = function (base) {
+    base = base || realClock;
+    var timers = {}, seq = 1, paused = false, pausedAt = 0, offset = 0;
+    function arm(t) {
+      t.due = base.now() + t.left;
+      t.baseId = base.setTimeout(function () {
+        if (t.every) { t.left = t.every; arm(t); } else delete timers[t.id];
+        t.fn();
+      }, t.left);
+    }
+    function add(fn, ms, every) {
+      var t = { id: seq++, fn: fn, left: Math.max(0, ms), every: every ? Math.max(1, ms) : 0 };
+      timers[t.id] = t;
+      if (!paused) arm(t);
+      return t.id;
+    }
+    function remove(id) { var t = timers[id]; if (!t) return; if (t.baseId !== undefined) base.clearTimeout(t.baseId); delete timers[id]; }
+    return {
+      now: function () { return (paused ? pausedAt : base.now()) - offset; },
+      setTimeout: function (f, ms) { return add(f, ms, false); },
+      clearTimeout: remove,
+      setInterval: function (f, ms) { return add(f, ms, true); },
+      clearInterval: remove,
+      pause: function () {
+        if (paused) return;
+        paused = true; pausedAt = base.now();
+        Object.keys(timers).forEach(function (k) { var t = timers[k]; base.clearTimeout(t.baseId); t.baseId = undefined; t.left = Math.max(0, t.due - pausedAt); });
+      },
+      resume: function () {
+        if (!paused) return;
+        offset += base.now() - pausedAt;
+        paused = false;
+        Object.keys(timers).forEach(function (k) { arm(timers[k]); });
+      },
+      isPaused: function () { return paused; }
+    };
+  };
+
+  /**
    * @param def   level definition
    * @param opts  { clock, ctx, hooks: { onChange, onSecret(id), onComplete(result) } }
    *   ctx = { replay, secrets: [ids], choices: {}, costume, allSecrets: bool, karma }
@@ -173,6 +215,7 @@
       complete: function (result) {
         if (rt.status !== 'playing') return;
         result = result || {};
+        if (rt.guided && result.ruin) result = Object.assign({}, result, { ruin: null }); // no ruins while guided
         rt.status = 'complete';
         rt._clearTimers();
         if (result.line) rt.api.say(result.line, result.mood || 'defeated');

@@ -122,6 +122,7 @@
         resolve(v);
       }
       function key(e) {
+        if (!App.isTopModal(wrap)) return;
         if (e.key === 'Escape') { e.preventDefault(); done(false); }
         if (e.key === 'Tab') {
           var first = btns[0], last = btns[btns.length - 1];
@@ -146,10 +147,18 @@
   App.addOverlayCloser = function (f) { (App.overlayClosers = App.overlayClosers || []).push(f); };
   App.removeOverlayCloser = function (f) { App.overlayClosers = (App.overlayClosers || []).filter(function (g) { return g !== f; }); };
 
+  /** Dialogs make the app inert (counted, so stacked dialogs work) and pause any running level. */
+  App.inertDepth = 0;
   App.inertApp = function (on) {
     var app = doc.getElementById('app');
-    if (on) { app.setAttribute('inert', ''); app.setAttribute('aria-hidden', 'true'); } else { app.removeAttribute('inert'); app.removeAttribute('aria-hidden'); }
+    App.inertDepth = Math.max(0, App.inertDepth + (on ? 1 : -1));
+    var block = App.inertDepth > 0;
+    if (block) { app.setAttribute('inert', ''); app.setAttribute('aria-hidden', 'true'); } else { app.removeAttribute('inert'); app.removeAttribute('aria-hidden'); }
+    var clock = App.runtime && App.runtime.clock;
+    if (clock && clock.pause) { if (block) clock.pause(); else clock.resume(); }
   };
+  /** True when `wrap` is the top-most dialog (only it reacts to Escape/Tab). */
+  App.isTopModal = function (wrap) { var r = doc.getElementById('modal-root'); return r && r.lastElementChild === wrap; };
 
   /* --------------------------------------------------------------- routing */
   App.go = function (route) {
@@ -257,8 +266,9 @@
     narratorEl.addEventListener('click', function () { if (App.stage) App.stage.tap('narrator'); });
 
     var rt = new OBEY.LevelRuntime(def, {
+      clock: OBEY.createPausableClock(),
       ctx: {
-        replay: P.isCompleted(s, n),
+        replay: OBEY.isBonus(n) ? s.bonus.completed.indexOf(n) >= 0 : P.isCompleted(s, n),
         secrets: s.secrets.slice(),
         choices: U.clone(s.choices),
         costume: s.costumes.selected,
@@ -643,7 +653,7 @@
     box.hidden = false;
     var d = App.save.difficulty;
     var cost = d === 'easy' ? 'Hints are free on Easy.' : (d === 'hard' ? 'On Hard, a hint caps this attempt at 1 star.' : (rt.stats.hints === 1 ? 'Using a hint caps this attempt at 2 stars.' : 'Two or more hints cap this attempt at 1 star.'));
-    var point = h.tier === 3 && h.total === 3 && !App.guide;
+    var point = h.tier === h.total && !App.guide; // the last hint available on this difficulty
     box.innerHTML = '<p><b>' + (fromHelper ? 'Bossworth\'s helper (you seemed stuck) — hint ' : 'Hint ') + h.tier + ' of ' + h.total + ':</b> ' + E(h.text) + '</p><p class="small">' + cost + (point ? ' The first thing to use is highlighted for a few seconds.' : '') + '</p>';
     box.setAttribute('role', 'status');
     App.updateGuideButton();
@@ -652,8 +662,7 @@
 
   /** Highlights the first object of the solution for a few seconds ("Point me"). */
   App.pointMe = function () {
-    var steps = App.guideSteps();
-    var ids = App.stepTargets(steps[0]);
+    var ids = App.stepTargets(App.nextSolutionStep ? App.nextSolutionStep() : App.guideSteps()[0]);
     if (!ids.length || !App.stage) return;
     App.stage.setGuide(ids);
     clearTimeout(App.pointTimer);
@@ -788,7 +797,7 @@
       if (then) then();
     }
     App.addOverlayCloser(close);
-    function esc(e) { if (e.key === 'Escape') { e.preventDefault(); finish(); } }
+    function esc(e) { if (App.isTopModal(wrap) && e.key === 'Escape') { e.preventDefault(); finish(); } }
     doc.addEventListener('keydown', esc, true);
     wrap.addEventListener('click', function (e) {
       var b = e.target.closest('[data-t]');
@@ -834,6 +843,7 @@
       if (prev && prev.focus && doc.contains(prev)) prev.focus();
     }
     function key(e) {
+      if (!App.isTopModal(wrap)) return;
       // Escape keeps the current difficulty and carries on (e.g. a New Game still starts).
       if (e.key === 'Escape') { e.preventDefault(); close(); if (then) then(); }
       if (e.key === 'Tab') {
@@ -980,8 +990,10 @@
 
     // Browsers only allow audio after a gesture.
     // iOS/iPadOS need the audio context created and resumed inside a touchend/click.
+    // Keep priming on every gesture until the context really runs (iOS ignores pointerdown).
     var unlock = function () {
       OBEY.audio.prime();
+      if (!OBEY.audio.running() && OBEY.audio.isEnabled()) return;
       ['pointerdown', 'keydown', 'touchend', 'click'].forEach(function (t) { doc.removeEventListener(t, unlock, true); });
     };
     ['pointerdown', 'keydown', 'touchend', 'click'].forEach(function (t) { doc.addEventListener(t, unlock, true); });

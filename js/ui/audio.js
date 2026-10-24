@@ -246,18 +246,25 @@
     },
     volume: function (kind) { return Math.round(vols[kind] * 100); },
     /** iOS/iPadOS only allow audio that starts inside a touch/click: create and resume the context there. */
-    prime: function () {
+    prime: function prime() {
       unlocked = true;
       var c = ensure();
       if (c) {
         try { var b = c.createBuffer(1, 1, 22050), src = c.createBufferSource(); src.buffer = b; src.connect(c.destination); src.start(0); } catch (e) { /* ignore */ }
       }
+      // iOS only lets speech start from a gesture: prime it with a silent utterance once.
+      if (voiceMode === 'speech' && speechAvailable() && !prime.speechDone) {
+        try { var u = new root.SpeechSynthesisUtterance(' '); u.volume = 0; root.speechSynthesis.speak(u); prime.speechDone = true; } catch (e) { /* ignore */ }
+      }
     },
+    /** True once the audio context is actually running (iOS may need several gestures). */
+    running: function () { return !!(ctx && ctx.state === 'running'); },
     resume: function () { if (ctx && ctx.state !== 'running' && enabled) { try { ctx.resume(); } catch (e) { /* ignore */ } } },
     suspend: function () { if (ctx && ctx.state === 'running') { try { ctx.suspend(); } catch (e) { /* ignore */ } } },
     startMusic: startMusic,
     stopMusic: stopMusic,
     musicOn: function () { return music.on; },
+    musicChapter: function () { return music.on ? music.chapter : null; },
     speak: speak,
     stopVoice: stopVoice,
     talkTime: talkTime,

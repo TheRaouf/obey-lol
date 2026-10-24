@@ -51,7 +51,7 @@
     };
   };
 
-  SAVE.defaultDaily = function () { return { last: '', streak: 0, best: 0, done: [], badges: [] }; };
+  SAVE.defaultDaily = function () { return { last: '', streak: 0, best: 0, done: [], badges: [], practice: null }; };
   SAVE.defaultCounters = function () {
     return { pokes: 0, settingsOpens: 0, creditsViews: 0, awayDays: 0, lastSeen: 0, tuesday: false, nightOwl: false,
       playMs: 0, undoMet: false, chats: [], roasted: [], cards: [], fakeOver: false, phoneCalls: 0 };
@@ -82,6 +82,7 @@
       jigsaw: [],
       bestActions: {},
       bestTime: {},
+      clean: [],
       daily: SAVE.defaultDaily(),
       counters: SAVE.defaultCounters(),
       bonus: { completed: [], bestStars: {} },
@@ -164,6 +165,7 @@
     out.skipped = Array.isArray(raw.skipped)
       ? U.uniq(raw.skipped.map(Number).filter(function (n) { return Number.isInteger(n) && n >= 1 && n < L && out.completed.indexOf(n) < 0; })).sort(function (a, b) { return a - b; })
       : [];
+    out.skipped = out.skipped.slice(0, 3); // at most 3 open skips, even in hand-edited saves
     var run = 0;
     while (out.completed.indexOf(run + 1) >= 0 || out.skipped.indexOf(run + 1) >= 0) run++;
     out.highestUnlocked = Math.max(out.highestUnlocked, Math.min(L, run + 1));
@@ -252,6 +254,8 @@
     out.bonus = { completed: Array.isArray(bon.completed) ? U.uniq(bon.completed.map(Number).filter(function (n) { return bonusNums.indexOf(n) >= 0; })).sort(function (a, c) { return a - c; }) : [], bestStars: {} };
     out.bonus.completed.forEach(function (n) { var v = Number(U.isObj(bon.bestStars) ? bon.bestStars[n] : NaN); out.bonus.bestStars[n] = Number.isFinite(v) ? U.clamp(Math.floor(v), 1, 3) : 1; });
     var doneNums = out.completed.concat(out.bonus.completed);
+    // Levels finished at least once the proper way (not ruined, not guided).
+    out.clean = Array.isArray(raw.clean) ? U.uniq(raw.clean.map(Number).filter(function (n) { return doneNums.indexOf(n) >= 0; })) : [];
     out.bestActions = numMap(raw.bestActions, 0, 100000, doneNums);
     out.bestTime = numMap(raw.bestTime, 0, 86400000, doneNums);
     var dy = U.isObj(raw.daily) ? raw.daily : {};
@@ -266,7 +270,8 @@
       streak: intIn(dy.streak, 0, 100000, 0),
       best: intIn(dy.best, 0, 100000, 0),
       done: Array.isArray(dy.done) ? U.uniq(dy.done.filter(function (k) { return typeof k === 'string' && keyRe.test(k); })).slice(-400) : [],
-      badges: Array.isArray(dy.badges) ? U.uniq(dy.badges.map(Number).filter(function (n) { return [3, 7, 30].indexOf(n) >= 0; })) : []
+      badges: Array.isArray(dy.badges) ? U.uniq(dy.badges.map(Number).filter(function (n) { return [3, 7, 30].indexOf(n) >= 0; })) : [],
+      practice: U.isObj(dy.practice) && keyRe.test(dy.practice.key) && Number.isInteger(dy.practice.n) && dy.practice.n >= 1 && dy.practice.n <= OBEY.LEVEL_COUNT ? { key: dy.practice.key, n: dy.practice.n } : null
     };
     out.daily.best = Math.max(out.daily.best, out.daily.streak);
     var ct = U.isObj(raw.counters) ? raw.counters : {};
@@ -335,9 +340,18 @@
    * Storage adapter. Uses the given Web Storage object if it actually works, otherwise an
    * in-memory map (progress then lasts only for this page session). Never throws.
    */
+  // In-memory fallback is shared by every store, so switching profiles never loses progress
+  // when the browser blocks storage.
+  var MEMORY = typeof WeakMap === 'function' ? new WeakMap() : null;
+  var NO_STORAGE_MEMORY = {};
+  function memoryFor(storage) {
+    if (!storage || !MEMORY || (typeof storage !== 'object' && typeof storage !== 'function')) return storage ? {} : NO_STORAGE_MEMORY;
+    if (!MEMORY.has(storage)) MEMORY.set(storage, {});
+    return MEMORY.get(storage);
+  }
   SAVE.createStore = function (storage, key) {
     key = key || SAVE.KEY;
-    var memory = {};
+    var memory = memoryFor(storage);
     var persistent = false;
     if (storage) {
       try {
