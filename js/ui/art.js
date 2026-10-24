@@ -251,7 +251,17 @@
     shelf: function () {
       return svg('0 0 200 40', '<rect x="4" y="6" width="192" height="14" rx="4" fill="#a0784d" ' + SW3 + '/><path d="M30 20 L44 36 M170 20 L156 36" ' + SW3 + '/>');
     },
-    table: function () {
+    /* `tall` (2.4.1, bible §3.1): a bench-height table whose top is mid-wall. The top is drawn at the top
+     * of the box at the normal 200-unit scale (xMidYMin) and the wooden legs run on past the viewBox and
+     * are clipped at the bottom of the box, so they always reach the floor: set the box from the table top
+     * down to the floor line (y + h ≈ 75). */
+    table: function (o) {
+      if (o.tall) {
+        return svg('0 0 200 40', '<rect x="18" y="12" width="12" height="2000" fill="#9a6b3f" ' + SW3 + '/><rect x="170" y="12" width="12" height="2000" fill="#9a6b3f" ' + SW3 + '/>' +
+          '<rect x="14" y="16" width="172" height="10" fill="#9a6b3f" ' + SW3 + '/>' +
+          '<rect x="4" y="4" width="192" height="14" rx="4" fill="#a0784d" ' + SW3 + '/><path d="M14 9 L60 9" stroke="#fff" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/>')
+          .replace('xMidYMid meet', 'xMidYMin meet').replace('<svg class="art"', '<svg class="art table-tall" style="overflow:hidden"');
+      }
       return svg('0 0 200 40', '<rect x="4" y="4" width="192" height="14" rx="4" fill="#a0784d" ' + SW3 + '/><path d="M24 18 L24 40 M176 18 L176 40" ' + SW + '/>');
     },
     gift: function (o) {
@@ -418,8 +428,11 @@
     mug: function () {
       return svg('0 0 100 80', '<rect x="14" y="10" width="56" height="60" rx="8" fill="#ff77b4" ' + SW + '/><path d="M70 24 Q94 24 92 44 Q90 60 70 58" fill="none" ' + SW + '/>');
     },
-    water: function () {
-      return svg('0 0 100 20', '<rect width="100" height="20" fill="#3ec1ff" opacity=".55"/><path d="M0 2 Q12 -2 25 2 T50 2 T75 2 T100 2" fill="none" stroke="#fff" stroke-width="1.5" opacity=".8"/>', 'art water-art');
+    /* `edge` (2.4.1, 2.4 POLISH 7): a 3 px ink outline (non-scaling, the art is stretched) so a moat or pool
+     * next to outlined scenery reads as a body of water, not a tint. The glare line is at the .55 cap. */
+    water: function (o) {
+      return svg('0 0 100 20', '<rect width="100" height="20" fill="#3ec1ff" opacity=".55"/><path d="M0 2 Q12 -2 25 2 T50 2 T75 2 T100 2" fill="none" stroke="#fff" stroke-width="1.5" opacity=".55"/>' +
+        (o.edge ? '<rect x="0" y="0" width="100" height="20" rx="1" fill="none" stroke="' + INK + '" stroke-width="3" vector-effect="non-scaling-stroke"/>' : ''), 'art water-art');
     },
     pipe: function (o) {
       return svg('0 0 200 90', '<rect x="0" y="16" width="200" height="34" fill="#8a86a8" ' + SW + '/><rect x="84" y="10" width="32" height="46" rx="6" fill="#c3ccd8" ' + SW3 + '/>' + (o.leaking ? '<path d="M100 56 L96 70 M106 56 L112 72" stroke="#3ec1ff" stroke-width="5" stroke-linecap="round"/>' : ''));

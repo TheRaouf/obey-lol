@@ -35,6 +35,39 @@
     return svg('0 0 200 120', '<path d="M30 110 L60 40 L140 40 L170 110 Z" fill="#e5243b" ' + SW + '/><rect x="70" y="20" width="60" height="24" rx="6" fill="#4b4466" ' + SW + '/>');
   });
 
+  /* 2.4.1 canonical cross-pack drawings (bible §15): `f-coin`/`i-coin` and `h-hammer`/`i-hammer`
+   * redirect here, so every coin and hammer in the game is the same drawing. */
+  /** Coin: `v` = the value on its face (default "1"); `cap` = a crinkly bottle cap instead (L203 tell). */
+  A.addObject('coin', function (o) {
+    if (o.cap) {
+      var d = '';
+      for (var i = 0; i < 16; i++) { var t = i * Math.PI / 8, r = i % 2 ? 40 : 46; d += (i ? 'L' : 'M') + (50 + r * Math.cos(t)).toFixed(1) + ' ' + (50 + r * Math.sin(t)).toFixed(1) + ' '; }
+      return svg('0 0 100 100', '<path d="' + d + 'Z" fill="#c3ccd8" ' + SW + '/><circle cx="50" cy="50" r="26" fill="#e5243b" ' + SW3 + '/><path d="M36 40 Q44 30 56 32" fill="none" stroke="#fff" stroke-width="5" opacity=".5" stroke-linecap="round"/>');
+    }
+    var v = String(o.v == null ? '1' : o.v), fs = v.length > 2 ? 28 : 36;
+    return svg('0 0 100 100', '<circle cx="50" cy="50" r="44" fill="#ffd23f" ' + SW + '/><circle cx="50" cy="50" r="34" fill="none" stroke="#f5b400" stroke-width="5"/>' +
+      '<text x="50" y="' + (50 + fs * 0.36).toFixed(1) + '" text-anchor="middle" font-size="' + fs + '" fill="' + INK + '">' + OBEY.util.escape(v) + '</text>' +
+      '<path d="M24 34 Q32 20 48 18" fill="none" stroke="#fff" stroke-width="5" opacity=".5" stroke-linecap="round"/>');
+  });
+
+  /** Hammer: grey head, wooden handle. Default: diagonal, 200×200. `lying` = flat on the floor, 160×120.
+   * `hook` = hanging head-down from a drawn wall hook (a hand prop on a wall never floats, 2.4 SHOULD 4). */
+  A.addObject('hammer', function (o) {
+    var HEAD = '#8a86a8', WOOD = '#a0784d', HI = 'fill="none" stroke="#fff" stroke-width="5" opacity=".5" stroke-linecap="round"';
+    if (o.lying) {
+      return svg('0 0 160 120', '<rect x="62" y="44" width="90" height="18" rx="8" fill="' + WOOD + '" ' + SW + '/><rect x="16" y="20" width="52" height="66" rx="8" fill="' + HEAD + '" ' + SW + '/><path d="M24 30 L24 60" ' + HI + '/>');
+    }
+    if (o.hook) {
+      return svg('0 0 200 200',
+        '<rect x="80" y="6" width="40" height="16" rx="5" fill="#c3ccd8" ' + SW3 + '/><path d="M100 22 L100 34 Q100 44 110 42" fill="none" ' + SW + '/>' +
+        '<circle cx="100" cy="44" r="9" fill="none" ' + SW3 + '/>' +
+        '<rect x="90" y="50" width="20" height="100" rx="8" fill="' + WOOD + '" ' + SW + '/>' +
+        '<rect x="52" y="140" width="96" height="48" rx="8" fill="' + HEAD + '" ' + SW + '/><path d="M64 152 L104 152" ' + HI + '/>');
+    }
+    return svg('0 0 200 200', '<g transform="rotate(33 100 100)"><rect x="91" y="64" width="18" height="128" rx="8" fill="' + WOOD + '" ' + SW + '/>' +
+      '<rect x="52" y="22" width="96" height="46" rx="8" fill="' + HEAD + '" ' + SW + '/><path d="M64 34 L104 34" ' + HI + '/></g>');
+  });
+
   /** Jigsaw piece n (1–9) in a distinctive colour. */
   var PIECE = ['#ff8c1a', '#3ec1ff', '#9b5de5', '#2bc46f', '#e5243b', '#ffd23f', '#ff6f91', '#7be37b', '#58607e'];
   A.addObject('jigsaw', function (o) {

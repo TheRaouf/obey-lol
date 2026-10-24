@@ -97,7 +97,9 @@
       '<path d="M40 40 L150 40 Q176 40 176 62 Q176 84 150 84 L56 84 Q38 84 38 68 Q38 54 56 54 L140 54 Q150 54 150 64 Q150 72 140 72 L70 72" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>');
   });
 
-  A.addObject('d-duck', function () {
+  A.addObject('d-duck', function (o) {
+    // 2.4.1: one rubber duck in the game (bible §15).
+    if (A.hasObject('b-duck')) return A.object('b-duck', o);
     return svg('0 0 200 160', '<path d="M30 92 Q30 146 96 146 Q164 146 170 100 Q150 110 128 100 Q140 80 132 60 Q120 32 92 36 Q60 42 64 76 Q40 70 30 92Z" fill="#ffd23f" ' + SW + '/>' +
       '<path d="M60 64 L30 70 L58 80Z" fill="#ff8c1a" ' + SW3 + '/><circle cx="86" cy="58" r="6" fill="' + INK + '"/><path d="M88 108 Q112 124 140 106" fill="none" ' + SW3 + '/>');
   });
@@ -177,7 +179,9 @@
       '<text x="164" y="45" text-anchor="middle" font-size="15" font-weight="700" fill="#7dffb2">1:00</text><circle cx="156" cy="70" r="6" fill="#8a86a8"/><circle cx="170" cy="70" r="6" fill="#8a86a8"/><circle cx="156" cy="88" r="6" fill="#8a86a8"/><circle cx="170" cy="88" r="6" fill="#8a86a8"/>');
   });
 
-  A.addObject('d-sofa', function () {
+  A.addObject('d-sofa', function (o) {
+    // 2.4.1: one sofa in the game (bible §15). The B sofa is wider, so anchor it to the bottom of the box (it stands on the floor).
+    if (A.hasObject('b-sofa')) return A.object('b-sofa', o).replace('xMidYMid meet', 'xMidYMax meet');
     return svg('0 0 200 120', '<rect x="30" y="20" width="140" height="56" rx="16" fill="#9b5de5" ' + SW + '/><rect x="10" y="50" width="40" height="56" rx="12" fill="#b48cff" ' + SW + '/><rect x="150" y="50" width="40" height="56" rx="12" fill="#b48cff" ' + SW + '/>' +
       '<rect x="44" y="66" width="112" height="40" rx="8" fill="#b48cff" ' + SW + '/><path d="M24 106 L24 116 M176 106 L176 116" ' + SW + '/>');
   });

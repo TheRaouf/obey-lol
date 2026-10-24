@@ -49,10 +49,13 @@
   });
 
   /* Swivel office chair. */
-  A.addObject('a-chair', function () {
-    return svg('0 0 160 200',
-      '<rect x="40" y="10" width="80" height="84" rx="20" fill="#3a86ff" ' + SW + '/><path d="M56 26 L56 70" stroke="#fff" stroke-opacity=".4" stroke-width="7" stroke-linecap="round"/>' +
-      '<rect x="24" y="96" width="112" height="26" rx="12" fill="#2f6fe4" ' + SW + '/>' +
+  /* The canonical chair (bible §15): `e-chair` and `j-chair` redirect here. `legs` = four legs and a
+   * rail instead of the swivel base (a school or party chair), in a 150×200 box. */
+  A.addObject('a-chair', function (o) {
+    var seat = '<rect x="40" y="10" width="80" height="84" rx="20" fill="#3a86ff" ' + SW + '/><path d="M56 26 L56 70" stroke="#fff" stroke-opacity=".4" stroke-width="7" stroke-linecap="round"/>' +
+      '<rect x="24" y="96" width="112" height="26" rx="12" fill="#2f6fe4" ' + SW + '/>';
+    if (o && o.legs) return svg('5 0 150 200', '<path d="M36 122 L30 194 M124 122 L130 194 M34 160 L126 160" fill="none" ' + SW + '/>' + seat);
+    return svg('0 0 160 200', seat +
       '<path d="M80 122 L80 160" ' + SW + '/><path d="M30 182 L80 160 L130 182 M80 160 L80 188" fill="none" ' + SW + '/>' +
       '<circle cx="30" cy="186" r="7" fill="#2d2850"/><circle cx="130" cy="186" r="7" fill="#2d2850"/><circle cx="80" cy="190" r="7" fill="#2d2850"/>');
   });
@@ -96,7 +99,15 @@
   });
 
   /* Plug on a cable (the cable trails upwards out of frame). */
-  A.addObject('a-plug', function () {
+  /* The canonical mains plug (bible §15): `f-plug` redirects here with `lying` (on its side on a counter,
+   * prongs left, cable right, 140×80). */
+  A.addObject('a-plug', function (o) {
+    if (o && o.lying) {
+      return svg('0 0 140 80', '<path d="M60 40 Q100 40 134 60" fill="none" stroke="' + INK + '" stroke-width="8" stroke-linecap="round"/>' +
+        '<rect x="14" y="12" width="52" height="56" rx="10" fill="#fffdf6" ' + SW + '/>' +
+        '<rect x="0" y="22" width="16" height="9" rx="2" fill="#c3ccd8" ' + SW3 + '/><rect x="0" y="49" width="16" height="9" rx="2" fill="#c3ccd8" ' + SW3 + '/>' +
+        '<path d="M28 24 L48 24" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".5"/>');
+    }
     return svg('0 0 100 120',
       '<path d="M50 0 L50 40" stroke="' + INK + '" stroke-width="8" stroke-linecap="round"/>' +
       '<rect x="22" y="40" width="56" height="50" rx="10" fill="#fffdf6" ' + SW + '/>' +
@@ -286,7 +297,14 @@
   });
 
   /* Desk photo frame: o.pet = 'fish' | 'cat'. */
+  /* The canonical framed photo (bible §15): `b-frame` redirects here with `subject: 'person'` and
+   * `tall` (a 120×140 portrait-format frame). `pet` = 'fish' (default) | 'cat'. */
   A.addObject('a-photo', function (o) {
+    if (o.tall) {
+      return svg('0 0 120 140', '<rect x="10" y="10" width="100" height="120" rx="6" fill="#d9a441" ' + SW + '/><rect x="24" y="24" width="72" height="92" fill="#cfefff" ' + SW3 + '/>' +
+        '<circle cx="60" cy="60" r="16" fill="#ffb347" ' + SW3 + '/><path d="M36 116 Q60 80 84 116" fill="#ffb347" ' + SW3 + '/><path d="M52 58 L56 58 M64 58 L68 58 M54 66 Q60 70 66 66" ' + SW3 + '/>' +
+        '<path d="M30 32 L30 50" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>');
+    }
     var pet = o.pet === 'cat'
       ? '<circle cx="70" cy="74" r="26" fill="#ff9f43" ' + SW3 + '/><path d="M48 60 L46 36 L64 52 Z M92 60 L94 36 L76 52 Z" fill="#ff9f43" ' + SW3 + '/><circle cx="61" cy="72" r="4" fill="' + INK + '"/><circle cx="79" cy="72" r="4" fill="' + INK + '"/>'
       : '<path d="M36 74 Q66 46 94 74 Q66 102 36 74Z" fill="#ff9f43" ' + SW3 + '/><path d="M92 74 L112 58 L112 90 Z" fill="#ff9f43" ' + SW3 + '/><circle cx="54" cy="70" r="4" fill="' + INK + '"/><circle cx="40" cy="44" r="5" fill="none" stroke="#3a86ff" stroke-width="3"/><circle cx="50" cy="32" r="3" fill="none" stroke="#3a86ff" stroke-width="3"/>';
@@ -334,11 +352,21 @@
     return svg('0 0 100 100', p, 'art fill-art');
   });
 
-  /* Framed portrait of Bossworth himself (vanity, in oils). */
-  A.addObject('a-portrait', function () {
-    var face = A.narrator('classic', 'pleased').replace(/^<svg[^>]*>|<\/svg>$/g, '');
+  /* Framed portrait of Bossworth himself (vanity, in oils). The canonical Bossworth portrait (bible §15):
+   * `h-bossportrait` redirects here. `costume` (narrator costume, e.g. 'royal' = King Bossworth with his
+   * crown), `bg` canvas colour, `frame` colour, `scorched` = sooted by dragon fire (L182). */
+  A.addObject('a-portrait', function (o) {
+    // 'royal' = King Bossworth: his own orange body (on-model next to the narrator) with the royal crown.
+    var royal = o.costume === 'royal' || o.crown;
+    var face = A.narrator(royal ? 'classic' : (o.costume || 'classic'), 'pleased').replace(/^<svg[^>]*>|<\/svg>$/g, '') +
+      (royal ? '<path d="M58 44 L66 6 L84 30 L100 0 L116 30 L134 6 L142 44 Z" fill="#ffd23f" ' + SW + '/><circle cx="100" cy="30" r="6" fill="#e5243b"/><circle cx="74" cy="34" r="4" fill="#3ec1ff"/><circle cx="126" cy="34" r="4" fill="#3ec1ff"/>' : '');
+    var soot = o.scorched
+      ? '<rect x="18" y="18" width="104" height="114" fill="#2d2850" opacity=".55"/>' +
+        '<path d="M44 40 Q52 28 48 20 M70 38 Q78 26 74 16 M96 40 Q104 28 100 20" fill="none" stroke="#8a86a8" stroke-width="5" stroke-linecap="round"/>'
+      : '';
     return svg('0 0 140 150',
-      '<rect x="6" y="6" width="128" height="138" rx="6" fill="#d9a441" ' + SW + '/><rect x="18" y="18" width="104" height="114" fill="#b48cff" ' + SW3 + '/>' +
-      '<g transform="translate(30 32) scale(.4)">' + face + '</g>');
+      '<rect x="6" y="6" width="128" height="138" rx="6" fill="' + (o.scorched ? '#2d2850' : (o.frame || '#d9a441')) + '" ' + SW + '/><rect x="18" y="18" width="104" height="114" fill="' + (o.bg || '#b48cff') + '" ' + SW3 + '/>' +
+      '<g transform="translate(30 ' + (royal ? 40 : 32) + ') scale(.4)">' + face + '</g>' + soot +
+      '<rect x="18" y="18" width="104" height="114" fill="none" ' + SW3 + '/>');
   });
 })(typeof window !== 'undefined' ? window : globalThis);

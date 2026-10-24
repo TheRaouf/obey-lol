@@ -14,8 +14,21 @@
       return svg('0 0 200 200', '<path d="M14 92 Q100 -6 186 92 Q164 78 142 92 Q120 78 100 92 Q78 78 58 92 Q36 78 14 92Z" fill="#e5243b" ' + SW + '/>' +
         '<path d="M100 92 Q86 40 100 14 Q114 40 100 92" fill="#ffd23f" ' + SW3 + '/><path d="M100 92 L100 172 Q100 188 84 188 Q70 188 70 174" fill="none" ' + SW + '/>');
     }
-    return svg('0 0 200 200', '<path d="M100 10 L100 24" ' + SW + '/><path d="M100 24 Q74 90 88 150 L112 150 Q126 90 100 24Z" fill="#e5243b" ' + SW + '/>' +
-      '<path d="M100 30 Q94 90 100 148" fill="none" stroke="#ffd23f" stroke-width="5"/><path d="M100 150 L100 172 Q100 190 82 190 Q68 190 68 176" fill="none" ' + SW + '/>');
+    // `stand` (2.4.1): stored tip-down with the hook up, as it sits in `c-umbrellastand`.
+    return svg('0 0 200 200', (o.stand ? '<g transform="rotate(180 100 100)">' : '<g>') + '<path d="M100 10 L100 24" ' + SW + '/><path d="M100 24 Q74 90 88 150 L112 150 Q126 90 100 24Z" fill="#e5243b" ' + SW + '/>' +
+      '<path d="M100 30 Q94 90 100 148" fill="none" stroke="#ffd23f" stroke-width="5"/><path d="M100 150 L100 172 Q100 190 82 190 Q68 190 68 176" fill="none" ' + SW + '/></g>');
+  });
+
+  /* 2.4.1 (bible §18, L73): an umbrella stand. A glazed blue pot with a dark mouth, a white wave band and
+   * a foot ring, 100×150 (the `bin` box it replaces). Place it after the brolly in the object list: it is
+   * static (no pointer events) and its front hides the lower half of a `c-umbrella` with `stand: true`. */
+  add('c-umbrellastand', function () {
+    return svg('0 0 100 150',
+      '<path d="M18 30 L82 30 L76 138 Q75 144 69 144 L31 144 Q25 144 24 138 Z" fill="#3a86ff" ' + SW + '/>' +
+      '<path d="M22 92 Q31 84 40 92 T58 92 T78 92 L77 106 Q68 98 59 106 T41 106 T23 106 Z" fill="#fffdf6" ' + SW3 + '/>' +
+      '<rect x="10" y="18" width="80" height="16" rx="6" fill="#2f6fe4" ' + SW + '/><rect x="18" y="21" width="64" height="7" rx="3" fill="#1c1640"/>' +
+      '<rect x="22" y="138" width="56" height="9" rx="3" fill="#2f6fe4" ' + SW3 + '/>' +
+      '<path d="M31 42 L34 82 M35 116 L36 128" stroke="#fff" stroke-opacity=".5" stroke-width="6" stroke-linecap="round"/>');
   });
 
   add('c-window', function (o) {
@@ -261,7 +274,9 @@
       '<path d="M54 64 Q90 52 130 62" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".7"/>');
   });
 
-  add('c-torch', function () {
+  add('c-torch', function (o) {
+    // 2.4.1: one torch in the game (bible §15); the camping torch keeps its yellow lens.
+    if (A.hasObject('b-torch')) return A.object('b-torch', { on: o.on, lens: true });
     return svg('0 0 200 120', '<rect x="20" y="40" width="110" height="40" rx="10" fill="#2f6fe4" ' + SW + '/><path d="M130 30 L170 18 L170 102 L130 90Z" fill="#c3ccd8" ' + SW + '/><ellipse cx="170" cy="60" rx="8" ry="40" fill="#ffd23f" ' + SW3 + '/>' +
       '<rect x="60" y="50" width="20" height="20" rx="4" fill="#e5243b" ' + SW3 + '/>');
   });

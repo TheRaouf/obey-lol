@@ -19,9 +19,13 @@
       '<rect x="14" y="8" width="172" height="184" rx="14" fill="#fffdf6" ' + SW + '/><rect x="14" y="8" width="172" height="40" rx="14" fill="#c3ccd8" ' + SW + '/>' +
       '<circle cx="46" cy="28" r="10" fill="#4b4466" ' + SW3 + '/><circle cx="80" cy="28" r="10" fill="#4b4466" ' + SW3 + '/><rect x="110" y="18" width="62" height="20" rx="5" fill="#1c1640" ' + SW3 + '/>' +
       '<rect x="32" y="66" width="136" height="104" rx="12" fill="' + (o.on ? '#ff9f43' : '#2d2850') + '" ' + SW + '/>' +
-      '<rect x="44" y="78" width="112" height="80" rx="8" fill="' + (o.on ? '#ffd23f' : '#4b4466') + '"/>' +
+      '<rect x="44" y="78" width="112" height="80" rx="8" fill="' + (o.on ? (o.croissants ? '#ffe066' : '#ffd23f') : '#4b4466') + '"/>' +
       '<path d="M56 140 L144 140" stroke="#8a86a8" stroke-width="4"/>' +
       (o.cake ? '<path d="M70 140 L70 116 Q100 100 130 116 L130 140Z" fill="#f2c27b" ' + SW3 + '/>' : '') +
+      // 2.4.1: `croissants` (the canonical for `f-oven`, L138): three croissants on the shelf, the f-croissant shape.
+      (o.croissants ? [46, 82, 118].map(function (x) {
+        return '<g transform="translate(' + x + ' 122) scale(.44)"><path d="M6 40 Q2 20 22 14 Q40 6 58 14 Q78 20 74 40 Q64 30 54 34 Q40 22 26 34 Q16 30 6 40 Z" fill="#f5b400" ' + SW + '/><path d="M26 34 Q30 20 40 16 M54 34 Q50 20 40 16" fill="none" ' + SW3 + '/></g>';
+      }).join('') : '') +
       '<rect x="40" y="54" width="120" height="8" rx="4" fill="#8a86a8" ' + SW3 + '/>' + hi('M48 84 L70 84'));
   });
 
@@ -69,10 +73,16 @@
       '<path d="M26 90 L134 90" ' + SW + '/>' + hi('M30 30 L70 30'));
   });
 
+  /* The canonical jar (bible §15): `d-jar` and `h-jar` redirect here. `lid` = lid colour; `fill` = a jar
+   * full of that colour (jam, honey, pickles) instead of white sugar; `label` = a white paper label. */
   add('b-jar', function (o) {
     var lid = o.lid || '#e5243b';
-    return svg('0 0 140 180', '<rect x="22" y="40" width="96" height="132" rx="18" fill="#cfefff" fill-opacity=".55" ' + SW + '/><rect x="30" y="80" width="80" height="84" rx="12" fill="#fffdf6"/>' +
-      '<path d="M40 96 L44 100 M60 110 L64 106 M86 98 L90 102 M50 130 L54 134 M76 140 L80 136 M94 124 L98 128" stroke="#c3ccd8" stroke-width="4" stroke-linecap="round"/>' +
+    var inside = o.fill
+      ? '<rect x="30" y="52" width="80" height="112" rx="12" fill="' + o.fill + '"/>'
+      : '<rect x="30" y="80" width="80" height="84" rx="12" fill="#fffdf6"/>' +
+        '<path d="M40 96 L44 100 M60 110 L64 106 M86 98 L90 102 M50 130 L54 134 M76 140 L80 136 M94 124 L98 128" stroke="#c3ccd8" stroke-width="4" stroke-linecap="round"/>';
+    return svg('0 0 140 180', '<rect x="22" y="40" width="96" height="132" rx="18" fill="#cfefff" fill-opacity=".55" ' + SW + '/>' + inside +
+      (o.label ? '<rect x="40" y="90" width="60" height="42" rx="5" fill="#fffdf6" ' + SW3 + '/>' : '') +
       '<rect x="18" y="16" width="104" height="28" rx="8" fill="' + lid + '" ' + SW + '/>' + hi('M34 60 L34 150'));
   });
 
@@ -132,6 +142,7 @@
       '<path d="M30 6 L74 6 L74 74 L118 92 Q134 104 122 124 L60 126 Q28 122 30 96 Z" fill="none" ' + SW + '/>');
   });
 
+  /* The canonical sofa (bible §15): `d-sofa` redirects here. */
   add('b-sofa', function () {
     return svg('0 0 240 120', '<rect x="20" y="14" width="200" height="56" rx="18" fill="#9b5de5" ' + SW + '/><rect x="6" y="44" width="40" height="52" rx="14" fill="#9b5de5" ' + SW + '/><rect x="194" y="44" width="40" height="52" rx="14" fill="#9b5de5" ' + SW + '/>' +
       '<rect x="40" y="56" width="160" height="34" rx="10" fill="#b48cff" ' + SW + '/><path d="M40 90 L40 112 M200 90 L200 112" ' + SW + '/>' + hi('M40 30 L90 30'));
@@ -243,10 +254,14 @@
   });
 
   /* ------------------------------------------------------------ bathroom */
+  /* 2.4.1 (bible §18): b-bathtub and b-taps are cropped to their drawing (no internal margins), so the
+   * taps can stand on the bath rim. Bathtub viewBox 14 54 272 146: the rim line is 4.1 % down the drawn
+   * height, the feet end at 100 %. Taps viewBox 30 6 140 96: the tap plate ends at 95.8 % of the drawn
+   * height; the spout is 85.7 % across; the running water falls below the box (art overflow is visible). */
   add('b-bathtub', function (o) {
     var lvl = Math.max(0, Math.min(1, o.level || 0));
     var top = 132 - lvl * 72;
-    return svg('0 0 300 200', '<path d="M20 60 L280 60 L264 162 Q260 180 236 180 L64 180 Q40 180 36 162 Z" fill="#fffdf6" ' + SW + '/>' +
+    return svg('14 54 272 146', '<path d="M20 60 L280 60 L264 162 Q260 180 236 180 L64 180 Q40 180 36 162 Z" fill="#fffdf6" ' + SW + '/>' +
       (lvl > 0 ? '<path d="M' + (28 + (132 - top) * 0.02) + ' ' + top + ' L' + (272 - (132 - top) * 0.02) + ' ' + top + ' L262 160 Q258 172 236 172 L64 172 Q42 172 38 160 Z" fill="#7fb2ff"/>' : '') +
       '<path d="M30 60 L270 60" ' + SW + '/><path d="M40 84 L260 84" stroke="#e5243b" stroke-width="3" stroke-dasharray="10 8"/>' +
       '<circle cx="150" cy="166" r="8" fill="' + (o.plug ? '#4b4466' : '#1c1640') + '" ' + SW3 + '/>' +
@@ -258,7 +273,7 @@
   });
 
   add('b-taps', function (o) {
-    return svg('0 0 200 160', '<rect x="40" y="70" width="120" height="26" rx="10" fill="#c3ccd8" ' + SW + '/><path d="M100 70 L100 40 Q100 20 130 20 L150 20 L150 44" fill="none" stroke="' + INK + '" stroke-width="18" stroke-linecap="round"/><path d="M100 70 L100 40 Q100 20 130 20 L150 20 L150 44" fill="none" stroke="#c3ccd8" stroke-width="10" stroke-linecap="round"/>' +
+    return svg('30 6 140 96', '<rect x="40" y="70" width="120" height="26" rx="10" fill="#c3ccd8" ' + SW + '/><path d="M100 70 L100 40 Q100 20 130 20 L150 20 L150 44" fill="none" stroke="' + INK + '" stroke-width="18" stroke-linecap="round"/><path d="M100 70 L100 40 Q100 20 130 20 L150 20 L150 44" fill="none" stroke="#c3ccd8" stroke-width="10" stroke-linecap="round"/>' +
       '<path d="M59 40 L59 ' + (o.on ? 22 : 26) + '" stroke="' + INK + '" stroke-width="12" stroke-linecap="round" transform="rotate(' + (o.on ? -50 : 0) + ' 59 40)"/><path d="M59 40 L59 ' + (o.on ? 22 : 26) + '" stroke="#c3ccd8" stroke-width="6" stroke-linecap="round" transform="rotate(' + (o.on ? -50 : 0) + ' 59 40)"/>' +
       '<circle cx="59" cy="58" r="20" fill="#e5243b" ' + SW3 + '/><text x="59" y="67" text-anchor="middle" font-size="24" font-weight="700" fill="#fff">H</text>' +
       (o.on ? '<path d="M150 50 L150 150" stroke="#3ec1ff" stroke-width="10" stroke-linecap="round"/>' : ''));
@@ -299,7 +314,19 @@
       '<circle cx="60" cy="112" r="20" fill="#fffdf6" ' + SW3 + '/><circle cx="54" cy="106" r="5" fill="#cfefff"/>' + hi('M36 70 L36 160'));
   });
 
+  /* The canonical tin (bible §15): `f-tin` redirects here. `word` = a labelled shop tin (SOUP, BEANS) in
+   * the 120×140 f-tin box so stacked tins keep their pitch; `color` = its label band; the word is set as
+   * large as the plate allows (≥ 12 px on a 366 px stage at L135's 14 % width, 2.4 SHOULD 8). */
   add('b-tin', function (o) {
+    if (o.word) {
+      var col = o.color || '#e5243b', w = String(o.word), fs = Math.min(30, Math.floor(150 / Math.max(3, w.length)));
+      var fit = w.length * fs * 0.62 > 88 ? ' textLength="88" lengthAdjust="spacingAndGlyphs"' : '';
+      return svg('0 0 120 140', '<rect x="10" y="12" width="100" height="122" rx="10" fill="#c3ccd8" ' + SW + '/>' +
+        '<rect x="10" y="26" width="100" height="94" fill="' + col + '" ' + SW3 + '/><rect x="10" y="48" width="100" height="50" fill="#fffdf6" ' + SW3 + '/>' +
+        '<ellipse cx="60" cy="12" rx="50" ry="7" fill="' + (o.empty ? '#4b4466' : '#e9eef5') + '" ' + SW + '/>' +
+        '<path d="M22 128 L98 128" stroke="#8a86a8" stroke-width="3"/>' +
+        '<text x="60" y="' + (73 + fs * 0.36).toFixed(1) + '" text-anchor="middle" font-size="' + fs + '" fill="' + INK + '"' + fit + '>' + OBEY.util.escape(w) + '</text>' + hi('M20 32 L20 40'));
+    }
     return svg('0 0 140 180', '<rect x="20" y="24" width="100" height="140" rx="10" fill="#c3ccd8" ' + SW + '/><rect x="20" y="56" width="100" height="72" fill="#e5243b" ' + SW3 + '/>' +
       '<ellipse cx="70" cy="24" rx="50" ry="12" fill="' + (o.empty ? '#4b4466' : '#e9eef5') + '" ' + SW + '/><path d="M36 92 Q70 70 104 92" fill="none" stroke="#fffdf6" stroke-width="6" stroke-linecap="round"/>' +
       '<path d="M32 40 L108 40 M32 148 L108 148" stroke="#8a86a8" stroke-width="3"/>');
@@ -393,9 +420,11 @@
       (o.light ? '<circle cx="34" cy="110" r="16" fill="#ffe066" ' + SW3 + '/>' : ''));
   });
 
+  /* The canonical torch (bible §15): `c-torch` redirects here with `lens` (a yellow, lit-looking lens). */
   add('b-torch', function (o) {
     return svg('0 0 200 120', (o.on ? '<path d="M150 40 L200 10 L200 110 L150 80Z" fill="#fff6a8" opacity=".55"/>' : '') +
-      '<rect x="20" y="44" width="110" height="32" rx="10" fill="#3a86ff" ' + SW + '/><path d="M130 36 L156 30 L156 90 L130 84Z" fill="#c3ccd8" ' + SW + '/><rect x="62" y="38" width="20" height="10" rx="3" fill="#e5243b" ' + SW3 + '/>');
+      '<rect x="20" y="44" width="110" height="32" rx="10" fill="#3a86ff" ' + SW + '/><path d="M130 36 L156 30 L156 90 L130 84Z" fill="#c3ccd8" ' + SW + '/>' +
+      '<ellipse cx="156" cy="60" rx="6" ry="29" fill="' + (o.on || o.lens ? '#ffd23f' : '#e9eef5') + '" ' + SW3 + '/><rect x="62" y="38" width="20" height="10" rx="3" fill="#e5243b" ' + SW3 + '/>');
   });
 
   add('b-nightlight', function (o) {
@@ -431,7 +460,9 @@
     return svg('0 0 200 60', '<ellipse cx="100" cy="36" rx="94" ry="22" fill="#c2414d" ' + SW + '/>' + bumps + '<ellipse cx="100" cy="38" rx="68" ry="12" fill="none" stroke="#ffd23f" stroke-width="4"/>');
   });
 
+  // 2.4.1: the framed photo is one drawing (bible §15); `b-frame` is the tall `a-photo` of a person.
   add('b-frame', function () {
+    if (A.hasObject('a-photo')) return A.object('a-photo', { subject: 'person', tall: true });
     return svg('0 0 120 140', '<rect x="10" y="10" width="100" height="120" rx="6" fill="#d9a441" ' + SW + '/><rect x="24" y="24" width="72" height="92" fill="#cfefff" ' + SW3 + '/>' +
       '<circle cx="60" cy="60" r="16" fill="#ffb347" ' + SW3 + '/><path d="M36 116 Q60 80 84 116" fill="#ffb347" ' + SW3 + '/><path d="M52 58 L56 58 M64 58 L68 58 M54 66 Q60 70 66 66" ' + SW3 + '/>');
   });
