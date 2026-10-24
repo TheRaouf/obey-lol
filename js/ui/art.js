@@ -570,6 +570,8 @@
     check: '<path d="M4 12.5 l5 5 11 -11" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>',
     gear: '<circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 2 v3 M12 19 v3 M2 12 h3 M19 12 h3 M4.9 4.9 l2.1 2.1 M17 17 l2.1 2.1 M4.9 19.1 L7 17 M17 7 l2.1 -2.1" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
     sound: '<path d="M4 9 h4 l5 -4 v14 l-5 -4 h-4z" fill="currentColor"/><path d="M16 8.5 a5 5 0 0 1 0 7 M18.5 6 a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
+    soundOff: '<path d="M4 9 h4 l5 -4 v14 l-5 -4 h-4z" fill="currentColor"/><path d="M16.5 9 l5 6 M21.5 9 l-5 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
+    music: '<path d="M9 17.5 V5.5 l11 -2.5 v12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><ellipse cx="6.5" cy="17.5" rx="3.2" ry="2.6" fill="currentColor"/><ellipse cx="17.5" cy="15" rx="3.2" ry="2.6" fill="currentColor"/>',
     play: '<path d="M7 4 l13 8 -13 8z" fill="currentColor"/>',
     eye: '<path d="M2 12 s4 -7 10 -7 10 7 10 7 -4 7 -10 7 -10 -7 -10 -7z" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="3" fill="currentColor"/>',
     question: '<circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9.5 9.5 a2.5 2.5 0 1 1 3.5 2.3 c-.7 .3 -1 .8 -1 1.7 M12 16.5 v.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>'

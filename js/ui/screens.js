@@ -11,7 +11,7 @@
     return `<header class="topbar">
       <button class="chip-btn" data-act="nav" data-to="menu">${A.icon('back')}<span>Menu</span></button>
       <h1 class="screen-title" id="${id}">${E(title)}</h1>
-      <div class="topbar-end">${extra || ''}</div>
+      <div class="topbar-end">${extra || ''}${OBEY.app && OBEY.app.soundChip ? OBEY.app.soundChip() : ''}</div>
     </header>` + (q ? `<p class="screen-quip"><span class="speaker">Bossworth:</span> ${E(q[Math.floor(Math.random() * q.length)])}</p>` : '');
   }
   OBEY.backBar = backBar;
@@ -67,6 +67,7 @@
           <button class="slip" data-act="nav" data-to="achievements">${A.icon('star')}<span>Achievements</span><em>${Object.keys(s.achievements).length}/${OBEY.ACHIEVEMENTS.length}</em></button>
           <button class="slip" data-act="nav" data-to="trophies">${A.icon('cup')}<span>Trophy room</span><em>${Object.keys(s.trophies).length}/${OBEY.TROPHIES.length}</em></button>
           <button class="slip" data-act="nav" data-to="stats">${A.icon('chart')}<span>Bossworth's file on you</span></button>
+          <button class="slip" data-act="sound-panel" aria-haspopup="dialog">${A.icon(app.save.settings.sound ? 'music' : 'soundOff')}<span>Sound &amp; music</span><em>${app.save.settings.sound ? (app.save.settings.music ? 'Music on' : 'Effects only') : 'Muted'}</em></button>
           <button class="slip" data-act="nav" data-to="settings">${A.icon('gear')}<span>Settings</span></button>
           <button class="slip" data-act="nav" data-to="credits">${A.icon('scroll')}<span>Credits</span></button>
         </nav>
@@ -82,10 +83,8 @@
     return `<section class="whats-new panel" aria-labelledby="wn-title">
       <h2 id="wn-title">New in ${E(OBEY.VERSION)}</h2>
       <ul>
-        <li><b>Art polish:</b> every open item from our art director — props hang on hooks or stand on tables, long rule signs are easier to read, and the dark undersea rooms have a seabed so their buttons look pressable.</li>
-        <li>Shared drawings for objects that appear in several chapters, bigger labels on tins and crates, and map labels that no longer sit on a level.</li>
-        <li><b>Music is now on by default</b>, with every sound effect — switch it off in Settings any time.</li>
-        <li>Still 236 levels (133–232 arrived in 2.4) — nothing about your progress changes.</li>
+        <li><b>Sound &amp; music controls everywhere:</b> tap the speaker button on any screen (or press S) to switch sound effects and music on or off, change the volumes and pick Bossworth's voice.</li>
+        <li><b>Music now plays on the menu and map too</b> — the tune of the chapter you're up to. Endings stay quiet.</li>
       </ul>
       <button class="btn small-btn" data-act="dismiss-whatsnew">Got it</button>
     </section>`;

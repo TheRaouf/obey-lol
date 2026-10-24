@@ -1106,3 +1106,16 @@ html[data-contrast="high"] .map-svg rect[fill^="var(--region"] { stroke: var(--i
    and its buttons always visible: the card scrolls and the button row sticks to its bottom edge. */
 .complete-card { max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior: contain; }
 .complete-card > .btn-row:last-child { position: sticky; bottom: -14px; margin-bottom: -14px; padding: 10px 0 14px; background: var(--paper); border-top: 2px dashed var(--line-soft, rgba(28, 22, 64, .2)); z-index: 2; }
+
+/* 2.5: sound & music panel (opened from the speaker chip on every top bar, the menu, or the S key). */
+.sound-panel { width: min(460px, 100%); }
+.sound-panel h2 { display: flex; align-items: center; gap: 8px; }
+.sound-panel h2 .icon { width: 26px; height: 26px; color: var(--accent); }
+.sp-row { border-top: 2px dashed rgba(28, 22, 64, .18); padding: 10px 0 6px; display: grid; gap: 8px; }
+.sp-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.sp-head h3 { margin: 0; font-size: 1.05em; }
+.sp-voices { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.sp-row .btn.small-btn { justify-self: start; }
+.sp-row input[type="range"]:disabled { opacity: .45; }
+.sp-now { margin: 0; min-height: 1.3em; }
+.sound-chip .icon { width: 22px; height: 22px; }

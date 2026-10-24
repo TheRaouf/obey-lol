@@ -246,6 +246,7 @@
           <button class="chip-btn" data-act="guide" id="guide-btn" aria-keyshortcuts="G">${A.icon('eye')}<span>Show me how</span></button>
           <button class="chip-btn" data-act="restart" aria-label="Restart level" aria-keyshortcuts="R">${A.icon('restart')}<span>Restart</span></button>
           ${P.skipBlocker(s, n) ? '' : `<button class="chip-btn" data-act="skip" id="skip-btn">${A.icon('skip')}<span>Skip</span></button>`}
+          ${App.soundChip ? App.soundChip() : ''}
           <button class="chip-btn icon-only" data-act="nav" data-to="settings" aria-label="Settings">${A.icon('gear')}</button>
         </div>
       </header>

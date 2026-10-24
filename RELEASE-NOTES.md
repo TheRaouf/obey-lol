@@ -1,5 +1,11 @@
 # OBEY? LOL. — Release notes
 
+## Version 2.5.0
+
+**Turn it up (or down) from anywhere.** A speaker button now sits on every screen. Tap it — or press **S** —
+to switch sound effects and music on or off, set the volumes, and choose how Bossworth speaks. Music now
+plays on the menu and map too, using the tune of the chapter you're up to.
+
 ## Version 2.4.1
 
 **Polish.** Every open note from our art director is done: props hang on hooks or sit on tables, long rule
