@@ -38,7 +38,10 @@
     return svg('0 0 200 170',
       '<rect x="8" y="8" width="184" height="154" rx="8" fill="#c98b4a" ' + SW + '/>' +
       '<path d="M8 8 L192 162 M192 8 L8 162" stroke="' + INK + '" stroke-opacity=".35" stroke-width="3"/>' +
-      (o.stamp ? '<rect x="22" y="58" width="156" height="54" rx="6" fill="#fffdf6" ' + SW3 + '/>' + txt(100, 95, 28, o.stamp) : '') +
+      // 2.4.1 (review S8): the stamp plate is 176 × 62 with 34-unit type (was 156 × 54, 28), so OSTRICH is
+      // ≥ 12 px on a 366 px stage at L213's 22 × 18 % crate. Long words are held to the plate width.
+      (o.stamp ? '<rect x="12" y="54" width="176" height="62" rx="6" fill="#fffdf6" ' + SW3 + '/>' +
+        txt(100, 97, 34, o.stamp, null, String(o.stamp).length > 6 ? ' textLength="160" lengthAdjust="spacingAndGlyphs"' : '') : '') +
       '<path d="M20 20 L20 50" ' + HI + ' stroke-width="6"/>');
   });
 
@@ -157,10 +160,12 @@
       '<circle cx="140" cy="63" r="6" fill="#c3ccd8" ' + SW3 + '/>');
   });
 
+  // 2.4.1 (review S4): the leaning card is drawn 16 units lower so its corner rests on the box floor (it hovered
+  // above L218's bench).
   add('j-refcard', function () {
-    return svg('0 0 100 140',
-      '<rect x="18" y="10" width="64" height="104" rx="8" transform="rotate(8 50 62)" fill="#e5243b" ' + SW + '/>' +
-      '<path d="M34 30 L36 70" transform="rotate(8 50 62)" ' + HI + ' stroke-width="6"/>');
+    return svg('0 0 100 140', '<g transform="translate(0 16) rotate(8 50 62)">' +
+      '<rect x="18" y="10" width="64" height="104" rx="8" fill="#e5243b" ' + SW + '/>' +
+      '<path d="M34 30 L36 70" ' + HI + ' stroke-width="6"/></g>');
   });
 
   add('j-ball', function () {
@@ -266,7 +271,10 @@
       '<path d="M22 56 Q26 48 36 46" ' + HI + ' stroke-width="5"/>');
   });
 
+  // 2.4.1 (review S7): redirects to the canonical `a-chair` with four legs (150 × 200, the same 0.75 aspect);
+  // the local drawing is only the fallback when art-pack-a.js is not loaded.
   add('j-chair', function () {
+    if (A.hasObject('a-chair')) return A.object('a-chair', { legs: true });
     return svg('0 0 120 160',
       '<rect x="22" y="10" width="76" height="66" rx="12" fill="#3a86ff" ' + SW + '/>' +
       '<rect x="14" y="74" width="92" height="20" rx="8" fill="#2f6fe4" ' + SW + '/>' +

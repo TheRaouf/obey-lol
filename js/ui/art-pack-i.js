@@ -11,18 +11,27 @@
 
   /* ------------------------------------------------------------ water and terrain */
   // Shallow water with a sandy seabed from 76 % down (terrain backdrop, stretches to fill).
+  // 2.4.1 (review S9): the bed is plain sand (the old sand dashes peeked out between control-row cards) and
+  // the four water glints sit where the 2.4 rooms keep them clear of, or fully under, cards (y ≤ 34).
   add('i-sea', function (o) {
-    var bed = o.nobed ? '' : '<rect y="76" width="100" height="24" fill="#f3d998"/><path d="M0 76 L100 76" stroke="' + INK + '" stroke-width=".8"/>' +
-      '<path d="M12 86 l3 0 M44 92 l3 0 M70 84 l3 0 M88 94 l3 0" stroke="#c98b4a" stroke-width="1.2" stroke-linecap="round"/>';
+    var bed = o.nobed ? '' : '<rect y="76" width="100" height="24" fill="#f3d998"/><path d="M0 76 L100 76" stroke="' + INK + '" stroke-width=".8"/>';
     return svg('0 0 100 100', '<rect width="100" height="100" fill="#7fb2ff"/>' +
-      '<path d="M8 20 l6 0 M60 34 l8 0 M30 52 l6 0 M78 62 l6 0" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".55"/>' + bed, 'art fill-art');
+      '<path d="M12 10 l6 0 M58 10 l6 0 M84 30 l6 0 M26 34 l6 0" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".55"/>' + bed, 'art fill-art');
   });
 
   // Deep, dark water (terrain backdrop) with a few specks of drifting silt.
-  add('i-deep', function () {
-    var specks = '';
-    for (var i = 0; i < 14; i++) specks += '<circle cx="' + ((i * 37) % 100) + '" cy="' + ((i * 53) % 100) + '" r=".6" fill="#8a86a8" opacity=".55"/>';
-    return svg('0 0 100 100', '<rect width="100" height="100" fill="#2d2850"/>' + specks, 'art fill-art');
+  // 2.4.1 (review S1): a rock-grey seabed band from 74 % down (o.bed: its top in %, o.nobed: none) sits behind
+  // the control row, so ink press shadows and card borders read (ink on #8a86a8 ≈ 4.9:1; on #2d2850 ≈ 1.2:1).
+  // The silt stays above the bed; nothing is drawn inside it.
+  add('i-deep', function (o) {
+    var top = o.nobed ? 100 : (typeof o.bed === 'number' ? o.bed : 74), specks = '';
+    for (var i = 0; i < 14; i++) {
+      var cy = (i * 53) % 100;
+      if (cy < top - 4) specks += '<circle cx="' + ((i * 37) % 100) + '" cy="' + cy + '" r=".6" fill="#8a86a8" opacity=".55"/>';
+    }
+    var edge = 'M0 ' + (top + 0.6) + ' Q25 ' + (top - 1.4) + ' 50 ' + (top + 0.6) + ' T100 ' + (top + 0.6);
+    var bed = top < 100 ? '<path d="' + edge + ' L100 100 L0 100Z" fill="#8a86a8"/><path d="' + edge + '" fill="none" stroke="' + INK + '" stroke-width=".8"/>' : '';
+    return svg('0 0 100 100', '<rect width="100" height="100" fill="#2d2850"/>' + specks + bed, 'art fill-art');
   });
 
   // Sky and the wavy sea surface (drawn over i-sea at the top of a room).
@@ -31,11 +40,14 @@
       '<path d="M0 40 Q25 30 50 40 T100 40 T150 40 T200 40 T250 40 T300 40 T350 40 T400 40" fill="none" stroke="' + INK + '" stroke-width="3"/>', 'art fill-art');
   });
 
-  // Inside a whale: pink walls with cream ribs (terrain backdrop).
+  // Inside a whale: soft pink walls with deeper pink ribs (terrain backdrop).
+  // 2.4.1 (review P9): the wall is #ff77b4 at .45 over the theme's --stage (it was solid #ff77b4, the loudest
+  // room in the game); ribs are solid #ff6f91, the same pink as the tongue band, so the room stays one family.
   add('i-whalebelly', function () {
     var ribs = '';
-    for (var i = 0; i < 6; i++) ribs += '<path d="M' + (8 + i * 17) + ' 6 Q' + (2 + i * 17) + ' 40 ' + (8 + i * 17) + ' 72" fill="none" stroke="#fff8dd" stroke-width="2.4" stroke-linecap="round" opacity=".6"/>';
-    return svg('0 0 100 100', '<rect width="100" height="100" fill="#ff77b4"/>' + ribs + '<rect y="76" width="100" height="24" fill="#ff6f91"/><path d="M0 76 L100 76" stroke="' + INK + '" stroke-width=".8"/>', 'art fill-art');
+    for (var i = 0; i < 6; i++) ribs += '<path d="M' + (8 + i * 17) + ' 6 Q' + (2 + i * 17) + ' 40 ' + (8 + i * 17) + ' 72" fill="none" stroke="#ff6f91" stroke-width="2.4" stroke-linecap="round"/>';
+    return svg('0 0 100 100', '<rect width="100" height="100" fill="var(--stage)"/><rect width="100" height="100" fill="#ff77b4" opacity=".45"/>' + ribs +
+      '<rect y="76" width="100" height="24" fill="#ff6f91"/><path d="M0 76 L100 76" stroke="' + INK + '" stroke-width=".8"/>', 'art fill-art');
   });
 
   add('i-rock', function () {
@@ -52,15 +64,40 @@
     return svg('0 0 100 30', '<rect width="100" height="30" fill="#9a6b3f"/><path d="M0 0 L100 0" stroke="' + INK + '" stroke-width="1.2"/><path d="M0 10 L100 10 M0 20 L100 20 M30 0 L30 10 M70 10 L70 20 M45 20 L45 30" stroke="' + INK + '" stroke-opacity=".35" stroke-width=".8"/>', 'art fill-art');
   });
 
+  // A tube of even or tapering width along quadratic segments [[x0,y0, cx,cy, x1,y1], …], with a round cap at
+  // the far end; the near end is left square (it hides under a rock or the stage edge). Used so coral and weed
+  // are colour fills with a house SW outline (2.4.1, review P4: they were 18- and 13-unit ink strokes).
+  function tube(segs, r0, r1) {
+    var pts = [];
+    segs.forEach(function (q, si) {
+      for (var k = si ? 1 : 0; k <= 10; k++) {
+        var t = k / 10, u = 1 - t;
+        pts.push([u * u * q[0] + 2 * u * t * q[2] + t * t * q[4], u * u * q[1] + 2 * u * t * q[3] + t * t * q[5]]);
+      }
+    });
+    var n = pts.length, L = [], R = [], r = r0;
+    for (var i = 0; i < n; i++) {
+      var a = pts[Math.max(0, i - 1)], b = pts[Math.min(n - 1, i + 1)], tx = b[0] - a[0], ty = b[1] - a[1], d = Math.sqrt(tx * tx + ty * ty) || 1;
+      r = r0 + (r1 - r0) * i / (n - 1);
+      L.push((pts[i][0] - ty / d * r).toFixed(1) + ' ' + (pts[i][1] + tx / d * r).toFixed(1));
+      R.push((pts[i][0] + ty / d * r).toFixed(1) + ' ' + (pts[i][1] - tx / d * r).toFixed(1));
+    }
+    return 'M' + L.join(' L') + ' A' + r.toFixed(1) + ' ' + r.toFixed(1) + ' 0 0 0 ' + R[n - 1] + ' L' + R.slice(0, n - 1).reverse().join(' L') + 'Z';
+  }
+  var CORAL = [
+    [[18, 90, 6, 80, 8, 64]], [[100, 100, 114, 92, 112, 76]], // side twigs (drawn first, behind the fingers)
+    [[32, 150, 18, 104, 20, 56]], [[52, 150, 44, 92, 46, 30]], [[70, 150, 80, 88, 76, 20]], [[90, 150, 104, 106, 100, 54]]
+  ].map(function (s, i) { return tube(s, i < 2 ? 6 : 10, i < 2 ? 5 : 8); });
   add('i-coral', function (o) {
     var c = o.color || '#ff77b4';
-    return svg('0 0 120 160', '<path d="M60 156 L60 90 M60 110 Q30 96 30 60 M60 100 Q92 88 90 44 M30 76 Q12 66 16 44 M90 64 Q108 56 104 34" fill="none" stroke="' + INK + '" stroke-width="18" stroke-linecap="round"/>' +
-      '<path d="M60 156 L60 90 M60 110 Q30 96 30 60 M60 100 Q92 88 90 44 M30 76 Q12 66 16 44 M90 64 Q108 56 104 34" fill="none" stroke="' + c + '" stroke-width="11" stroke-linecap="round"/>');
+    return svg('0 0 120 160', CORAL.map(function (d) { return '<path d="' + d + '" fill="' + c + '" ' + SW + '/>'; }).join('') +
+      '<path d="M10 158 Q14 126 60 124 Q106 126 110 158Z" fill="#8a86a8" ' + SW + '/>' +
+      '<path d="M72 46 Q71 36 72 30" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".5"/>');
   });
 
+  var WEED = tube([[30, 160, 12, 120, 30, 90], [30, 90, 48, 60, 30, 30], [30, 30, 22, 16, 30, 6]], 7, 4);
   add('i-weed', function () {
-    return svg('0 0 60 160', '<path d="M30 158 Q12 120 30 90 Q48 60 30 30 Q22 16 30 4" fill="none" stroke="' + INK + '" stroke-width="13" stroke-linecap="round"/>' +
-      '<path d="M30 158 Q12 120 30 90 Q48 60 30 30 Q22 16 30 4" fill="none" stroke="#2fae84" stroke-width="7" stroke-linecap="round"/>');
+    return svg('0 0 60 160', '<path d="' + WEED + '" fill="#2fae84" ' + SW + '/>');
   });
 
   /* ------------------------------------------------------------ Bossworth's very small submarine */
@@ -101,7 +138,7 @@
       : '<rect x="26" y="24" width="68" height="86" rx="4" fill="#e5243b" ' + SW + '/><path d="M26 24 L94 24" ' + SW + '/>';
     return svg('0 0 120 180', top + '<path d="M14 110 L106 110 L96 146 L24 146Z" fill="#fffdf6" ' + SW + '/>' +
       '<circle cx="60" cy="78" r="26" fill="#fff" ' + SW3 + '/>' + txt(60, 91, 36, o.n || '') +
-      '<path d="M0 150 Q15 140 30 150 T60 150 T90 150 T120 150" fill="none" stroke="#fff" stroke-width="5" opacity=".7"/>');
+      '<path d="M0 150 Q15 140 30 150 T60 150 T90 150 T120 150" fill="none" stroke="#fff" stroke-width="5" opacity=".55"/>');
   });
 
   add('i-pier', function () {
@@ -139,7 +176,9 @@
       inside + '<rect x="206" y="44" width="22" height="34" rx="5" fill="#9a6b3f" ' + SW3 + '/><path d="M46 34 L150 34" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".55"/>');
   });
 
+  // 2.4.1 (review S7): redirects to the canonical `hammer` lying flat (same 160 × 120 box); local fallback below.
   add('i-hammer', function () {
+    if (A.hasObject('hammer')) return A.object('hammer', { lying: true });
     return svg('0 0 160 120', '<rect x="62" y="44" width="90" height="18" rx="8" fill="#a0784d" ' + SW + '/><rect x="16" y="20" width="52" height="66" rx="8" fill="#8a86a8" ' + SW + '/><path d="M24 30 L24 60" stroke="#fff" stroke-width="5" opacity=".5" stroke-linecap="round"/>');
   });
 
@@ -196,11 +235,14 @@
   add('i-trawler', function () {
     return svg('0 0 260 170', '<rect x="140" y="34" width="70" height="60" rx="6" fill="#fffdf6" ' + SW + '/><rect x="152" y="46" width="20" height="18" fill="#7fb2ff" ' + SW3 + '/><rect x="180" y="46" width="20" height="18" fill="#7fb2ff" ' + SW3 + '/>' +
       '<path d="M60 94 L60 10 M60 20 L120 90" ' + SW + '/><path d="M10 94 L250 94 L222 150 L36 150Z" fill="#3a86ff" ' + SW + '/><path d="M24 112 L236 112" stroke="#fff" stroke-width="6" opacity=".5" stroke-linecap="round"/>' +
-      '<path d="M0 154 Q20 144 40 154 T80 154 T120 154 T160 154 T200 154 T240 154 T260 154" fill="none" stroke="#fff" stroke-width="5" opacity=".7"/>');
+      '<path d="M0 154 Q20 144 40 154 T80 154 T120 154 T160 154 T200 154 T240 154 T260 154" fill="none" stroke="#fff" stroke-width="5" opacity=".55"/>');
   });
 
   // Coin with a value, or a crimped bottle cap pretending to be one (shape, not colour, tells them apart).
+  // 2.4.1 (review S7): redirects to the canonical `coin` (art-extra.js), which is this drawing with the same
+  // `v`/`cap` options; the local drawing is only the fallback when art-extra.js is not loaded.
   add('i-coin', function (o) {
+    if (A.hasObject('coin')) return A.object('coin', o);
     if (o.cap) {
       var d = '';
       for (var i = 0; i < 16; i++) { var t = i * Math.PI / 8, r = i % 2 ? 40 : 46; d += (i ? 'L' : 'M') + (50 + r * Math.cos(t)).toFixed(1) + ' ' + (50 + r * Math.sin(t)).toFixed(1) + ' '; }
@@ -356,7 +398,7 @@
   // The blowhole seen from inside the whale: a tube in the ceiling. o.open: sky and spray.
   add('i-blowhole', function (o) {
     var inside = o.open ? '<path d="M70 0 L130 0 L118 96 L82 96Z" fill="#bfe8ff"/><circle cx="100" cy="24" r="14" fill="#ffd23f" ' + SW3 + '/>' +
-      '<path d="M86 104 L74 140 M100 108 L100 146 M114 104 L126 140" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".8"/>' : '<path d="M76 0 L124 0 L114 96 L86 96Z" fill="#1c1640"/>';
+      '<path d="M86 104 L74 140 M100 108 L100 146 M114 104 L126 140" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".55"/>' : '<path d="M76 0 L124 0 L114 96 L86 96Z" fill="#1c1640"/>';
     return svg('0 0 200 150', '<path d="M40 0 L160 0 L132 100 L68 100Z" fill="#ff6f91" ' + SW + '/>' + inside +
       '<ellipse cx="100" cy="98" rx="' + (o.open ? 22 : 18) + '" ry="' + (o.open ? 9 : 4) + '" fill="' + (o.open ? '#bfe8ff' : '#1c1640') + '" ' + SW + '/>');
   });
